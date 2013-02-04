@@ -1,0 +1,60 @@
+/**
+ * Admin Widgets
+ */
+ 
+.ctc-widget-field {
+	margin-bottom: 12px;
+}
+
+	.ctc-widget-field.ctc-widget-no-bottom-margin {
+		margin-bottom: 0;
+	}
+
+	.ctc-widget-name {
+		margin-top: 3px;
+	}
+
+		.ctc-widget-name span { /* (Optional) or (Required) */
+			color: #595959;
+			font-weight: normal;
+		}
+
+	.ctc-widget-value {
+
+	}
+
+		/* can also use widefat class for 100% */
+
+		.ctc-widget-value input[type=text],
+		.ctc-widget-value textarea {
+			width: 100%;
+		}
+		
+		.ctc-widget-value textarea {
+			height: 56px;
+		}
+
+		input[type=text].ctc-widget-small,
+		textarea.ctc-widget-small {
+			width: 100px;
+		}
+
+		input[type=text].ctc-widget-tiny,
+		textarea.ctc-widget-tiny {
+			width: 40px;
+		}
+	
+		.ctc-widget-radio-inline {
+			display: inline-block;
+			margin: 2px 12px 0 0;
+		}
+		
+			.ctc-widget-radio-inline:last-child {
+				margin-right: 0;
+			}
+
+/* Hidden Fields */
+		
+.ctc-widget-hidden {
+	display: none;
+}
