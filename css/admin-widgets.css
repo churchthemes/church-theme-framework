@@ -58,3 +58,26 @@
 .ctc-widget-hidden {
 	display: none;
 }
+
+/* Image Field */
+
+.ctc-widget-image-preview img {
+	max-width: 100%;
+	height: auto;
+	margin-top: 4px;
+}
+
+.ctc-widget-image-choose,
+.ctc-widget-image-remove {
+	display: inline-block;
+	margin-top: 4px !important;
+}
+
+.ctc-widget-image-choose {
+	margin-right: 5px !important;
+}
+
+.ctc-widget-image-unset .ctc-widget-image-preview,
+.ctc-widget-image-unset .ctc-widget-image-remove {
+	display: none;
+}

@@ -1,6 +1,6 @@
 <?php
 /**
- * churchthemes.com Widget
+ * churchthemes.com Widget Layer
  *
  * The framework widgets extend this class which extends WP_Widget.
  * This extra later adds methods for automatic field output, field filtering, sanitization, updating and front-end display via template.
@@ -18,7 +18,7 @@ class CTC_Widget extends WP_Widget {
 
 		// Prepare fields
 		add_action( 'init', array( &$this, 'ctc_prepare_fields' ) ); // earlier than init_widgets
-		
+
 	}
 	
 	/**
@@ -79,8 +79,8 @@ class CTC_Widget extends WP_Widget {
 		// Make fields array accessible
 		$this->ctc_fields = $fields;
 	
-	}		
-	
+	}
+
 	/**
 	 * Back-end widget form
 	 */
@@ -118,6 +118,7 @@ class CTC_Widget extends WP_Widget {
 				'radio_inline'	=> '',
 				'select'		=> '',
 				'number'		=> 'small-text',
+				'image'			=> '',
 				
 			);
 			$classes = array();
@@ -141,6 +142,7 @@ class CTC_Widget extends WP_Widget {
 			// Field container classes
 			$data['field_class'] = array();
 			$data['field_class'][] = 'ctc-widget-field';
+			$data['field_class'][] = 'ctc-widget-field-' . $data['id'];
 			if ( ! empty( $data['field']['hidden'] ) ) { // Hidden (for internal use only, via prepare() filter)
 				$data['field_class'][] = 'ctc-widget-hidden';				
 			}
@@ -251,6 +253,29 @@ class CTC_Widget extends WP_Widget {
 						
 						break;
 
+					// Image
+					case 'image':
+					
+						// Is image set and still exists?
+						$value_container_classes = 'ctc-widget-image-unset';
+						if ( ! empty( $data['value'] ) && wp_get_attachment_image_src( $data['value'] ) ) {
+							$value_container_classes = 'ctc-widget-image-set';
+						}
+
+						// Hidden input for image ID
+						$input .= '<input type="hidden" ' . $data['common_atts'] . ' id="' . $data['esc_element_id'] . '" value="' . $data['esc_value'] . '" />';
+
+						// Show image
+						$input .= '<div class="ctc-widget-image-preview">' . wp_get_attachment_image( $data['value'], 'medium' ) . '</div>';
+
+						// Button to open media library
+						$input .= '<a href="#" class="button ctc-widget-image-choose" data-ctc-field-id="' . $data['esc_element_id'] . '">' . _x( 'Choose Image', 'widget image field', 'church-theme' ) . '</a>';		
+
+						// Button to remove image
+						$input .= '<a href="#" class="button ctc-widget-image-remove">' . _x( 'Remove Image', 'widget image field', 'church-theme' ) . '</a>';		
+
+						break;
+
 				}
 			
 			}
@@ -258,12 +283,12 @@ class CTC_Widget extends WP_Widget {
 			/**
 			 * Field Container
 			 */
-			 
+
 			// Output field
 			if ( ! empty( $input ) ) { // don't render if type invalid
 				
 				?>
-				<div id="ctc-widget-field-<?php echo esc_attr( $data['id'] ); ?>" class="<?php echo esc_attr( $data['field_class'] ); ?>"<?php echo $data['field_attributes']; ?>>
+				<div class="<?php echo esc_attr( $data['field_class'] ); ?>"<?php echo $data['field_attributes']; ?>>
 				
 					<div class="ctc-widget-name">
 					
@@ -279,7 +304,7 @@ class CTC_Widget extends WP_Widget {
 						
 					</div>
 					
-					<div class="ctc-widget-value">
+					<div class="ctc-widget-value<?php echo ! empty( $value_container_classes ) ? ' ' . $value_container_classes : ''; ?>">
 					
 						<?php echo $input; ?>
 						
@@ -377,7 +402,6 @@ class CTC_Widget extends WP_Widget {
 					if ( '' !== $max && $output > $max ) { // allow 0, don't process if no value given ('')
 						$output = $max;
 					}
-					
 				
 					break;
 					
@@ -385,6 +409,19 @@ class CTC_Widget extends WP_Widget {
 				case 'url':
 				
 					$output = esc_url_raw( $output ); // force valid URL or use nothing
+					
+					break;
+
+				// Image
+				case 'image':
+				
+					// Sanitize attachment ID
+					$output = absint( $output );
+
+					// Set empty if value is 0, attachment does not exist, or is not an image
+					if ( empty( $output ) || ! wp_get_attachment_image_src( $output ) ) {
+						$output = '';
+					}
 					
 					break;
 

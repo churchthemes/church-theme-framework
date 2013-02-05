@@ -40,7 +40,7 @@ class CTC_Widget_Posts extends CTC_Widget {
 				'name'				=> __( 'Field Name', 'ccm' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> __( 'This is the description below the field.', 'ccm' ),
-				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url
+				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
@@ -64,7 +64,7 @@ class CTC_Widget_Posts extends CTC_Widget {
 				'name'				=> _x( 'Title', 'posts widget', 'church-theme' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url
+				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
@@ -87,7 +87,7 @@ class CTC_Widget_Posts extends CTC_Widget {
 				'name'				=> _x( 'Order By', 'posts widget', 'church-theme' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'select', // text, textarea, checkbox, radio, select, number, url
+				'type'				=> 'select', // text, textarea, checkbox, radio, select, number, url, image
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
@@ -114,7 +114,7 @@ class CTC_Widget_Posts extends CTC_Widget {
 				'name'				=> '',
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'radio', // text, textarea, checkbox, radio, select, number, url
+				'type'				=> 'radio', // text, textarea, checkbox, radio, select, number, url, image
 				'checkbox_label'	=> '', // show text after checkbox
 				'radio_inline'		=> true, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
@@ -140,7 +140,7 @@ class CTC_Widget_Posts extends CTC_Widget {
 				'name'				=> _x( 'Limit', 'posts widget', 'church-theme' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'number', // text, textarea, checkbox, radio, select, number, url
+				'type'				=> 'number', // text, textarea, checkbox, radio, select, number, url, image
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '1', // lowest possible value for number type
@@ -163,7 +163,7 @@ class CTC_Widget_Posts extends CTC_Widget {
 				'name'				=> '',
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'checkbox', // text, textarea, checkbox, radio, select, number, url
+				'type'				=> 'checkbox', // text, textarea, checkbox, radio, select, number, url, image
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
@@ -186,7 +186,7 @@ class CTC_Widget_Posts extends CTC_Widget {
 				'name'				=> '',
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'checkbox', // text, textarea, checkbox, radio, select, number, url
+				'type'				=> 'checkbox', // text, textarea, checkbox, radio, select, number, url, image
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
@@ -209,7 +209,7 @@ class CTC_Widget_Posts extends CTC_Widget {
 				'name'				=> '',
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'checkbox', // text, textarea, checkbox, radio, select, number, url
+				'type'				=> 'checkbox', // text, textarea, checkbox, radio, select, number, url, image
 				'checkbox_label'	=> _x( 'Show excerpt', 'posts widget', 'church-theme' ), //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
@@ -232,7 +232,7 @@ class CTC_Widget_Posts extends CTC_Widget {
 				'name'				=> '',
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'checkbox', // text, textarea, checkbox, radio, select, number, url
+				'type'				=> 'checkbox', // text, textarea, checkbox, radio, select, number, url, image
 				'checkbox_label'	=> _x( 'Show image', 'posts widget', 'church-theme' ), //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
