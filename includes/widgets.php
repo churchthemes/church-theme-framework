@@ -3,6 +3,7 @@
  * Widget Setup
  *
  * Register widgets that are supported by theme and filter fields according to theme support.
+ * Widgets are also restricted to certai sidebars as configured.
  *
  * Also see classes/widget.php which widgets extend for automatic field rendering, template loading, etc.
  */
@@ -13,6 +14,10 @@
 
 /**
  * Available Widgets
+ *
+ * This can be filtered to register more widgets extending the framework's CTC_Widgets class from the theme or child theme.
+ * Widget classes existing in theme's includes/classes folder are loaded the same as those in framework/includes/classes.
+ * Likewise, templates in the theme's widget-templates directory will be auto-loaded.
  */
 
 function ctc_fw_widgets() {
@@ -24,7 +29,7 @@ function ctc_fw_widgets() {
 			'class_file'				=> 'widget-categories.php',		// filename of class in framework class directory
 			'template_file'				=> 'widget-categories.php',		// filename of template in widget-templates directory
 			'ccm_required'				=> false,						// requires Church Content Manager plugin to be active
-			'theme_support'				=> 'ctc-widget-categories',		// add_theme_support() feature
+			'theme_support'				=> 'ctc-widget-categories',		// add_theme_support() feature required (can be empty)
 			'theme_support_required'	=> array(),						// additional features theme must support for widget to register
 			'unregister'	=> array(									// widgets to unregister when this is registered
 				'WP_Widget_Categories'
@@ -171,12 +176,12 @@ function ctc_fw_register_widgets() {
 			(array) $widget_data['theme_support_required']
 		);
 		foreach ( $theme_support as $feature ) {
-			if ( ! current_theme_supports( $feature ) ) {
+			if ( ! empty( $feature ) && ! current_theme_supports( $feature ) ) { // support can be empt / not required (filtering in a non-framework widget)
 				$supported = false; // one strike and you're out
 				break;
 			}
 		}
-		
+
 		// Theme support is okay
 		if ( $supported ) {
 		
@@ -186,9 +191,12 @@ function ctc_fw_register_widgets() {
 			if ( empty( $widget_data['ccm_required'] ) || $ccm_active ) {
 				
 				// Include class if exists
-				$widget_class_path = trailingslashit( CTC_FW_CLASS_DIR ) . $widget_data['class_file'];
-				if ( locate_template( $widget_class_path, true ) ) { // includes and returns true if exists
-				
+				$widget_class_paths = array(
+					trailingslashit( CTC_CLASS_DIR ) . $widget_data['class_file'], // check non-framework dir first in case is theme-provided
+					trailingslashit( CTC_FW_CLASS_DIR ) . $widget_data['class_file']
+				);
+				if ( locate_template( $widget_class_paths, true ) ) { // includes and returns true if exists
+
 					// Register the widget
 					register_widget( $widget_data['class'] );
 
@@ -335,3 +343,4 @@ function ctc_set_widget_field_overrides( $field_overrides, $widget_id ) {
 	return ctc_get_widget_theme_support( $widget_id, 'field_overrides' );
 
 }
+
