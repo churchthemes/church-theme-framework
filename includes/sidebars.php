@@ -84,15 +84,35 @@ function ctc_restrict_sidebars_widgets( $sidebars_widgets ) {
 		if ( preg_match( '/^wp_/', $sidebar_id ) ) {
 			continue;
 		}
+		// Sidebar widget restrictions
+		// (used for checking limit)
+		$sidebar_widget_restrictions = ctc_get_sidebar_widget_restrictions( 'sidebar_widget' );
+		$sidebar_limit = ! empty( $sidebar_widget_restrictions[$sidebar_id]['limit'] ) ? $sidebar_widget_restrictions[$sidebar_id]['limit'] : false;
 
 		// Loop widgets in sidebar
+		$widget_i = 0;
 		foreach( $widgets as $widget_key => $widget ) {
+
+			$widget_i++;
+
+			$remove = false;
 
 			// Determine widget id of this instance
 			$widget_id = substr( $widget, 0, strrpos( $widget, '-') ); // chop -# instance off end
 
-			// Remove widget from sidebar if either disallows the other
+			// Remove if either disallows the other
 			if ( ! ctc_sidebar_widget_compatible( $sidebar_id, $widget_id ) ) {
+				$remove = true;
+			}
+
+			// Remove if widget limit for sidebar has been reached
+			// (front-end only since no warning shown and don't want re-arranging to cause loss)
+			if ( ! is_admin() && $sidebar_limit && $widget_i > $sidebar_limit ) {
+				$remove = true;
+			}
+
+			// Remove widget from sidebar
+			if ( $remove)  {
 				unset( $sidebars_widgets[$sidebar_id][$widget_key] );
 			}
 
