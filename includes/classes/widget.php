@@ -3,7 +3,7 @@
  * churchthemes.com Widget Layer
  *
  * The framework widgets extend this class which extends WP_Widget.
- * This extra later adds methods for automatic field output, field filtering, sanitization, updating and front-end display via template.
+ * This extra layer adds methods for automatic field output, field filtering, sanitization, updating and front-end display via template.
  */
  
 class CTC_Widget extends WP_Widget {

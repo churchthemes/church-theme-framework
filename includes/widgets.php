@@ -344,3 +344,30 @@ function ctc_set_widget_field_overrides( $field_overrides, $widget_id ) {
 
 }
 
+/*********************************************
+ * DATA
+ *********************************************/
+
+/**
+ * Get all registered widgets
+ *
+ * Is there a better way to do this?
+ */
+
+function ctc_get_registered_widgets() {
+
+	global $wp_registered_widgets;
+
+	$widgets = array();
+
+	foreach ( $wp_registered_widgets as $widget ) {
+		if ( ! empty( $widget['callback'][0]->id_base ) ) {
+			$widgets[] = $widget['callback'][0]->id_base;
+		}
+	}
+
+	$widgets = array_unique( $widgets ); // no duplicates
+
+	return apply_filters( 'ctc_get_registered_widgets', $widgets );
+
+}

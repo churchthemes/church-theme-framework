@@ -82,5 +82,9 @@
 	display: none;
 }
 
+/* Widget/Sidebar Restrictions */
 
-
+.ctc-widget-incompatible {
+	display: none; /* initially */
+	color: #dc0909;
+}

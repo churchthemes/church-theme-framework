@@ -5,6 +5,10 @@
 // Document is loaded...
 jQuery(document).ready(function($) {
 
+	/*******************************
+	 * Image Field
+	 *******************************/
+
 	// Choose Image
 	$('body').on('click', '.ctc-widget-image-choose', function(event) {
 
@@ -96,5 +100,14 @@ jQuery(document).ready(function($) {
 			.addClass('ctc-widget-image-unset');
 
 	});
+
+	/*******************************
+	 * RESTRICT WIDGETS/SIDEBARS
+	 *******************************/
+
+	// Add hidden message to all widgets
+	// admin-widgets.css hides this by default
+	// admin_head outputs CSS to show this and hide form content
+	$('.widget-inside').prepend('<div class="ctc-widget-incompatible">' + ctc_widgets.incompatible_message + '</div>');
 
 });
