@@ -3,23 +3,23 @@
  * Update Functions
  */
 
-// MAKE SURE THIS DOES NOT BREAK EDD UPDATES
-// MAKE SURE THIS DOES NOT BREAK EDD UPDATES
-// MAKE SURE THIS DOES NOT BREAK EDD UPDATES
-// MAKE SURE THIS DOES NOT BREAK EDD UPDATES
-// MAKE SURE THIS DOES NOT BREAK EDD UPDATES
+// TEST THIS AGAIN
+// TEST THIS AGAIN
+// TEST THIS AGAIN
+// TEST THIS AGAIN
+// TEST THIS AGAIN
 
-// MOVE OUTSIDE OF FRAMEWORK? CONSIDER WP.ORG THEMES
-// MOVE OUTSIDE OF FRAMEWORK? CONSIDER WP.ORG THEMES
-// MOVE OUTSIDE OF FRAMEWORK? CONSIDER WP.ORG THEMES
-// MOVE OUTSIDE OF FRAMEWORK? CONSIDER WP.ORG THEMES
-// MOVE OUTSIDE OF FRAMEWORK? CONSIDER WP.ORG THEMES
+// IS add_theme_support TOO LATE? If so, change support.php:ctc-block-wporg-updates - use a constant in functions.php instead
+// IS add_theme_support TOO LATE? If so, change support.php:ctc-block-wporg-updates - use a constant in functions.php instead
+// IS add_theme_support TOO LATE? If so, change support.php:ctc-block-wporg-updates - use a constant in functions.php instead
+// IS add_theme_support TOO LATE? If so, change support.php:ctc-block-wporg-updates - use a constant in functions.php instead
+// IS add_theme_support TOO LATE? If so, change support.php:ctc-block-wporg-updates - use a constant in functions.php instead
 
-// TEST THIS AGAIN
-// TEST THIS AGAIN
-// TEST THIS AGAIN
-// TEST THIS AGAIN
-// TEST THIS AGAIN
+// MAKE SURE THIS DOES NOT BREAK EDD UPDATES
+// MAKE SURE THIS DOES NOT BREAK EDD UPDATES
+// MAKE SURE THIS DOES NOT BREAK EDD UPDATES
+// MAKE SURE THIS DOES NOT BREAK EDD UPDATES
+// MAKE SURE THIS DOES NOT BREAK EDD UPDATES
 
 /*******************************************
  * UPDATE PROTECTION
@@ -39,7 +39,7 @@ add_filter( 'http_request_args', 'ctc_prevent_wrong_theme_update', 5, 2 );
 	
 function ctc_prevent_wrong_theme_update( $r, $url ) {
 
-	if ( defined( 'CTC_WPORG_UPDATES' ) && CTC_WPORG_UPDATES == true ) { // set true for free wordpress.org themes
+	if ( current_theme_supports( 'ctc-block-wporg-updates' ) ) { // this should not be set for free wordpress.org hosted themes
 		if ( 0 !== strpos( $url, 'http://api.wordpress.org/themes/update-check' ) )
 			return $r; // Not a theme update request. Bail immediately.
 		$themes = unserialize( $r['body']['themes'] );

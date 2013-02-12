@@ -11,7 +11,7 @@
  * Enable date archives for sermon posts
  * At time of making, WordPress (3.4 and possibly later) does not support dated archives for custom post types as it does for standard posts
  * This injects rules so that URL's like /cpt/2012/05 can be used with the custom post type archive template
- * Refer to includes/posts.php:ccm_cpt_date_archive_setup() for full details
+ * Refer to includes/posts.php:ctc_cpt_date_archive_setup() for full details
  */
 
 add_action( 'generate_rewrite_rules', 'ctc_sermon_date_archive' ); // enable date archive for sermon post type
