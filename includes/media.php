@@ -6,6 +6,41 @@
  */
 
 /**
+ * Enable upscaling of images
+ *
+ * Normally WordPress will only generate resized/cropped images if the source is larger than the target.
+ * This forces an image to be made for all sizes, even if the source is smaller than the target.
+ * This makes responsive images work more consistently (automatic height via CSS, for example)
+ *
+ * Note: This framework feature must be enabled using add_theme_support()
+ *
+ * Credit: levi (http://wordpress.stackexchange.com/users/19801/levi)
+ * via Stack Exchange: http://wordpress.stackexchange.com/a/64953
+ */
+
+add_filter( 'image_resize_dimensions', 'image_resize_dimensions_upscale', 10, 6 );
+
+function image_resize_dimensions_upscale( $default, $orig_w, $orig_h, $new_w, $new_h, $crop ) {
+
+	// if not cropping or no theme support, let core function handle it
+	if ( ! current_theme_supports( 'ctc-image-upscaling' ) || ! $crop ) {
+		return null; 
+	}
+
+	$aspect_ratio = $orig_w / $orig_h;
+	$size_ratio = max( $new_w / $orig_w, $new_h / $orig_h );
+
+	$crop_w = round( $new_w / $size_ratio );
+	$crop_h = round( $new_h / $size_ratio );
+
+	$s_x = floor( ( $orig_w - $crop_w ) / 2 );
+	$s_y = floor( ( $orig_h - $crop_h ) / 2 );
+
+	return array( 0, 0, (int) $s_x, (int) $s_y, (int) $new_w, (int) $new_h, (int) $crop_w, (int) $crop_h );
+
+}
+
+/**
  * Responsive Embeds
  *
  * Add container to WordPress video embeds so it can be styled responsive
