@@ -157,9 +157,32 @@ class CTC_Widget_Posts extends CTC_Widget {
 				'custom_field'		=> '', // function for custom display of field input (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
-			// Author
-			'show_author' => array(
+
+			// Image
+			'show_image' => array(
+				'name'				=> '',
+				'after_name'		=> '', // (Optional), (Required), etc.
+				'desc'				=> '',
+				'type'				=> 'checkbox', // text, textarea, checkbox, radio, select, number, url, image
+				'checkbox_label'	=> _x( 'Show image', 'posts widget', 'church-theme' ), //show text after checkbox
+				'radio_inline'		=> false, // show radio inputs inline or on top of each other
+				'number_min'		=> '', // lowest possible value for number type
+				'number_max'		=> '', // highest possible value for number type
+				'options'			=> array(), // array of keys/values for radio or select
+				'default'			=> true, // value to pre-populate option with (before first save or on reset)
+				'no_empty'			=> false, // if user empties value, force default to be saved instead
+				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
+				'attributes'		=> array(), // attributes to add to input element
+				'class'				=> '', // class(es) to add to input
+				'field_attributes'	=> array(), // attr => value array for field container
+				'field_class'		=> 'ctc-widget-no-bottom-margin', // class(es) to add to field container
+				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
+				'custom_field'		=> '', // function for custom display of field input (or array( &$this, 'method' ))
+				'taxonomies'		=> array(), // hide field if taxonomies are not supported
+			),
+
+			// Date
+			'show_date' => array(
 				'name'				=> '',
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
@@ -167,9 +190,9 @@ class CTC_Widget_Posts extends CTC_Widget {
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
-				'checkbox_label'	=> _x( 'Show author', 'posts widget', 'church-theme' ), //show text after checkbox
+				'checkbox_label'	=> _x( 'Show date', 'posts widget', 'church-theme' ), //show text after checkbox
 				'options'			=> array(), // array of keys/values for radio or select
-				'default'			=> false, // value to pre-populate option with (before first save or on reset)
+				'default'			=> true, // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
 				'attributes'		=> array(), // attributes to add to input element
@@ -181,8 +204,8 @@ class CTC_Widget_Posts extends CTC_Widget {
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 			
-			// Date
-			'show_date' => array(
+			// Author
+			'show_author' => array(
 				'name'				=> '',
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
@@ -190,7 +213,7 @@ class CTC_Widget_Posts extends CTC_Widget {
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
-				'checkbox_label'	=> _x( 'Show date', 'posts widget', 'church-theme' ), //show text after checkbox
+				'checkbox_label'	=> _x( 'Show author', 'posts widget', 'church-theme' ), //show text after checkbox
 				'options'			=> array(), // array of keys/values for radio or select
 				'default'			=> true, // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
@@ -215,36 +238,13 @@ class CTC_Widget_Posts extends CTC_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
-				'default'			=> '', // value to pre-populate option with (before first save or on reset)
+				'default'			=> false, // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
 				'attributes'		=> array(), // attributes to add to input element
 				'class'				=> '', // class(es) to add to input
 				'field_attributes'	=> array(), // attr => value array for field container
 				'field_class'		=> 'ctc-widget-no-bottom-margin', // class(es) to add to field container
-				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
-				'custom_field'		=> '', // function for custom display of field input (or array( &$this, 'method' ))
-				'taxonomies'		=> array(), // hide field if taxonomies are not supported
-			),
-			
-			// Image
-			'show_image' => array(
-				'name'				=> '',
-				'after_name'		=> '', // (Optional), (Required), etc.
-				'desc'				=> '',
-				'type'				=> 'checkbox', // text, textarea, checkbox, radio, select, number, url, image
-				'checkbox_label'	=> _x( 'Show image', 'posts widget', 'church-theme' ), //show text after checkbox
-				'radio_inline'		=> false, // show radio inputs inline or on top of each other
-				'number_min'		=> '', // lowest possible value for number type
-				'number_max'		=> '', // highest possible value for number type
-				'options'			=> array(), // array of keys/values for radio or select
-				'default'			=> '', // value to pre-populate option with (before first save or on reset)
-				'no_empty'			=> false, // if user empties value, force default to be saved instead
-				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
-				'attributes'		=> array(), // attributes to add to input element
-				'class'				=> '', // class(es) to add to input
-				'field_attributes'	=> array(), // attr => value array for field container
-				'field_class'		=> '', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
 				'custom_field'		=> '', // function for custom display of field input (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
