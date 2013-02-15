@@ -39,15 +39,20 @@ function ctc_color_schemes() {
 
 /**
  * Check if color scheme is valid
- * Make sure active color scheme is valid so nobody tries to mess with file path via front-end style picker cookie
+ *
+ * If none is provided, it will check the active color scheme.
  */
 
 if ( ! function_exists( 'ctc_valid_color_scheme' ) ) {
 
-	function ctc_valid_color_scheme() {
+	function ctc_valid_color_scheme( $color_scheme = false ) {
+
+		// Use active if none given
+		if ( empty( $color_scheme ) ) {
+			$color_scheme = ctc_customization( 'color_scheme' );
+		}
 
 		$color_schemes = ctc_color_schemes();
-		$color_scheme = ctc_customization( 'color_scheme' );
 
 		if ( ! empty( $color_schemes[$color_scheme] ) ) {
 			return true;
@@ -84,6 +89,34 @@ if ( ! function_exists( 'ctc_child_color_scheme_exists' ) ) {
 	
 	}
 	
+}
+
+
+/**
+ * Retrieve URL of a file in color scheme
+ *
+ * Checks first in child (if exists), then parent.
+ * If no color scheme given, active color scheme used.
+ */
+
+function ctc_color_scheme_url( $file, $color_scheme = false ) {
+
+	// Use active color scheme if none specified
+	if ( empty( $color_scheme ) ) {
+		$color_scheme = ctc_customization( 'color_scheme' );
+	}
+
+	// Validate color scheme
+	// (even active one, to prevent any messing with cookies in front-end style customizer)
+	if ( ctc_valid_color_scheme( $color_scheme ) ) {
+		$url = ctc_theme_url( CTC_COLOR_DIR . '/' . $color_scheme . '/' . ltrim( $file, '/' ) );
+	} else {
+		$url = '';
+	}
+
+	// Return filterable
+	return apply_filters( 'ctc_color_scheme_url', $url, $file, $color_scheme );
+
 }
 
 /**
