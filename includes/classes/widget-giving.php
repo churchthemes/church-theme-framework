@@ -1,6 +1,6 @@
 <?php
 /**
- * Donation Widget
+ * Giving Widget
  */
 
 class CTC_Widget_Giving extends CTC_Widget {

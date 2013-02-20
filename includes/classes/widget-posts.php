@@ -215,7 +215,7 @@ class CTC_Widget_Posts extends CTC_Widget {
 				'number_max'		=> '', // highest possible value for number type
 				'checkbox_label'	=> _x( 'Show author', 'posts widget', 'church-theme' ), //show text after checkbox
 				'options'			=> array(), // array of keys/values for radio or select
-				'default'			=> true, // value to pre-populate option with (before first save or on reset)
+				'default'			=> false, // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
 				'attributes'		=> array(), // attributes to add to input element
