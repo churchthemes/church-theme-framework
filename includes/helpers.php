@@ -92,3 +92,41 @@ if ( ! function_exists( 'ctc_array_merge_after_key' ) ) {
 	
 }
 
+/*************************************************
+ * STRINGS
+ *************************************************/
+
+/**
+ * Shorten string within character limit while preserving words
+ *
+ * An alternative to wp_trim_words().
+ * Useful when need strict character limit but don't want to cut words in half.
+ */
+
+function ctc_shorten( $string, $max_chars ) {
+
+	$max_chars = absint( $max_chars );
+
+	// Shorten to within X characters without cutting words in half
+	if ( $max_chars && strlen( $string ) > $max_chars ) {
+
+		// StackOverflow answer by Dave (http://stackoverflow.com/users/382927/dave) was helpful: http://stackoverflow.com/a/4665347
+		$processed_string = substr( $string, 0, strrpos( substr( $string, 0, $max_chars ), ' ' ) );
+
+		// Append ... if string was shortened
+		if ( strlen( $processed_string ) < strlen( $string ) ) {
+			/* translators: ... after shortened string */
+			$processed_string .= _x( '&hellip;', 'shortened text', 'church-theme' );
+		}
+
+	}
+
+	// Use original string if none shortened
+	if ( empty( $processed_string ) ) {
+		$processed_string = $string;
+	}
+
+	// Return filtered
+	return apply_filters( 'ctc_shorten', $processed_string, $string, $max_chars );
+
+}
