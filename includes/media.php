@@ -18,9 +18,9 @@
  * via Stack Exchange: http://wordpress.stackexchange.com/a/64953
  */
 
-add_filter( 'image_resize_dimensions', 'image_resize_dimensions_upscale', 10, 6 );
+add_filter( 'image_resize_dimensions', 'ctc_image_resize_dimensions_upscale', 10, 6 );
 
-function image_resize_dimensions_upscale( $default, $orig_w, $orig_h, $new_w, $new_h, $crop ) {
+function ctc_image_resize_dimensions_upscale( $default, $orig_w, $orig_h, $new_w, $new_h, $crop ) {
 
 	// if not cropping or no theme support, let core function handle it
 	if ( ! current_theme_supports( 'ctc-image-upscaling' ) || ! $crop ) {
