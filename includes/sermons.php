@@ -48,11 +48,8 @@ function ctc_sermon_url( $post_id, $media_type ) { // audio, video or pdf
 	// Get it
 	$url = get_post_meta( $post_id, '_ccm_sermon_' . $media_type . '_url', true );
 
-	// Replace [upload_url]
-	$upload_dir = wp_upload_dir();
-	$url = str_ireplace( '[upload_url]', $upload_dir['baseurl'], $url );
-
-	return $url;
+	// Return filtered
+	return apply_filters( 'ctc_sermon_url', $url, $post_id, $media_type );
 
 }
 
