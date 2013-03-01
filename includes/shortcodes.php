@@ -20,7 +20,7 @@ function ctc_fw_register_shortcodes() {
 	add_shortcode( 'ctc_site_name', 		'ctc_shortcode_site_name' );
 	add_shortcode( 'ctc_tagline', 			'ctc_shortcode_tagline' );
 	add_shortcode( 'ctc_home_url', 			'ctc_shortcode_home_url' );
-	add_shortcode( 'ctc_feed_url', 			'ctc_shortcode_feed_url' );
+	add_shortcode( 'ctc_rss_url', 			'ctc_shortcode_feed_url' );
 	add_shortcode( 'ctc_copyright_symbol',	'ctc_shortcode_copyright_symbol' );
 	add_shortcode( 'ctc_current_year',		'ctc_shortcode_current_year' );	
 
@@ -59,7 +59,7 @@ function ctc_shortcode_copyright_symbol() {
 }
 
 // RSS Feed URL
-// [ctc_feed_url] can be used by social media icons
+// [ctc_rss_url] can be used by social media icons
 function ctc_shortcode_feed_url() {
 
 	return get_bloginfo( 'rss_url' );
