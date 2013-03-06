@@ -10,33 +10,40 @@
  *
  * Normally WordPress will only generate resized/cropped images if the source is larger than the target.
  * This forces an image to be made for all sizes, even if the source is smaller than the target.
- * This makes responsive images work more consistently (automatic height via CSS, for example)
+ * This makes responsive images work more consistently (automatic height via CSS, for example).
  *
- * Note: This framework feature must be enabled using add_theme_support()
+ * This code is based on the core image_resize_dimensions() function in wp-content/media.php.
  *
- * Credit: levi (http://wordpress.stackexchange.com/users/19801/levi)
- * via Stack Exchange: http://wordpress.stackexchange.com/a/64953
+ * Note: This framework feature must be enabled using add_theme_support( 'ctc-image-upscaling' )
  */
 
 add_filter( 'image_resize_dimensions', 'ctc_image_resize_dimensions_upscale', 10, 6 );
 
-function ctc_image_resize_dimensions_upscale( $default, $orig_w, $orig_h, $new_w, $new_h, $crop ) {
+function ctc_image_resize_dimensions_upscale( $output, $orig_w, $orig_h, $dest_w, $dest_h, $crop ) {
 
-	// if not cropping or no theme support, let core function handle it
-	if ( ! current_theme_supports( 'ctc-image-upscaling' ) || ! $crop ) {
-		return null; 
+	// force upscaling if theme supports it and crop is being done
+	// otherwise $output = null causes regular behavior
+	if ( current_theme_supports( 'ctc-image-upscaling' ) && $crop ) {
+
+		// resize to target dimensions, upscaling if necessary
+		$new_w = $dest_w;
+		$new_h = $dest_h;
+
+		$size_ratio = max( $new_w / $orig_w, $new_h / $orig_h );
+
+		$crop_w = round( $new_w / $size_ratio );
+		$crop_h = round( $new_h / $size_ratio );
+
+		$s_x = floor( ( $orig_w - $crop_w ) / 2 );
+		$s_y = floor( ( $orig_h - $crop_h ) / 2 );
+
+		// the return array matches the parameters to imagecopyresampled()
+		// int dst_x, int dst_y, int src_x, int src_y, int dst_w, int dst_h, int src_w, int src_h
+		$output = array( 0, 0, (int) $s_x, (int) $s_y, (int) $new_w, (int) $new_h, (int) $crop_w, (int) $crop_h );
+
 	}
 
-	$aspect_ratio = $orig_w / $orig_h;
-	$size_ratio = max( $new_w / $orig_w, $new_h / $orig_h );
-
-	$crop_w = round( $new_w / $size_ratio );
-	$crop_h = round( $new_h / $size_ratio );
-
-	$s_x = floor( ( $orig_w - $crop_w ) / 2 );
-	$s_y = floor( ( $orig_h - $crop_h ) / 2 );
-
-	return array( 0, 0, (int) $s_x, (int) $s_y, (int) $new_w, (int) $new_h, (int) $crop_w, (int) $crop_h );
+	return $output;
 
 }
 

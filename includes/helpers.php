@@ -110,8 +110,10 @@ function ctc_shorten( $string, $max_chars ) {
 	// Shorten to within X characters without cutting words in half
 	if ( $max_chars && strlen( $string ) > $max_chars ) {
 
-		// StackOverflow answer by Dave (http://stackoverflow.com/users/382927/dave) was helpful: http://stackoverflow.com/a/4665347
-		$processed_string = substr( $string, 0, strrpos( substr( $string, 0, $max_chars ), ' ' ) );
+		// Shorten
+		$haystack = substr( $string, 0, $max_chars );
+		$length = strrpos( $haystack, ' ' );
+		$processed_string = substr( $string, 0, $length );
 
 		// Append ... if string was shortened
 		if ( strlen( $processed_string ) < strlen( $string ) ) {

@@ -27,7 +27,7 @@ jQuery(document).ready(function($) {
 		});
 
 		// Open media frame and set current image
-		// Thanks to http://stackoverflow.com/questions/13936080/pre-select-images-when-opening-wordpress-3-5-media-manager
+		// This information was useful: http://bit.ly/13FATWB
 		frame.on('open', function() {
 			var image_id = $('.ctc-widget-image', value_container).val();
 			if (image_id) {

@@ -12,7 +12,7 @@
 
 /**
  * Force download of certain file types via /download-file/filename.type URL
- * Thanks for guidance from: http://wordpress.stackexchange.com/questions/3480/how-can-i-force-a-file-download-in-the-wordpress-backend
+ * This information was useful: http://wordpress.stackexchange.com/questions/3480/how-can-i-force-a-file-download-in-the-wordpress-backend
  */
 
 add_action( 'template_redirect', 'ctc_force_download' );

@@ -10,23 +10,27 @@
 /**
  * Custom Post Type Date Archive Setup
  * 
- * At time of making, WordPress (3.3 and possibly later) does not support dated archives for custom post types as it does for standard posts
- * This injects rules so that URL's like /cpt/2012/05 can be used with the custom post type archive template
+ * At time of making, WordPress (3.5 and possibly later) does not support dated archives for custom post types as it does for standard posts.
+ * This injects rules so that URL's like /cpt/2012/05 can be used with the custom post type archive template.
+ * 
  * Note: resave permalinks if ever change this
  *
- * Credit for this soluton goes to MillaN of Dev4Press: http://www.dev4press.com/2012/tutorials/wordpress/practical/url-rewriting-custom-post-types-date-archive/
+ * Thanks to Milan Petrovic for his guide: http://www.dev4press.com/2012/tutorials/wordpress/practical/url-rewriting-custom-post-types-date-archive/
  * (with an assist from Brian Krogsgard: http://krogsgard.com)
  */
 
-if ( ! function_exists( 'ctc_cpt_date_archive_setup' ) ) {
+function ctc_cpt_date_archive_setup( $post_types, $wp_rewrite ) {
 
-	function ctc_cpt_date_archive_setup( $post_types, $wp_rewrite ) {
+	// Enable override by child theme
+	$rules = apply_filters( 'ctc_cpt_date_archive_setup_rules', array(), $post_types, $wp_rewrite ); // empty if nothing passed in by filter
+
+	// If rules not already provided via filter
+	if ( ! empty( $rules ) ) {
 
 		// Cast single post type as array
 		$post_types = (array) $post_types;
-
+		
 		// Loop given post types to build rules
-		$rules = array();
 		foreach( $post_types as $post_type_slug ) {
 
 			// Post type data
@@ -91,13 +95,13 @@ if ( ! function_exists( 'ctc_cpt_date_archive_setup' ) ) {
 			
 		}
 
-		// Apply the rules for given post types
-		if ( ! empty( $rules ) ) {
-			$wp_rewrite->rules = array_merge( $rules, $wp_rewrite->rules );
-		}
-
 	}
-	
+
+	// Apply the rules for given post types
+	if ( ! empty( $rules ) ) {
+		$wp_rewrite->rules = array_merge( $rules, $wp_rewrite->rules );
+	}
+
 }
 
 /**
