@@ -69,13 +69,6 @@ jQuery(document).ready(function($) {
 			google.maps.event.addDomListener(window, 'resize', function() {
 				map.setCenter(latlng);
 			});
-			
-			// Maps in hidden elements (Accordion, Tabs) must be re-initialized for correct size
-			/*
-			$($('#' + id)).parents('.ctc-tabber, .ctc-accordion').click(function() {
-				ctc_init_google_map(id, lat, lng, type, zoom);
-			});
-			*/
 		
 		}
 		
