@@ -30,15 +30,16 @@ jQuery(document).ready(function($) {
 			} else if (type == 'TERRAIN') {
 				map_type = google.maps.MapTypeId.TERRAIN;
 			}
-			
+
 			// Zoom
 			zoom = zoom ? zoom : 14; // default
-			
+
 			// Load the Map
 			var map = new google.maps.Map(document.getElementById(id), {
 				zoom: parseInt(zoom),
 				mapTypeId: map_type, // ROADMAP, SATELLITE, HYBRID or TERRAIN
 				disableDefaultUI: true, // remove map controls
+				scrollwheel: false, // this can catch on mobile page touch-scrolling
 				center: latlng,
 				styles: [{ // hide business name labels
 					featureType: "poi",
