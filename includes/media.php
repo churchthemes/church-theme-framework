@@ -48,26 +48,6 @@ function ctc_image_resize_dimensions_upscale( $output, $orig_w, $orig_h, $dest_w
 }
 
 /**
- * Responsive Embeds
- *
- * Add container to WordPress video embeds so it can be styled responsive
- * See embed_oembed_html filter
- * See WordPress embeds: http://codex.wordpress.org/Embeds
- */
-
-add_filter( 'embed_oembed_html', 'ctc_responsive_embeds', 10, 4 ); // make WordPress video embeds responsive by giving container to style	
-
-function ctc_responsive_embeds( $html, $url, $attr, $post_ID ) {
-
-	if ( preg_match( '/^<(iframe|embed|object)/', $html ) ) { // no img
-		$html = '<div class="ctc-responsive-embed">' . $html . '</div>';
-	}
-
-	return $html;
-
-}
-
-/**
  * Video
  *
  * Return YouTube or Vimeo data, ID and HTML player code based on URL
