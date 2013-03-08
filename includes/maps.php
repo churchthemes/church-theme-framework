@@ -13,7 +13,7 @@ function ctc_google_map( $options = false ) {
 		// Enqueue map scripts to handle Google Maps init
 		// this way the scripts are loaded only when feature is used, not on every page
 		wp_enqueue_script( 'google-maps', 'https://maps.googleapis.com/maps/api/js?sensor=false', false, null ); // no version, generic name to share w/plugins
-		wp_enqueue_script( 'ctc-fw-maps', ctc_theme_url( CTC_FW_JS_DIR . '/maps.js' ), array( 'google-maps' ), CTC_FW_VERSION ); // bust cache on theme update
+		wp_enqueue_script( 'ctc-fw-maps', ctc_theme_url( CTC_FW_JS_DIR . '/maps.js' ), array( 'jquery', 'google-maps' ), CTC_FW_VERSION ); // bust cache on theme update
 
 		// Type and zoom are optional
 		$options['type'] = isset( $options['type'] ) ? strtoupper( $options['type'] ) : '';
