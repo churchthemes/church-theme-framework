@@ -66,30 +66,26 @@ function ctc_current_url() {
  * Meant for one dimensional associative arrays.
  * Used to insert post type overview columns.
  */
+ 
+function ctc_array_merge_after_key( $original_array, $insert_array, $after_key ) {
 
-if ( ! function_exists( 'ctc_array_merge_after_key' ) ) {
-	 
-	function ctc_array_merge_after_key( $original_array, $insert_array, $after_key ) {
+	$modified_array = array();
 
-		$modified_array = array();
-
-		// loop original array items
-		foreach( $original_array as $item_key => $item_value ) {
-		
-			// rebuild the array one item at a time
-			$modified_array[$item_key] = $item_value;
-			
-			// insert array after specific key
-			if ( $item_key == $after_key ) {
-				$modified_array = array_merge( $modified_array, $insert_array );
-			}
-		
-		}
-
-		return $modified_array;
-
-	}
+	// loop original array items
+	foreach( $original_array as $item_key => $item_value ) {
 	
+		// rebuild the array one item at a time
+		$modified_array[$item_key] = $item_value;
+		
+		// insert array after specific key
+		if ( $item_key == $after_key ) {
+			$modified_array = array_merge( $modified_array, $insert_array );
+		}
+	
+	}
+
+	return apply_filters( 'ctc_array_merge_after_key', $modified_array, $original_array, $insert_array, $after_key );
+
 }
 
 /*************************************************

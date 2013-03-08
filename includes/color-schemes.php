@@ -43,25 +43,23 @@ function ctc_color_schemes() {
  * If none is provided, it will check the active color scheme.
  */
 
-if ( ! function_exists( 'ctc_valid_color_scheme' ) ) {
+function ctc_valid_color_scheme( $color_scheme = false ) {
 
-	function ctc_valid_color_scheme( $color_scheme = false ) {
-
-		// Use active if none given
-		if ( empty( $color_scheme ) ) {
-			$color_scheme = ctc_customization( 'color_scheme' );
-		}
-
-		$color_schemes = ctc_color_schemes();
-
-		if ( ! empty( $color_schemes[$color_scheme] ) ) {
-			return true;
-		}
-		
-		return false;
+	$valid = false;
 	
+	// Use active if none given
+	if ( empty( $color_scheme ) ) {
+		$color_scheme = ctc_customization( 'color_scheme' );
+	}
+
+	$color_schemes = ctc_color_schemes();
+
+	if ( ! empty( $color_schemes[$color_scheme] ) ) {
+		$valid = true;
 	}
 	
+	return apply_filters( 'ctc_valid_color_scheme', $valid, $color_scheme );
+
 }
 
 /**
@@ -70,24 +68,22 @@ if ( ! function_exists( 'ctc_valid_color_scheme' ) ) {
  * Used by child theme
  */
 
-if ( ! function_exists( 'ctc_child_color_scheme_exists' ) ) {
+function ctc_child_color_scheme_exists() {
 
-	function ctc_child_color_scheme_exists() {
+	$exists = false;
 
-		if ( ctc_valid_color_scheme() ) { // make sure active color scheme is valid as security precaution
+	if ( ctc_valid_color_scheme() ) { // make sure active color scheme is valid as security precaution
 
-			$color_scheme = ctc_customization( 'color_scheme' );
-			$color_scheme_child_path = CTC_CHILD_PATH . '/' . CTC_COLOR_DIR . '/' . $color_scheme . '/style.css';
-		
-			if ( file_exists( $color_scheme_child_path ) ) {
-				return true;
-			}
-			
+		$color_scheme = ctc_customization( 'color_scheme' );
+		$color_scheme_child_path = CTC_CHILD_PATH . '/' . CTC_COLOR_DIR . '/' . $color_scheme . '/style.css';
+	
+		if ( file_exists( $color_scheme_child_path ) ) {
+			$exists = true;
 		}
 		
-		return false;
-	
 	}
+	
+	return apply_filters( 'ctc_child_color_scheme_exists', $exists );
 	
 }
 

@@ -38,28 +38,24 @@ function ctc_default_font_stacks() {
  * Build a font stack based on font and its type - use in CSS
  */
 
-if ( ! function_exists( 'ctc_font_stack' ) ) {
-	 
-	function ctc_font_stack( $font, $available_fonts ) {
+function ctc_font_stack( $font, $available_fonts ) {
 
-		// Get the default font stack for each type
-		$default_font_stacks = ctc_default_font_stacks();
+	// Get the default font stack for each type
+	$default_font_stacks = ctc_default_font_stacks();
 
-		// Build font stack with custom font as primary
-		if ( ! empty( $available_fonts[$font] ) && ! empty( $default_font_stacks[$available_fonts[$font]['type']] ) ) {
-			$default_font_stack = $default_font_stacks[$available_fonts[$font]['type']];
-		} else { // if invalid, type use first in list (should be serif)
-			$default_font_stack = current( $default_font_stacks );
-		}
-		$font_stack = "'" . $font . "', " . $default_font_stack;
-
-		// Filterable
-		$font_stack = apply_filters( 'ctc_font_stack', $font_stack, $font, $available_fonts );
-		
-		return $font_stack;
-
+	// Build font stack with custom font as primary
+	if ( ! empty( $available_fonts[$font] ) && ! empty( $default_font_stacks[$available_fonts[$font]['type']] ) ) {
+		$default_font_stack = $default_font_stacks[$available_fonts[$font]['type']];
+	} else { // if invalid, type use first in list (should be serif)
+		$default_font_stack = current( $default_font_stacks );
 	}
+	$font_stack = "'" . $font . "', " . $default_font_stack;
+
+	// Filterable
+	$font_stack = apply_filters( 'ctc_font_stack', $font_stack, $font, $available_fonts );
 	
+	return $font_stack;
+
 }
 
 /*******************************************

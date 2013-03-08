@@ -96,20 +96,17 @@ function ctc_force_download() {
 
 /**
  * Convert regular URL to URL that forces download
+ * 
  * Note that file must be in uploads folder and extension must be defined in ctc_force_download()
  * /download-file/2012/05/uploaded-file.ext (relative to wp-content/uploads)
  */
-
-if ( ! function_exists( 'ctc_force_download_url' ) ) {
 	 
-	function ctc_force_download_url( $url ) {
+function ctc_force_download_url( $url ) {
 
-		$upload_dir = wp_upload_dir();
+	$upload_dir = wp_upload_dir();
 
-		$url = str_replace( $upload_dir['baseurl'], site_url( 'download-file' ), $url );		
-	
-		return $url;
-	
-	}
+	$force_url = str_replace( $upload_dir['baseurl'], site_url( 'download-file' ), $url );		
+
+	return apply_filters( 'ctc_force_download_url', $force_url, $url );
 
 }
