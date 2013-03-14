@@ -487,7 +487,7 @@ class CTC_Widget extends WP_Widget {
 			// Make instance available to other methods used by template (e.g. get_posts())
 			$this->ctc_instance = $instance;
 
-			// Load template with globals available (inlike locate_template())
+			// Load template with globals available (unlike locate_template())
 			include $template_path;
 
 		}
