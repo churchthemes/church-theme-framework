@@ -97,26 +97,21 @@ function ctc_post_count_message( $query = false ) {
 		$post_max = $query->query_vars['posts_per_page'] * $page; // last post on page
 		$post_min = $post_max - $query->query_vars['posts_per_page'] + 1; // first post on page
 		$post_max = $post_max > $query->found_posts ? $query->found_posts : $post_max; // lastly, don't let actual max shown exceed total
-
-		// If 0 items, show "0 Items"
-		if ( empty( $query->found_posts ) ) {
-			$message = sprintf( __( '<b>0</b> Items', 'church-theme' ), $query->found_posts );
-		}
 		
 		// If 1 item, show "1 Item"
-		else if ( 1 == $query->found_posts ) {
+		if ( 1 == $query->found_posts ) {
 			$message = __( '<b>1</b> Item', 'church-theme' );
 		}
 		
 		// If more than 1, but one page, show "X Items"
 		else if ( 1 == $query->max_num_pages ) {
-			$message = sprintf( __( '<b>%s</b> Items', 'church-theme' ), $query->found_posts );
+			$message = sprintf( __( 'Showing <b>%s</b>', 'church-theme' ), $query->found_posts );
 		}
 		
 		// If more than 1 , but multiple pages, show "X - X of X items"
 		else if ( $query->max_num_pages > 1 ) {
 			/* translators: first item on page, last item on page, total items on all pages */
-			$message = sprintf( __( '<b>%1$s</b> &ndash; <b>%2$s</b> of <b>%3$s</b> items', 'church-theme' ), $post_min, $post_max, $query->found_posts );
+			$message = sprintf( __( 'Showing <b>%1$s</b> &ndash; <b>%2$s</b> of <b>%3$s</b>', 'church-theme' ), $post_min, $post_max, $query->found_posts );
 
 		}
 		
@@ -236,9 +231,9 @@ function ctc_comment_list( $comment, $args, $depth ) {
 /**
  * Get/Set $paged
  * 
- * For use in templates that can be used as static front page
- * get_query_var( 'paged' ) returns nothing on front page, but get_query_var( 'page' ) does
- * This returns and sets globally $paged so that the query and pagination work
+ * For use in templates that can be used as static front page.
+ * get_query_var( 'paged' ) returns nothing on front page, but get_query_var( 'page' ) does.
+ * This returns and sets globally $paged so that the query and pagination work.
  */
  
 function ctc_page_num() {
@@ -248,6 +243,6 @@ function ctc_page_num() {
 	// Use paged if given; otherwise page; otherwise 1
 	$paged = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : ( get_query_var( 'page' ) ? get_query_var( 'page' ) : 1 );
 
-	return apply_filteres( 'ctc_page_num', $paged );
+	return apply_filters( 'ctc_page_num', $paged );
 	
 }
