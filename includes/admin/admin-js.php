@@ -32,7 +32,7 @@ function ctc_fw_admin_enqueue_scripts() {
 		wp_localize_script( 'ctc-fw-admin-widgets', 'ctc_widgets', array( // make data available
 			'image_library_title'	=> _x( 'Choose Image for Widget', 'widget image library', 'church-theme' ),
 			'image_library_button'	=> _x( 'Use in Widget', 'widget image library', 'church-theme' ),
-			'incompatible_message'	=> _x( 'Sorry, this widget is not made for use in this area. Please delete.', 'church-theme' ),
+			'incompatible_message'	=> __( 'Sorry, this widget is not made for use in this area. Please delete.', 'church-theme' ),
 		));
 
 	}
