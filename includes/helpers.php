@@ -128,3 +128,17 @@ function ctc_shorten( $string, $max_chars ) {
 	return apply_filters( 'ctc_shorten', $processed_string, $string, $max_chars );
 
 }
+
+/**
+ * Make a Church Content Manager post type or taxonomy name friendly
+ *
+ * This is handy for get_template_part( 'content', ctc_make_friendly( get_post_type() ) );
+ * which produces content-gallery-item.php instead of content-ccm_gallery_item.php
+ */
+
+function ctc_make_friendly( $string ) {
+
+	$friendly_string = str_replace( array( 'ccm_', '_'), array( '', '-'), $string );
+
+	return apply_filters( 'ctc_make_friendly', $friendly_string, $string );
+}
