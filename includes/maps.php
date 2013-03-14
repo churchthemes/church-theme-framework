@@ -8,6 +8,8 @@
 
 function ctc_google_map( $options = false ) {
 
+	$html = '';
+	
 	if ( ! empty( $options['latitude'] ) && ! empty( $options['longitude'] ) ) {
 
 		// Enqueue map scripts to handle Google Maps init
