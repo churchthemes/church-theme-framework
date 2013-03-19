@@ -15,14 +15,18 @@
  * Get newest page using a specific template file name
  */
 
-function ctc_get_page_by_template( $template_file ) {
+function ctc_get_page_by_template( $template ) {
+
+
+	// Templates are stored in directory
+	$template = CTC_PAGE_TPL_DIR . '/' . $template;
 
 	/*
 
 	// If more than one, gets the newest
 	$pages = get_pages( array(
 		'meta_key' => '_wp_page_template',
-		'meta_value' => $template_file,
+		'meta_value' => $template,
 		'sort_column' => 'ID',
 		'sort_order' => 'DESC',
 		'number' => 1
@@ -43,17 +47,19 @@ function ctc_get_page_by_template( $template_file ) {
 		'nopaging'			=> true,
 		'posts_per_page'	=> 1,
 		'meta_key' 			=> '_wp_page_template',
-		'meta_value' 		=> $template_file,
+		'meta_value' 		=> $template,
 		'orderby'			=> 'ID',
 		'order'				=> 'DESC'
 	) );
 	
 	// Got one?
 	if ( ! empty( $page_query->post ) ) {
-		return $page_query->post;
+		$page = $page_query->post;
+	} else {
+		$page = false;
 	}
 
-	return false;	
+	return apply_filters( 'ctc_get_page_by_template', $page, $template );
 
 }
 
@@ -62,13 +68,13 @@ function ctc_get_page_by_template( $template_file ) {
  * Get Page ID by Template
  */
 
-function ctc_get_page_id_by_template( $template_file ) {
+function ctc_get_page_id_by_template( $template ) {
 
-	$page = ctc_get_page_by_template( $template_file );
+	$page = ctc_get_page_by_template( $template );
 
 	$page_id = ! empty( $page->ID ) ? $page->ID : '';
 	
-	return $page_id;	
+	return apply_filters( 'ctc_get_page_id_by_template', $page_id, $template );	
 
 }
 

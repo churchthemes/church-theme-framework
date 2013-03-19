@@ -4,7 +4,7 @@
  */
 
 /**********************************
- * 
+ * DATE ARCHIVES
  **********************************/
 
 /**
@@ -146,6 +146,42 @@ function ctc_post_type_get_month_link( $year, $month, $post_type = false ) {
 		}
 
 		return apply_filters( 'ctc_post_type_month_link', home_url( '?m=' . $year . zeroise( $month, 2 ) . $post_type_param ), $year, $month );
+
+	}
+
+}
+
+/**********************************
+ * REDIRECTION
+ **********************************/
+
+/**
+ * Redirect a post type archive to page using specific template
+ *
+ * This is done only for non-date archive and avoids duplicate content.
+ * The page template should output the same loop but with custom title, featured image, etc.
+ *
+ * Run this on template_redirect hook.
+ */
+
+function ctc_redirect_archive_to_page( $post_type, $page_template ) {
+
+	// Check if is non-date archive for the post type
+	if ( is_post_type_archive( $post_type ) && ! is_year() && ! is_month() && ! is_day() ) {
+
+		// Check if a page is using sermons template
+		if ( $page = ctc_get_page_by_template( $page_template ) ) {
+
+			if ( ! empty( $page->ID ) ) {
+
+				$page_url = get_permalink( $page->ID );
+
+				wp_redirect( $page_url, 301 );
+				exit;
+
+			}
+
+		}
 
 	}
 
