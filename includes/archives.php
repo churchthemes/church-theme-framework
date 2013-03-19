@@ -25,7 +25,7 @@ function ctc_cpt_date_archive_setup( $post_types, $wp_rewrite ) {
 	$rules = apply_filters( 'ctc_cpt_date_archive_setup_rules', array(), $post_types, $wp_rewrite ); // empty if nothing passed in by filter
 
 	// If rules not already provided via filter
-	if ( ! empty( $rules ) ) {
+	if ( empty( $rules ) ) {
 
 		// Cast single post type as array
 		$post_types = (array) $post_types;
