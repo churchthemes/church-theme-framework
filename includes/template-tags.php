@@ -6,51 +6,6 @@
  */
 
 /**
- *  X - X of X Posts
- */
- 
-function ctc_post_count_message( $query = false ) {
-
-	global $wp_query;
-
-	$message = '';
-	
-	// use standard query if no custom query given
-	$query = empty( $query ) && isset( $wp_query ) ? $wp_query : $query;
-	
-	// have correct data?
-	if ( isset( $query->found_posts ) && isset( $query->query_vars['paged'] ) && isset( $query->query_vars['posts_per_page'] ) && isset( $query->max_num_pages ) ) {
-
-		// what page are we on?
-		$page = ! empty( $query->query_vars['paged'] ) ? $query->query_vars['paged'] : 1; // 0 means page 1, given numbers are literal
-		$post_max = $query->query_vars['posts_per_page'] * $page; // last post on page
-		$post_min = $post_max - $query->query_vars['posts_per_page'] + 1; // first post on page
-		$post_max = $post_max > $query->found_posts ? $query->found_posts : $post_max; // lastly, don't let actual max shown exceed total
-		
-		// If 1 item, show "1 Item"
-		if ( 1 == $query->found_posts ) {
-			$message = __( '<b>1</b> Item', 'church-theme' );
-		}
-		
-		// If more than 1, but one page, show "X Items"
-		else if ( 1 == $query->max_num_pages ) {
-			$message = sprintf( __( 'Showing <b>%s</b>', 'church-theme' ), $query->found_posts );
-		}
-		
-		// If more than 1 , but multiple pages, show "X - X of X items"
-		else if ( $query->max_num_pages > 1 ) {
-			/* translators: first item on page, last item on page, total items on all pages */
-			$message = sprintf( __( 'Showing <b>%1$s</b> &ndash; <b>%2$s</b> of <b>%3$s</b>', 'church-theme' ), $post_min, $post_max, $query->found_posts );
-
-		}
-		
-	}
-
-	echo apply_filters( 'ctc_post_count_message', $message, $query );
-
-}
-
-/**
  * X Days Ago or Date
  *
  * This takes a timestamp and shows "X days ago"
