@@ -53,45 +53,5 @@ function ctc_sermon_url( $post_id, $media_type ) { // audio, video or pdf
 
 }
 
- 
-/**********************************
- * PAGINATION
- **********************************/
 
-// COULD FUNCTIONIZE THIS TO USE SAME FOR BOTH GALLERY AND SERMONS (make pagination.php)?
-// COULD FUNCTIONIZE THIS TO USE SAME FOR BOTH GALLERY AND SERMONS (make pagination.php)?
-// COULD FUNCTIONIZE THIS TO USE SAME FOR BOTH GALLERY AND SERMONS (make pagination.php)?
-// COULD FUNCTIONIZE THIS TO USE SAME FOR BOTH GALLERY AND SERMONS (make pagination.php)?
-// COULD FUNCTIONIZE THIS TO USE SAME FOR BOTH GALLERY AND SERMONS (make pagination.php)?
-// COULD FUNCTIONIZE THIS TO USE SAME FOR BOTH GALLERY AND SERMONS (make pagination.php)?
- 
-add_filter( 'option_posts_per_page', 'ctc_sermon_archive_posts_per_page' ); // correct posts_per_page for sermon archives (date, category, tag, speaker)
-	
-function ctc_sermon_archive_posts_per_page( $value ) {
 
-	// Don't let this mess with saving of default posts per page in admin
-	if ( ! is_admin() ) {
-
-		// Is per page set? If theme does not use this option, don't do this
-		$per_page = ctc_option( 'sermons_per_page' );
-		if ( ! empty( $per_page ) ) {
-
-			// Which post type archives should this affect?
-			$post_type_slugs = array( 'ccm_sermon' );
-			
-			// Which taxonomies should this affect?
-			$taxonomies = array( 'ccm_sermon_category', 'ccm_sermon_tag', 'ccm_sermon_speaker' );
-
-			// Use the sermon items per page value from Theme Options if there is a match
-			if ( is_post_type_archive( $post_type_slugs ) || is_tax( $taxonomies ) ) {
-				return $per_page;
-			}
-			
-		}
-		
-	}
-
-	// Otherwise let it behave normally
-	return $value;
-
-}
