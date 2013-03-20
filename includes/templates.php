@@ -3,10 +3,6 @@
  * Template Functions
  */
 
-/*****************************************
- * LOAD TEMPLATES
- *****************************************/
-
 /**
  * Load content template based on current post type
  *
