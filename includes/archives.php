@@ -166,8 +166,8 @@ function ctc_post_type_get_month_link( $year, $month, $post_type = false ) {
 
 function ctc_redirect_archive_to_page( $post_type, $page_template ) {
 
-	// Check if is non-date archive for the post type
-	if ( is_post_type_archive( $post_type ) && ! is_year() && ! is_month() && ! is_day() ) {
+	// Don't redirect on date archives or feeds
+	if ( is_post_type_archive( $post_type ) && ! is_year() && ! is_month() && ! is_day() && ! is_feed() ) {
 
 		// Check if a page is using sermons template
 		if ( $page = ctc_get_page_by_template( $page_template ) ) {
