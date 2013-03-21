@@ -186,3 +186,16 @@ function ctc_redirect_archive_to_page( $post_type, $page_template ) {
 	}
 
 }
+
+/**
+ * Redirect post type archives to pages
+ */
+
+
+function ctc_redirect_archives_to_pages( $redirects ) {
+
+	foreach( $redirects as $post_type => $page_template ) {
+		ctc_redirect_archive_to_page( $post_type, $page_template );
+	}
+
+}
