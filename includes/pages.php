@@ -8,73 +8,87 @@
 /**********************************
  * DATA
  **********************************/
- 
+
 /**
  * Get Page by Template
  *
- * Get newest page using a specific template file name
+ * Get newest page using a specific template file name.
+ * Multiple templates can be specified as array and the first match will be used.
+ * This is handy when one template rather than the usual is used for primary content.
  */
 
-function ctc_get_page_by_template( $template ) {
+function ctc_get_page_by_template( $templates ) {
 
+	$page = false;
 
-	// Templates are stored in directory
-	$template = CTC_PAGE_TPL_DIR . '/' . $template;
+	// Force single template string into array
+	$templates = (array) $templates;
 
-	/*
+	// Loop template by priority
+	foreach( $templates as $template ) {
 
-	// If more than one, gets the newest
-	$pages = get_pages( array(
-		'meta_key' => '_wp_page_template',
-		'meta_value' => $template,
-		'sort_column' => 'ID',
-		'sort_order' => 'DESC',
-		'number' => 1
-	) );
-	
-	// Got one?
-	if ( ! empty( $pages[0] ) ) {
-		return $pages[0];
+		// Templates are stored in directory
+		$template = CTC_PAGE_TPL_DIR . '/' . $template;
+
+		/*
+
+		// If more than one, gets the newest
+		$pages = get_pages( array(
+			'meta_key' => '_wp_page_template',
+			'meta_value' => $template,
+			'sort_column' => 'ID',
+			'sort_order' => 'DESC',
+			'number' => 1
+		) );
+		
+		// Got one?
+		if ( ! empty( $pages[0] ) ) {
+			return $pages[0];
+		}
+		
+		*/
+		
+		// Note: the method above fails for pages that have parent(s) so using WP_Query directly
+		
+		// If more than one, gets the newest
+		$page_query = new WP_Query( array(
+			'post_type'			=> 'page',
+			'nopaging'			=> true,
+			'posts_per_page'	=> 1,
+			'meta_key' 			=> '_wp_page_template',
+			'meta_value' 		=> $template,
+			'orderby'			=> 'ID',
+			'order'				=> 'DESC'
+		) );
+		
+		// Got one?
+		if ( ! empty( $page_query->post ) ) {
+			$page = $page_query->post;
+			break; // if not check next template
+		}
+
 	}
-	
-	*/
-	
-	// Note: the method above fails for pages that have parent(s) so using WP_Query directly
-	
-	// If more than one, gets the newest
-	$page_query = new WP_Query( array(
-		'post_type'			=> 'page',
-		'nopaging'			=> true,
-		'posts_per_page'	=> 1,
-		'meta_key' 			=> '_wp_page_template',
-		'meta_value' 		=> $template,
-		'orderby'			=> 'ID',
-		'order'				=> 'DESC'
-	) );
-	
-	// Got one?
-	if ( ! empty( $page_query->post ) ) {
-		$page = $page_query->post;
-	} else {
-		$page = false;
-	}
 
-	return apply_filters( 'ctc_get_page_by_template', $page, $template );
+	return apply_filters( 'ctc_get_page_by_template', $page, $templates );
 
 }
 
 
 /**
  * Get Page ID by Template
+ * 
+ * Get newest page ID using a specific template file name.
+ * Multiple templates can be specified as array and the first match will be used.
+ * This is handy when one template rather than the usual is used for primary content.
  */
 
-function ctc_get_page_id_by_template( $template ) {
+function ctc_get_page_id_by_template( $templates ) {
 
-	$page = ctc_get_page_by_template( $template );
+	$page = ctc_get_page_by_template( $templates );
 
 	$page_id = ! empty( $page->ID ) ? $page->ID : '';
 	
-	return apply_filters( 'ctc_get_page_id_by_template', $page_id, $template );	
+	return apply_filters( 'ctc_get_page_id_by_template', $page_id, $templates );	
 
 }
 
