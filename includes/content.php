@@ -8,44 +8,94 @@
  *********************************
 
 /**
- * Theme should set content types like this:
+ * Content types
  *
- *	add_filter( 'ctc_content_types', 'ctc_set_content_types' );
- *
- *	function ctc_set_content_types() {
- *
- *		return array(
- *
- *			'sermon' => array(
- *				'post_types'		=> array( 'ccm_sermon' ),
- *				'taxonomies'		=> array( 'ccm_sermon_category', 'ccm_sermon_tag', 'ccm_sermon_speaker' ),
- *				'page_templates'	=> array( 'sermons.php' ),
- *				'conditions'		=> array(),
- *			),
- *
- *			'event' => array(
- *				'post_types'		=> array( 'ccm_event' ),
- *				'taxonomies'		=> array(),
- *				'page_templates'	=> array( 'events-upcoming.php', 'events-past.php' ),
- *				'conditions'		=> array(),
- *			),
- *
- *			// and so on...
- *
- *		);
- *		
- *	}
- */
-
-/**
- * Get content types
+ * Theme should filter ctc_content_types to add page_templates since they are theme-specific.
+ * The filter can also be used to add other content types.
  */
 
 function ctc_content_types() {
 
-	$content_types = apply_filters( 'ctc_content_types', false );
+	$content_types = array(
 
-	return apply_filters( 'ctc_get_content_types', $content_types );
+		'sermon' => array(
+			'post_types'		=> 'ccm_sermon',
+			'taxonomies'		=> array( 'ccm_sermon_category', 'ccm_sermon_tag', 'ccm_sermon_speaker' ),
+			'page_templates'	=> array(), // should be populated via ctc_content_types filter in theme
+			'conditions'		=> array(),
+		),
+
+		'event' => array(
+			'post_types'		=> array( 'ccm_event' ),
+			'taxonomies'		=> array(),
+			'page_templates'	=> array(), // should be populated via ctc_content_types filter in theme
+			'conditions'		=> array(),
+		),
+
+		'gallery' => array(
+			'post_types'		=> array( 'ccm_gallery_item' ),
+			'taxonomies'		=> array( 'ccm_gallery_album' ),
+			'page_templates'	=> array(), // should be populated via ctc_content_types filter in theme
+			'conditions'		=> array(),
+		),
+
+		'people' => array(
+			'post_types'		=> array( 'ccm_person' ),
+			'taxonomies'		=> array( 'ccm_person_group' ),
+			'page_templates'	=> array(), // should be populated via ctc_content_types filter in theme
+			'conditions'		=> array(),
+		),
+
+		'location' => array(
+			'post_types'		=> array( 'ccm_location' ),
+			'taxonomies'		=> array( 'ccm_location' ),
+			'page_templates'	=> array(), // should be populated via ctc_content_types filter in theme
+			'conditions'		=> array(),
+		),
+
+		'contact' => array(
+			'post_types'		=> array(),
+			'taxonomies'		=> array(),
+			'page_templates'	=> array(), // should be populated via ctc_content_types filter in theme
+			'conditions'		=> array(),
+		),
+
+		'blog' => array(
+			'post_types'		=> array( 'post' ),
+			'taxonomies'		=> array( 'category', 'tag' ),
+			'page_templates'	=> array(), // should be populated via ctc_content_types filter in theme
+			'conditions'		=> array( 'is_author', 'is_archive', 'is_home' ), // is_home() is "Your latest posts" on homepage or "Posts page" when static front page used
+		),
+
+		'page' => array(
+			'post_types'		=> array( 'page' ),
+			'taxonomies'		=> array(),
+			'page_templates'	=> array(), // should be populated via ctc_content_types filter in theme
+			'conditions'		=> array(),
+		),
+
+		'search' => array(
+			'post_types'		=> array(),
+			'taxonomies'		=> array(),
+			'page_templates'	=> array(), // should be populated via ctc_content_types filter in theme
+			'conditions'		=> array( 'is_search' ),
+		),
+
+	);
+
+	// Allow filtering
+	$content_types = apply_filters( 'ctc_content_types', $content_types );
+
+	// Sanitize types (particularly for filtered in data)
+	$data_keys = array( 'post_types', 'taxonomies', 'page_templates', 'conditions' );
+	foreach ( $content_types as $content_type => $content_type_data ) {
+		foreach ( $data_keys as $data_key ) {
+			$content_types[$content_type][$data_key] = isset( $content_type_data[$data_key] ) ? (array) $content_type_data[$data_key] : array(); // array if string, empty array if null
+		}
+	}
+
+	// Return
+	return $content_types;
 
 }
 
