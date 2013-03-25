@@ -169,15 +169,22 @@ function ctc_redirect_archive_to_page( $post_type, $page_template ) {
 	// Don't redirect on date archives or feeds
 	if ( is_post_type_archive( $post_type ) && ! is_year() && ! is_month() && ! is_day() && ! is_feed() ) {
 
-		// Check if a page is using sermons template
-		if ( $page = ctc_get_page_by_template( $page_template ) ) {
+		// Check if a page is using template
+		if ( $redirect_page = ctc_get_page_by_template( $page_template ) ) {
 
-			if ( ! empty( $page->ID ) ) {
+			// Found a page?
+			if ( ! empty( $redirect_page->ID ) ) {
 
-				$page_url = get_permalink( $page->ID );
+				// Don't redirect if URL is the same (post type and page have same slug); prevent infinite loop
+				$post_type_obj = get_post_type_object( $post_type );
+				if ( $redirect_page->post_name != $post_type_obj->rewrite['slug'] ) {
 
-				wp_redirect( $page_url, 301 );
-				exit;
+					$page_url = get_permalink( $redirect_page->ID );
+
+					wp_redirect( $page_url, 301 );
+					exit;
+
+				}
 
 			}
 
