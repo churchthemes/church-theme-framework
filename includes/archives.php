@@ -156,33 +156,84 @@ function ctc_post_type_get_month_link( $year, $month, $post_type = false ) {
  **********************************/
 
 /**
- * Redirect a post type archive to page using specific template
+ * Redirect post type archives to pages
  *
- * This is done only for non-date archive and avoids duplicate content.
- * The page template should output the same loop but with custom title, featured image, etc.
+ * Use add_theme_support( 'ctc-archive-redirection' ) to redirect post type archives to pages using specific page templates.
+ * Post types and page templates from ctc_content_types() are used to automate this (theme must filter page templates in).
  *
- * Run this on template_redirect hook.
+ * Page template should output same loop but with with title, featured image, etc. for nicer presentation and to avoid duplicate content.
+ * This is done only for non-date archive. Feeds are unaffected.
  */
 
-function ctc_redirect_archive_to_page( $post_type, $page_template ) {
+add_action( 'template_redirect', 'ctc_redirect_archives_to_pages' );
 
-	// Don't redirect on date archives or feeds
-	if ( is_post_type_archive( $post_type ) && ! is_year() && ! is_month() && ! is_day() && ! is_feed() ) {
+function ctc_redirect_archives_to_pages() {
 
-		// Check if a page is using template
-		if ( $redirect_page = ctc_get_page_by_template( $page_template ) ) {
+	// Theme supports this?
+	if ( ! current_theme_supports( 'ctc-archive-redirection' ) ) {
+		return false;
+	}
 
-			// Found a page?
-			if ( ! empty( $redirect_page->ID ) ) {
+	// Run only on post type archive, but not date archive or feed
+	if ( ! is_post_type_archive() || is_year() || is_month() || is_day() || is_feed() )  {
+		return false;
+	}
 
-				// Don't redirect if URL is the same (post type and page have same slug); prevent infinite loop
-				$post_type_obj = get_post_type_object( $post_type );
-				if ( $redirect_page->post_name != $post_type_obj->rewrite['slug'] ) {
+	// Get content types
+	$content_types = ctc_content_types();
 
-					$page_url = get_permalink( $redirect_page->ID );
+	// Loop content types
+	foreach( $content_types as $content_type => $content_type_data ) {
 
-					wp_redirect( $page_url, 301 );
-					exit;
+		// Get primary template for content type (first in array)
+		$page_template = ! empty( $content_type_data['page_templates'][0] ) ? $content_type_data['page_templates'][0] : false;
+
+		// Have page template
+		if ( $page_template ) {
+
+			// Get post type(s) for content type (probably just one)
+			$post_types = $content_type_data['post_types'];
+
+			// Have post types
+			if ( ! empty( $post_types ) ) {
+
+				// Loop post types
+				foreach( $post_types as $post_type ) {
+
+					// Have post type
+					if ( ! empty( $post_type ) ) {
+
+						// Only if archive is for specific post type
+						if ( is_post_type_archive( $post_type ) ) {
+
+							// Check if a page is using primary template
+							if ( $redirect_page = ctc_get_page_by_template( $page_template ) ) {
+
+								// Found a page?
+								if ( ! empty( $redirect_page->ID ) ) {
+
+									// Get page data
+									$post_type_obj = get_post_type_object( $post_type );
+
+									// Don't redirect if URL is the same (post type and page have same slug); prevent infinite loop
+									if ( $redirect_page->post_name != $post_type_obj->rewrite['slug'] ) {
+
+										// Get URL
+										$page_url = get_permalink( $redirect_page->ID );
+
+										// Go!
+										wp_redirect( $page_url, 301 );
+										exit;
+
+									}
+
+								}
+
+							}
+
+						}
+
+					}
 
 				}
 
@@ -190,18 +241,6 @@ function ctc_redirect_archive_to_page( $post_type, $page_template ) {
 
 		}
 
-	}
-
-}
-
-/**
- * Redirect post type archives to pages
- */
-
-function ctc_redirect_archives_to_pages( $redirects ) {
-
-	foreach( $redirects as $post_type => $page_template ) {
-		ctc_redirect_archive_to_page( $post_type, $page_template );
 	}
 
 }

@@ -19,7 +19,7 @@ function ctc_content_types() {
 	$content_types = array(
 
 		'sermon' => array(
-			'post_types'		=> 'ccm_sermon',
+			'post_types'		=> array( 'ccm_sermon' ),
 			'taxonomies'		=> array( 'ccm_sermon_category', 'ccm_sermon_tag', 'ccm_sermon_speaker' ),
 			'page_templates'	=> array(), // should be populated via ctc_content_types filter in theme
 			'conditions'		=> array(),
