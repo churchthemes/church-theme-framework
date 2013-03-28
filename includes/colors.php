@@ -63,32 +63,6 @@ function ctc_valid_color( $color = false ) {
 }
 
 /**
- * Check if child is overriding the active color scheme
- *
- * Used by child theme
- */
-
-function ctc_child_color_exists() {
-
-	$exists = false;
-
-	if ( ctc_valid_color() ) { // make sure active color scheme is valid as security precaution
-
-		$color = ctc_customization( 'color' );
-		$color_child_path = CTC_CHILD_PATH . '/' . CTC_COLOR_DIR . '/' . $color . '/style.css';
-	
-		if ( file_exists( $color_child_path ) ) {
-			$exists = true;
-		}
-		
-	}
-	
-	return apply_filters( 'ctc_child_color_exists', $exists );
-	
-}
-
-
-/**
  * Retrieve URL of a file in color scheme
  *
  * Checks first in child (if exists), then parent.
