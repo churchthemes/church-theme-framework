@@ -5,6 +5,10 @@
  * Image and video functions.
  */
 
+/***********************************************
+ * IMAGES
+ ***********************************************/
+
 /**
  * Enable upscaling of images
  *
@@ -47,8 +51,12 @@ function ctc_image_resize_dimensions_upscale( $output, $orig_w, $orig_h, $dest_w
 
 }
 
+/***********************************************
+ * VIDEO
+ ***********************************************/
+
 /**
- * Video
+ * Video Code
  *
  * Return YouTube or Vimeo data, ID and HTML player code based on URL
  */
@@ -125,9 +133,9 @@ function ctc_video( $video_url, $width = false, $height = false, $options = arra
 			
 		}
 		
-		// Video Container
+		// Video Wrappers
 		if ( ! empty( $video['embed_code'] ) ) {
-			$video['embed_code'] = '<div class="ctc-video-container ctc-' . $video['source'] . '-video">' . $video['embed_code'] . '</div>';
+			$video['embed_code'] = '<div class="ctc-embed"><div class="ctc-embed-inner">' . $video['embed_code'] . '</div></div>';
 		}
 	
 	}
@@ -136,3 +144,59 @@ function ctc_video( $video_url, $width = false, $height = false, $options = arra
 
 }
 
+/**
+ * Wrap WordPress Embeds for Responsive Videos
+ *
+ * Use add_theme_support( 'ctc-embed-wrapping' ) to add containers to WordPress embeds so videos can be styled responsively.
+ * See WordPress Embeds: http://codex.wordpress.org/Embeds.
+ * 
+ * You must add styles to the theme that make the embeds responsive. For example:
+ *
+ *		.ctc-embed {
+ *			max-width: 100%;
+ *			margin: 32px 0;
+ *		}
+ *
+ *			.ctc-embed-inner {
+ *				position: relative;
+ *				height: 0;
+ *				padding-bottom: 56.25%;
+ *			}
+ *
+ *				.ctc-embed iframe,
+ *				.ctc-embed embed,
+ *				.ctc-embed object {
+ *					position: absolute;
+ *					top: 0;
+ *					left: 0;
+ *					width: 100%;
+ *					height: 100%;
+ *				}
+ *
+ * You can use jQuery to add the original video width to the .ctc-embed wrapper, preventing videos from always having 100% width.
+ *
+ *		// Add original video width as max-width to .ct-embed wrapper to prevent oversized videos
+ *		$( '.ctc-embed' ).each( function() {
+ *			$( this ).css( 'width', $( 'iframe, embed, object', this ).prop( 'width' ) + 'px' );
+ *		});
+ *
+ */
+
+add_filter( 'embed_oembed_html', 'ctc_responsive_embeds', 10, 4 ); // make WordPress video embeds responsive by giving container to style	
+
+function ctc_responsive_embeds( $html, $url, $attr, $post_ID ) {
+
+	if ( current_theme_supports( 'ctc-embed-wrapping' ) ) {
+
+		// Future: could detect media source then apply class for assigning source-specific ratios
+
+		// Only certain embed types (no img)
+		if ( preg_match( '/^<(iframe|embed|object)/', $html ) ) {
+			$html = '<div class="ctc-embed"><div class="ctc-embed-inner">' . $html . '</div></div>';
+		}
+
+	}
+
+	return $html;
+
+}
