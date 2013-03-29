@@ -80,6 +80,11 @@ function ctc_restrict_sidebars_widgets( $sidebars_widgets ) {
 	// Loop sidebars
 	foreach( $sidebars_widgets as $sidebar_id => $widgets ) {
 
+		// Any widgets?
+		if ( empty( $widgets ) ) {
+			continue;
+		}
+
 		// Leave core sidebars like "Inactive" alone
 		if ( preg_match( '/^wp_/', $sidebar_id ) ) {
 			continue;
@@ -121,7 +126,10 @@ function ctc_restrict_sidebars_widgets( $sidebars_widgets ) {
 	}
 
 	// Re-index so keys are 0, 1, 2, etc. (fill in the gaps from unset)
-	$sidebars_widgets[$sidebar_id] = array_values( $sidebars_widgets[$sidebar_id] );
+	if ( isset( $sidebars_widgets[$sidebar_id] ) ) {
+		echo "test: " . $sidebar_id;
+		$sidebars_widgets[$sidebar_id] = array_values( $sidebars_widgets[$sidebar_id] );
+	}
 
 	// Return pruned array
     return $sidebars_widgets;
