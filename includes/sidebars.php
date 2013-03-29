@@ -127,7 +127,6 @@ function ctc_restrict_sidebars_widgets( $sidebars_widgets ) {
 
 	// Re-index so keys are 0, 1, 2, etc. (fill in the gaps from unset)
 	if ( isset( $sidebars_widgets[$sidebar_id] ) ) {
-		echo "test: " . $sidebar_id;
 		$sidebars_widgets[$sidebar_id] = array_values( $sidebars_widgets[$sidebar_id] );
 	}
 
