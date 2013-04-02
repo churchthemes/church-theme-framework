@@ -33,25 +33,32 @@ function ctc_sermon_date_archive( $wp_rewrite ) {
  **********************************/
 
 /**
- * Get URL of MP3, PDF, etc. and return with [upload_url] replaced
- * (useful for imported sample content)
+ * Get sermon meta data
  */
 
-function ctc_sermon_url( $post_id, $media_type ) { // audio, video or pdf
+function ctc_sermon_meta() {
 
-	// Validate type
-	$media_types = array( 'audio', 'video', 'pdf' );
-	if ( ! in_array( $media_type, $media_types ) ) {
-		return false;
+	$meta = array();
+
+	$post_id = get_the_ID();
+
+	if ( $post_id ) {
+
+		$fields = array( // without _ccm_sermon_ prefix
+			'video_url',
+			'audio_url',
+			'pdf_url',
+			'text'
+		);
+
+		foreach( $fields as $field ) {
+			$meta[$field] = get_post_meta( $post_id, '_ccm_sermon_' . $field, true );
+		}
+
 	}
 
-	// Get it
-	$url = get_post_meta( $post_id, '_ccm_sermon_' . $media_type . '_url', true );
-
-	// Return filtered
-	return apply_filters( 'ctc_sermon_url', $url, $post_id, $media_type );
+	return apply_filters( 'ctc_sermon_meta', $meta );
 
 }
-
 
 
