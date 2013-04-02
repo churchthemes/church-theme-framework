@@ -35,7 +35,7 @@ function ctc_has_more_tag() {
 
 	$has_more_tag = false;
 
-	if ( ! empty( $post->post_content ) && preg_match( '/<!--more-->/', $post->post_content ) ) {
+	if ( ! empty( $post->post_content ) && preg_match( '/<!--more(.*?)?-->/', $post->post_content ) ) {
 		$has_more_tag = true;
 	}
 
