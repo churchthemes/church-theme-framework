@@ -25,6 +25,24 @@ function ctc_is_multipage() {
 
 }
 
+/**
+ * Has <!--more--> quicktag
+ */
+
+function ctc_has_more_tag() {
+
+	global $post;
+
+	$has_more_tag = false;
+
+	if ( ! empty( $post->post_content ) && preg_match( '/<!--more-->/', $post->post_content ) ) {
+		$has_more_tag = true;
+	}
+
+	return apply_filters( 'ctc_has_more_tag', $has_more_tag );
+
+}
+
 /*******************************************
  * USERS
  *******************************************/
