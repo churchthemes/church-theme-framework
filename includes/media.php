@@ -56,33 +56,18 @@ function ctc_image_resize_dimensions_upscale( $output, $orig_w, $orig_h, $dest_w
  ***********************************************/
 
 /**
- * Video Code
+ * Video data and embed code
  *
  * Return YouTube or Vimeo data, ID and HTML player code based on URL
  */
  
-// CAN WP OEMBED HELP MAKE THIS SIMPLER?
-// CAN WP OEMBED HELP MAKE THIS SIMPLER?
-// CAN WP OEMBED HELP MAKE THIS SIMPLER?
-// CAN WP OEMBED HELP MAKE THIS SIMPLER?
-// CAN WP OEMBED HELP MAKE THIS SIMPLER?
-// CAN WP OEMBED HELP MAKE THIS SIMPLER?
+function ctc_video_data( $video_url, $width = false, $height = false, $options = array() ) {
 
-// MAKE NAME MORE DESCRIPTIVE
-// MAKE NAME MORE DESCRIPTIVE
-// MAKE NAME MORE DESCRIPTIVE
-// MAKE NAME MORE DESCRIPTIVE
-// MAKE NAME MORE DESCRIPTIVE
-
-// MAKE FILTERABLE WITH ATTS?
-// MAKE FILTERABLE WITH ATTS?
-// MAKE FILTERABLE WITH ATTS?
-// MAKE FILTERABLE WITH ATTS?
-// MAKE FILTERABLE WITH ATTS?
- 
-function ctc_video( $video_url, $width = false, $height = false, $options = array() ) {
-
-	$video = array();
+	$video_data = array(
+		'source'		=> '',
+		'video_id'		=> '',
+		'embed_code'	=> '',
+	);
 	
 	$video_url = isset( $video_url ) ? trim( $video_url ) : '';
 	
@@ -95,19 +80,19 @@ function ctc_video( $video_url, $width = false, $height = false, $options = arra
 		if ( preg_match( '/youtu/i', $video_url ) ) {
 		
 			// source
-			$video['source'] = 'youtube';
+			$video_data['source'] = 'youtube';
 			
 			// default size
 			$width = ! empty( $width ) ? $width : 560;
 			$height = ! empty( $height ) ? $height : 350;
 			
 			// video ID and embed code
-			$video['video_id'] = '';
-			$video['embed_code'] = '';
+			$video_data['video_id'] = '';
+			$video_data['embed_code'] = '';
 			preg_match( '/.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/', $video_url, $match );
 			if ( ! empty( $match[1] ) && strlen( $match[1] ) == 11 ) {
-				$video['video_id'] = $match[1];
-				$video['embed_code'] = '<iframe src="http://www.youtube.com/embed/' . $video['video_id'] . '?wmode=transparent&amp;autoplay=' . $options['autoplay'] . '&amp;rel=0&amp;showinfo=0&amp;color=white&amp;modestbranding=1" width="' . $width . '" height="' . $height . '" frameborder="0" allowfullscreen></iframe>';
+				$video_data['video_id'] = $match[1];
+				$video_data['embed_code'] = '<iframe src="http://www.youtube.com/embed/' . $video_data['video_id'] . '?wmode=transparent&amp;autoplay=' . $options['autoplay'] . '&amp;rel=0&amp;showinfo=0&amp;color=white&amp;modestbranding=1" width="' . $width . '" height="' . $height . '" frameborder="0" allowfullscreen></iframe>';
 			}				
 			
 		}
@@ -116,31 +101,31 @@ function ctc_video( $video_url, $width = false, $height = false, $options = arra
 		else if ( preg_match( '/vimeo/i', $video_url ) ) {
 		
 			// source
-			$video['source'] = 'vimeo';
+			$video_data['source'] = 'vimeo';
 			
 			// default size
 			$width = ! empty( $width ) ? $width : 500;
 			$height = ! empty( $height ) ? $height : 281;
 			
 			// video ID and embed code
-			$video['video_id'] = '';
-			$video['embed_code'] = '';
+			$video_data['video_id'] = '';
+			$video_data['embed_code'] = '';
 			preg_match( '/\d+/', $video_url, $match );
 			if ( ! empty( $match[0] ) ) {
-				$video['video_id'] = $match[0];
-				$video['embed_code'] = '<iframe src="http://player.vimeo.com/video/' . $video['video_id'] . '?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff&amp;autoplay=' . $options['autoplay'] . '" width="' . $width . '" height="' . $height . '" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
+				$video_data['video_id'] = $match[0];
+				$video_data['embed_code'] = '<iframe src="http://player.vimeo.com/video/' . $video_data['video_id'] . '?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff&amp;autoplay=' . $options['autoplay'] . '" width="' . $width . '" height="' . $height . '" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
 			}
 			
 		}
 		
 		// Video Wrappers
-		if ( ! empty( $video['embed_code'] ) ) {
-			$video['embed_code'] = '<div class="ctc-embed"><div class="ctc-embed-inner">' . $video['embed_code'] . '</div></div>';
+		if ( ! empty( $video_data['embed_code'] ) ) {
+			$video_data['embed_code'] = '<div class="ctc-embed"><div class="ctc-embed-inner">' . $video_data['embed_code'] . '</div></div>';
 		}
 	
 	}
-	
-	return $video;		
+
+	return apply_filters( 'ctc_video_data', $video_data, $video_url, $width, $height, $options );
 
 }
 
