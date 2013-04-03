@@ -61,12 +61,12 @@ function ctc_image_resize_dimensions_upscale( $output, $orig_w, $orig_h, $dest_w
  * Return YouTube or Vimeo data, ID and HTML player code based on URL
  */
  
-function ctc_video_data( $video_url, $width = false, $height = false, $options = array() ) {
+function ctc_video_data( $video_url, $options = array() ) {
 
 	$video_data = array(
 		'source'		=> '',
 		'video_id'		=> '',
-		'embed_code'	=> '',
+		'embed_code'	=> ''
 	);
 	
 	$video_url = isset( $video_url ) ? trim( $video_url ) : '';
@@ -83,8 +83,8 @@ function ctc_video_data( $video_url, $width = false, $height = false, $options =
 			$video_data['source'] = 'youtube';
 			
 			// default size
-			$width = ! empty( $width ) ? $width : 560;
-			$height = ! empty( $height ) ? $height : 350;
+			$width = ! empty( $options['width'] ) ? $options['width'] : 560;
+			$height = ! empty( $options['height'] ) ? $options['height'] : 350;
 			
 			// video ID and embed code
 			$video_data['video_id'] = '';
@@ -104,8 +104,8 @@ function ctc_video_data( $video_url, $width = false, $height = false, $options =
 			$video_data['source'] = 'vimeo';
 			
 			// default size
-			$width = ! empty( $width ) ? $width : 500;
-			$height = ! empty( $height ) ? $height : 281;
+			$width = ! empty( $options['width'] ) ? $options['width'] : 500;
+			$height = ! empty( $options['height'] ) ? $options['height'] : 281;
 			
 			// video ID and embed code
 			$video_data['video_id'] = '';
@@ -125,7 +125,7 @@ function ctc_video_data( $video_url, $width = false, $height = false, $options =
 	
 	}
 
-	return apply_filters( 'ctc_video_data', $video_data, $video_url, $width, $height, $options );
+	return apply_filters( 'ctc_video_data', $video_data, $video_url, $options );
 
 }
 
