@@ -37,6 +37,35 @@ function ctc_theme_url( $file = '' ) {
 	
 }
 
+/**
+ * Convert rewritten file upload URL to real URL
+ *
+ * When multisite used, uploaded files can be served from /files/* using mod_rewrite.
+ * This converts a URL like that to the actual file location at /wp-content/blogs.dir/files/*.
+ *
+ * Someimes a rewritten URL is not sufficient, such as with MediaElement.js in Safari (progress bar does not render).
+ */
+
+function ctc_real_file_url( $url ) {
+
+	$real_url = $url;
+
+	if ( is_multisite() ) {
+
+		$upload_dir = wp_upload_dir();
+
+		$basedir_relative = str_replace( WP_CONTENT_DIR, '', $upload_dir['basedir'] );
+
+		$baseurl_real = WP_CONTENT_URL . $basedir_relative;
+
+		$real_url = str_replace( $upload_dir['baseurl'], $baseurl_real, $url );
+
+	}
+
+	return apply_filters( 'ctc_real_file_url', $real_url, $url );
+
+}
+
 /*************************************************
  * DOWNLOADS
  *************************************************/
