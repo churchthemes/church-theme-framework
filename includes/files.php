@@ -54,11 +54,11 @@ function ctc_real_file_url( $url ) {
 
 		$upload_dir = wp_upload_dir();
 
-		$basedir_relative = str_replace( WP_CONTENT_DIR, '', $upload_dir['basedir'] );
+		$baseurl_real = str_replace( WP_CONTENT_DIR, WP_CONTENT_URL, $upload_dir['basedir'] );
 
-		$baseurl_real = WP_CONTENT_URL . $basedir_relative;
-
-		$real_url = str_replace( $upload_dir['baseurl'], $baseurl_real, $url );
+		if ( $baseurl_real != $upload_dir['basedir'] ) { // verify content URL was swapped for content dir
+			$real_url = str_replace( $upload_dir['baseurl'], $baseurl_real, $url );
+		}
 
 	}
 
