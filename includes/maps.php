@@ -1,4 +1,7 @@
 <?php
+/**
+ * Google Maps Functions
+ */
 
 /**
  * Display Google Map
@@ -49,5 +52,28 @@ HTML;
 	}
 
 	return apply_filters( 'ctc_google_map', $html, $options );
+
+}
+
+
+/**
+ * Build Google Maps directions URL from address
+ */
+
+function ctc_directions_url( $address ) {
+
+	$directions_url = '';
+
+	if ( $address ) {
+
+		// Convert address to one line (replace newlines with commas)
+		$directions_address = ctc_address_one_line( $address );
+
+		// Build URL to Google Maps
+		$directions_url = 'http://maps.google.com/maps?f=d&q=' . urlencode( $directions_address );
+
+	}
+
+	return apply_filters( 'ctc_directions_url', $directions_url, $address );
 
 }
