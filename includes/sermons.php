@@ -43,7 +43,7 @@ function ctc_sermon_data( $post_id = null ) {
 		'video_url',
 		'audio_url',
 		'pdf_url',
-		'text'
+		'has_full_text'
 	), $post_id );
 
 	// Return filtered

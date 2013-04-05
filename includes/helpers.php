@@ -116,6 +116,7 @@ function ctc_address_one_line( $address ) {
 	}
 
 	return apply_filters( 'ctc_address_one_line', $address_one_line, $address );
+
 }
 
 /**
