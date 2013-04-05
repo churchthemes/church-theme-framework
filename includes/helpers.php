@@ -100,6 +100,25 @@ function ctc_shorten( $string, $max_chars ) {
 }
 
 /**
+ * Convert address to one line
+ *
+ * It replaces line breaks with commas.
+ */
+
+function ctc_address_one_line( $address ) {
+
+	$address_one_line = $address;
+
+	if ( $address ) {
+		$address_one_line = strip_tags( $address ); // remove HTML
+		$address_one_line = str_replace( "\n", ', ', $address_one_line ); // replace line breaks with commas
+		$address_one_line = trim( $address_one_line ); // remove whitespace
+	}
+
+	return apply_filters( 'ctc_address_one_line', $address_one_line, $address );
+}
+
+/**
  * Make a Church Content Manager post type or taxonomy name friendly
  *
  * This is handy for get_template_part( 'content', ctc_make_friendly( get_post_type() ) );
