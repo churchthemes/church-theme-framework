@@ -139,7 +139,7 @@ function ctc_current_content_type() {
 
 		// Check page template
 		foreach ( $type_data['page_templates'] as $page_template ) {
-			if ( is_page_template( CTC_PAGE_TPL_DIR . '/' . $page_template ) ) {
+			if ( is_page_template( CTC_PAGE_TPL_DIR . '/' . basename( $page_template ) ) ) {
 				$current_type = $type;
 				break 2;
 			}
@@ -166,31 +166,78 @@ function ctc_current_content_type() {
  * Specify a key, such as "page_templates"; otherwise, all data is retrieved.
  */
 
-function ctc_current_content_type_data( $key = false ) {
+function ctc_content_type_data( $content_type, $key = false ) {
 
 	$data = false;
 
-	$current_type = ctc_current_content_type();
-
-	if ( $current_type ) {
+	if ( ! empty( $content_type ) ) {
 
 		$type_data = ctc_content_types();
 
-		if ( ! empty( $type_data[$current_type] ) ) {
+		if ( ! empty( $type_data[$content_type] ) ) {
 
 			if ( ! empty( $key ) ) {
-				if ( ! empty( $type_data[$current_type][$key] ) ) { // check for data
-					$data = $type_data[$current_type][$key];
+				if ( ! empty( $type_data[$content_type][$key] ) ) { // check for data
+					$data = $type_data[$content_type][$key];
 				}
 			} else { // no key given, return all
-				$data = $type_data[$current_type];
+				$data = $type_data[$content_type];
 			}
 
 		}
 
 	}
 
+	return apply_filters( 'ctc_content_type_data', $data, $content_type, $key );
+
+}
+
+/**
+ * Get data for current content type
+ *
+ * Specify a key, such as "page_templates"; otherwise, all data is retrieved.
+ */
+
+function ctc_current_content_type_data( $key = false ) {
+
+	// Get current content type
+	$content_type = ctc_current_content_type();
+
+	// Get data
+	$data = ctc_content_type_data( $content_type, $key );
+
+	// Return filterable
 	return apply_filters( 'ctc_current_content_type_data', $data, $key );
+
+}
+
+/**
+ * Get content type based on page template
+ */
+
+function ctc_content_type_by_page_template( $page_template ) {
+
+	$page_template_content_type = '';
+
+	// Prepare page template
+	$page_template = basename( $page_template ); // remove dir if has
+
+	// Get types
+	$content_types = ctc_content_types();
+
+	// Loop conent types
+	foreach ( $content_types as $content_type => $content_type_data ) {
+
+		// Check for page template
+		if ( in_array( $page_template, $content_type_data['page_templates'] ) ) {
+			$page_template_content_type = $content_type;
+			break;
+		}
+
+	}
+
+	// Return filtered
+	return apply_filters( 'ctc_content_type_by_page_template', $page_template_content_type, $page_template );
 
 }
 
