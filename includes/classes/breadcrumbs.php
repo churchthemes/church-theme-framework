@@ -99,8 +99,8 @@ class CTC_Breadcrumbs {
 					
 				}
 				
-				// Reverse parent post array and marge into main breadcrumbs
-				$this->add_breadcrumbs_array( $post_breadcrumbs, $parent_post_breadcrumbs );
+				// Reverse parent post array and merge into main breadcrumbs
+				$this->add_breadcrumbs_array( $post_breadcrumbs, array_reverse( $parent_post_breadcrumbs ) );
 				
 			}
 		

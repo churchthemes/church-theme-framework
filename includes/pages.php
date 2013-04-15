@@ -118,7 +118,6 @@ function ctc_page_options( $allow_none = true ) {
 
 }
 
-
 /**********************************
  * VALIDATION
  **********************************/
