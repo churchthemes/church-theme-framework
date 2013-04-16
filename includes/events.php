@@ -53,3 +53,32 @@ function ctc_get_events( $args = array() ) {
 	return apply_filters( 'ctc_get_events', $posts, $args );
 
 }
+
+/**
+ * Get event meta data
+ */
+
+function ctc_event_data( $post_id = null ) {
+
+	// Get meta values
+	$meta = ctc_get_meta_data( array(
+		'start_date',
+		'end_date',
+		'time',
+		'venue',
+		'address',
+		'show_directions_link',
+		'map_lat',
+		'map_lng',
+		'map_type',
+		'map_zoom'
+	), $post_id );
+
+	// Add directions URL (empty if show_directions_link not set)
+	$meta['directions_url'] = $meta['show_directions_link'] ? ctc_directions_url( $meta['address'] ) : '';
+
+	// Return filtered
+	return apply_filters( 'ctc_event_meta', $meta, $post_id );
+
+}
+
