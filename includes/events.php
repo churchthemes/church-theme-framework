@@ -74,6 +74,19 @@ function ctc_event_data( $post_id = null ) {
 		'map_zoom'
 	), $post_id );
 
+	// Add friendly date
+	$date_format = get_option( 'date_format' );
+	if ( $meta['end_date'] != $meta['start_date'] ) { // date range
+		/* translators: date range */
+		$meta['date'] = sprintf(
+			__( '%s &ndash; %s', 'church-theme' ),
+			date_i18n( $date_format, strtotime( $meta['start_date'] ) ),
+			date_i18n( $date_format, strtotime( $meta['end_date'] ) )
+		);
+	} else { // start date only
+		$meta['date'] = date_i18n( $date_format, strtotime( $meta['start_date'] ) );
+	}
+
 	// Add directions URL (empty if show_directions_link not set)
 	$meta['directions_url'] = $meta['show_directions_link'] ? ctc_directions_url( $meta['address'] ) : '';
 
