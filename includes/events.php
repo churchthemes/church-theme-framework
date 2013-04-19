@@ -95,3 +95,125 @@ function ctc_event_data( $post_id = null ) {
 
 }
 
+/**********************************
+ * NAVIGATION
+ **********************************/
+
+/**
+ * Prev/Next Event Sorting
+ * 
+ * This makes get_previous_post() and get_next_post() sort by event Start Date instead of Publish Date
+ */
+
+add_action( 'wp', 'ctc_previous_next_event_sorting' ); // is_singular() not available until wp action (after posts_selection)
+
+function ctc_previous_next_event_sorting() {
+
+	// While on single event, if theme supports Events from Church Content Manager
+	if ( is_singular( 'ccm_event' ) && current_theme_supports( 'ccm-events' ) ) {
+
+		// SQL JOIN
+		add_filter( 'get_previous_post_join', 'ctc_previous_next_event_join' );
+		add_filter( 'get_next_post_join', 'ctc_previous_next_event_join' );
+
+		// SQL WHERE
+		add_filter( 'get_previous_post_where', 'ctc_previous_event_where' );
+		add_filter( 'get_next_post_where', 'ctc_next_event_where' );
+
+		// SQL ORDER BY
+		add_filter( 'get_previous_post_sort', 'ctc_previous_event_sort' );
+		add_filter( 'get_next_post_sort', 'ctc_next_event_sort' );
+
+	}
+
+}
+
+/**
+ * SQL JOIN for Prev/Next Event
+ *
+ * Get events meta for WHERE and ORDER BY to use.
+ */
+
+function ctc_previous_next_event_join( $join ) {
+
+	global $wpdb;
+
+	return "INNER JOIN $wpdb->postmeta pm ON pm.post_id = p.ID";
+
+}
+
+/**
+ * SQL WHERE for Prev/Next Event
+ */
+
+function ctc_previous_next_event_where( $direction ) {
+
+	global $wpdb;
+
+	// Start Date meta
+	$meta_key = '_ccm_event_start_date';
+	$meta_value = get_post_meta( get_the_ID(), '_ccm_event_start_date', true );
+
+	// Direction
+	if ( 'previous' == $direction ) {
+		$op = '<';
+	} else {
+		$op = '>';
+	}
+
+	// SQL WHERE
+	// Note that Start Date is not a unique value, so in that case sorting by ID is also done.
+	// Otherwise events with same date would get skipped over. More details: http://bit.ly/15pUv2j
+	$where = $wpdb->prepare(
+		"WHERE
+			pm.meta_key = %s
+			AND (
+				(
+					pm.meta_value = %s
+					AND p.ID $op %d
+				)
+				OR pm.meta_value $op %s
+			)
+			AND p.post_type = %s
+			AND p.post_status = 'publish'
+		",
+		$meta_key,
+		$meta_value,
+		get_the_ID(),
+		$meta_value,
+		get_post_type()
+	);
+
+	return $where;
+
+}
+
+function ctc_previous_event_where( $where ) {
+
+	return ctc_previous_next_event_where( 'previous' );
+
+}
+
+
+function ctc_next_event_where( $where ) {
+
+	return ctc_previous_next_event_where( 'next' );
+
+}
+
+/**
+ * SQL ORDER BY for Prev/Next Event
+ */
+
+function ctc_previous_event_sort( $sort ) {
+
+	return "ORDER BY pm.meta_value DESC, p.ID DESC LIMIT 1";
+
+}
+
+
+function ctc_next_event_sort( $sort ) {
+
+	return "ORDER BY pm.meta_value ASC, p.ID ASC LIMIT 1";
+
+}
