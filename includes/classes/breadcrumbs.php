@@ -59,8 +59,6 @@ class CTC_Breadcrumbs {
 
 	function post_breadcrumbs( $post_id, $options = array() ) {
 
-		global $post;
-
 		// Default options
 		$defaults = array(
 			'shorten'			=> 30,		// shorten post titles
