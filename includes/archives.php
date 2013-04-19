@@ -10,7 +10,7 @@
 /**
  * Custom Post Type Date Archive Setup
  * 
- * At time of making, WordPress (3.5 and possibly later) does not support dated archives for custom post types as it does for standard posts.
+ * At time of making, WordPress (3.6 and possibly later) does not support dated archives for custom post types as it does for standard posts.
  * This injects rules so that URL's like /cpt/2012/05 can be used with the custom post type archive template.
  * 
  * Note: resave permalinks if ever change this
