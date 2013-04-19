@@ -59,6 +59,22 @@ function ctc_has_content() {
 
 }
 
+/**
+ * Has Excerpt
+ */
+
+function ctc_has_excerpt() {
+
+	$has_excerpt = false;
+
+	if ( trim( strip_tags( get_the_excerpt() ) ) ) {
+		$has_excerpt = true;
+	}
+
+	return apply_filters( 'ctc_has_excerpt', $has_excerpt );
+
+}
+
 /*******************************************
  * USERS
  *******************************************/
