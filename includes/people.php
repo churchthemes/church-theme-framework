@@ -18,7 +18,7 @@ function ctc_person_data( $post_id = null ) {
 		'position',
 		'phone',
 		'email',
-		'profile_urls',
+		'urls',
 	), $post_id );
 
 	// Return filtered
