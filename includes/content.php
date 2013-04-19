@@ -32,13 +32,6 @@ function ctc_content_types() {
 			'conditions'		=> array(),
 		),
 
-		'gallery' => array(
-			'post_types'		=> array( 'ccm_gallery_item' ),
-			'taxonomies'		=> array( 'ccm_gallery_album' ),
-			'page_templates'	=> array(), // should be populated via ctc_content_types filter in theme
-			'conditions'		=> array(),
-		),
-
 		'people' => array(
 			'post_types'		=> array( 'ccm_person' ),
 			'taxonomies'		=> array( 'ccm_person_group' ),
