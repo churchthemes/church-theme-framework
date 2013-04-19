@@ -123,7 +123,7 @@ function ctc_address_one_line( $address ) {
  * Make a Church Content Manager post type or taxonomy name friendly
  *
  * This is handy for get_template_part( 'content', ctc_make_friendly( get_post_type() ) );
- * which produces content-gallery-item.php instead of content-ccm_gallery_item.php
+ * which produces content-post-type.php instead of content-ccm_post_type.php
  */
 
 function ctc_make_friendly( $string ) {
