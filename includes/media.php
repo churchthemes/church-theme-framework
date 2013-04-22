@@ -52,6 +52,27 @@ function ctc_image_resize_dimensions_upscale( $output, $orig_w, $orig_h, $dest_w
 }
 
 /***********************************************
+ * IMAGES
+ ***********************************************/
+
+/**
+ * Remove prepend_attachment content filter
+ *
+ * WordPress does this when an attachment template is used (images.php, attachment.php, etc.)
+ * Do the same thing automatically when content-attachment.php is used.
+ */
+
+add_filter( 'get_template_part_content', 'ctc_remove_prepend_attachment', 10, 2 );
+
+function ctc_remove_prepend_attachment( $slug, $name ) {
+
+	if ( 'attachment' == $name ) {
+		remove_filter( 'the_content', 'prepend_attachment' );
+	}
+
+}
+
+/***********************************************
  * VIDEO
  ***********************************************/
 
