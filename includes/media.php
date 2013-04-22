@@ -51,9 +51,34 @@ function ctc_image_resize_dimensions_upscale( $output, $orig_w, $orig_h, $dest_w
 
 }
 
-/***********************************************
- * IMAGES
- ***********************************************/
+/**
+ * Make gallery shortcode use rectangular size by default
+ *
+ * Otherwise, it uses 'thumbnail' size as defined in Settings > Media, which by default is square.
+ */
+
+add_filter( 'shortcode_atts_gallery', 'ctc_gallery_thumb_size', 10, 3 );
+
+function ctc_gallery_thumb_size( $out, $pairs, $atts ) {
+
+	// Always use size specifically set on shortcode
+	if ( ! empty( $atts['size'] ) ) {
+		return $out;
+	}
+
+	// Use custom size only if theme supports it
+	if ( $support = get_theme_support( 'ctc-gallery-thumb-size' ) ) { // returns false if feature not supported
+
+		// Use custom size
+		if ( ! empty( $support[0] ) ) {
+			$out['size'] = $support[0];
+		}
+
+	}
+
+	return $out;
+
+}
 
 /**
  * Remove prepend_attachment content filter
