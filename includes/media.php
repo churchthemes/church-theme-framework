@@ -55,13 +55,24 @@ function ctc_image_resize_dimensions_upscale( $output, $orig_w, $orig_h, $dest_w
  * Make gallery shortcode use rectangular size by default
  *
  * Otherwise, it uses 'thumbnail' size as defined in Settings > Media, which by default is square.
+ *
+ * Basic usage:
+ *
+ * 		add_theme_support( 'ctc-gallery-thumb-size', 'custom-size' );
+ *
+ * Column-specific usage:
+ *
+ *		add_theme_support( 'ctc-gallery-thumb-size', array(
+ *			'1' => 'large',					// use this size when 1 column
+ *			'2' => 'custom-size',	 		// use this size when 2 columns
+ *			'3' => 'another-custom-size', 	// use this size when 3 columns
+ *			'9' => 'other-custom-size',  	// use this size when any other number of columns used
+ *		) );
  */
 
 add_filter( 'shortcode_atts_gallery', 'ctc_gallery_thumb_size', 10, 3 );
 
 function ctc_gallery_thumb_size( $out, $pairs, $atts ) {
-
-
 
 	// Always use size specifically set on shortcode
 	if ( ! empty( $atts['size'] ) ) {
@@ -69,7 +80,7 @@ function ctc_gallery_thumb_size( $out, $pairs, $atts ) {
 	}
 
 	// Use custom size only if theme supports it
-	if ( $support = get_theme_support( 'ctc-gallery-thumb-sizes' ) ) { // returns false if feature not supported
+	if ( $support = get_theme_support( 'ctc-gallery-thumb-size' ) ) { // returns false if feature not supported
 
 		// Use custom size based on column
 		if ( ! empty( $support[0] ) ) {
@@ -82,12 +93,21 @@ function ctc_gallery_thumb_size( $out, $pairs, $atts ) {
 			}
 
 			// Sizes for different columns specified
-			krsort( $sizes ); // sort highest column to lowest
-			$columns = ! empty( $atts['columns'] ) ? $atts['columns'] : $pairs['columns']; // number of columns showing based on shortcode attribute or default
-			foreach ( $sizes as $size_column => $size ) {
-				if ( $columns <= $size_column ) {
-					$out['size'] = $size;
+			else {
+
+				// Sort highest column to lowest
+				krsort( $sizes );
+
+				// Number of columns showing based on shortcode attribute or default
+				$columns = ! empty( $atts['columns'] ) ? $atts['columns'] : $pairs['columns'];
+
+				// Loop sizes to set most appropriate
+				foreach ( $sizes as $size_column => $size ) {
+					if ( $columns <= $size_column ) {
+						$out['size'] = $size;
+					}
 				}
+
 			}
 
 		}
