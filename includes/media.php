@@ -81,6 +81,23 @@ function ctc_gallery_thumb_size( $out, $pairs, $atts ) {
 }
 
 /**
+ * Remove default gallery styles
+ *
+ * WordPress injects <style> with gallery styles in shortcode output.
+ * It is better to do all styling in style.css.
+ */
+
+add_filter( 'init', 'ctc_remove_gallery_styles' );
+
+function ctc_remove_gallery_styles() {
+
+	if ( current_theme_supports( 'ctc-remove-gallery-styles' ) ) {
+		add_filter( 'use_default_gallery_style', '__return_false' );
+	}
+
+}
+
+/**
  * Remove prepend_attachment content filter
  *
  * WordPress does this when an attachment template is used (images.php, attachment.php, etc.)
