@@ -59,6 +59,8 @@ class CTC_Breadcrumbs {
 
 	function post_breadcrumbs( $post_id, $options = array() ) {
 
+		global $post;
+
 		// Default options
 		$defaults = array(
 			'shorten'			=> 30,		// shorten post titles
@@ -445,6 +447,9 @@ class CTC_Breadcrumbs {
 			$string .= '</div>';
 
 		}
+
+		// Restore original $post data for proper code execution after breadcrumbs
+		wp_reset_postdata();
 
 		return apply_filters( 'ctc_breadcrumbs_string', $string );
 
