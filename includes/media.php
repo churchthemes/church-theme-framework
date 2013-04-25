@@ -187,6 +187,7 @@ function ctc_gallery_pages( $options = array() ) {
 		),
 		'orderby'		=> $options['orderby'],
 		'order'			=> $options['order'],
+		'no_found_rows'		=> true // faster
 	) );
 
 	// Narrow to those having gallery shortcode
@@ -201,6 +202,24 @@ function ctc_gallery_pages( $options = array() ) {
 
 	// Return filterable
 	return apply_filters( 'ctc_gallery_pages', $gallery_pages, $options );
+
+}
+
+/**
+ * Get Gallery Page IDs
+ */
+
+function ctc_gallery_page_ids() {
+
+	$ids = array();
+
+	$gallery_pages = ctc_gallery_pages();
+
+	foreach ( $gallery_pages as $page ) {
+		$ids[] = $page->ID;
+	}
+
+	return apply_filters( 'ctc_gallery_page_ids', $ids );
 
 }
 
