@@ -140,6 +140,8 @@ function ctc_remove_gallery_styles() {
  *
  * WordPress does this when an attachment template is used (images.php, attachment.php, etc.)
  * Do the same thing automatically when content-attachment.php is used.
+ *
+ * This keeps the_content() from outputting a thumbnail or link to file.
  */
 
 add_filter( 'get_template_part_content', 'ctc_remove_prepend_attachment', 10, 2 );
@@ -149,6 +151,56 @@ function ctc_remove_prepend_attachment( $slug, $name ) {
 	if ( 'attachment' == $name ) {
 		remove_filter( 'the_content', 'prepend_attachment' );
 	}
+
+}
+
+/**
+ * Get Gallery Pages
+ *
+ * This gets all pages that have a gallery.
+ */
+
+function ctc_gallery_pages( $options = array() ) {
+
+	// Defaults
+	$options = wp_parse_args( $options, array(
+		'orderby'		=> 'title',
+		'order'			=> 'ASC'
+	) );
+
+	// Get gallery page template(s)
+	$page_templates = ctc_content_type_data( 'gallery', 'page_templates' );
+	foreach ( $page_templates as $page_template_key => $page_template ) { // prepend page templates dir to each
+		$page_templates[$page_template_key] = CTC_PAGE_TPL_DIR . '/' . $page_template;
+	}
+
+	// Get pages using a gallery template
+	$pages_query = new WP_Query( array(
+		'post_type'		=> 'page',
+		'nopaging'		=> true,
+		'meta_query'	=> array(
+			array(
+	        	'key' => '_wp_page_template',
+	        	'value' => $page_templates,
+	        	'compare' => 'IN',
+			)
+		),
+		'orderby'		=> $options['orderby'],
+		'order'			=> $options['order'],
+	) );
+
+	// Narrow to those having gallery shortcode
+	$gallery_pages = array();
+	if ( ! empty( $pages_query->posts ) ) {
+		foreach ( $pages_query->posts as $page ) {
+			if ( strpos( $page->post_content, '[gallery' ) !== false ) { // check if has [gallery] shortcode
+				$gallery_pages[] = $page;
+			}
+		}
+	}
+
+	// Return filterable
+	return apply_filters( 'ctc_gallery_pages', $gallery_pages, $options );
 
 }
 
