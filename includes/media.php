@@ -165,7 +165,8 @@ function ctc_gallery_pages( $options = array() ) {
 	// Defaults
 	$options = wp_parse_args( $options, array(
 		'orderby'		=> 'title',
-		'order'			=> 'ASC'
+		'order'			=> 'ASC',
+		'image_ids'		=> true
 	) );
 
 	// Get gallery page template(s)
@@ -190,14 +191,91 @@ function ctc_gallery_pages( $options = array() ) {
 		'no_found_rows'		=> true // faster
 	) );
 
-	// Narrow to those having gallery shortcode
+	// Narrow to those having gallery shortcode, compile gallery data
+	$pattern = get_shortcode_regex();
 	$gallery_pages = array();
 	if ( ! empty( $pages_query->posts ) ) {
+
+		// Loop pages
 		foreach ( $pages_query->posts as $page ) {
-			if ( strpos( $page->post_content, '[gallery' ) !== false ) { // check if has [gallery] shortcode
-				$gallery_pages[] = $page;
+
+			// Continue only if has [gallery] shortcode(s)
+			if ( preg_match_all( '/'. $pattern . '/s', $page->post_content, $matches ) && array_key_exists( 2, $matches ) && in_array( 'gallery', $matches[2] ) ) {
+
+				$ids = array();
+				$all_attached_images = false;
+
+				// Get the gallery IDs
+				if ( $options['image_ids'] ) {
+
+					// Loop shortcodes found
+					foreach ( $matches[2] as $key => $shortcode_name ) {
+
+						// Is it a gallery shortcode?
+						if ( 'gallery' == $shortcode_name ) {
+
+							// Get attributes
+							$attributes = shortcode_parse_atts( $matches[3][$key] ); // convert string to array
+
+							// Get IDs from attribute, if any
+							$extracted_ids = array();
+							if ( ! empty( $attributes['ids'] ) ) {
+
+								// Convert ID list to array
+								$extracted_ids = explode( ',', $attributes['ids'] );
+
+								// Clean up
+								$extracted_ids = array_map( 'trim', $extracted_ids ); // Trim all ID's (in case "1, 2, 3" instead of "1,2,3")
+								$extracted_ids = array_filter( $extracted_ids ); // Remove empty values (ie. ",1, ,2")
+
+							}
+
+							// No IDs attribute found in shortcode or it was empty
+							// In that case, shortcode shows all attached images, so get them here
+							if ( empty( $extracted_ids ) && empty( $all_attached_images ) ) {
+
+								// Don't run more than once per page
+								$all_attached_images = true;
+
+								// Get all attached images for this page
+								$images = get_children( array(
+									'post_parent' => $page->ID,
+									'post_type' => 'attachment',
+									'post_status' => 'inherit', // for attachments
+									'post_mime_type' => 'image',
+									'numberposts' => -1 // all
+								) ) ;
+
+								// Found some?
+								if ( ! empty( $images ) ) {
+									$extracted_ids = array_keys( $images );
+								}
+
+							}
+
+							// Add ID's from this shortcode to array for page
+							if ( ! empty( $extracted_ids ) ) {
+								$ids = array_merge( $ids, $extracted_ids );
+							}
+
+						}
+
+					}
+
+					// Remove duplicates
+					$ids = array_unique( $ids ); // Remove duplicates
+
+				}
+
+				// Add page data to array
+				$gallery_pages[$page->ID]['page'] = $page;
+				$gallery_pages[$page->ID]['image_ids'] = $ids;
+				$gallery_pages[$page->ID]['image_count'] = count( $ids );
+
 			}
+
 		}
+
 	}
 
 	// Return filterable
@@ -213,10 +291,10 @@ function ctc_gallery_page_ids() {
 
 	$ids = array();
 
-	$gallery_pages = ctc_gallery_pages();
+	$gallery_pages = ctc_gallery_pages( array( 'image_ids' => false ) );
 
-	foreach ( $gallery_pages as $page ) {
-		$ids[] = $page->ID;
+	foreach ( $gallery_pages as $page_id => $page_data ) {
+		$ids[] = $page_id;
 	}
 
 	return apply_filters( 'ctc_gallery_page_ids', $ids );
