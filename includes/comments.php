@@ -20,3 +20,59 @@ function ctc_comment( $comment, $args, $depth ) {
 	}
 
 }
+
+/**
+ * Attachment inherit discussion status
+ * 
+ * add_theme_support( 'ctc-attachment-inherit-discussion' ) will cause all attachments to use the comment
+ * and ping settings from the parent item. If file is not attached to a post/page, discussions will be turned off.
+ */
+
+add_filter( 'comments_open', 'ctc_attachment_inherit_comment_status', 10 , 2 );
+
+function ctc_attachment_inherit_comment_status( $open, $post_id ) {
+
+	return ctc_attachment_inherit_discussion_status( 'comment', $open, $post_id );
+
+}
+
+add_filter( 'pings_open', 'ctc_attachment_inherit_ping_status', 10 , 2 );
+
+function ctc_attachment_inherit_ping_status( $open, $post_id ) {
+
+	return ctc_attachment_inherit_discussion_status( 'ping', $open, $post_id );
+
+}
+
+function ctc_attachment_inherit_discussion_status( $type, $open, $post_id ) {
+
+	// Theme supports this
+	if ( current_theme_supports( 'ctc-attachment-inherit-discussion' ) ) {
+
+		// Affect attachments only
+		$post = get_post( $post_id );
+		if ( 'attachment' == $post->post_type ) {
+
+			// Has parent? Use its status
+			if ( ! empty( $post->post_parent ) ) { // not 0
+
+				$parent_post = get_post( $post->post_parent );
+
+				$key = $type . '_status'; // comment_status or ping_status
+				$open = 'open' == $parent_post->$key ? true : false;
+
+			}
+
+			// No parent - comments off
+			else {
+				$open = false;
+			}
+
+		}
+
+	}
+
+	// Return changed or original status
+	return $open;
+
+}
