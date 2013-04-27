@@ -161,30 +161,6 @@ class CTC_Widget_Galleries extends CTC_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
-			// Hierarchy
-			'show_hierarchy' => array(
-				'name'				=> '',
-				'after_name'		=> '', // (Optional), (Required), etc.
-				'desc'				=> '',
-				'type'				=> 'checkbox', // text, textarea, checkbox, radio, select, number, url, image
-				'radio_inline'		=> false, // show radio inputs inline or on top of each other
-				'number_min'		=> '', // lowest possible value for number type
-				'number_max'		=> '', // highest possible value for number type
-				'checkbox_label'	=> _x( 'Show hierarchy', 'galleries widget', 'church-theme' ), //show text after checkbox
-				'options'			=> array(), // array of keys/values for radio or select
-				'default'			=> true, // value to pre-populate option with (before first save or on reset)
-				'no_empty'			=> false, // if user empties value, force default to be saved instead
-				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
-				'attributes'		=> array(), // attributes to add to input element
-				'class'				=> '', // class(es) to add to input
-				'field_attributes'	=> array(), // attr => value array for field container
-				'field_class'		=> 'ctc-widget-no-bottom-margin', // class(es) to add to field container
-				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
-				'custom_field'		=> '', // function for custom display of field input
-				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
-				'taxonomies'		=> array(), // hide field if taxonomies are not supported
-			),
 
 		);
 		
