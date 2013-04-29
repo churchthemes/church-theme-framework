@@ -54,7 +54,8 @@ class CTC_Widget_Posts extends CTC_Widget {
 				'field_attributes'	=> array(), // attr => value array for field container
 				'field_class'		=> '', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
-				'custom_field'		=> '', // function for custom display of field input (or array( &$this, 'method' ))
+				'custom_field'		=> '', // function for custom display of field input
+				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			);
 			*/
@@ -78,7 +79,34 @@ class CTC_Widget_Posts extends CTC_Widget {
 				'field_attributes'	=> array(), // attr => value array for field container
 				'field_class'		=> '', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
-				'custom_field'		=> '', // function for custom display of field input (or array( &$this, 'method' ))
+				'custom_field'		=> '', // function for custom display of field input
+				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
+				'taxonomies'		=> array(), // hide field if taxonomies are not supported
+			),
+
+			// Category
+			'category' => array(
+				'name'				=> _x( 'Category', 'posts widget', 'church-theme' ),
+				'after_name'		=> '', // (Optional), (Required), etc.
+				'desc'				=> '',
+				'type'				=> 'select', // text, textarea, checkbox, radio, select, number, url, image
+				'checkbox_label'	=> '', //show text after checkbox
+				'radio_inline'		=> false, // show radio inputs inline or on top of each other
+				'number_min'		=> '', // lowest possible value for number type
+				'number_max'		=> '', // highest possible value for number type
+				'options'			=> ctc_term_options( 'category', array( // array of keys/values for radio or select
+					'all' => _x( 'All Categories', 'posts widget', 'church-theme' )
+				) ),
+				'default'			=> 'all', // value to pre-populate option with (before first save or on reset)
+				'no_empty'			=> true, // if user empties value, force default to be saved instead
+				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
+				'attributes'		=> array(), // attributes to add to input element
+				'class'				=> '', // class(es) to add to input
+				'field_attributes'	=> array(), // attr => value array for field container
+				'field_class'		=> '', // class(es) to add to field container
+				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
+				'custom_field'		=> '', // function for custom display of field input
+				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 			
@@ -105,7 +133,8 @@ class CTC_Widget_Posts extends CTC_Widget {
 				'field_attributes'	=> array(), // attr => value array for field container
 				'field_class'		=> 'ctc-widget-no-bottom-margin', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
-				'custom_field'		=> '', // function for custom display of field input (or array( &$this, 'method' ))
+				'custom_field'		=> '', // function for custom display of field input
+				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 			
@@ -131,7 +160,8 @@ class CTC_Widget_Posts extends CTC_Widget {
 				'field_attributes'	=> array(), // attr => value array for field container
 				'field_class'		=> '', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
-				'custom_field'		=> '', // function for custom display of field input (or array( &$this, 'method' ))
+				'custom_field'		=> '', // function for custom display of field input
+				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 			
@@ -154,7 +184,8 @@ class CTC_Widget_Posts extends CTC_Widget {
 				'field_attributes'	=> array(), // attr => value array for field container
 				'field_class'		=> '', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
-				'custom_field'		=> '', // function for custom display of field input (or array( &$this, 'method' ))
+				'custom_field'		=> '', // function for custom display of field input
+				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 
@@ -177,7 +208,8 @@ class CTC_Widget_Posts extends CTC_Widget {
 				'field_attributes'	=> array(), // attr => value array for field container
 				'field_class'		=> 'ctc-widget-no-bottom-margin', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
-				'custom_field'		=> '', // function for custom display of field input (or array( &$this, 'method' ))
+				'custom_field'		=> '', // function for custom display of field input
+				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 
@@ -200,7 +232,8 @@ class CTC_Widget_Posts extends CTC_Widget {
 				'field_attributes'	=> array(), // attr => value array for field container
 				'field_class'		=> 'ctc-widget-no-bottom-margin', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
-				'custom_field'		=> '', // function for custom display of field input (or array( &$this, 'method' ))
+				'custom_field'		=> '', // function for custom display of field input
+				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 			
@@ -223,7 +256,8 @@ class CTC_Widget_Posts extends CTC_Widget {
 				'field_attributes'	=> array(), // attr => value array for field container
 				'field_class'		=> 'ctc-widget-no-bottom-margin', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
-				'custom_field'		=> '', // function for custom display of field input (or array( &$this, 'method' ))
+				'custom_field'		=> '', // function for custom display of field input
+				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 			
@@ -246,7 +280,8 @@ class CTC_Widget_Posts extends CTC_Widget {
 				'field_attributes'	=> array(), // attr => value array for field container
 				'field_class'		=> 'ctc-widget-no-bottom-margin', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
-				'custom_field'		=> '', // function for custom display of field input (or array( &$this, 'method' ))
+				'custom_field'		=> '', // function for custom display of field input
+				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 
@@ -265,12 +300,20 @@ class CTC_Widget_Posts extends CTC_Widget {
 	 
 	function ctc_get_posts() {
 
+		// Base arguments
+		$args = array(
+			'orderby'         	=> $this->ctc_instance['orderby'],
+			'order'           	=> $this->ctc_instance['order'],
+			'numberposts'     	=> $this->ctc_instance['limit'],
+		);
+
+		// Group argument
+		if ( 'all' != $this->ctc_instance['category'] ) {
+			$args['category'] = $this->ctc_instance['category']; // ID
+		}
+
 		// Get posts
-		$posts = get_posts( array(
-			'orderby'         => $this->ctc_instance['orderby'],
-			'order'           => $this->ctc_instance['order'],
-			'numberposts'     => $this->ctc_instance['limit'],
-		) );
+		$posts = get_posts( $args );
 			
 		// Return filtered
 		return apply_filters( 'ctc_posts_widget_get_posts', $posts );

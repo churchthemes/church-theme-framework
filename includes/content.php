@@ -46,6 +46,13 @@ function ctc_content_types() {
 			'conditions'		=> array(),
 		),
 
+		'gallery' => array(
+			'post_types'		=> array(),
+			'taxonomies'		=> array(),
+			'page_templates'	=> array(), // should be populated via ctc_content_types filter in theme
+			'conditions'		=> array(),
+		),
+
 		'contact' => array(
 			'post_types'		=> array(),
 			'taxonomies'		=> array(),
@@ -112,8 +119,16 @@ function ctc_current_content_type() {
 
 		// Check attachment parent post type
 		if ( is_attachment() && ! empty( $post->post_parent ) && ! empty( $type_data['post_types'] ) && in_array( get_post_type( $post->post_parent ), $type_data['post_types'] ) ) {
+
 			$current_type = $type;
+
+			// If parent is a page, base its type on the template it uses
+			if ( 'page' == $type && $parent_page_template_type = ctc_content_type_by_page_template( get_post_meta( $post->post_parent, '_wp_page_template', true ) ) ) {
+				$current_type = $parent_page_template_type;
+			}
+
 			break;
+
 		}
 
 		// Check post type

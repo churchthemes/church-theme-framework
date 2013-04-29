@@ -51,6 +51,258 @@ function ctc_image_resize_dimensions_upscale( $output, $orig_w, $orig_h, $dest_w
 
 }
 
+/**
+ * Make gallery shortcode use rectangular size by default
+ *
+ * Otherwise, it uses 'thumbnail' size as defined in Settings > Media, which by default is square.
+ *
+ * Basic usage:
+ *
+ * 		add_theme_support( 'ctc-gallery-thumb-size', 'custom-size' );
+ *
+ * Column-specific usage:
+ *
+ *		add_theme_support( 'ctc-gallery-thumb-size', array(
+ *			'1' => 'large',					// use this size when 1 column
+ *			'2' => 'custom-size',	 		// use this size when 2 columns
+ *			'3' => 'another-custom-size', 	// use this size when 3 columns
+ *			'9' => 'other-custom-size',  	// use this size when any other number of columns used
+ *		) );
+ */
+
+add_filter( 'shortcode_atts_gallery', 'ctc_gallery_thumb_size', 10, 3 );
+
+function ctc_gallery_thumb_size( $out, $pairs, $atts ) {
+
+	// Always use size specifically set on shortcode
+	if ( ! empty( $atts['size'] ) ) {
+		return $out;
+	}
+
+	// Use custom size only if theme supports it
+	if ( $support = get_theme_support( 'ctc-gallery-thumb-size' ) ) { // returns false if feature not supported
+
+		// Use custom size based on column
+		if ( ! empty( $support[0] ) ) {
+
+			$sizes = $support[0];
+
+			// Single size specified
+			if ( ! is_array( $sizes ) ) {
+				$out['size'] = $sizes;
+			}
+
+			// Sizes for different columns specified
+			else {
+
+				// Sort highest column to lowest
+				krsort( $sizes );
+
+				// Number of columns showing based on shortcode attribute or default
+				$columns = ! empty( $atts['columns'] ) ? $atts['columns'] : $pairs['columns'];
+
+				// Loop sizes to set most appropriate
+				foreach ( $sizes as $size_column => $size ) {
+					if ( $columns <= $size_column ) {
+						$out['size'] = $size;
+					}
+				}
+
+			}
+
+		}
+
+	}
+
+	return $out;
+
+}
+
+/**
+ * Remove default gallery styles
+ *
+ * WordPress injects <style> with gallery styles in shortcode output.
+ * It is better to do all styling in style.css.
+ */
+
+add_filter( 'init', 'ctc_remove_gallery_styles' );
+
+function ctc_remove_gallery_styles() {
+
+	if ( current_theme_supports( 'ctc-remove-gallery-styles' ) ) {
+		add_filter( 'use_default_gallery_style', '__return_false' );
+	}
+
+}
+
+/**
+ * Remove prepend_attachment content filter
+ *
+ * WordPress does this when an attachment template is used (images.php, attachment.php, etc.)
+ * Do the same thing automatically when content-attachment.php is used.
+ *
+ * This keeps the_content() from outputting a thumbnail or link to file.
+ */
+
+add_filter( 'get_template_part_content', 'ctc_remove_prepend_attachment', 10, 2 );
+
+function ctc_remove_prepend_attachment( $slug, $name ) {
+
+	if ( 'attachment' == $name ) {
+		remove_filter( 'the_content', 'prepend_attachment' );
+	}
+
+}
+
+/**
+ * Get Gallery Pages
+ *
+ * This gets all pages that have a gallery.
+ */
+
+function ctc_gallery_pages( $options = array() ) {
+
+	// Defaults
+	$options = wp_parse_args( $options, array(
+		'orderby'		=> 'title',
+		'order'			=> 'ASC',
+		'image_ids'		=> true,
+		'post_id'		=> ''
+	) );
+
+	// Get gallery page template(s)
+	$page_templates = ctc_content_type_data( 'gallery', 'page_templates' );
+	foreach ( $page_templates as $page_template_key => $page_template ) { // prepend page templates dir to each
+		$page_templates[$page_template_key] = CTC_PAGE_TPL_DIR . '/' . $page_template;
+	}
+
+	// Get pages using a gallery template
+	$pages_query = new WP_Query( array(
+		'p'				=> $options['post_id'], // if getting one
+		'post_type'		=> 'page',
+		'nopaging'		=> true,
+		'meta_query'	=> array(
+			array(
+	        	'key' => '_wp_page_template',
+	        	'value' => $page_templates,
+	        	'compare' => 'IN',
+			)
+		),
+		'orderby'		=> $options['orderby'],
+		'order'			=> $options['order'],
+		'no_found_rows'		=> true // faster
+	) );
+
+	// Narrow to those having gallery shortcode, compile gallery data
+	$pattern = get_shortcode_regex();
+	$gallery_pages = array();
+	if ( ! empty( $pages_query->posts ) ) {
+
+		// Loop pages
+		foreach ( $pages_query->posts as $page ) {
+
+			// Continue only if has [gallery] shortcode(s)
+			if ( preg_match_all( '/'. $pattern . '/s', $page->post_content, $matches ) && array_key_exists( 2, $matches ) && in_array( 'gallery', $matches[2] ) ) {
+
+				$ids = array();
+				$all_attached_images = false;
+
+				// Get the gallery IDs
+				if ( $options['image_ids'] ) {
+
+					// Loop shortcodes found
+					foreach ( $matches[2] as $key => $shortcode_name ) {
+
+						// Is it a gallery shortcode?
+						if ( 'gallery' == $shortcode_name ) {
+
+							// Get attributes
+							$attributes = shortcode_parse_atts( $matches[3][$key] ); // convert string to array
+
+							// Get IDs from attribute, if any
+							$extracted_ids = array();
+							if ( ! empty( $attributes['ids'] ) ) {
+
+								// Convert ID list to array
+								$extracted_ids = explode( ',', $attributes['ids'] );
+
+								// Clean up
+								$extracted_ids = array_map( 'trim', $extracted_ids ); // Trim all ID's (in case "1, 2, 3" instead of "1,2,3")
+								$extracted_ids = array_filter( $extracted_ids ); // Remove empty values (ie. ",1, ,2")
+
+							}
+
+							// No IDs attribute found in shortcode or it was empty
+							// In that case, shortcode shows all attached images, so get them here
+							if ( empty( $extracted_ids ) && empty( $all_attached_images ) ) {
+
+								// Don't run more than once per page
+								$all_attached_images = true;
+
+								// Get all attached images for this page
+								$images = get_children( array(
+									'post_parent' => $page->ID,
+									'post_type' => 'attachment',
+									'post_status' => 'inherit', // for attachments
+									'post_mime_type' => 'image',
+									'numberposts' => -1 // all
+								) ) ;
+
+								// Found some?
+								if ( ! empty( $images ) ) {
+									$extracted_ids = array_keys( $images );
+								}
+
+							}
+
+							// Add ID's from this shortcode to array for page
+							if ( ! empty( $extracted_ids ) ) {
+								$ids = array_merge( $ids, $extracted_ids );
+							}
+
+						}
+
+					}
+
+					// Remove duplicates
+					$ids = array_unique( $ids ); // Remove duplicates
+
+				}
+
+				// Add page data to array
+				$gallery_pages[$page->ID]['page'] = $page;
+				$gallery_pages[$page->ID]['image_ids'] = $ids;
+				$gallery_pages[$page->ID]['image_count'] = count( $ids );
+
+			}
+
+		}
+
+	}
+
+	// Return filterable
+	return apply_filters( 'ctc_gallery_pages', $gallery_pages, $options );
+
+}
+
+/**
+ * Get Gallery Page IDs
+ */
+
+function ctc_gallery_pages_ids() {
+
+	$ids = array();
+
+	$gallery_pages = ctc_gallery_pages( array( 'image_ids' => false ) );
+
+	foreach ( $gallery_pages as $page_id => $page_data ) {
+		$ids[] = $page_id;
+	}
+
+	return apply_filters( 'ctc_gallery_pages_ids', $ids );
+
+}
+
 /***********************************************
  * VIDEO
  ***********************************************/

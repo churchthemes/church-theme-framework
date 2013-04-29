@@ -77,6 +77,15 @@ function ctc_fw_widgets() {
 			'theme_support_required'	=> array(),
 			'unregister'				=> array(),
 		),
+		'ctc-galleries' => array(
+			'class'						=> 'CTC_Widget_Galleries',
+			'class_file'				=> 'widget-galleries.php',
+			'template_file'				=> 'widget-galleries.php',
+			'ccm_required'				=> false, // uses native WordPress galleries
+			'theme_support'				=> 'ctc-widget-galleries',
+			'theme_support_required'	=> array(),
+			'unregister'				=> array(),
+		),
 		'ctc-people' => array(
 			'class'						=> 'CTC_Widget_People',
 			'class_file'				=> 'widget-people.php',

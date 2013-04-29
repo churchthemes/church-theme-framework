@@ -33,7 +33,7 @@ function ctc_theme_url( $file = '' ) {
 		$url = get_template_directory_uri() . "/$file"; 
 	}
 	
-	return apply_filters( 'ctc_theme_url', $url, $file ); 
+	return apply_filters( 'ctc_theme_url', $url, $file );
 	
 }
 
@@ -83,37 +83,17 @@ function ctc_real_file_url( $url ) {
  */
 
 add_action( 'template_redirect', 'ctc_force_download' );
-	
-function ctc_force_download() {
 
-	// valid extensions for download - security check
-	// these are commonly downloaded file types
-	$file_extensions = array(
-		'mp3'	=> 'audio/mpeg',	// extension, content-type
-		'pdf'	=> 'application/pdf'
-	);
+function ctc_force_download() {
 	
-	// allow extensions to be filtered
-	$file_extensions = apply_filters( 'ctc_download_file_extensions', $file_extensions ); // allow filtering
-	
-	// prepare file extensions for regex
-	$file_extensions_regex = array();
-	foreach( $file_extensions as $extension => $content_type ) {
-		$file_extensions_regex[] = $extension;
-	}
-	$file_extensions_regex = implode( '|', $file_extensions_regex );
-	
-	// check if this URL is a request for file download of valid type
+	// check if this URL is a request for file download
 	$base_path = '/download-file/';
-	$regex = '/^.*' . preg_quote( $base_path, '/' ) . '(.+\.(' . $file_extensions_regex . '))$/i'; // .* at beginning allows for WP not being a domain level install
+	$regex = '/^.*' . preg_quote( $base_path, '/' ) . '(.+\..+)$/i'; // .* at beginning allows for WP not being a domain level install
 	if ( preg_match( $regex, $_SERVER['REQUEST_URI'], $matches ) && ! empty( $matches[1] ) ) {
 
 		// relative file path
 		$relative_file_path = $matches[1];
 		list( $relative_file_path ) = explode( '?', $relative_file_path ); // chop query string off, although it should not be able to get through
-		
-		// file extension
-		$file_extension = strtolower( $matches[2] );
 		
 		// check for directory traversal attack
 		if ( ! validate_file( $relative_file_path ) ) { // false means it passed validation
@@ -121,36 +101,31 @@ function ctc_force_download() {
 			// path to file in uploads folder (only those can be downloaded)
 			$upload_dir = wp_upload_dir();
 			$upload_file_path = $upload_dir['basedir'] . '/' . $relative_file_path;
-			
-			// file exists?
-			if ( file_exists( $upload_file_path ) ) {
-				
-				// force download
-				$content_type = $file_extensions[$file_extension];
-				if ( ! empty( $content_type ) ) {
 
-					// headers
-					$filename = basename( $upload_file_path );
-					$filesize = filesize( $upload_file_path );
-					header( 'Content-Type: application/octet-stream', true, 200 ); // replace WordPress 404 Not Found with 200 Okay
-					header( 'Content-Disposition: attachment; filename=' . $filename );
-					header( 'Expires: 0' );
-					header( 'Cache-Control: must-revalidate' );
-					header( 'Pragma: public' );
-					header( 'Content-Length: ' . $filesize );
-					
-					// clear buffering just in case
-					@ob_end_clean();
-					flush();
-					
-					// output file contents
-					@readfile( $upload_file_path ); // @ to prevent printing any error messages
-					
-					// we're done, stop further execution
-					exit;
-					
-				}
+			// make sure file valid as upload (valid type, extension, etc.)
+			$validate = wp_check_filetype_and_ext( $upload_file_path, basename( $upload_file_path ) );
+			if ( $validate['type'] && $validate['ext'] ) { // empty if type not in upload_mimes, doesn't exist, etc.
+
+				// headers to prompt "save as"
+				$filename = basename( $upload_file_path );
+				$filesize = filesize( $upload_file_path );
+				header( 'Content-Type: application/octet-stream', true, 200 ); // replace WordPress 404 Not Found with 200 Okay
+				header( 'Content-Disposition: attachment; filename=' . $filename );
+				header( 'Expires: 0' );
+				header( 'Cache-Control: must-revalidate' );
+				header( 'Pragma: public' );
+				header( 'Content-Length: ' . $filesize );
 				
+				// clear buffering just in case
+				@ob_end_clean();
+				flush();
+				
+				// output file contents
+				@readfile( $upload_file_path ); // @ to prevent printing any error messages
+				
+				// we're done, stop further execution
+				exit;
+
 			}
 			
 		}
