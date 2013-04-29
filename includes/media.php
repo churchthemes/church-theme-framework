@@ -166,7 +166,8 @@ function ctc_gallery_pages( $options = array() ) {
 	$options = wp_parse_args( $options, array(
 		'orderby'		=> 'title',
 		'order'			=> 'ASC',
-		'image_ids'		=> true
+		'image_ids'		=> true,
+		'post_id'		=> ''
 	) );
 
 	// Get gallery page template(s)
@@ -177,6 +178,7 @@ function ctc_gallery_pages( $options = array() ) {
 
 	// Get pages using a gallery template
 	$pages_query = new WP_Query( array(
+		'p'				=> $options['post_id'], // if getting one
 		'post_type'		=> 'page',
 		'nopaging'		=> true,
 		'meta_query'	=> array(
@@ -287,7 +289,7 @@ function ctc_gallery_pages( $options = array() ) {
  * Get Gallery Page IDs
  */
 
-function ctc_gallery_page_ids() {
+function ctc_gallery_pages_ids() {
 
 	$ids = array();
 
@@ -297,7 +299,7 @@ function ctc_gallery_page_ids() {
 		$ids[] = $page_id;
 	}
 
-	return apply_filters( 'ctc_gallery_page_ids', $ids );
+	return apply_filters( 'ctc_gallery_pages_ids', $ids );
 
 }
 
