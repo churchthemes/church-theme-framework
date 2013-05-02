@@ -22,7 +22,11 @@ function ctc_fw_register_shortcodes() {
 	add_shortcode( 'ctc_home_url', 			'ctc_shortcode_home_url' );
 	add_shortcode( 'ctc_rss_url', 			'ctc_shortcode_feed_url' );
 	add_shortcode( 'ctc_copyright_symbol',	'ctc_shortcode_copyright_symbol' );
-	add_shortcode( 'ctc_current_year',		'ctc_shortcode_current_year' );	
+	add_shortcode( 'ctc_current_year',		'ctc_shortcode_current_year' );
+
+	if ( current_theme_supports( 'ctc-powered-logo-shortcode' ) ) {
+		add_shortcode( 'ctc_powered_logo',	'ctc_shortcode_powered_logo' );
+	}
 
 }
 
@@ -69,6 +73,29 @@ function ctc_shortcode_feed_url() {
 // Home URL
 function ctc_shortcode_home_url() {
 
-	return home_url();
+	return home_url( '/' );
 	
 }
+
+// "Powered By" Logo
+// This is handy for use in footer notice
+// Enable with add_theme_support( 'ctc-powered-logo-shortcode' );
+function ctc_shortcode_powered_logo() {
+
+	$output = '';
+
+	// Theme supports this shortcode?
+	if ( $support = get_theme_support( 'ctc-powered-logo-shortcode' ) ) {
+
+		// Get URL for clicks
+		$url = ! empty( $support[0] ) ? $support[0] : false;
+
+		// Link and image for footer
+		$output = '<a href="' . esc_url( $url ) . '" rel="nofollow" class="ctc-powered-logo" target="_blank"></a>';
+
+	}
+
+	return $output;
+	
+}
+

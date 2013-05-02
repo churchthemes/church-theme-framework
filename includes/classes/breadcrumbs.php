@@ -395,7 +395,7 @@ class CTC_Breadcrumbs {
 			if ( ! empty( $breadcrumbs ) ) {
 				$this->add_breadcrumb( $breadcrumbs, array(
 					_x( 'Home', 'breadcrumbs', 'church-theme' ),
-					home_url()
+					home_url( '/' )
 				) );
 			}
 
