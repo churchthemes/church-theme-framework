@@ -328,7 +328,20 @@ class CTC_Breadcrumbs {
 				// Archives
 				if ( is_archive() || ! empty( $taxonomy_term ) ) {
 
-					// Taxonomy and parents
+					// Blog Category
+					if ( is_category() ) {
+						$this->add_breadcrumbs_array( $breadcrumbs, $this->taxonomy_term_breadcrumbs( get_query_var( 'cat' ), 'category' ) );
+					}
+
+					// Blog Tag
+					if ( is_tag() ) {
+						$this->add_breadcrumb( $breadcrumbs, array(
+							get_query_var( 'tag' ),
+							get_tag_link( get_query_var( 'tag_id' ) )
+						) );
+					}
+
+					// Custom Taxonomy and Parents
 					if ( is_tax() || ! empty( $taxonomy_term ) ) { //  $taxonomy_term can come from post
 
 						// Taxonomy passed in from post or are we on actual taxonomy?
