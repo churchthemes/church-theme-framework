@@ -18,9 +18,7 @@ function ctc_fw_admin_enqueue_scripts() {
 	if ( 'widgets' == $screen->base ) { // don't enqueue unless needed
 
 		// New media uploader in WP 3.5+
-		if ( function_exists( 'wp_enqueue_media' ) ) {
-			wp_enqueue_media(); 
-		}
+		wp_enqueue_media(); 
 
 		// Main widgets script
 		wp_enqueue_script( 'ctc-fw-admin-widgets', ctc_theme_url( CTC_FW_JS_DIR . '/admin-widgets.js' ), array( 'jquery' ), CTC_VERSION ); // bust cache on update
