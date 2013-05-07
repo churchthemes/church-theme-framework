@@ -260,148 +260,153 @@ class CTC_Breadcrumbs {
 				) );
 			}
 
-			// Search Results
-			if ( is_search() ) {
-				$this->add_breadcrumb( $breadcrumbs, array(
-					_x( 'Search Results', 'breadcrumb', 'church-theme' ),
-					get_search_link()
-				) );
-			}
+			// Not on front page
+			if ( ! is_front_page() ) {
 
-			// Posts/Pages & Archives
-			else {
-
-				// Get post type data
-				$post_type = get_post_type();
-				$post_type_obj = get_post_type_object( $post_type );
-
-				// Attachment
-				if ( is_attachment() ) {
-
-					/* translators: %s is mime type */
+				// Search Results
+				if ( is_search() ) {
 					$this->add_breadcrumb( $breadcrumbs, array(
-						ctc_mime_type_name( $post->post_mime_type ),
-						get_permalink()
+						_x( 'Search Results', 'breadcrumb', 'church-theme' ),
+						get_search_link()
 					) );
-
-					// Make parent(s) show, if any
-					if ( ! empty( $post->post_parent ) ) {
-						$parent_post_id = $post->post_parent;
-					}
-
 				}
 
-				// Post or Page
-				if ( ( is_singular() && ! is_attachment() ) || ! empty( $parent_post_id ) ) { // $parent_post_id can be attachment parent
+				// Posts/Pages & Archives
+				else {
 
-					// Get post/page ID
-					// Parent post (from attachment?) or current post
-					$post_id = $post->ID;
-					if ( ! empty( $parent_post_id ) ) {
-						$post_id = $parent_post_id;
-						$post_type = get_post_type( $post_id );
-						$post_type_obj = get_post_type_object( $post_type );
-					}
+					// Get post type data
+					$post_type = get_post_type();
+					$post_type_obj = get_post_type_object( $post_type );
 
-					// Show taxonomy before if has one
-					// Use primary taxonomy's first term
-					$taxonomies = get_object_taxonomies( $post_type );
-					$taxonomy = isset( $taxonomies[0] ) ? $taxonomies[0] : false;
-					if ( $taxonomy ) {
-						$taxonomy_terms = get_the_terms( $post_id, $taxonomy );
-						$taxonomy_term = is_array( $taxonomy_terms ) ? current( $taxonomy_terms ) : $taxonomy_terms; // use first term in list
-					}
+					// Attachment
+					if ( is_attachment() ) {
 
-					// Post breadcrumb options
-					$options = array();
+						/* translators: %s is mime type */
+						$this->add_breadcrumb( $breadcrumbs, array(
+							ctc_mime_type_name( $post->post_mime_type ),
+							get_permalink()
+						) );
 
-						// Show parents only if not showing taxonomy
-						if ( ! empty( $taxonomy ) ) {
-							$options['show_parents'] = false; // default true
+						// Make parent(s) show, if any
+						if ( ! empty( $post->post_parent ) ) {
+							$parent_post_id = $post->post_parent;
 						}
 
-					// Show post and parent(s)
-					$this->add_breadcrumbs_array( $breadcrumbs, $this->post_breadcrumbs( $post_id, $options ) );
-
-				}
-				
-				// Archives
-				if ( is_archive() || ! empty( $taxonomy_term ) ) {
-
-					// Blog Category
-					if ( is_category() ) {
-						$this->add_breadcrumbs_array( $breadcrumbs, $this->taxonomy_term_breadcrumbs( get_query_var( 'cat' ), 'category' ) );
 					}
 
-					// Blog Tag
-					if ( is_tag() ) {
-						$this->add_breadcrumb( $breadcrumbs, array(
-							get_query_var( 'tag' ),
-							get_tag_link( get_query_var( 'tag_id' ) )
-						) );
-					}
+					// Post or Page
+					if ( ( is_singular() && ! is_attachment() ) || ! empty( $parent_post_id ) ) { // $parent_post_id can be attachment parent
 
-					// Custom Taxonomy and Parents
-					if ( is_tax() || ! empty( $taxonomy_term ) ) { //  $taxonomy_term can come from post
-
-						// Taxonomy passed in from post or are we on actual taxonomy?
-						if ( is_tax() ) { // actual taxonomy
-							$taxonomy = get_query_var( 'taxonomy' );
-							$taxonomy_term = get_term_by( 'slug', get_query_var( 'term' ), get_query_var( 'taxonomy' ) );
+						// Get post/page ID
+						// Parent post (from attachment?) or current post
+						$post_id = $post->ID;
+						if ( ! empty( $parent_post_id ) ) {
+							$post_id = $parent_post_id;
+							$post_type = get_post_type( $post_id );
+							$post_type_obj = get_post_type_object( $post_type );
 						}
 
-						// Add taxonomies
-						$this->add_breadcrumbs_array( $breadcrumbs, $this->taxonomy_term_breadcrumbs( $taxonomy_term, $taxonomy ) );
+						// Show taxonomy before if has one
+						// Use primary taxonomy's first term
+						$taxonomies = get_object_taxonomies( $post_type );
+						$taxonomy = isset( $taxonomies[0] ) ? $taxonomies[0] : false;
+						if ( $taxonomy ) {
+							$taxonomy_terms = get_the_terms( $post_id, $taxonomy );
+							$taxonomy_term = is_array( $taxonomy_terms ) ? current( $taxonomy_terms ) : $taxonomy_terms; // use first term in list
+						}
+
+						// Post breadcrumb options
+						$options = array();
+
+							// Show parents only if not showing taxonomy
+							if ( ! empty( $taxonomy ) ) {
+								$options['show_parents'] = false; // default true
+							}
+
+						// Show post and parent(s)
+						$this->add_breadcrumbs_array( $breadcrumbs, $this->post_breadcrumbs( $post_id, $options ) );
+
+					}
+					
+					// Archives
+					if ( is_archive() || ! empty( $taxonomy_term ) ) {
+
+						// Blog Category
+						if ( is_category() ) {
+							$this->add_breadcrumbs_array( $breadcrumbs, $this->taxonomy_term_breadcrumbs( get_query_var( 'cat' ), 'category' ) );
+						}
+
+						// Blog Tag
+						if ( is_tag() ) {
+							$this->add_breadcrumb( $breadcrumbs, array(
+								get_query_var( 'tag' ),
+								get_tag_link( get_query_var( 'tag_id' ) )
+							) );
+						}
+
+						// Custom Taxonomy and Parents
+						if ( is_tax() || ! empty( $taxonomy_term ) ) { //  $taxonomy_term can come from post
+
+							// Taxonomy passed in from post or are we on actual taxonomy?
+							if ( is_tax() ) { // actual taxonomy
+								$taxonomy = get_query_var( 'taxonomy' );
+								$taxonomy_term = get_term_by( 'slug', get_query_var( 'term' ), get_query_var( 'taxonomy' ) );
+							}
+
+							// Add taxonomies
+							$this->add_breadcrumbs_array( $breadcrumbs, $this->taxonomy_term_breadcrumbs( $taxonomy_term, $taxonomy ) );
+
+						}
+
+						// Date Archive
+						elseif ( is_year() || is_month() || is_day() ) {
+							
+							// Append date breadcrumbs
+							$base_url = get_post_type_archive_link( $post_type );
+							$this->add_breadcrumbs_array( $breadcrumbs, $this->date_breadcrumbs( $base_url ) );
+
+						}
+
+						// Author Archive
+						elseif ( is_author() ) {
+							$this->add_breadcrumb( $breadcrumbs, array(
+								get_the_author(),
+								get_author_posts_url( get_query_var( 'author' ) )
+							) );
+						}
 
 					}
 
-					// Date Archive
-					elseif ( is_year() || is_month() || is_day() ) {
-						
-						// Append date breadcrumbs
-						$base_url = get_post_type_archive_link( $post_type );
-						$this->add_breadcrumbs_array( $breadcrumbs, $this->date_breadcrumbs( $base_url ) );
+					// Post Type Archive
+					// Single posts, taxonomies, etc.
+					if ( $post_type_obj && ! is_page() ) { // not for pages
+
+						// If static front page used and "Posts page" set, use that
+						if ( 'post' == $post_type && $posts_page_id = get_option( 'page_for_posts' ) ) {
+							$posts_page = get_page( $posts_page_id );
+							$archive_name = $posts_page->post_title;
+							$archive_url = get_permalink( $posts_page_id );
+						}
+
+						// Otherwise use current post type
+						else {
+							$archive_name = $post_type_obj->labels->name;
+							$archive_url = get_post_type_archive_link( $post_type );
+						}
+
+						// Show only if have URL
+						// When static front used and no "Posts page" set, there is no archive URL
+						if ( $archive_url ) {
+							$this->add_breadcrumb( $breadcrumbs, array(
+								$archive_name,
+								$archive_url
+							) );
+						}
 
 					}
-
-					// Author Archive
-					elseif ( is_author() ) {
-						$this->add_breadcrumb( $breadcrumbs, array(
-							get_the_author(),
-							get_author_posts_url( get_query_var( 'author' ) )
-						) );
-					}
-
+					
 				}
 
-				// Post Type Archive
-				// Single posts, taxonomies, etc.
-				if ( $post_type_obj && ! is_page() ) { // not for pages
-
-					// If static front page used and "Posts page" set, use that
-					if ( 'post' == $post_type && $posts_page_id = get_option( 'page_for_posts' ) ) {
-						$posts_page = get_page( $posts_page_id );
-						$archive_name = $posts_page->post_title;
-						$archive_url = get_permalink( $posts_page_id );
-					}
-
-					// Otherwise use current post type
-					else {
-						$archive_name = $post_type_obj->labels->name;
-						$archive_url = get_post_type_archive_link( $post_type );
-					}
-
-					// Show only if have URL
-					// When static front used and no "Posts page" set, there is no archive URL
-					if ( $archive_url ) {
-						$this->add_breadcrumb( $breadcrumbs, array(
-							$archive_name,
-							$archive_url
-						) );
-					}
-
-				}
-				
 			}
 
 			// Add "Home" to front if have other breadcrumb(s)
