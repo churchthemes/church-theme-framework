@@ -13,11 +13,6 @@ function ctc_fw_admin_enqueue_scripts() {
 
 	$screen = get_current_screen();
 
-	// Themes JavaScript
-	if ( 'themes' == $screen->base ) { // don't enqueue unless needed
-		wp_enqueue_script( 'ctc-fw-admin-themes', ctc_theme_url( CTC_FW_JS_DIR . '/admin-themes.js' ), array( 'jquery' ), CTC_VERSION ); // bust cache on update		
-	}
-
 	// Widgets JavaScript
 	// wp_enqueue_media() is run in classes/widget.php
 	if ( 'widgets' == $screen->base ) { // don't enqueue unless needed
