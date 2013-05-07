@@ -110,7 +110,8 @@ add_action( 'wp', 'ctc_previous_next_event_sorting' ); // is_singular() not avai
 function ctc_previous_next_event_sorting() {
 
 	// While on single event, if theme supports Events from Church Content Manager
-	if ( is_singular( 'ccm_event' ) && current_theme_supports( 'ccm-events' ) ) {
+	// IMPORTANT: Without ! is_page(), is_singular() runs, somehow causing /page/#/ URL's on static front page to break
+	if ( ! is_page() && is_singular( 'ccm_event' ) && current_theme_supports( 'ccm-events' ) ) {
 
 		// SQL JOIN
 		add_filter( 'get_previous_post_join', 'ctc_previous_next_event_join' );

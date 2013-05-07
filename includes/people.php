@@ -41,7 +41,8 @@ add_action( 'wp', 'ctc_previous_next_person_sorting' ); // is_singular() not ava
 function ctc_previous_next_person_sorting() {
 
 	// While on single person, if theme supports People from Church Content Manager
-	if ( is_singular( 'ccm_person' ) && current_theme_supports( 'ccm-people' ) ) {
+	// IMPORTANT: Without ! is_page(), is_singular() runs, somehow causing /page/#/ URL's on static front page to break
+	if ( ! is_page() && is_singular( 'ccm_person' ) && current_theme_supports( 'ccm-people' ) ) {
 
 		// SQL WHERE
 		add_filter( 'get_previous_post_where', 'ctc_previous_person_where' );
