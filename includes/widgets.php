@@ -170,7 +170,7 @@ function ctc_fw_register_widgets() {
 	// Available widgets
 	$widgets = ctc_fw_widgets();
 
-	// Church Content Manager plugin is active
+	// Church Content Manager plugin is installed and activated?
 	$ccm_active = ctc_functionality_plugin_active();
 	
 	// Loop widgets

@@ -1,21 +1,15 @@
 <?php
 /**
  * Compatibility Functions
+ *
+ * Require minimum version of WordPress, Church Content Manager plugin, Internet Explorer, etc.
  */
 
 /*******************************************
- * WORDPRESS
+ * WORDPRESS VERSION
  *******************************************/
 
 /* Based on code from default Twenty Thirteen theme */
-
-
-
-// ADD THEME SUPPORT / VERSION TO FUNCS BELOW!
-// ADD THEME SUPPORT / VERSION TO FUNCS BELOW!
-// ADD THEME SUPPORT / VERSION TO FUNCS BELOW!
-// ADD THEME SUPPORT / VERSION TO FUNCS BELOW!
-// ADD THEME SUPPORT / VERSION TO FUNCS BELOW!
 
 /**
  * Detect if old WordPress version used
@@ -108,6 +102,109 @@ function ctc_old_wp_customizer_notice() {
 
 		// Show message
 		wp_die( ctc_old_wp_message() . sprintf( ' <a href="javascript:history.go(-1);">%s</a>', __( 'Go back.', 'church-theme' ) ) );
+
+	}
+
+}
+
+/*****************************************************
+ * FUNCTIONALITY PLUGIN
+ *****************************************************/
+
+/**
+ * Plugin file
+ */
+
+function ctc_functionality_plugin_file() {
+
+	return 'church-content-manager/church-content-manager.php';
+
+}
+
+/**
+ * Plugin slug
+ */
+
+function ctc_functionality_plugin_slug() {
+
+	return dirname( ctc_functionality_plugin_file() );
+
+}
+
+/**
+ * Plugin is installed and has been activated
+ */
+ 
+function ctc_functionality_plugin_active() {
+
+	$activated = false;
+
+	include_once ABSPATH . 'wp-admin/includes/plugin.php';
+	
+	if ( is_plugin_active( ctc_functionality_plugin_file() ) ) {
+		$activated = true;
+	}
+
+	return apply_filters( 'ctc_functionality_plugin_active', $activated );
+		
+}
+
+/**
+ * Plugin is installed but not necessarily activated
+ */
+ 
+function ctc_functionality_plugin_installed() {
+
+	$installed = false;
+
+	if ( array_key_exists( ctc_functionality_plugin_file(), get_plugins() ) ) {
+		$installed = true;
+	}
+
+	return apply_filters( 'ctc_functionality_plugin_installed', $installed );
+		
+}
+
+/**
+ * Admin Notice
+ *
+ * Show notice at top of admin until plugin is both installed and activated.
+ */
+
+add_action( 'admin_notices', 'ctc_functionality_plugin_notice' );
+
+function ctc_functionality_plugin_notice() {
+
+	// Plugin not installed
+	if ( ! ctc_functionality_plugin_installed() ) {
+
+		$notice = sprintf(
+			__( '<b>Plugin Required:</b> Please install and activate the <a href="%s" class="thickbox">Church Content Manager</a> plugin to use with this theme.', 'church-theme' ),
+			network_admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . ctc_functionality_plugin_slug() . '&TB_iframe=true&width=700&height=450' )
+		);
+
+	}
+
+	// Plugin installed but not activated
+	elseif ( ! ctc_functionality_plugin_active() ) {
+
+		$notice = sprintf(
+			__( 'Please <a href="%s">activate</a> the <b>Church Content Manager</b> plugin to use it with this theme.', 'church-theme' ),
+			wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=' . ctc_functionality_plugin_file() ), 'activate-plugin_' . ctc_functionality_plugin_file() )
+		);
+
+	}
+
+	// Show notice
+	if (  isset( $notice ) ) {
+
+		?>
+		<div class="updated">
+			<p>
+				<?php echo $notice; ?>
+			</p>
+		</div>
+		<?php
 
 	}
 
