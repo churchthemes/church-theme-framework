@@ -16,18 +16,15 @@ class CTC_Widget extends WP_Widget {
 	
 		parent::__construct( $id_base, $name, $widget_options, $control_options );
 
-		// Prepare fields
-		add_action( 'init', array( &$this, 'ctc_prepare_fields' ) ); // earlier than init_widgets
-
 	}
 	
 	/**
-	 * Prepare fields
+	 * Prepared fields
 	 *
-	 * Filter fields and make them available.
+	 * Filter the fields from extending class.
 	 */
 
-	function ctc_prepare_fields() {
+	function ctc_prepared_fields() {
 	
 		// Get fields from extending class
 		$fields = array();
@@ -75,9 +72,8 @@ class CTC_Widget extends WP_Widget {
 			}
 			
 		}
-	
-		// Make fields array accessible
-		$this->ctc_fields = $fields;
+
+		return $fields;
 	
 	}
 
@@ -88,7 +84,7 @@ class CTC_Widget extends WP_Widget {
 	function form( $instance ) {
 		
 		// Loop fields
-		$fields = $this->ctc_fields;
+		$fields = $this->ctc_prepared_fields();
 		foreach( $fields as $id => $field ) {
 			
 			/**
@@ -339,7 +335,7 @@ class CTC_Widget extends WP_Widget {
 		$sanitized_instance = array();
 		
 		// Loop valid fields to sanitize
-		$fields = $this->ctc_fields;
+		$fields = $this->ctc_prepared_fields();
 		foreach( $fields as $id => $field ) {
 
 			// Get posted value
