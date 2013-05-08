@@ -73,7 +73,7 @@ class CTC_Widget_Giving extends CTC_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
-				'default'			=> _x( 'Giving', 'giving widget', 'church-theme' ), // value to pre-populate option with (before first save or on reset)
+				'default'			=> _x( 'Giving', 'giving widget default title', 'church-theme' ), // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
 				'attributes'		=> array(), // attributes to add to input element
