@@ -12,22 +12,77 @@
 /******************************************
  * REGISTER SHORTCODES
  ******************************************/
- 
-add_action( 'init', 'ctc_fw_register_shortcodes' );
 
-function ctc_fw_register_shortcodes() {
+/**
+ * Shortcodes to handle
+ */
 
-	add_shortcode( 'ctc_site_name', 		'ctc_shortcode_site_name' );
-	add_shortcode( 'ctc_tagline', 			'ctc_shortcode_tagline' );
-	add_shortcode( 'ctc_home_url', 			'ctc_shortcode_home_url' );
-	add_shortcode( 'ctc_rss_url', 			'ctc_shortcode_feed_url' );
-	add_shortcode( 'ctc_copyright_symbol',	'ctc_shortcode_copyright_symbol' );
-	add_shortcode( 'ctc_current_year',		'ctc_shortcode_current_year' );
+function ctc_fw_shortcodes() {
 
-	if ( current_theme_supports( 'ctc-powered-logo-shortcode' ) ) {
-		add_shortcode( 'ctc_powered_logo',	'ctc_shortcode_powered_logo' );
+	$shortcodes = array(
+		'ctc_site_name'			=> 'ctc_shortcode_site_name',
+		'ctc_tagline'			=> 'ctc_shortcode_tagline',
+		'ctc_home_url'			=> 'ctc_shortcode_home_url',
+		'ctc_rss_url'			=> 'ctc_shortcode_feed_url',
+		'ctc_copyright_symbol'	=> 'ctc_shortcode_copyright_symbol',
+		'ctc_current_year'		=> 'ctc_shortcode_current_year',
+		'ctc_powered_logo'		=> 'ctc_shortcode_powered_logo'
+	);
+
+	return apply_filters( 'ctc_fw_shortcodes', $shortcodes );
+
+}
+
+/**
+ * Add shortcodes
+ */
+
+add_action( 'init', 'ctc_fw_add_shortcodes' );
+
+function ctc_fw_add_shortcodes() {
+
+	$shortcodes = ctc_fw_shortcodes();
+
+	foreach ( $shortcodes as $tag => $function ) {
+		add_shortcode( $tag, $function );
 	}
 
+}
+
+/******************************************
+ * DISALLOW IN CONTENT
+ ******************************************/
+
+// Thanks to Justin Tadlock for this tip: http://justintadlock.com/archives/2013/01/08/disallow-specific-shortcodes-in-post-content
+
+/**
+ * Remove shortcodes from post content
+ */
+
+add_filter( 'the_content', 'ctc_fw_content_remove_shortcodes', 0 );
+
+function ctc_fw_content_remove_shortcodes( $content ) {
+
+	$shortcodes = ctc_fw_shortcodes();
+
+	foreach ( $shortcodes as $tag => $function ) {
+		remove_shortcode( $tag );
+	}
+
+	return $content;
+}
+
+/**
+ * Add them back after post content for use elsewhere
+ */
+
+add_filter( 'the_content', 'ctc_fw_content_add_shortcodes', 99 );
+
+function ctc_fw_content_add_shortcodes( $content ) {
+
+	ctc_fw_add_shortcodes();
+
+	return $content;
 }
 
 /******************************************
