@@ -53,6 +53,10 @@
 				margin-right: 0;
 			}
 
+		.ctc-widget-value .description {
+			margin-top: 3px !important;
+		}
+
 /* Hidden Fields */
 		
 .ctc-widget-hidden {
