@@ -52,6 +52,31 @@ function ctc_image_resize_dimensions_upscale( $output, $orig_w, $orig_h, $dest_w
 }
 
 /**
+ * Output image size dimensions
+ *
+ * Pass in image size to return 123x123
+ */
+
+function ctc_image_size_dimensions( $size ) {
+
+	global $_wp_additional_image_sizes;
+
+	$dimensions = '';
+
+	if ( isset( $_wp_additional_image_sizes[$size] ) ) {
+		$dimensions = $_wp_additional_image_sizes[$size]['width'] . 'x' . $_wp_additional_image_sizes[$size]['height'];
+	}
+
+	return apply_filters( 'ctc_image_size_dimensions', $dimensions );
+
+
+}
+
+/***********************************************
+ * GALLERIES
+ ***********************************************/
+
+/**
  * Make gallery shortcode use rectangular size by default
  *
  * Otherwise, it uses 'thumbnail' size as defined in Settings > Media, which by default is square.
