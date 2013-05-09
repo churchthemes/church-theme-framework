@@ -97,7 +97,7 @@ function ctc_google_fonts_style_url( $fonts, $available_fonts, $font_subsets = f
 		}
 
 		// Build URL
-		$url = 'http://fonts.googleapis.com/css?family=' . $font_list . $subset_attr;
+		$url = ctc_current_protocol() . '://fonts.googleapis.com/css?family=' . $font_list . $subset_attr;
 		
 	}
 	

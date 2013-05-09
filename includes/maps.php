@@ -70,7 +70,7 @@ function ctc_directions_url( $address ) {
 		$directions_address = ctc_address_one_line( $address );
 
 		// Build URL to Google Maps
-		$directions_url = 'http://maps.google.com/maps?f=d&q=' . urlencode( $directions_address );
+		$directions_url = ctc_current_protocol() . '://maps.google.com/maps?f=d&q=' . urlencode( $directions_address );
 
 	}
 

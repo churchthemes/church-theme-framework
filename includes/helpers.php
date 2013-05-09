@@ -15,14 +15,21 @@
  
 function ctc_current_url() {
 
-	$url = 'http';
-	if ( is_ssl() ) {
-		$url .= 's';
-	}
-	
-	$url .= '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	$url = ctc_current_protocol() . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
 	return $url;
+
+}
+
+/**
+ * http or https protocol
+ */
+ 
+function ctc_current_protocol() {
+
+	$protocol = is_ssl() ? 'https' : 'http';
+
+	return apply_filters( 'ctc_current_protocol', $protocol );
 
 }
 

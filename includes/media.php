@@ -369,7 +369,7 @@ function ctc_video_data( $video_url, $options = array() ) {
 			preg_match( '/.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/', $video_url, $match );
 			if ( ! empty( $match[1] ) && strlen( $match[1] ) == 11 ) {
 				$video_data['video_id'] = $match[1];
-				$video_data['embed_code'] = '<iframe src="http://www.youtube.com/embed/' . $video_data['video_id'] . '?wmode=transparent&amp;autoplay=' . $options['autoplay'] . '&amp;rel=0&amp;showinfo=0&amp;color=white&amp;modestbranding=1" width="' . $width . '" height="' . $height . '" frameborder="0" allowfullscreen></iframe>';
+				$video_data['embed_code'] = '<iframe src="' . ctc_current_protocol() . '://www.youtube.com/embed/' . $video_data['video_id'] . '?wmode=transparent&amp;autoplay=' . $options['autoplay'] . '&amp;rel=0&amp;showinfo=0&amp;color=white&amp;modestbranding=1" width="' . $width . '" height="' . $height . '" frameborder="0" allowfullscreen></iframe>';
 			}				
 			
 		}
@@ -390,7 +390,7 @@ function ctc_video_data( $video_url, $options = array() ) {
 			preg_match( '/\d+/', $video_url, $match );
 			if ( ! empty( $match[0] ) ) {
 				$video_data['video_id'] = $match[0];
-				$video_data['embed_code'] = '<iframe src="http://player.vimeo.com/video/' . $video_data['video_id'] . '?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff&amp;autoplay=' . $options['autoplay'] . '" width="' . $width . '" height="' . $height . '" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
+				$video_data['embed_code'] = '<iframe src="' . ctc_current_protocol() . '://player.vimeo.com/video/' . $video_data['video_id'] . '?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff&amp;autoplay=' . $options['autoplay'] . '" width="' . $width . '" height="' . $height . '" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
 			}
 			
 		}
