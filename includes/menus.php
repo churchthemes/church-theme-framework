@@ -72,7 +72,7 @@ function ctc_set_menu( $menu_name, $menu_slug, $location_slug, $use_first = fals
  * Sample import XML file may have Custom Link menu items with a dev or demo site's base URL.
  * This will replace all of those instances with the current site's base URL.
  *
- * Use add_theme_support( 'ctc-correct-imported-menu-urls', 'http://wp.dev/site' );
+ * Use add_theme_support( 'ctc-correct-imported-menu-urls', 'http://wp-copy.dev/site' );
  */
  
 add_filter( 'import_end', 'ctc_correct_imported_menu_urls' ); // correct custom menu URLs from sample XML content to use actual site's home URL
