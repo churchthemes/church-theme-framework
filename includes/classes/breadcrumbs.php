@@ -75,10 +75,20 @@ class CTC_Breadcrumbs {
 		if ( $post = get_post( $post_id ) ) {
 
 			// Current post
-			$this->add_breadcrumb( $post_breadcrumbs, array(
-				ctc_shorten( get_the_title(), $options['shorten'] ),
-				get_permalink()
-			) );
+			$title = ctc_shorten( get_the_title(), $options['shorten'] );
+			if ( empty( $title ) ) { // no title? use post type or post format name?
+				if ( $post_format = get_post_format() ) { // show post format if have it
+					$title = get_post_format_string( $post_format );
+				} elseif ( $post_type_obj = get_post_type_object( get_post_type() ) ) { // otherwise show post type name
+					$title = $post_type_obj->labels->singular_name;
+				}
+			}
+
+				// Add breadcrumb
+				$this->add_breadcrumb( $post_breadcrumbs, array(
+					$title,
+					get_permalink()
+				) );
 
 			// Parent posts?
 			if ( $options['show_parents'] && ! empty( $post->post_parent ) ) {
@@ -446,19 +456,23 @@ class CTC_Breadcrumbs {
 				
 				$breadcrumb = (array) $breadcrumb;
 				
-				// Separator
-				if ( $i > 1 ) {
-					$string .= $this->options['separator'];
-				}
+				if ( ! empty( $breadcrumb[0] ) ) {
 
-				// If no link given (just in case)
-				if ( empty( $breadcrumb[1] ) ) { // add  || $i == $count if don't wany any last item linked, but it's more helpful and reable with it linked
-					$string .= '<span>' . esc_html( $breadcrumb[0] ) . '</span>';
-				}
-				
-				// Linked
-				else {
-					$string .= '<a href="' . esc_url( $breadcrumb[1] ) . '">' . esc_html( $breadcrumb[0] ) . '</a>';
+					// Separator
+					if ( $i > 1 ) {
+						$string .= $this->options['separator'];
+					}
+
+					// If no link given (just in case)
+					if ( empty( $breadcrumb[1] ) ) { // add  || $i == $count if don't wany any last item linked, but it's more helpful and reable with it linked
+						$string .= '<span>' . esc_html( $breadcrumb[0] ) . '</span>';
+					}
+					
+					// Linked
+					else {
+						$string .= '<a href="' . esc_url( $breadcrumb[1] ) . '">' . esc_html( $breadcrumb[0] ) . '</a>';
+					}
+
 				}
 				
 			}
