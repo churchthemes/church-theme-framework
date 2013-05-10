@@ -44,6 +44,22 @@ function ctc_has_more_tag() {
 }
 
 /**
+ * Has Title
+ */
+
+function ctc_has_title() {
+
+	$has_title = false;
+
+	if ( trim( strip_tags( get_the_title() ) ) ) {
+		$has_title = true;
+	}
+
+	return apply_filters( 'ctc_has_title', $has_title );
+
+}
+
+/**
  * Has Content
  */
 
