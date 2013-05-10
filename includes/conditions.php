@@ -77,6 +77,8 @@ function ctc_has_content() {
 
 /**
  * Has Excerpt
+ *
+ * True if has manual or automatic excerpt
  */
 
 function ctc_has_excerpt() {

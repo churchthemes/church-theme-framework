@@ -328,6 +328,59 @@ function ctc_gallery_pages_ids() {
 
 }
 
+/**
+ * Gallery preview
+ *
+ * Show X rows of thumbnails from content with gallery shortcode.
+ * The shortcodes column attribute will be used. Only the first gallery shortcode is searched.
+ */
+function ctc_gallery_preview( $content = false, $options = array() ) {
+
+	$gallery_preview = '';
+
+	// Use current post content if none given
+	if ( $search_content = ! empty( $content ) ? $content : get_the_content() ) {
+
+		// Option defaults
+		$options = wp_parse_args( $options, array(
+			'rows' => 2,
+			'columns' => '' // inherit from shortcode
+		) );
+
+		// Get data from first gallery shortcode in post
+		$galleries_data = get_content_galleries( $search_content, false, false, 1 );
+
+		// Gallery data found
+		if ( isset( $galleries_data[0] ) && $gallery_data = $galleries_data[0] ) {
+
+			// Clean up gallery IDs
+			$gallery_ids = array();
+			$gallery_ids_raw = explode( ',', $gallery_data['ids'] );
+			foreach ( $gallery_ids_raw as $gallery_id ) {
+				if ( $gallery_id = trim( $gallery_id ) ) { // remove whitespace and empty values from IDs attribute
+					$gallery_ids[] = $gallery_id;
+				}
+			}
+
+			// Show limited number of rows
+			$gallery_rows = apply_filters( 'ctc_short_content_gallery_rows', $options['rows'] );
+			$gallery_columns = ! empty( $options['columns'] ) ? $options['columns'] : $gallery_data['columns']; // inherit from shortcode or use default
+			$gallery_items = $gallery_rows *$gallery_columns; // based on columns
+			$gallery_ids = array_slice( $gallery_ids, 0, $gallery_items ); // truncate
+			$gallery_ids = implode( ',', $gallery_ids ); // reform as list
+
+			// Build gallery HTML
+			$gallery_preview = do_shortcode( '[gallery columns="' .$gallery_columns . '" ids="' . $gallery_ids . '"]' );
+
+		}
+
+	}
+
+	// Return filterable
+	return apply_filters( 'ctc_gallery_preview', $gallery_preview, $content );
+
+}
+
 /***********************************************
  * VIDEO
  ***********************************************/
