@@ -124,3 +124,25 @@ function ctc_can_edit_post() {
 	return apply_filters( 'ctc_can_edit_post', $can_edit );
 
 }
+
+/*******************************************
+ * OTHER
+ *******************************************/
+
+/**
+ * Is this the posts page?
+ *
+ * If a static front page is used and the "Posts page" is set, this is true.
+ */
+
+function ctc_is_posts_page() {
+
+	$bool = false;
+
+	if ( is_home() && ! is_front_page() ) {
+		$bool = true;
+	}
+
+	return apply_filters( 'ctc_is_posts_page', $bool );
+
+}
