@@ -58,18 +58,3 @@ function ctc_post_date( $options = array() ) {
 	}
 
 }
-
-/**
- * Show excerpt only if manually entered
- *
- * In other words, don't show automatic excerpt.
- */
-
-function ctc_manual_excerpt() {
-
-	$excerpt = trim( get_post_meta( get_the_ID(), '_excerpt', true ) );
-
-	return apply_filters( 'ctc_manual_excerpt', $excerpt );
-
-}
-
