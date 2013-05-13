@@ -13,9 +13,9 @@ class CTC_Widget_Giving extends CTC_Widget {
 	
 		parent::__construct(
 			'ctc-giving',
-			_x( 'CT Giving', 'widget', 'church-theme' ),
+			_x( 'CT Giving', 'widget', 'ct-framework' ),
 			array(
-				'description' => __( 'Shows a message and button', 'church-theme' ),
+				'description' => __( 'Shows a message and button', 'ct-framework' ),
 			),
 			array(
 				'width' => 300,
@@ -64,7 +64,7 @@ class CTC_Widget_Giving extends CTC_Widget {
 
 			// Title
 			'title' => array(
-				'name'				=> _x( 'Title', 'giving widget', 'church-theme' ),
+				'name'				=> _x( 'Title', 'giving widget', 'ct-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
 				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image
@@ -73,7 +73,7 @@ class CTC_Widget_Giving extends CTC_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
-				'default'			=> _x( 'Giving', 'giving widget default title', 'church-theme' ), // value to pre-populate option with (before first save or on reset)
+				'default'			=> _x( 'Giving', 'giving widget default title', 'ct-framework' ), // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
 				'attributes'		=> array(), // attributes to add to input element
@@ -88,7 +88,7 @@ class CTC_Widget_Giving extends CTC_Widget {
 			
 			// Message
 			'text' => array(
-				'name'				=> _x( 'Message', 'giving widget', 'church-theme' ),
+				'name'				=> _x( 'Message', 'giving widget', 'ct-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
 				'type'				=> 'textarea', // text, textarea, checkbox, radio, select, number, url, image
@@ -97,7 +97,7 @@ class CTC_Widget_Giving extends CTC_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
-				'default'			=> __( 'You may give online by clicking below.', 'church-theme' ), // value to pre-populate option with (before first save or on reset)
+				'default'			=> __( 'You may give online by clicking below.', 'ct-framework' ), // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> true, // allow HTML to be used in the value (text, textarea)
 				'attributes'		=> array(), // attributes to add to input element
@@ -112,7 +112,7 @@ class CTC_Widget_Giving extends CTC_Widget {
 
 			// Button Text
 			'button_text' => array(
-				'name'				=> _x( 'Button Text', 'giving widget', 'church-theme' ),
+				'name'				=> _x( 'Button Text', 'giving widget', 'ct-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
 				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image
@@ -121,7 +121,7 @@ class CTC_Widget_Giving extends CTC_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
-				'default'			=> _x( 'Give Now', 'giving widget', 'church-theme' ), // value to pre-populate option with (before first save or on reset)
+				'default'			=> _x( 'Give Now', 'giving widget', 'ct-framework' ), // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
 				'attributes'		=> array(), // attributes to add to input element
@@ -136,7 +136,7 @@ class CTC_Widget_Giving extends CTC_Widget {
 
 			// Button URL
 			'button_url' => array(
-				'name'				=> _x( 'Button URL', 'giving widget', 'church-theme' ),
+				'name'				=> _x( 'Button URL', 'giving widget', 'ct-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
 				'type'				=> 'url', // text, textarea, checkbox, radio, select, number, url, image

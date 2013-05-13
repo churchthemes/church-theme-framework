@@ -91,7 +91,7 @@ function ctc_shorten( $string, $max_chars ) {
 		// Append ... if string was shortened
 		if ( strlen( $processed_string ) < strlen( $string ) ) {
 			/* translators: ... after shortened string */
-			$processed_string .= _x( '&hellip;', 'shortened text', 'church-theme' );
+			$processed_string .= _x( '&hellip;', 'shortened text', 'ct-framework' );
 		}
 
 	}

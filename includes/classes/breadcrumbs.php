@@ -22,7 +22,7 @@ class CTC_Breadcrumbs {
 	function set_options( $options ) {
 
 		$defaults = array(
-			'separator'	=> _x( ' > ', 'breadcrumb separator', 'church-theme' ),
+			'separator'	=> _x( ' > ', 'breadcrumb separator', 'ct-framework' ),
 		);
 
 		$this->options = wp_parse_args( $options, $defaults );
@@ -184,7 +184,7 @@ class CTC_Breadcrumbs {
 		$year = get_query_var( 'year' );
 		if ( ! empty( $year ) ) {
 		
-			$dateformatstring = _x( 'Y', 'breadcrumb year format', 'church-theme' );
+			$dateformatstring = _x( 'Y', 'breadcrumb year format', 'ct-framework' );
 
 			if ( ! empty( $base_url ) ) { // if base URL given, use it (such as custom post type date archive)
 				$date_url = trailingslashit( $base_url ) . trailingslashit( $year );
@@ -201,7 +201,7 @@ class CTC_Breadcrumbs {
 			$month = get_query_var( 'monthnum' );
 			if ( ! empty( $month ) ) {
 			
-				$dateformatstring = _x( 'F', 'breadcrumb month format', 'church-theme' );
+				$dateformatstring = _x( 'F', 'breadcrumb month format', 'ct-framework' );
 				
 				if ( ! empty( $base_url ) ) { // if base URL given, use it (such as custom post type date archive)
 					$date_url .= trailingslashit( $month );
@@ -218,7 +218,7 @@ class CTC_Breadcrumbs {
 				$day = get_query_var( 'day' );
 				if ( ! empty( $day ) ) {
 				
-					$dateformatstring = _x( 'jS', 'breadcrumb day format', 'church-theme' );
+					$dateformatstring = _x( 'jS', 'breadcrumb day format', 'ct-framework' );
 					
 					if ( ! empty( $base_url ) ) { // if base URL given, use it (such as custom post type date archive)
 						$date_url .= trailingslashit( $day );
@@ -265,7 +265,7 @@ class CTC_Breadcrumbs {
 			$page_num = ctc_page_num();
 			if ( $page_num > 1 ) {
 				$this->add_breadcrumb( $breadcrumbs, array(
-					sprintf( _x( 'Page %s', 'breadcrumb', 'church-theme' ), $page_num ),
+					sprintf( _x( 'Page %s', 'breadcrumb', 'ct-framework' ), $page_num ),
 					$_SERVER['REQUEST_URI']
 				) );
 			}
@@ -276,7 +276,7 @@ class CTC_Breadcrumbs {
 				// Search Results
 				if ( is_search() ) {
 					$this->add_breadcrumb( $breadcrumbs, array(
-						_x( 'Search Results', 'breadcrumb', 'church-theme' ),
+						_x( 'Search Results', 'breadcrumb', 'ct-framework' ),
 						get_search_link()
 					) );
 				}
@@ -422,7 +422,7 @@ class CTC_Breadcrumbs {
 			// Add "Home" to front if have other breadcrumb(s)
 			if ( ! empty( $breadcrumbs ) ) {
 				$this->add_breadcrumb( $breadcrumbs, array(
-					_x( 'Home', 'breadcrumbs', 'church-theme' ),
+					_x( 'Home', 'breadcrumbs', 'ct-framework' ),
 					home_url( '/' )
 				) );
 			}

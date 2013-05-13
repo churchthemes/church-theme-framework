@@ -15,9 +15,9 @@ class CTC_Widget_Galleries extends CTC_Widget {
 
 		parent::__construct(
 			'ctc-galleries',
-			_x( 'CT Galleries', 'widget', 'church-theme' ),
+			_x( 'CT Galleries', 'widget', 'ct-framework' ),
 			array(
-				'description' => __( 'Shows list of gallery pages', 'church-theme' )
+				'description' => __( 'Shows list of gallery pages', 'ct-framework' )
 			)			
 		);
 
@@ -62,7 +62,7 @@ class CTC_Widget_Galleries extends CTC_Widget {
 
 			// Title
 			'title' => array(
-				'name'				=> _x( 'Title', 'galleries widget', 'church-theme' ),
+				'name'				=> _x( 'Title', 'galleries widget', 'ct-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
 				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image
@@ -71,7 +71,7 @@ class CTC_Widget_Galleries extends CTC_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
-				'default'			=> _x( 'Galleries', 'galleries widget title default', 'church-theme' ), // value to pre-populate option with (before first save or on reset)
+				'default'			=> _x( 'Galleries', 'galleries widget title default', 'ct-framework' ), // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
 				'attributes'		=> array(), // attributes to add to input element
@@ -86,7 +86,7 @@ class CTC_Widget_Galleries extends CTC_Widget {
 
 			// Order By
 			'orderby' => array(
-				'name'				=> _x( 'Order By', 'galleries widget', 'church-theme' ),
+				'name'				=> _x( 'Order By', 'galleries widget', 'ct-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
 				'type'				=> 'select', // text, textarea, checkbox, radio, select, number, url, image
@@ -95,8 +95,8 @@ class CTC_Widget_Galleries extends CTC_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array( // array of keys/values for radio or select
-					'post_title'		=> _x( 'Title', 'galleries widget order by', 'church-theme' ),
-					'post_date'			=> _x( 'Date', 'galleries widget order by', 'church-theme' ),
+					'post_title'		=> _x( 'Title', 'galleries widget order by', 'ct-framework' ),
+					'post_date'			=> _x( 'Date', 'galleries widget order by', 'ct-framework' ),
 				),
 				'default'			=> 'title', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> true, // if user empties value, force default to be saved instead
@@ -122,8 +122,8 @@ class CTC_Widget_Galleries extends CTC_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array( // array of keys/values for radio or select
-					'asc'	=> _x( 'Low to High', 'galleries widget order', 'church-theme' ),
-					'desc'	=> _x( 'High to Low', 'galleries widget order', 'church-theme' ),
+					'asc'	=> _x( 'Low to High', 'galleries widget order', 'ct-framework' ),
+					'desc'	=> _x( 'High to Low', 'galleries widget order', 'ct-framework' ),
 				),
 				'default'			=> 'asc', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> true, // if user empties value, force default to be saved instead
@@ -140,9 +140,9 @@ class CTC_Widget_Galleries extends CTC_Widget {
 
 			// Limit
 			'limit' => array(
-				'name'				=> _x( 'Limit', 'galleries widget', 'church-theme' ),
+				'name'				=> _x( 'Limit', 'galleries widget', 'ct-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
-				'desc'				=> _x( 'Set to 0 for unlimited.', 'galleries widget', 'church-theme' ),
+				'desc'				=> _x( 'Set to 0 for unlimited.', 'galleries widget', 'ct-framework' ),
 				'type'				=> 'number', // text, textarea, checkbox, radio, select, number, url, image
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other

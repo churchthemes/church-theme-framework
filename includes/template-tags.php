@@ -33,12 +33,12 @@ function ctc_post_date( $options = array() ) {
 
 	// Show "Today"
 	if ( $options['today'] && $today_ymd == $date_ymd ) {
-		$date_formatted = __( 'Today', 'church-theme' );
+		$date_formatted = __( 'Today', 'ct-framework' );
 	}
 
 	// Show "Yesterday"
 	elseif ( $options['yesterday'] && $yesterday_ymd == $date_ymd ) {
-		$date_formatted = __( 'Yesterday', 'church-theme' );
+		$date_formatted = __( 'Yesterday', 'ct-framework' );
 	}
 
 	// Show date

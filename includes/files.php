@@ -166,7 +166,7 @@ function ctc_force_download_url( $url ) {
 function ctc_mime_type_name( $mime_type ) {
 
 	// Default if no match
-	$friendly_name = _x( 'File', 'mime type', 'church-theme' );
+	$friendly_name = _x( 'File', 'mime type', 'ct-framework' );
 
 	// Friendly mime type names
 	$mime_type_names = array(

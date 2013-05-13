@@ -36,7 +36,7 @@ function ctc_fw_head_title( $title, $sep, $seplocation ) {
 	$after = trim( $after );
 	$new_title = $before;
 	if ( $after ) {
-		$new_title .= _x( ' - ', 'title delimiter', 'church-theme' ) . $after;
+		$new_title .= _x( ' - ', 'title delimiter', 'ct-framework' ) . $after;
 	}
 	
 	return $new_title;

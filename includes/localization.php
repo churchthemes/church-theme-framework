@@ -16,9 +16,12 @@ add_action( 'after_setup_theme', 'ctc_load_theme_textdomain' );
  
 function ctc_load_theme_textdomain() {
 
+	// Textdomain same as theme's directory
+	$textdomain = apply_filters( 'ctc_theme_textdomain', CTC_TEMPLATE );
+
 	// By default, this loads locale.mo from theme's directory
 	// Secondarily, it loads wp-content/languages/themes/textdomain-locale.mo (much better for updates)
-	load_theme_textdomain( 'church-theme' );
+	load_theme_textdomain( $textdomain );
 
 }
 
@@ -36,7 +39,7 @@ add_filter( 'gettext', 'ctc_gettext', 1, 3 );
 function ctc_gettext( $translated, $text, $domain ) {
 
 	// Framework textdomain?
-	if ( 'ctc-framework' == $domain ) {
+	if ( 'ct-framework' == $domain ) {
 
 		// Use theme's translation
 		$translations = get_translations_for_domain( CTC_TEMPLATE ); // theme's directory name

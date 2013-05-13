@@ -100,7 +100,7 @@ function ctc_taxonomy_order_note( $taxonomy ) {
 		// Show message
 		echo '<p class="description">';
 		printf(
-			__( '<b>Custom Ordering:</b> Try <a href="%s" target="_blank">this plugin</a> for custom ordering your %s.', 'church-theme' ),
+			__( '<b>Custom Ordering:</b> Try <a href="%s" target="_blank">this plugin</a> for custom ordering your %s.', 'ct-framework' ),
 			$url,
 			$taxonomy_plural
 		);

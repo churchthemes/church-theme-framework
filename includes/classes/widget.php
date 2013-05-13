@@ -265,10 +265,10 @@ class CTC_Widget extends WP_Widget {
 						$input .= '<div class="ctc-widget-image-preview">' . wp_get_attachment_image( $data['value'], 'medium' ) . '</div>';
 
 						// Button to open media library
-						$input .= '<a href="#" class="button ctc-widget-image-choose" data-ctc-field-id="' . $data['esc_element_id'] . '">' . _x( 'Choose Image', 'widget image field', 'church-theme' ) . '</a>';		
+						$input .= '<a href="#" class="button ctc-widget-image-choose" data-ctc-field-id="' . $data['esc_element_id'] . '">' . _x( 'Choose Image', 'widget image field', 'ct-framework' ) . '</a>';		
 
 						// Button to remove image
-						$input .= '<a href="#" class="button ctc-widget-image-remove">' . _x( 'Remove Image', 'widget image field', 'church-theme' ) . '</a>';		
+						$input .= '<a href="#" class="button ctc-widget-image-remove">' . _x( 'Remove Image', 'widget image field', 'ct-framework' ) . '</a>';		
 
 						break;
 

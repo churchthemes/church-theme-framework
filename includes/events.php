@@ -79,7 +79,7 @@ function ctc_event_data( $post_id = null ) {
 	if ( $meta['end_date'] != $meta['start_date'] ) { // date range
 		/* translators: date range */
 		$meta['date'] = sprintf(
-			__( '%s &ndash; %s', 'church-theme' ),
+			__( '%s &ndash; %s', 'ct-framework' ),
 			date_i18n( $date_format, strtotime( $meta['start_date'] ) ),
 			date_i18n( $date_format, strtotime( $meta['end_date'] ) )
 		);

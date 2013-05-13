@@ -48,7 +48,7 @@ $html = <<< HTML
 HTML;
 
 	} else if ( ! empty( $options['show_error'] ) ) {
-		$html = __( '<p><b>Google Map Error:</b> <i>latitude</i> and <i>longitude</i> attributes are required. See documentation for help.</p>', 'church-theme' );
+		$html = __( '<p><b>Google Map Error:</b> <i>latitude</i> and <i>longitude</i> attributes are required. See documentation for help.</p>', 'ct-framework' );
 	}
 
 	return apply_filters( 'ctc_google_map', $html, $options );
