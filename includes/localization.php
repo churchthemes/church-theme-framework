@@ -26,10 +26,10 @@ function ctc_load_theme_textdomain() {
 }
 
 /**
- * Use theme's translation file for framework text
+ * Use theme's translation file for framework text strings
  *
- * Church Theme Framework's textdomain is 'ct-framework' while the theme's is the same as its own directory.
- * This makes it so one translation file can be used for both textdomains.
+ * The framework's textdomain is 'ct-framework' while the theme has its own textdomain.
+ * This makes it so one translation file (the theme's) can be used for both domains.
  *
  * Thank you to Justin Tadlock: https://github.com/justintadlock/hybrid-core/blob/master/functions/i18n.php
  */
