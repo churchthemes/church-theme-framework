@@ -7,7 +7,9 @@
  * Load Theme Textdomain
  *
  * Language file should go in wp-content/languages/themes/textdomain-locale.mo.
- * This keeps translation from being updated when theme is updated.
+ * There is no option for using languages folder in theme, because this is dangerous.
+ * This folder is only for storing the .pot file and any pre-made translations.
+ * It is absolutely best to keep it outside of theme.
  * 
  * See http://core.trac.wordpress.org/changeset/22346
  */
@@ -19,9 +21,9 @@ function ctc_load_theme_textdomain() {
 	// Textdomain same as theme's directory
 	$textdomain = apply_filters( 'ctc_theme_textdomain', CTC_TEMPLATE );
 
-	// By default, this loads locale.mo from theme's directory
-	// Secondarily, it loads wp-content/languages/themes/textdomain-locale.mo (much better for updates)
-	load_theme_textdomain( $textdomain );
+	// First, check for language file from the 'languages' folder in theme (recommended only for pre-made translations coming with theme)
+	// Secondarily, load custom language file from outside the theme at wp-content/languages/themes/textdomain-locale.mo (safe from theme updates)
+	load_theme_textdomain( $textdomain, CTC_LANG_DIR );
 
 }
 
