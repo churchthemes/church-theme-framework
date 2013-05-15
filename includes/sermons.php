@@ -40,9 +40,9 @@ function ctc_sermon_data( $post_id = null ) {
 
 	// Get meta values
 	$meta = ctc_get_meta_data( array( // without _ccm_sermon_ prefix
-		'video_url',
-		'audio_url',
-		'pdf_url',
+		'video',
+		'audio',
+		'pdf',
 		'has_full_text'
 	), $post_id );
 

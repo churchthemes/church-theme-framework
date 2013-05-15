@@ -517,59 +517,28 @@ function ctc_video_data( $video_url, $options = array() ) {
 
 }
 
+/***********************************************
+ * RESPONSIVE EMBEDS
+ ***********************************************/
+
 /**
- * Wrap WordPress Embeds for Responsive Videos
- *
- * Use add_theme_support( 'ctc-embed-wrapping' ) to add containers to WordPress embeds so videos can be styled responsively.
- * See WordPress Embeds: http://codex.wordpress.org/Embeds.
- * 
- * You must add styles to the theme that make the embeds responsive. For example:
- *
- *		.ctc-embed {
- *			max-width: 100%;
- *			margin: 32px 0;
- *		}
- *
- *			.ctc-embed-inner {
- *				position: relative;
- *				height: 0;
- *				padding-bottom: 56.25%;
- *			}
- *
- *				.ctc-embed iframe,
- *				.ctc-embed embed,
- *				.ctc-embed object {
- *					position: absolute;
- *					top: 0;
- *					left: 0;
- *					width: 100%;
- *					height: 100%;
- *				}
- *
- * You can use jQuery to add the original video width to the .ctc-embed wrapper, preventing videos from always having 100% width.
- *
- *		// Add original video width as max-width to .ct-embed wrapper to prevent oversized videos
- *		$( '.ctc-embed' ).each( function() {
- *			$( this ).css( 'width', $( 'iframe, embed, object', this ).prop( 'width' ) + 'px' );
- *		});
- *
- */
+ * Enqueue JavaScript for responsive embeds
+ */ 
 
-add_filter( 'embed_oembed_html', 'ctc_responsive_embeds', 10, 4 ); // make WordPress video embeds responsive by giving container to style	
+add_action( 'wp_enqueue_scripts', 'ctc_responsive_embeds_enqueue_scripts' ); // front-end only (yes, wp_enqueue_scripts is correct for styles)
+ 
+function ctc_responsive_embeds_enqueue_scripts() {
 
-function ctc_responsive_embeds( $html, $url, $attr, $post_ID ) {
+	// If theme supports this feature
+	if ( current_theme_supports( 'ctc-responsive-embeds' ) ) {
 
-	if ( current_theme_supports( 'ctc-embed-wrapping' ) ) {
+		// FitVids.js
+		wp_enqueue_script( 'fitvids', ctc_theme_url( CTC_FW_JS_DIR . '/jquery.fitvids.js' ), array( 'jquery' ), CTC_VERSION ); // bust cache on theme update
 
-		// Future: could detect media source then apply class for assigning source-specific ratios
-
-		// Only certain embed types (no img)
-		if ( preg_match( '/^<(iframe|embed|object)/', $html ) ) {
-			$html = '<div class="ctc-embed"><div class="ctc-embed-inner">' . $html . '</div></div>';
-		}
+		// Responsive embeds script
+		wp_enqueue_script( 'ctc-responsive-embeds', ctc_theme_url( CTC_FW_JS_DIR . '/responsive-embeds.js' ), array( 'fitvids' ), CTC_VERSION ); // bust cache on theme update
 
 	}
 
-	return $html;
-
 }
+
