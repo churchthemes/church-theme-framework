@@ -28,11 +28,11 @@
 	$post_type = get_post_type();
 	$post_type_friendly = ctc_make_friendly( $post_type ); // "ccm_post_type" is made into "post-type" for friendlier template naming
 
+	// Get post format
+	$post_format = get_post_format();
+
 	// Does post type support post formats?
 	if ( post_type_supports( $post_type, 'post-formats' ) ) {
-
-		// Get post format
-		$post_format = get_post_format();
 
 		// First check for something like content-post-audio.php (blog post using audio post format)
 		$templates[] = "content-{$post_type}-{$post_format}.php";

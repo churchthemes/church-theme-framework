@@ -95,10 +95,11 @@ class CTC_Widget_Galleries extends CTC_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array( // array of keys/values for radio or select
-					'post_title'		=> _x( 'Title', 'galleries widget order by', 'ct-framework' ),
-					'post_date'			=> _x( 'Date', 'galleries widget order by', 'ct-framework' ),
+					'date'		=> _x( 'Date Added', 'galleries widget order by', 'ct-framework' ),
+					'modified'	=> _x( 'Date Updated', 'galleries widget order by', 'ct-framework' ),
+					'title'		=> _x( 'Title', 'galleries widget order by', 'ct-framework' ),
 				),
-				'default'			=> 'title', // value to pre-populate option with (before first save or on reset)
+				'default'			=> 'modified', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> true, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
 				'attributes'		=> array(), // attributes to add to input element
@@ -125,7 +126,7 @@ class CTC_Widget_Galleries extends CTC_Widget {
 					'asc'	=> _x( 'Low to High', 'galleries widget order', 'ct-framework' ),
 					'desc'	=> _x( 'High to Low', 'galleries widget order', 'ct-framework' ),
 				),
-				'default'			=> 'asc', // value to pre-populate option with (before first save or on reset)
+				'default'			=> 'desc', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> true, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
 				'attributes'		=> array(), // attributes to add to input element
@@ -149,7 +150,7 @@ class CTC_Widget_Galleries extends CTC_Widget {
 				'number_min'		=> '0', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
-				'default'			=> '0', // value to pre-populate option with (before first save or on reset)
+				'default'			=> '8', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
 				'attributes'		=> array(), // attributes to add to input element
@@ -167,5 +168,27 @@ class CTC_Widget_Galleries extends CTC_Widget {
 		return $fields;
 	
 	}
+
+	/**
+	 * Get posts
+	 *
+	 * This can optionally be used by the template.
+	 * $this->instance is sanitized before being made available here.
+	 */
+	 
+	function ctc_get_posts() {
+
+		// Get gallery pages/posts
+		$posts = ctc_gallery_posts( array(
+			'order'			=> $this->ctc_instance['order'],
+			'orderby'		=> $this->ctc_instance['orderby'],
+			'limit'			=> $this->ctc_instance['limit']
+		) );
+
+		// Return filtered
+		return apply_filters( 'ctc_galleries_widget_get_posts', $posts );
+		
+	}
+
 
 }

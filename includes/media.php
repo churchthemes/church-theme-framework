@@ -163,141 +163,181 @@ function ctc_remove_gallery_styles() {
 /**
  * Remove prepend_attachment content filter
  *
- * WordPress does this when an attachment template is used (images.php, attachment.php, etc.)
- * Do the same thing automatically when content-attachment.php is used.
- *
  * This keeps the_content() from outputting a thumbnail or link to file.
+ * WordPress does this when an attachment template is used (images.php, attachment.php, etc.)
+ * Do the same thing when custom attachment templates such as content-attachment.php are used.
+ * 
+ * Enable with add_theme_support( 'ctc-remove-prepend-attachment' ) 
  */
 
-add_filter( 'get_template_part_content', 'ctc_remove_prepend_attachment', 10, 2 );
+add_filter( 'wp', 'ctc_remove_prepend_attachment' ); // conditionals like is_attachment() not available until 'wp' action
 
-function ctc_remove_prepend_attachment( $slug, $name ) {
+function ctc_remove_prepend_attachment() {
 
-	if ( 'attachment' == $name ) {
+	if ( is_attachment() && current_theme_supports( 'ctc-remove-prepend-attachment' ) ) {
 		remove_filter( 'the_content', 'prepend_attachment' );
 	}
 
 }
 
 /**
- * Get Gallery Pages
+ * Get Post's Gallery Data
  *
- * This gets all pages that have a gallery.
+ * Extract gallery shortcode data from content  (unique image IDs, total count, shortcode attribures, etc.).
  */
 
-function ctc_gallery_pages( $options = array() ) {
+function ctc_post_galleries_data( $post, $options = array() ) {
 
-	// Defaults
-	$options = wp_parse_args( $options, array(
-		'orderby'		=> 'title',
-		'order'			=> 'ASC',
-		'image_ids'		=> true,
-		'post_id'		=> ''
-	) );
+	// Default data
+	$data = array(
+		'image_ids'		=> array(),
+		'image_count'	=> 0,
+		'galleries'		=> array(),
+	);
 
-	// Get gallery page template(s)
-	$page_templates = ctc_content_type_data( 'gallery', 'page_templates' );
-	foreach ( $page_templates as $page_template_key => $page_template ) { // prepend page templates dir to each
-		$page_templates[$page_template_key] = CTC_PAGE_TPL_DIR . '/' . $page_template;
-	}
+	// Gather IDs from all gallery shortcodes in content
+	// This is based on the core get_content_galleries() function but slimmed down to do only what is needed
+	if ( preg_match_all( '/' . get_shortcode_regex() . '/s', $post->post_content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
 
-	// Get pages using a gallery template
-	$pages_query = new WP_Query( array(
-		'p'				=> $options['post_id'], // if getting one
-		'post_type'		=> 'page',
-		'nopaging'		=> true,
-		'meta_query'	=> array(
-			array(
-	        	'key' => '_wp_page_template',
-	        	'value' => $page_templates,
-	        	'compare' => 'IN',
-			)
-		),
-		'orderby'		=> $options['orderby'],
-		'order'			=> $options['order'],
-		'no_found_rows'		=> true // faster
-	) );
+		$galleries_data = array();
+		$galleries_image_ids = array();
+		$got_attached_images = false;
 
-	// Narrow to those having gallery shortcode, compile gallery data
-	$pattern = get_shortcode_regex();
-	$gallery_pages = array();
-	if ( ! empty( $pages_query->posts ) ) {
+		// Loop matching shortcodes
+		foreach ( $matches as $shortcode ) {
 
-		// Loop pages
-		foreach ( $pages_query->posts as $page ) {
+			// Gallery shortcodes only
+			if ( 'gallery' === $shortcode[2] ) {
 
-			// Continue only if has [gallery] shortcode(s)
-			if ( preg_match_all( '/'. $pattern . '/s', $page->post_content, $matches ) && array_key_exists( 2, $matches ) && in_array( 'gallery', $matches[2] ) ) {
+				// Get shortcode attributes
+				$gallery_data = shortcode_parse_atts( $shortcode[3] );
+				$galleries_data[] = $galleries_data;
 
-				$ids = array();
-				$all_attached_images = false;
+				// Has ID attributes, get 'em
+				if ( ! empty( $gallery_data['ids'] ) ) {
 
-				// Get the gallery IDs
-				if ( $options['image_ids'] ) {
+					// Loop IDs from gallery shortcode
+					$gallery_ids_raw = explode( ',', $gallery_data['ids'] );
+					foreach ( $gallery_ids_raw as $gallery_id ) {
 
-					// Loop shortcodes found
-					foreach ( $matches[2] as $key => $shortcode_name ) {
+						// Remove whitespace and exclude empty values (ie. ", 12, ,42,")
+						if ( $gallery_id = trim( $gallery_id ) ) {
 
-						// Is it a gallery shortcode?
-						if ( 'gallery' == $shortcode_name ) {
-
-							// Get attributes
-							$attributes = shortcode_parse_atts( $matches[3][$key] ); // convert string to array
-
-							// Get IDs from attribute, if any
-							$extracted_ids = array();
-							if ( ! empty( $attributes['ids'] ) ) {
-
-								// Convert ID list to array
-								$extracted_ids = explode( ',', $attributes['ids'] );
-
-								// Clean up
-								$extracted_ids = array_map( 'trim', $extracted_ids ); // Trim all ID's (in case "1, 2, 3" instead of "1,2,3")
-								$extracted_ids = array_filter( $extracted_ids ); // Remove empty values (ie. ",1, ,2")
-
-							}
-
-							// No IDs attribute found in shortcode or it was empty
-							// In that case, shortcode shows all attached images, so get them here
-							if ( empty( $extracted_ids ) && empty( $all_attached_images ) ) {
-
-								// Don't run more than once per page
-								$all_attached_images = true;
-
-								// Get all attached images for this page
-								$images = get_children( array(
-									'post_parent' => $page->ID,
-									'post_type' => 'attachment',
-									'post_status' => 'inherit', // for attachments
-									'post_mime_type' => 'image',
-									'numberposts' => -1 // all
-								) ) ;
-
-								// Found some?
-								if ( ! empty( $images ) ) {
-									$extracted_ids = array_keys( $images );
-								}
-
-							}
-
-							// Add ID's from this shortcode to array for page
-							if ( ! empty( $extracted_ids ) ) {
-								$ids = array_merge( $ids, $extracted_ids );
-							}
+							// Add to array containing imag IDs from all galleries in post
+							$galleries_image_ids[] = $gallery_id;
 
 						}
 
 					}
 
-					// Remove duplicates
-					$ids = array_unique( $ids ); // Remove duplicates
+				}
+
+				// No ID attributes, in which case all attached images shown - get 'em
+				elseif ( ! $got_attached_images ) {
+
+					// Don't run more than once per post
+					$got_attached_images = true;
+
+					// Get all attached images for this post
+					$images = get_children( array(
+						'post_parent' => $post->ID,
+						'post_type' => 'attachment',
+						'post_status' => 'inherit', // for attachments
+						'post_mime_type' => 'image',
+						'numberposts' => -1 // all
+					) ) ;
+
+					// Found some?
+					if ( ! empty( $images ) ) {
+
+						// Add to array containing imag IDs from all galleries in post
+						$attached_image_ids = array_keys( $images );
+						$galleries_image_ids = array_merge( $galleries_image_ids, $attached_image_ids );
+
+					}
 
 				}
 
-				// Add page data to array
-				$gallery_pages[$page->ID]['page'] = $page;
-				$gallery_pages[$page->ID]['image_ids'] = $ids;
-				$gallery_pages[$page->ID]['image_count'] = count( $ids );
+			}
+
+		}
+
+		// Did we find some images?
+		if ( $galleries_image_ids ) {
+
+			// Remove duplicates
+			$galleries_image_ids = array_unique( $galleries_image_ids );
+
+			// Build array of data
+			$data['image_ids'] = $galleries_image_ids;
+			$data['image_count'] = count( $galleries_image_ids );
+			$data['galleries'] = $galleries_data;
+
+		}
+
+	}
+
+	// Return filterable
+	return apply_filters( 'ctc_post_galleries_data', $data, $post );
+
+}
+
+/**
+ * Get Gallery Posts
+ *
+ * This gets all posts that have a gallery.
+ */
+
+function ctc_gallery_posts( $options = array() ) {
+
+	$gallery_posts = array();
+
+	// Defaults
+	$options = wp_parse_args( $options, array(
+		'orderby'		=> 'modified',
+		'order'			=> 'desc',
+		'limit'			=> -1, // no limit
+		'extract_data'	=> true, // false to skip that for optimization
+		'exclude_empty'	=> true, // works only when 'extract_data' is true
+		'post_id'		=> ''
+	) );
+
+	// If no extract_data, force exclude_empty false (since it is not possible)
+	$options['exclude_empty'] = ! $options['extract_data'] ? false : $options['exclude_empty'];
+
+	// Query arguments
+	$args = array(
+		'p'					=> $options['post_id'], // if getting one
+		'post_type'			=> array( 'page', 'post', 'ccm_sermon', 'ccm_event', 'ccm_person', 'ccm_location' ),
+		'orderby'			=> $options['orderby'],
+		'order'				=> $options['order'],
+		'posts_per_page'	=> $options['limit'],
+		'no_found_rows'		=> true, // faster
+	);
+	$args = apply_filters( 'ctc_gallery_posts_args', $args, $options );
+
+	// Get posts
+    add_filter( 'posts_where', 'ctc_gallery_posts_where' ); // modify query to search content for [gallery] shortcode so not all posts are gotten
+	$posts_query = new WP_Query( $args );
+    remove_filter( 'posts_where', 'ctc_gallery_posts_where' ); // stop filtering WP_Query
+
+	// Compile post's gallery data
+	if ( ! empty( $posts_query->posts ) ) {
+
+		// Loop posts
+		foreach ( $posts_query->posts as $post ) {
+
+			// Get gallery data unless option prevents it
+			$galleries_data = $options['extract_data'] ? ctc_post_galleries_data( $post ) : array();
+
+			// Add post and gallery data to array
+			if ( ! ( $options['exclude_empty'] && empty( $galleries_data['image_count'] ) ) ) {
+
+				// Add post data to array
+				$gallery_posts[$post->ID]['post'] = $post;
+
+				// Add gallery data to array
+				$gallery_posts[$post->ID] = array_merge( $gallery_posts[$post->ID], $galleries_data );
 
 			}
 
@@ -306,78 +346,96 @@ function ctc_gallery_pages( $options = array() ) {
 	}
 
 	// Return filterable
-	return apply_filters( 'ctc_gallery_pages', $gallery_pages, $options );
+	return apply_filters( 'ctc_gallery_posts', $gallery_posts, $options );
 
 }
 
 /**
- * Get Gallery Page IDs
- */
-
-function ctc_gallery_pages_ids() {
-
-	$ids = array();
-
-	$gallery_pages = ctc_gallery_pages( array( 'image_ids' => false ) );
-
-	foreach ( $gallery_pages as $page_id => $page_data ) {
-		$ids[] = $page_id;
-	}
-
-	return apply_filters( 'ctc_gallery_pages_ids', $ids );
-
-}
-
-/**
- * Gallery preview
+ * Filter gallery posts query to get only those with [gallery] shortcode
  *
- * Show X rows of thumbnails from content with gallery shortcode.
- * The shortcodes column attribute will be used. Only the first gallery shortcode is searched.
+ * This way not all posts are gotten; only post with galleries.
  */
-function ctc_gallery_preview( $content = false, $options = array() ) {
 
-	$gallery_preview = '';
+function ctc_gallery_posts_where( $where ) {
 
-	// Use current post content if none given
-	if ( $search_content = ! empty( $content ) ? $content : get_the_content() ) {
+	global $wpdb;
 
-		// Option defaults
-		$options = wp_parse_args( $options, array(
-			'rows' => 2,
-			'columns' => '' // inherit from shortcode
+	// Append search for gallery shortcode
+	$where .= $wpdb->prepare(
+		" AND {$wpdb->posts}.post_content LIKE %s",
+		'%[gallery%'
+	);
+
+	return $where;
+
+}
+
+/**
+ * Get Gallery Posts IDs
+ *
+ * Get IDs of all pages/posts with gallery content.
+ */
+
+function ctc_gallery_posts_ids( $options = array() ) {
+
+	// Do not extract data in this case, just need IDS
+	$options['extract_data'] = false; // optimization
+
+	// Get posts/pages with IDs
+	$gallery_posts = ctc_gallery_posts( $options );
+
+	// Put IDs into array
+	$ids = array_keys( $gallery_posts );
+
+	// Return filtered
+	return apply_filters( 'ctc_gallery_posts_ids', $ids );
+
+}
+
+/**
+ * Post Gallery Preview
+ *
+ * Show X rows of thumbnails from post content with gallery shortcode(s).
+ * The shortcode column attribute from the first gallery will be used.
+ */
+
+function ctc_post_gallery_preview( $post, $options = array() ) {
+
+	$preview = '';
+
+	// Option defaults
+	$options = wp_parse_args( $options, array(
+		'rows' => 2,
+		'columns' => '' // inherit from shortcode
+	) );
+	$options = apply_filters( 'ctc_post_gallery_preview_options', $options );
+
+	// Get data from galleries used in post
+	$galleries_data = ctc_post_galleries_data( $post );
+
+	// Found at least one gallery with image?
+	if ( ! empty( $galleries_data['image_count'] ) ) {
+
+		// Get columns attribute from first gallery shortcode
+		$first_gallery_columns = ! empty( $galleries_data['galleries'][0]['columns'] ) ? $galleries_data['galleries'][0]['columns'] : '';
+
+		// Show limited number of rows
+		$rows = $options['rows'];
+		$columns = ! empty( $options['columns'] ) ? $options['columns'] : $first_gallery_columns; // inherit from first shortcode or use default
+		$limit = $rows * $columns; // based on columns
+		$ids = array_slice( $galleries_data['image_ids'], 0, $limit ); // truncate
+		$ids = implode( ',', $ids ); // form as list
+
+		// Build gallery HTML
+		$preview = gallery_shortcode( array(
+			'columns'	=> $columns,
+			'ids'		=> $ids
 		) );
 
-		// Get data from first gallery shortcode in post
-		$galleries_data = get_content_galleries( $search_content, false, false, 1 );
-
-		// Gallery data found
-		if ( isset( $galleries_data[0] ) && $gallery_data = $galleries_data[0] ) {
-
-			// Clean up gallery IDs
-			$gallery_ids = array();
-			$gallery_ids_raw = explode( ',', $gallery_data['ids'] );
-			foreach ( $gallery_ids_raw as $gallery_id ) {
-				if ( $gallery_id = trim( $gallery_id ) ) { // remove whitespace and empty values from IDs attribute
-					$gallery_ids[] = $gallery_id;
-				}
-			}
-
-			// Show limited number of rows
-			$gallery_rows = apply_filters( 'ctc_short_content_gallery_rows', $options['rows'] );
-			$gallery_columns = ! empty( $options['columns'] ) ? $options['columns'] : $gallery_data['columns']; // inherit from shortcode or use default
-			$gallery_items = $gallery_rows *$gallery_columns; // based on columns
-			$gallery_ids = array_slice( $gallery_ids, 0, $gallery_items ); // truncate
-			$gallery_ids = implode( ',', $gallery_ids ); // reform as list
-
-			// Build gallery HTML
-			$gallery_preview = do_shortcode( '[gallery columns="' .$gallery_columns . '" ids="' . $gallery_ids . '"]' );
-
-		}
-
 	}
 
 	// Return filterable
-	return apply_filters( 'ctc_gallery_preview', $gallery_preview, $content );
+	return apply_filters( 'ctc_post_gallery_preview', $preview, $post, $options );
 
 }
 
