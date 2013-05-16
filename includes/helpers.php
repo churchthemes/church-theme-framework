@@ -51,6 +51,23 @@ function ctc_is_url( $string ) {
 
 }
 
+
+/**
+ * Check if URL is local
+ */
+	 
+function ctc_is_local_url( $url ) {
+
+	$bool = false;
+
+	if ( preg_match( '/^' . preg_quote( site_url() ) . '/', $url ) ) {
+		$bool = true;
+	}
+
+	return apply_filters( 'ctc_is_url_local', $url );
+
+}
+
 /*************************************************
  * ARRAYS
  *************************************************/

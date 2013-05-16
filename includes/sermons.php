@@ -40,38 +40,25 @@ function ctc_sermon_data( $post_id = null ) {
 
 	// Get meta values
 	$data = ctc_get_meta_data( array( // without _ccm_sermon_ prefix
-		'video',
-		'audio',
-		'pdf',
+		'video',		// URL to uploaded file, external file, external site with oEmbed support, or manual embed code (HTML or shortcode)
+		'audio',		// URL to uploaded file, external file, external site with oEmbed support, or manual embed code (HTML or shortcode)
+		'pdf',			// URL to uploaded file or external file
 		'has_full_text'
 	), $post_id );
 
-	// Derive audio URL or embed code data from $video
-	$data['video_url'] = '';
-	$data['video_embed'] = '';
-	if ( ctc_is_url( $data['video'] ) ) { // URL
-		$data['video_url'] = $data['video'];
-	} else { // otherwise it is embed code
-		$data['video_embed'] = $data['video'];
-	}
+	// Get media player code
+	// Embed code generated from uploaded file, URL for file on other site, page on oEmbed-supported site, or manual embed code (HTML or shortcode)
+	$data['video_player'] = ctc_embed_code( $data['video'] );
+	$data['audio_player'] = ctc_embed_code( $data['audio'] );
 
-	// Derive video URL or embed code data from $audio
-	$data['audio_url'] = '';
-	$data['audio_embed'] = '';
-	if ( ctc_is_url( $data['audio'] ) ) { // URL
-		$data['audio_url'] = $data['audio'];
-	} else { // otherwise it is embed code
-		$data['audio_embed'] = $data['audio'];
-	}
-
-	// Derive PDF URL or embed code data from $pdf (future possibility; good to use $pdf_url instead of $pdf)
-	$data['pdf_url'] = '';
-	$data['pdf_embed'] = '';
-	if ( ctc_is_url( $data['pdf'] ) ) { // URL
-		$data['pdf_url'] = $data['pdf'];
-	} else { // otherwise it is embed code
-		$data['pdf_embed'] = $data['pdf'];
-	}
+	// Get download URL's
+	// Only local files can have "Save As" forced
+	// Only local files can are always actual files, not pages (ie. YouTube, SoundCloud, etc.)
+	// Video and Audio URL's may be pages on other site (YouTube, SoundCloud, etc.), so provide download URL only for local files
+	// PDF is likely always to be actual file, so provide download URL no matter what (although cannot force "Save As" on external sites)
+	$data['video_download_url'] = ctc_is_local_url( $data['video'] ) ) ? ctc_force_download_url( $data['video'] ) : ''; // provide URL only if local so know it is actual file (not page) and can force "Save As"
+	$data['audio_download_url'] = ctc_is_local_url( $data['audio'] ) ) ? ctc_force_download_url( $data['audio'] ) : ''; // provide URL only if local so know it is actual file (not page) and can force "Save As"
+	$data['pdf_download_url'] = ctc_force_download_url( $data['pdf'] ); // provide URL only if local so know it is actual file (not page) and can force "Save As"
 
 	// Return filtered
 	return apply_filters( 'ctc_sermon_data', $data );
