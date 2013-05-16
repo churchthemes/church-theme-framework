@@ -33,6 +33,24 @@ function ctc_current_protocol() {
 
 }
 
+/**
+ * Check if string is a URL
+ */
+
+function ctc_is_url( $string ) {
+
+	$bool = false;
+
+	$url_pattern = '/^(http(s*)):\/\//i';
+
+	if ( preg_match( $url_pattern, $string ) ) { // URL
+		$bool = true;
+	}
+
+	return apply_filters( 'ctc_is_url', $bool, $string );
+
+}
+
 /*************************************************
  * ARRAYS
  *************************************************/
