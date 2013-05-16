@@ -56,8 +56,8 @@ function ctc_sermon_data( $post_id = null ) {
 	// Only local files can are always actual files, not pages (ie. YouTube, SoundCloud, etc.)
 	// Video and Audio URL's may be pages on other site (YouTube, SoundCloud, etc.), so provide download URL only for local files
 	// PDF is likely always to be actual file, so provide download URL no matter what (although cannot force "Save As" on external sites)
-	$data['video_download_url'] = ctc_is_local_url( $data['video'] ) ) ? ctc_force_download_url( $data['video'] ) : ''; // provide URL only if local so know it is actual file (not page) and can force "Save As"
-	$data['audio_download_url'] = ctc_is_local_url( $data['audio'] ) ) ? ctc_force_download_url( $data['audio'] ) : ''; // provide URL only if local so know it is actual file (not page) and can force "Save As"
+	$data['video_download_url'] = ctc_is_local_url( $data['video'] ) ? ctc_force_download_url( $data['video'] ) : ''; // provide URL only if local so know it is actual file (not page) and can force "Save As"
+	$data['audio_download_url'] = ctc_is_local_url( $data['audio'] ) ? ctc_force_download_url( $data['audio'] ) : ''; // provide URL only if local so know it is actual file (not page) and can force "Save As"
 	$data['pdf_download_url'] = ctc_force_download_url( $data['pdf'] ); // provide URL only if local so know it is actual file (not page) and can force "Save As"
 
 	// Return filtered
