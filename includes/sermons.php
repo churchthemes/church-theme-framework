@@ -46,6 +46,36 @@ function ctc_sermon_data( $post_id = null ) {
 		'has_full_text'
 	), $post_id );
 
+	// Regex to match URL
+	$url_pattern = '/^(http(s*)):\/\//i';
+
+	// Derive audio URL or embed code data from $video
+	$meta['video_url'] = '';
+	$meta['video_embed'] = '';
+	if ( preg_match( $url_pattern, $meta['video'] ) ) { // URL
+		$meta['video_url'] = $meta['video'];
+	} else { // otherwise it is embed code
+		$meta['video_embed'] = $meta['video'];
+	}
+
+	// Derive video URL or embed code data from $audio
+	$meta['audio_url'] = '';
+	$meta['audio_embed'] = '';
+	if ( preg_match( $url_pattern, $meta['audio'] ) ) { // URL
+		$meta['audio_url'] = $meta['audio'];
+	} else { // otherwise it is embed code
+		$meta['audio_embed'] = $meta['audio'];
+	}
+
+	// Derive PDF URL or embed code data from $pdf (future possibility; good to use $pdf_url instead of $pdf)
+	$meta['pdf_url'] = '';
+	$meta['pdf_embed'] = '';
+	if ( preg_match( $url_pattern, $meta['pdf'] ) ) { // URL
+		$meta['pdf_url'] = $meta['pdf'];
+	} else { // otherwise it is embed code
+		$meta['pdf_embed'] = $meta['pdf'];
+	}
+
 	// Return filtered
 	return apply_filters( 'ctc_sermon_meta', $meta );
 
