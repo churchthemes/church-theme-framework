@@ -518,11 +518,41 @@ function ctc_video_data( $video_url, $options = array() ) {
 }
 
 /***********************************************
- * RESPONSIVE EMBEDS
+ * EMBEDS
  ***********************************************/
 
 /**
- * Enqueue JavaScript for responsive embeds
+ * Embed code based on audio/video URL or provided embed code
+ *
+ * If content is URL, use oEmbed to get embed code. If content is not URL, assume it is
+ * embed code and run do_shortcode() in case of [video], [audio] or [embed]
+ */
+
+function ctc_embed_code( $content ) {
+
+	global $wp_embed;
+
+	// Convert URL into media shortcode like [audio] or [video]
+	if ( ctc_is_url( $content ) ) {
+		$embed_code = $wp_embed->shortcode( array(), $content );
+	}
+
+	// HTML or shortcode embed may have been provided
+	else {
+		$embed_code = $content;
+	}
+
+	// Run shortcode
+	// [video], [audio] or [embed] converted from URL or already existing in $content
+	$embed_code = do_shortcode( $embed_code );
+
+	// Return filtered
+	return apply_filters( 'ctc_embed_code', $embed_code, $content );
+
+}
+
+/**
+ * Responsive embeds JavaScript
  */ 
 
 add_action( 'wp_enqueue_scripts', 'ctc_responsive_embeds_enqueue_scripts' ); // front-end only (yes, wp_enqueue_scripts is correct for styles)

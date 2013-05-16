@@ -39,45 +39,42 @@ function ctc_sermon_date_archive( $wp_rewrite ) {
 function ctc_sermon_data( $post_id = null ) {
 
 	// Get meta values
-	$meta = ctc_get_meta_data( array( // without _ccm_sermon_ prefix
+	$data = ctc_get_meta_data( array( // without _ccm_sermon_ prefix
 		'video',
 		'audio',
 		'pdf',
 		'has_full_text'
 	), $post_id );
 
-	// Regex to match URL
-	$url_pattern = '/^(http(s*)):\/\//i';
-
 	// Derive audio URL or embed code data from $video
-	$meta['video_url'] = '';
-	$meta['video_embed'] = '';
-	if ( preg_match( $url_pattern, $meta['video'] ) ) { // URL
-		$meta['video_url'] = $meta['video'];
+	$data['video_url'] = '';
+	$data['video_embed'] = '';
+	if ( ctc_is_url( $data['video'] ) ) { // URL
+		$data['video_url'] = $data['video'];
 	} else { // otherwise it is embed code
-		$meta['video_embed'] = $meta['video'];
+		$data['video_embed'] = $data['video'];
 	}
 
 	// Derive video URL or embed code data from $audio
-	$meta['audio_url'] = '';
-	$meta['audio_embed'] = '';
-	if ( preg_match( $url_pattern, $meta['audio'] ) ) { // URL
-		$meta['audio_url'] = $meta['audio'];
+	$data['audio_url'] = '';
+	$data['audio_embed'] = '';
+	if ( ctc_is_url( $data['audio'] ) ) { // URL
+		$data['audio_url'] = $data['audio'];
 	} else { // otherwise it is embed code
-		$meta['audio_embed'] = $meta['audio'];
+		$data['audio_embed'] = $data['audio'];
 	}
 
 	// Derive PDF URL or embed code data from $pdf (future possibility; good to use $pdf_url instead of $pdf)
-	$meta['pdf_url'] = '';
-	$meta['pdf_embed'] = '';
-	if ( preg_match( $url_pattern, $meta['pdf'] ) ) { // URL
-		$meta['pdf_url'] = $meta['pdf'];
+	$data['pdf_url'] = '';
+	$data['pdf_embed'] = '';
+	if ( ctc_is_url( $data['pdf'] ) ) { // URL
+		$data['pdf_url'] = $data['pdf'];
 	} else { // otherwise it is embed code
-		$meta['pdf_embed'] = $meta['pdf'];
+		$data['pdf_embed'] = $data['pdf'];
 	}
 
 	// Return filtered
-	return apply_filters( 'ctc_sermon_meta', $meta );
+	return apply_filters( 'ctc_sermon_data', $data );
 
 }
 
