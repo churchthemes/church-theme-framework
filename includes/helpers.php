@@ -10,18 +10,6 @@
  *************************************************/
 
 /**
- * Current URL
- */
- 
-function ctc_current_url() {
-
-	$url = ctc_current_protocol() . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-
-	return $url;
-
-}
-
-/**
  * http or https protocol
  */
  
