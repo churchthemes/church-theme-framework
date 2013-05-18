@@ -12,6 +12,7 @@ jQuery(document).ready(function($) {
 	// Rdio and Spotify are correct when loading at final size (browser resize is bad demo)
 	$( 'body' ).fitVids({ // content and sidebar
 		customSelector: [
+			"iframe[src*='youtu.be']",
 			"iframe[src*='blip.tv']",
 			"iframe[src*='hulu.com']",
 			"iframe[src*='dailymotion.com']",

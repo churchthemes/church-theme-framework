@@ -494,3 +494,69 @@ function ctc_responsive_embeds_enqueue_scripts() {
 
 }
 
+/**
+ * Generic embeds
+ *
+ * This helps make embeds more generic by setting parameters to remove
+ * related videos, set neutral colors, reduce branding, etc.
+ *
+ * Enable with: add_theme_support( 'ctc-generic-embeds' );
+ */
+
+add_filter( 'embed_oembed_html', 'ctc_generic_embeds' );
+
+function ctc_generic_embeds( $html ) {
+
+	// Does theme support this?
+	if ( current_theme_supports( 'ctc-generic-embeds' ) ) {
+
+		// Get iframe source URL
+		preg_match_all( '/<iframe[^>]+src=([\'"])(.+?)\1[^>]*>/i', $html, $matches );
+		$url = ! empty( $matches[2][0] ) ? $matches[2][0] : '';
+
+		// URL found
+		if ( $url ) {
+
+			$new_url = '';
+			$source = '';
+			$args = array();
+
+			// YouTube
+			if ( preg_match( '/youtube/i', $url ) ) {
+				$source = 'youtube';
+				$args = array(
+					'wmode'				=> 'transparent',
+					'rel'				=> '0', // don't show related videos at end
+					'showinfo'			=> '0',
+					'color'				=> 'white',
+					'modestbranding'	=> '1'
+				);
+			}
+
+			// Vimeo
+			elseif ( preg_match( '/vimeo/i', $url ) ) {
+				$source = 'vimeo';
+				$args = array(
+					'title'				=> '0',
+					'byline'			=> '0',
+					'portrait'			=> '0',
+					'color'				=> 'ffffff'
+				);
+			}
+
+			// Modify URL
+			$args = apply_filters( 'ctc_generic_embeds_add_args', $args, $source );
+			$new_url = add_query_arg( $args, $url );
+
+			// Replace source with modified URL
+			if ( $new_url != $url ) {
+				$html = str_replace( $url, $new_url, $html );
+			}
+
+		}
+
+	}
+
+	return $html;
+
+}
