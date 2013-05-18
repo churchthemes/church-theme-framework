@@ -24,6 +24,6 @@ jQuery(document).ready(function($) {
 
 	// Other embedded media only need max-width: 100% (height is static) - SoundCloud, MediaElement.js, etc.
 	// Important: when done via stylesheet, MediaElement.js volume control flickers
-	$( "iframe[src*='soundcloud.com'], .wp-video-shortcode, .wp-audio-shortcode" ).css( 'max-width', '100%' );
+	$( "iframe[src*='soundcloud.com'], iframe[src*='snd.sc'], .wp-video-shortcode, .wp-audio-shortcode" ).css( 'max-width', '100%' );
 
 });
