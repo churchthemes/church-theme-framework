@@ -49,7 +49,8 @@ function ctc_theme_url( $file = '' ) {
 // TO DO: TRIPLE-CHECK THE SECURITY ON THIS
 
 /**
- * Force download of certain file types via /download-file/filename.type URL
+ * Force download of certain file types via ?download=path/filename.type
+ * 
  * This information was useful: http://wordpress.stackexchange.com/questions/3480/how-can-i-force-a-file-download-in-the-wordpress-backend
  */
 
@@ -57,15 +58,14 @@ add_action( 'template_redirect', 'ctc_force_download' );
 
 function ctc_force_download() {
 	
-	// check if this URL is a request for file download
-	$base_path = '/download-file/';
-	$regex = '/^.*' . preg_quote( $base_path, '/' ) . '(.+\..+)$/i'; // .* at beginning allows for WP not being a domain level install
-	if ( preg_match( $regex, $_SERVER['REQUEST_URI'], $matches ) && ! empty( $matches[1] ) ) {
+    global $wp_query;
+
+	// Sheck if this URL is a request for file download
+	if ( is_front_page() && ! empty( $_GET['download'] ) ) {
 
 		// relative file path
-		$relative_file_path = $matches[1];
-		list( $relative_file_path ) = explode( '?', $relative_file_path ); // chop query string off, although it should not be able to get through
-		
+		$relative_file_path = ltrim( $_GET['download'], '/' ); // remove preceding slash, if any
+
 		// check for directory traversal attack
 		if ( ! validate_file( $relative_file_path ) ) { // false means it passed validation
 			
@@ -100,27 +100,48 @@ function ctc_force_download() {
 			}
 			
 		}
+
+		// failure of any type results in 404 file not found
+	    $wp_query->set_404();
+	    status_header( 404 );
 		
 	}
-		
-	// failure of any type results in 404 file not found
 
 }
 
 /**
- * Convert regular URL to URL that forces download
+ * Convert regular URL to one that forces download ("Save As")
+ *
+ * This keeps the browser from doing what it wants with the file (such as play MP3 or show PDF).
+ * Note that file must be in uploads folder and extension must be allowed by WordPress.
  * 
- * Note that file must be in uploads folder and extension must be defined in ctc_force_download()
- * /download-file/2012/05/uploaded-file.ext (relative to wp-content/uploads)
+ * Makes this:	http://yourname.com/?download=%2F2009%2F10%2Ffile.pdf
+ * Out of:		http://yourname.com/wp-content/uploads/2013/05/file.pdf
+ * 				http://yourname.com/wp-content/uploads/sites/6/2013/05/file.pdf (multisite)
  */
 	 
 function ctc_force_download_url( $url ) {
 
-	$upload_dir = wp_upload_dir();
+	// In case URL is not local
+	$download_url = $url;
 
-	$force_url = str_replace( $upload_dir['baseurl'], site_url( 'download-file' ), $url );		
+	// Is URL local?
+	if ( ctc_is_local_url( $url ) ) {
 
-	return apply_filters( 'ctc_force_download_url', $force_url, $url );
+		// Get URL to upload directory
+		$upload_dir = wp_upload_dir();
+		$upload_dir_url = $upload_dir['baseurl'];
+
+		// Get relative URL for file
+		$relative_url = str_replace( $upload_dir_url, '', $url ); // remove base URL
+		$relative_url = ltrim( $relative_url ); // remove preceding slash
+
+		// Add ?download=file to site URL
+		$download_url = site_url( '/' ) . '?download=' . urlencode( $relative_url );
+
+	}
+
+	return apply_filters( 'ctc_force_download_url', $download_url, $url );
 
 }
 
