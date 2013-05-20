@@ -56,6 +56,21 @@ function ctc_is_local_url( $url ) {
 
 }
 
+/**
+ * Site path (base URL relative to domain)
+ *
+ * yourname.com/site becomes /site (useful for cookie path)
+ */
+
+function ctc_site_path() {
+
+	// Just get everything after the domain in the site URL
+	list( , $path ) = explode( $_SERVER['HTTP_HOST'], site_url( '/' ) );
+
+	return apply_filters( 'ctc_site_path', $path );
+
+}
+
 /*************************************************
  * ARRAYS
  *************************************************/
