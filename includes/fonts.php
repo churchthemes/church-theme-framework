@@ -2,7 +2,7 @@
 /**
  * Font Functions
  *
- * These functions help setup and integrate custom fonts such as Google Web Fonts.
+ * These functions help setup and integrate custom fonts such as Google Fonts.
  */
 
 /*******************************************
@@ -59,11 +59,11 @@ function ctc_font_stack( $font, $available_fonts ) {
 }
 
 /*******************************************
- * GOOGLE WEB FONTS
+ * Google Fonts
  *******************************************/
 
 /**
- * Google Web Fonts stylesheet URL for enqueuing
+ * Google Fonts stylesheet URL for enqueuing
  */
  
 function ctc_google_fonts_style_url( $fonts, $available_fonts, $font_subsets = false ) {
