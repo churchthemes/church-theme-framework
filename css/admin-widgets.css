@@ -19,47 +19,42 @@
 			font-weight: normal;
 		}
 
-	.ctc-widget-value {
 
+	.ctc-widget-value input[type=text], /* can also use widefat class for 100% */
+	.ctc-widget-value textarea {
+		width: 100%;
+	}
+	
+	.ctc-widget-value textarea {
+		height: 56px;
 	}
 
-		/* can also use widefat class for 100% */
+	.ctc-widget-value select {
+		max-width: 99%;
+	}
 
-		.ctc-widget-value input[type=text],
-		.ctc-widget-value textarea {
-			width: 100%;
-		}
-		
-		.ctc-widget-value textarea {
-			height: 56px;
-		}
+	input[type=text].ctc-widget-small,
+	textarea.ctc-widget-small {
+		width: 100px;
+	}
 
-		.ctc-widget-value select {
-			max-width: 99%;
-		}
+	input[type=text].ctc-widget-tiny,
+	textarea.ctc-widget-tiny {
+		width: 40px;
+	}
 
-		input[type=text].ctc-widget-small,
-		textarea.ctc-widget-small {
-			width: 100px;
-		}
-
-		input[type=text].ctc-widget-tiny,
-		textarea.ctc-widget-tiny {
-			width: 40px;
-		}
+	.ctc-widget-radio-inline {
+		display: inline-block;
+		margin: 2px 12px 0 0;
+	}
 	
-		.ctc-widget-radio-inline {
-			display: inline-block;
-			margin: 2px 12px 0 0;
+		.ctc-widget-radio-inline:last-child {
+			margin-right: 0;
 		}
-		
-			.ctc-widget-radio-inline:last-child {
-				margin-right: 0;
-			}
 
-		.ctc-widget-value .description {
-			margin-top: 3px !important;
-		}
+	.ctc-widget-value .description {
+		margin-top: 3px !important;
+	}
 
 /* Hidden Fields */
 		
