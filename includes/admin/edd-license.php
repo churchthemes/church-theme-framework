@@ -369,9 +369,14 @@ function ctc_edd_license_notice() {
 		return;
 	}
 
-	// Don't show on Theme License page
+	// User can edit theme options?
+	if ( ! current_user_can( 'edit_theme_options' ) ) {
+		return;
+	}
+
+	// Show only on relevant pages as not to overwhelm the admin
 	$screen = get_current_screen();
-	if ( 'appearance_page_theme-license' == $screen->base ) {
+	if ( ! in_array( $screen->base, array( 'dashboard', 'themes', 'update-core' ) ) ) {
 		return;
 	}
 

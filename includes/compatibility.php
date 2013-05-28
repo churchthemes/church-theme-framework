@@ -175,21 +175,27 @@ add_action( 'admin_notices', 'ctc_functionality_plugin_notice' );
 
 function ctc_functionality_plugin_notice() {
 
+	// SHow only on relevant pages as not to overwhelm the admin
+	$screen = get_current_screen();
+	if ( ! in_array( $screen->base, array( 'dashboard', 'themes', 'plugins' ) ) ) {
+		return;
+	}
+
 	// Plugin not installed
-	if ( ! ctc_functionality_plugin_installed() ) {
+	if ( ! ctc_functionality_plugin_installed() && current_user_can( 'install_plugins' ) ) {
 
 		$notice = sprintf(
-			__( '<b>Plugin Required:</b> Please install and activate the <a href="%s" class="thickbox">Church Content Manager</a> plugin to use with this theme.', 'ct-framework' ),
+			__( '<b>Plugin Required:</b> Please install and activate the <a href="%s" class="thickbox">Church Content Manager</a> plugin to use with the current theme.', 'ct-framework' ),
 			network_admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . ctc_functionality_plugin_slug() . '&TB_iframe=true&width=700&height=450' )
 		);
 
 	}
 
 	// Plugin installed but not activated
-	elseif ( ! ctc_functionality_plugin_active() ) {
+	elseif ( ! ctc_functionality_plugin_active() && current_user_can( 'activate_plugins' ) ) {
 
 		$notice = sprintf(
-			__( 'Please <a href="%s">activate</a> the <b>Church Content Manager</b> plugin required by this theme.', 'ct-framework' ),
+			__( 'Please <a href="%s">activate</a> the <b>Church Content Manager</b> plugin required by the current theme.', 'ct-framework' ),
 			wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=' . ctc_functionality_plugin_file() ), 'activate-plugin_' . ctc_functionality_plugin_file() )
 		);
 
