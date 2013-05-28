@@ -1,0 +1,13 @@
+/**
+ * Theme License
+ */
+ 
+.ctc-license-active {
+	color: #1ba31b;
+	font-weight: bold;
+}
+
+.ctc-license-inactive {
+	color: #d52121;
+	font-weight: bold;
+}

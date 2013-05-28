@@ -189,7 +189,7 @@ function ctc_functionality_plugin_notice() {
 	elseif ( ! ctc_functionality_plugin_active() ) {
 
 		$notice = sprintf(
-			__( 'Please <a href="%s">activate</a> the <b>Church Content Manager</b> plugin to use it with this theme.', 'ct-framework' ),
+			__( 'Please <a href="%s">activate</a> the <b>Church Content Manager</b> plugin required by this theme.', 'ct-framework' ),
 			wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=' . ctc_functionality_plugin_file() ), 'activate-plugin_' . ctc_functionality_plugin_file() )
 		);
 
