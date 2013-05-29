@@ -14,7 +14,7 @@ class CTFW_Widget_Posts extends CTFW_Widget {
 	function __construct() {
 	
 		parent::__construct(
-			'ctc-posts',
+			'ctfw-posts',
 			_x( 'CT Posts', 'widget', 'church-theme-framework' ),
 			array(
 				'description' => __( 'Shows blog posts according to options', 'church-theme-framework' )

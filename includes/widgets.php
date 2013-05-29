@@ -24,7 +24,7 @@ function ctfw_widgets() {
 
 	// Available widgets
 	$widgets = array(
-		'ctc-categories' => array(										// id_base as specified in widget's class
+		'ctfw-categories' => array(										// id_base as specified in widget's class
 			'class'						=> 'CTFW_Widget_Categories',		// widget class name
 			'class_file'				=> 'widget-categories.php',		// filename of class in framework class directory
 			'template_file'				=> 'widget-categories.php',		// filename of template in widget-templates directory
@@ -35,7 +35,7 @@ function ctfw_widgets() {
 				'WP_Widget_Categories'
 			),
 		),
-		'ctc-posts' => array(
+		'ctfw-posts' => array(
 			'class'						=> 'CTFW_Widget_Posts',
 			'class_file'				=> 'widget-posts.php',
 			'template_file'				=> 'widget-posts.php',
@@ -46,7 +46,7 @@ function ctfw_widgets() {
 				'WP_Widget_Recent_Posts'
 			)
 		),		
-		'ctc-sermons' => array(
+		'ctfw-sermons' => array(
 			'class'						=> 'CTFW_Widget_Sermons',
 			'class_file'				=> 'widget-sermons.php',
 			'template_file'				=> 'widget-sermons.php',
@@ -57,7 +57,7 @@ function ctfw_widgets() {
 			),
 			'unregister'				=> array(),
 		),
-		'ctc-events' => array(
+		'ctfw-events' => array(
 			'class'						=> 'CTFW_Widget_Events',
 			'class_file'				=> 'widget-events.php',
 			'template_file'				=> 'widget-events.php',
@@ -68,7 +68,7 @@ function ctfw_widgets() {
 			),
 			'unregister'				=> array(),
 		),
-		'ctc-gallery' => array(
+		'ctfw-gallery' => array(
 			'class'						=> 'CTFW_Widget_Gallery',
 			'class_file'				=> 'widget-gallery.php',
 			'template_file'				=> 'widget-gallery.php',
@@ -77,7 +77,7 @@ function ctfw_widgets() {
 			'theme_support_required'	=> array(),
 			'unregister'				=> array(),
 		),
-		'ctc-galleries' => array(
+		'ctfw-galleries' => array(
 			'class'						=> 'CTFW_Widget_Galleries',
 			'class_file'				=> 'widget-galleries.php',
 			'template_file'				=> 'widget-galleries.php',
@@ -86,7 +86,7 @@ function ctfw_widgets() {
 			'theme_support_required'	=> array(),
 			'unregister'				=> array(),
 		),
-		'ctc-people' => array(
+		'ctfw-people' => array(
 			'class'						=> 'CTFW_Widget_People',
 			'class_file'				=> 'widget-people.php',
 			'template_file'				=> 'widget-people.php',
@@ -97,7 +97,7 @@ function ctfw_widgets() {
 			),
 			'unregister'				=> array(),
 		),
-		'ctc-locations' => array(
+		'ctfw-locations' => array(
 			'class'						=> 'CTFW_Widget_Locations',
 			'class_file'				=> 'widget-locations.php',
 			'template_file'				=> 'widget-locations.php',
@@ -108,7 +108,7 @@ function ctfw_widgets() {
 			),
 			'unregister'				=> array(),
 		),
-		'ctc-archives' => array(
+		'ctfw-archives' => array(
 			'class'						=> 'CTFW_Widget_Archives',
 			'class_file'				=> 'widget-archives.php',
 			'template_file'				=> 'widget-archives.php',
@@ -119,7 +119,7 @@ function ctfw_widgets() {
 				'WP_Widget_Archives'
 			)
 		),
-		'ctc-giving' => array(
+		'ctfw-giving' => array(
 			'class'						=> 'CTFW_Widget_Giving',
 			'class_file'				=> 'widget-giving.php',
 			'template_file'				=> 'widget-giving.php',
@@ -128,7 +128,7 @@ function ctfw_widgets() {
 			'theme_support_required'	=> array(),
 			'unregister'				=> array(),
 		),
-		'ctc-slide' => array(
+		'ctfw-slide' => array(
 			'class'						=> 'CTFW_Widget_Slide',
 			'class_file'				=> 'widget-slide.php',
 			'template_file'				=> 'widget-slide.php',
@@ -137,7 +137,7 @@ function ctfw_widgets() {
 			'theme_support_required'	=> array(),
 			'unregister'				=> array(),
 		),
-		'ctc-highlight' => array(
+		'ctfw-highlight' => array(
 			'class'						=> 'CTFW_Widget_Highlight',
 			'class_file'				=> 'widget-highlight.php',
 			'template_file'				=> 'widget-highlight.php',

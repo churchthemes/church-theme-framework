@@ -14,7 +14,7 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 	function __construct() {
 
 		parent::__construct(
-			'ctc-categories',
+			'ctfw-categories',
 			_x( 'CT Categories', 'widget', 'church-theme-framework' ),
 			array(
 				'description' => __( 'Shows categories of various types', 'church-theme-framework' )

@@ -14,7 +14,7 @@ class CTFW_Widget_Galleries extends CTFW_Widget {
 	function __construct() {
 
 		parent::__construct(
-			'ctc-galleries',
+			'ctfw-galleries',
 			_x( 'CT Galleries', 'widget', 'church-theme-framework' ),
 			array(
 				'description' => __( 'Shows list of gallery pages', 'church-theme-framework' )
