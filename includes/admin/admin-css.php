@@ -21,12 +21,12 @@ function ctfw_admin_enqueue_styles() {
 
 	// Admin widgets
 	if ( 'widgets' == $screen->base ) {
-		wp_enqueue_style( 'ctc-widgets', ctc_theme_url( CTFW_CSS_DIR . '/admin-widgets.css' ), false, CTC_VERSION ); // bust cache on update
+		wp_enqueue_style( 'ctc-widgets', ctc_theme_url( CTFW_CSS_DIR . '/admin-widgets.css' ), false, CTFW_THEME_VERSION ); // bust cache on update
 	}
 
 	// Theme license
 	if ( 'appearance_page_theme-license' == $screen->base ) {
-		wp_enqueue_style( 'ctc-license', ctc_theme_url( CTFW_CSS_DIR . '/admin-license.css' ), false, CTC_VERSION ); // bust cache on update
+		wp_enqueue_style( 'ctc-license', ctc_theme_url( CTFW_CSS_DIR . '/admin-license.css' ), false, CTFW_THEME_VERSION ); // bust cache on update
 	}
 	
 }

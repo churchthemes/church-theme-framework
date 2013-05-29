@@ -43,10 +43,10 @@ function ctc_edd_license_config( $arg = false ) {
 		// Set defaults
 		$config = wp_parse_args( $config, array(
 			'store_url'				=> '',						// URL of store running EDD with Software Licensing extension
-			'version'				=> CTC_VERSION,				// default is to auto-determine from theme
+			'version'				=> CTFW_THEME_VERSION,				// default is to auto-determine from theme
 			'license'				=> ctc_edd_license_key(),	// default is to use '{theme}_license_key' option
-			'item_name'				=> CTC_NAME,				// default is to use theme name; must match download name in EDD
-			'author'				=> CTC_AUTHOR,				// default is to auto-determine from theme
+			'item_name'				=> CTFW_THEME_NAME,				// default is to use theme name; must match download name in EDD
+			'author'				=> CTFW_THEME_AUTHOR,				// default is to auto-determine from theme
 			'updates'				=> true,					// default true; enable automatic updates
 			'options_page'			=> true,					// default true; provide options page for license entry/activaton
 			'options_page_message'	=> '',						// optional message to show on options page
@@ -106,7 +106,7 @@ function ctc_edd_license_updater() {
 
 function ctc_edd_license_key_option( $append = '' ) {
 
-	$field = CTC_TEMPLATE . '_license_key';
+	$field = CTFW_THEME_SLUG . '_license_key';
 
 	if ( $append ) {
 		$field .= '_' . ltrim( $append, '_' );
@@ -432,7 +432,7 @@ function ctc_edd_license_notice() {
 			printf(
 				__( '<b>License Activation:</b> Please activate your <a href="%s">License Key</a> for the %s theme.', 'church-theme-framework' ),
 				admin_url( 'themes.php?page=theme-license' ),
-				CTC_NAME
+				CTFW_THEME_NAME
 			);
 			?>
 		</p>

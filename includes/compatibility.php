@@ -59,9 +59,9 @@ function ctc_old_wp_switch_theme( $theme_name, $theme ) {
 	// Is WordPress version too old for theme?
 	if ( ctc_old_wp() ) {
 
-		if ( CTC_TEMPLATE != $theme->get_template() ) {
+		if ( CTFW_THEME_SLUG != $theme->get_template() ) {
 			switch_theme( $theme->get_template(), $theme->get_stylesheet() );
-		} elseif ( CTC_TEMPLATE != WP_DEFAULT_THEME ) {
+		} elseif ( CTFW_THEME_SLUG != WP_DEFAULT_THEME ) {
 			switch_theme( WP_DEFAULT_THEME );
 		}
 
@@ -254,7 +254,7 @@ function ctc_enqueue_ie_unsupported() {
 
 			wp_enqueue_script( 'jquery' ); // version packaged with WordPress
 
-			wp_enqueue_script( 'ctc-ie-unsupported', ctc_theme_url( CTFW_JS_DIR . '/ie-unsupported.js' ), array( 'jquery' ), CTC_VERSION ); // bust cache on theme update
+			wp_enqueue_script( 'ctc-ie-unsupported', ctc_theme_url( CTFW_JS_DIR . '/ie-unsupported.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on theme update
 
 			wp_localize_script( 'ctc-ie-unsupported', 'ctc_ie_unsupported', array( // pass WP data into JS from this point on
 				'message' => __( 'You are using an outdated version of Internet Explorer. Please upgrade your browser to use this site.', 'church-theme-framework' ),

@@ -475,7 +475,7 @@ class CTFW_Widget extends WP_Widget {
 		$template_file = $widgets[$this->id_base]['template_file'];
 
 		// Check if template exists
-		if ( $template_path = locate_template( CTC_WIDGET_DIR . '/' . $template_file ) ) { // false if does not exist
+		if ( $template_path = locate_template( CTFW_THEME_WIDGET_DIR . '/' . $template_file ) ) { // false if does not exist
 		
 			// Sanitize widget instance (field values) before loading template
 			$instance = $this->ctc_sanitize( $instance );

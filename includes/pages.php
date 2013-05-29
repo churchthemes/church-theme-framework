@@ -28,7 +28,7 @@ function ctc_get_page_by_template( $templates ) {
 	foreach( $templates as $template ) {
 
 		// Templates are stored in directory
-		$template = CTC_PAGE_TPL_DIR . '/' . $template;
+		$template = CTFW_THEME_PAGE_TPL_DIR . '/' . $template;
 
 		/*
 

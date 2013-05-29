@@ -19,11 +19,11 @@ add_action( 'after_setup_theme', 'ctc_load_theme_textdomain' );
 function ctc_load_theme_textdomain() {
 
 	// Textdomain same as theme's directory
-	$textdomain = apply_filters( 'ctc_theme_textdomain', CTC_TEMPLATE );
+	$textdomain = apply_filters( 'ctc_theme_textdomain', CTFW_THEME_SLUG );
 
 	// First, check for language file from the 'languages' folder in theme (recommended only for pre-made translations coming with theme)
 	// Secondarily, load custom language file from outside the theme at wp-content/languages/themes/textdomain-locale.mo (safe from theme updates)
-	load_theme_textdomain( $textdomain, CTC_LANG_DIR );
+	load_theme_textdomain( $textdomain, CTFW_THEME_LANG_DIR );
 
 }
 
@@ -44,7 +44,7 @@ function ctc_gettext( $translated, $text, $domain ) {
 	if ( 'church-theme-framework' == $domain ) {
 
 		// Use theme's translation
-		$translations = get_translations_for_domain( CTC_TEMPLATE ); // theme's directory name
+		$translations = get_translations_for_domain( CTFW_THEME_SLUG ); // theme's directory name
 		$translated = $translations->translate( $text );
 
 	}

@@ -15,8 +15,8 @@
 
 function ctc_colors() {
 
-	$parent_styles_dir = CTC_THEME_PATH . '/' . CTC_COLOR_DIR; // parent theme
-	$child_styles_dir = CTC_CHILD_PATH . '/' . CTC_COLOR_DIR;
+	$parent_styles_dir = CTFW_THEME_PATH . '/' . CTFW_THEME_COLOR_DIR; // parent theme
+	$child_styles_dir = CTFW_THEME_CHILD_PATH . '/' . CTFW_THEME_COLOR_DIR;
 	$styles_dir = file_exists( $child_styles_dir ) ? $child_styles_dir : $parent_styles_dir;  // if a styles dir was made for child theme, use it
 	
 	$colors = array();
@@ -79,7 +79,7 @@ function ctc_color_url( $file, $color = false ) {
 	// Validate color scheme
 	// (even active one, to prevent any messing with cookies in front-end style customizer)
 	if ( ctc_valid_color( $color ) ) {
-		$url = ctc_theme_url( CTC_COLOR_DIR . '/' . $color . '/' . ltrim( $file, '/' ) );
+		$url = ctc_theme_url( CTFW_THEME_COLOR_DIR . '/' . $color . '/' . ltrim( $file, '/' ) );
 	} else {
 		$url = '';
 	}
@@ -104,13 +104,13 @@ function ctc_color_style_url( $theme = false ) {
 
 		$color = ctc_customization( 'color' );
 
-		$color_rel = CTC_COLOR_DIR . '/' . $color . '/style.css';
+		$color_rel = CTFW_THEME_COLOR_DIR . '/' . $color . '/style.css';
 		
-		$color_parent_path = CTC_THEME_PATH . '/' . $color_rel;
-		$color_parent_url = CTC_THEME_URL . '/' . $color_rel;
+		$color_parent_path = CTFW_THEME_PATH . '/' . $color_rel;
+		$color_parent_url = CTFW_THEME_URL . '/' . $color_rel;
 		
-		$color_child_path = CTC_CHILD_PATH . '/' . $color_rel;
-		$color_child_url = CTC_CHILD_URL . '/' . $color_rel;
+		$color_child_path = CTFW_THEME_CHILD_PATH . '/' . $color_rel;
+		$color_child_url = CTFW_THEME_CHILD_URL . '/' . $color_rel;
 	
 		// Force parent version
 		if ( 'parent' == $theme && file_exists( $color_parent_path ) ) {

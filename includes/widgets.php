@@ -199,7 +199,7 @@ function ctfw_register_widgets() {
 				
 				// Include class if exists
 				$widget_class_paths = array(
-					trailingslashit( CTC_CLASS_DIR ) . $widget_data['class_file'], // check non-framework dir first in case is theme-provided
+					trailingslashit( CTFW_THEME_CLASS_DIR ) . $widget_data['class_file'], // check non-framework dir first in case is theme-provided
 					trailingslashit( CTFW_CLASS_DIR ) . $widget_data['class_file']
 				);
 				if ( locate_template( $widget_class_paths, true ) ) { // includes and returns true if exists

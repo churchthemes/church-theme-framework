@@ -147,7 +147,7 @@ function ctc_current_content_type() {
 
 		// Check page template
 		foreach ( $type_data['page_templates'] as $page_template ) {
-			if ( is_page_template( CTC_PAGE_TPL_DIR . '/' . basename( $page_template ) ) ) {
+			if ( is_page_template( CTFW_THEME_PAGE_TPL_DIR . '/' . basename( $page_template ) ) ) {
 				$current_type = $type;
 				break 2;
 			}

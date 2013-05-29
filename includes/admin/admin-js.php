@@ -21,7 +21,7 @@ function ctfw_admin_enqueue_scripts() {
 		wp_enqueue_media(); 
 
 		// Main widgets script
-		wp_enqueue_script( 'ctfw-admin-widgets', ctc_theme_url( CTFW_JS_DIR . '/admin-widgets.js' ), array( 'jquery' ), CTC_VERSION ); // bust cache on update
+		wp_enqueue_script( 'ctfw-admin-widgets', ctc_theme_url( CTFW_JS_DIR . '/admin-widgets.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on update
 		wp_localize_script( 'ctfw-admin-widgets', 'ctc_widgets', array( // make data available
 			'image_library_title'	=> _x( 'Choose Image for Widget', 'widget image library', 'church-theme-framework' ),
 			'image_library_button'	=> _x( 'Use in Widget', 'widget image library', 'church-theme-framework' ),
