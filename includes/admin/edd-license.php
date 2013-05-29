@@ -79,12 +79,10 @@ function ctc_edd_license_updater() {
 	if ( ctc_edd_license_config( 'updates' ) ) {
 
 		// Include updater class
-		if ( ! class_exists( 'EDD_SL_Theme_Updater' ) ) {
-			locate_template( CTC_FW_CLASS_DIR . '/EDD_SL_Theme_Updater.php', true );
-		}
+		locate_template( CTC_FW_CLASS_DIR . '/CTC_EDD_SL_Theme_Updater.php', true );
 
 		// Activate updates
-		$edd_updater = new EDD_SL_Theme_Updater( array( 
+		$edd_updater = new CTC_EDD_SL_Theme_Updater( array( 
 			'remote_api_url' 	=> ctc_edd_license_config( 'store_url' ), 		// Store URL running EDD with Software Licensing extension
 			'version' 			=> ctc_edd_license_config( 'version' ), 		// Current version of theme
 			'license' 			=> ctc_edd_license_key(), 						// The license key entered by user
@@ -138,7 +136,7 @@ function ctc_edd_license_active() {
 
 	$active = false;
 
-	if ( get_option( ctc_edd_license_key_option( 'status' ) ) == 'valid' ) {
+	if ( get_option( ctc_edd_license_key_option( 'status' ) ) == 'active' ) {
 		$active = true;
 	}
 
@@ -242,7 +240,7 @@ function ctc_edd_license_page() {
 						</th>
 
 						<td>
-							<?php if ( false !== $status && 'valid' == $status ) : ?>
+							<?php if ( ctc_edd_license_active() ) : ?>
 								<span class="ctc-license-active"><?php _ex( 'Active', 'license key', 'ct-framework' ); ?></span>
 							<?php else : ?>
 								<span class="ctc-license-inactive"><?php _ex( 'Inactive', 'license key', 'ct-framework' ); ?></span>
@@ -256,7 +254,7 @@ function ctc_edd_license_page() {
 			</table>
 
 			<p class="submit">
-				<?php if ( false !== $status && 'valid' == $status ) : ?>
+				<?php if ( ctc_edd_license_active() ) : ?>
 					<input type="submit" class="button button-primary" name="ctc_edd_license_deactivate" value="<?php _e( 'Deactivate License', 'ct-framework' ); ?>" />
 				<?php else : ?>
 					<input type="submit" class="button button-primary" name="ctc_edd_license_activate" value="<?php _e( 'Activate License', 'ct-framework' ); ?>" />
@@ -331,13 +329,12 @@ function ctc_edd_license_activation( ) {
 		if ( $license_data = ctc_edd_license_action( $action ) ) {
 
 			// If activated remotely, set local status; or set local status if was already active remotely -- keep in sync
-			if ( 'activate_license' == $action ) {
-				$status = 'valid' == $license_data->license ? $license_data->license : ctc_edd_license_check(); // 'valid' or 'invalid'
-				update_option( ctc_edd_license_key_option( 'status' ), $status );
+			if ( 'activate_license' == $action && ( 'valid' == $license_data->license || 'valid' == ctc_edd_license_check() ) ) {
+				update_option( ctc_edd_license_key_option( 'status' ), 'active' );
 			}
 
 			// If deactivated remotely, set local status; or set local status if was already inactive remotely -- keep in sync
-			elseif ( 'deactivate_license' == $action && ( 'deactivated' == $license_data->license || 'valid' != ctc_edd_license_check() ) ) {
+			elseif ( 'deactivate_license' == $action && ( 'deactivated' == $license_data->license || 'inactive' == ctc_edd_license_check() ) ) {
 				delete_option( ctc_edd_license_key_option( 'status' ) );
 			}
 
@@ -412,28 +409,38 @@ function ctc_edd_license_action( $action ) {
 
 	$license_data = array();
 
-	// Valid action?
-	$actions = array( 'activate_license', 'deactivate_license', 'check_license' );
-	if ( in_array( $action, $actions ) ) {
+	// Theme stores local option?
+	if ( ctc_edd_license_config( 'options_page' ) ) {
 
-		// Get license
-		$license = ctc_edd_license_key();
+		// Valid action?
+		$actions = array( 'activate_license', 'deactivate_license', 'check_license' );
+		if ( in_array( $action, $actions ) ) {
 
-		// Data to send in API request
-		$api_params = array( 
-			'edd_action'	=> $action, 
-			'license' 		=> $license, 
-			'item_name'		=> urlencode( ctc_edd_license_config( 'item_name' ) ) // name of download in EDD
-		);
+			// Get license
+			$license = ctc_edd_license_key();
 
-		// Call the API
-		$response = wp_remote_get( add_query_arg( $api_params, ctc_edd_license_config( 'store_url' ) ), array( 'timeout' => 15, 'sslverify' => false ) );
+			// Have license
+			if ( $license ) {
 
-		// Got a valid response?
-		if ( ! is_wp_error( $response ) ) {
+				// Data to send in API request
+				$api_params = array( 
+					'edd_action'	=> $action, 
+					'license' 		=> $license, 
+					'item_name'		=> urlencode( ctc_edd_license_config( 'item_name' ) ) // name of download in EDD
+				);
 
-			// Decode the license data
-			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+				// Call the API
+				$response = wp_remote_get( add_query_arg( $api_params, ctc_edd_license_config( 'store_url' ) ), array( 'timeout' => 15, 'sslverify' => false ) );
+
+				// Got a valid response?
+				if ( ! is_wp_error( $response ) ) {
+
+					// Decode the license data
+					$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+
+				}
+
+			}
 
 		}
 
@@ -459,5 +466,81 @@ function ctc_edd_license_check() {
 	}
 
 	return apply_filters( 'ctc_edd_license_check', $status );
+
+}
+
+/**
+ * Check for remote deactivation and update local
+ *
+ * It's handy to run this periodically in case license has been remotely deactivated.
+ * Otherwise, they may think they are up to date when they are not.
+ */
+
+function ctc_edd_license_check_deactivation() {
+
+	// Theme stores local option?
+	if ( ! ctc_edd_license_config( 'options_page' ) ) {
+		return;
+	}
+
+	// Only if locally active
+	if ( ! ctc_edd_license_active() ) { // already inactive locally
+		return;
+	}
+
+	// Check remote status
+	$status = ctc_edd_license_check();
+
+	// Continue only if got a response
+	if ( ! empty( $status ) ) { // don't do anything if times out
+
+		// Deactivated remotely
+		if ( 'inactive' == $status ) { // status is not valid
+
+			// Deactivate locally
+			delete_option( ctc_edd_license_key_option( 'status' ) );
+
+		}
+
+	}
+
+}
+
+/**
+ * Run remote deactivation check automatically
+ *
+ * Check for remote deactivation periodically on relevant pages: Theme License, Themes, Updates
+ */
+
+add_action( 'current_screen', 'ctc_edd_license_auto_check_deactivation' );
+
+function ctc_edd_license_auto_check_deactivation() {
+
+	// Admin only
+	if ( ! is_admin() ) {
+		return;
+	}
+
+	// Theme stores local option?
+	if ( ! ctc_edd_license_config( 'options_page' ) ) {
+		return;
+	}
+
+	// Only in relevant areas
+	$screen = get_current_screen();
+	if ( in_array( $screen->base, array( 'appearance_page_theme-license', 'themes', 'update-core' ) ) ) {
+
+		// Has this been checked in last day?
+		if ( ! get_transient( 'ctc_edd_license_auto_check_deactivation' ) ) {
+
+			// Check remote status and deactivate locally if necessary
+			ctc_edd_license_check_deactivation();
+
+			// Set transient to prevent check until next day
+			set_transient( 'ctc_edd_license_auto_check_deactivation', true, DAY_IN_SECONDS );
+
+		}
+
+	}
 
 }
