@@ -15,9 +15,9 @@ class CTC_Widget_Galleries extends CTC_Widget {
 
 		parent::__construct(
 			'ctc-galleries',
-			_x( 'CT Galleries', 'widget', 'ct-framework' ),
+			_x( 'CT Galleries', 'widget', 'church-theme-framework' ),
 			array(
-				'description' => __( 'Shows list of gallery pages', 'ct-framework' )
+				'description' => __( 'Shows list of gallery pages', 'church-theme-framework' )
 			)			
 		);
 
@@ -37,9 +37,9 @@ class CTC_Widget_Galleries extends CTC_Widget {
 			// Example
 			/*
 			'field_id' => array(
-				'name'				=> __( 'Field Name', 'ccm' ),
+				'name'				=> __( 'Field Name', 'church-theme-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
-				'desc'				=> __( 'This is the description below the field.', 'ccm' ),
+				'desc'				=> __( 'This is the description below the field.', 'church-theme-framework' ),
 				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
@@ -62,7 +62,7 @@ class CTC_Widget_Galleries extends CTC_Widget {
 
 			// Title
 			'title' => array(
-				'name'				=> _x( 'Title', 'galleries widget', 'ct-framework' ),
+				'name'				=> _x( 'Title', 'galleries widget', 'church-theme-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
 				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image
@@ -71,7 +71,7 @@ class CTC_Widget_Galleries extends CTC_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
-				'default'			=> _x( 'Galleries', 'galleries widget title default', 'ct-framework' ), // value to pre-populate option with (before first save or on reset)
+				'default'			=> _x( 'Galleries', 'galleries widget title default', 'church-theme-framework' ), // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
 				'attributes'		=> array(), // attributes to add to input element
@@ -86,7 +86,7 @@ class CTC_Widget_Galleries extends CTC_Widget {
 
 			// Order By
 			'orderby' => array(
-				'name'				=> _x( 'Order By', 'galleries widget', 'ct-framework' ),
+				'name'				=> _x( 'Order By', 'galleries widget', 'church-theme-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
 				'type'				=> 'select', // text, textarea, checkbox, radio, select, number, url, image
@@ -95,9 +95,9 @@ class CTC_Widget_Galleries extends CTC_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array( // array of keys/values for radio or select
-					'date'		=> _x( 'Date Added', 'galleries widget order by', 'ct-framework' ),
-					'modified'	=> _x( 'Date Updated', 'galleries widget order by', 'ct-framework' ),
-					'title'		=> _x( 'Title', 'galleries widget order by', 'ct-framework' ),
+					'date'		=> _x( 'Date Added', 'galleries widget order by', 'church-theme-framework' ),
+					'modified'	=> _x( 'Date Updated', 'galleries widget order by', 'church-theme-framework' ),
+					'title'		=> _x( 'Title', 'galleries widget order by', 'church-theme-framework' ),
 				),
 				'default'			=> 'modified', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> true, // if user empties value, force default to be saved instead
@@ -123,8 +123,8 @@ class CTC_Widget_Galleries extends CTC_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array( // array of keys/values for radio or select
-					'asc'	=> _x( 'Low to High', 'galleries widget order', 'ct-framework' ),
-					'desc'	=> _x( 'High to Low', 'galleries widget order', 'ct-framework' ),
+					'asc'	=> _x( 'Low to High', 'galleries widget order', 'church-theme-framework' ),
+					'desc'	=> _x( 'High to Low', 'galleries widget order', 'church-theme-framework' ),
 				),
 				'default'			=> 'desc', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> true, // if user empties value, force default to be saved instead
@@ -141,9 +141,9 @@ class CTC_Widget_Galleries extends CTC_Widget {
 
 			// Limit
 			'limit' => array(
-				'name'				=> _x( 'Limit', 'galleries widget', 'ct-framework' ),
+				'name'				=> _x( 'Limit', 'galleries widget', 'church-theme-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
-				'desc'				=> _x( 'Set to 0 for unlimited.', 'galleries widget', 'ct-framework' ),
+				'desc'				=> _x( 'Set to 0 for unlimited.', 'galleries widget', 'church-theme-framework' ),
 				'type'				=> 'number', // text, textarea, checkbox, radio, select, number, url, image
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other

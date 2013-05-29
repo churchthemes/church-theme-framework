@@ -84,7 +84,7 @@ class CTC_EDD_SL_Theme_Updater {
 					$update_onclick
 				);
 				*/
-				printf( __( '<strong>%1$s %2$s</strong> is available. Check out <a href="%3$s" class="thickbox" title="%4s">what\'s new</a> or <a href="%5$s"%6$s>update now</a>.', 'ct-framework' ),
+				printf( __( '<strong>%1$s %2$s</strong> is available. Check out <a href="%3$s" class="thickbox" title="%4s">what\'s new</a> or <a href="%5$s"%6$s>update now</a>.', 'church-theme-framework' ),
 					$theme->get( 'Name' ),
 					$api_response->new_version,
 					'#TB_inline?width=640&amp;inlineId=' . $this->theme_slug . '_changelog',

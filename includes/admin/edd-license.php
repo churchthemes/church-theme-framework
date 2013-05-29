@@ -161,8 +161,8 @@ function ctc_edd_license_menu() {
 
 		// Add menu item and page
 		add_theme_page(
-			_x( 'Theme License', 'page title', 'ct-framework' ),
-			_x( 'Theme License', 'menu title', 'ct-framework' ),
+			_x( 'Theme License', 'page title', 'church-theme-framework' ),
+			_x( 'Theme License', 'menu title', 'church-theme-framework' ),
 			'manage_options',
 			'theme-license',
 			'ctc_edd_license_page' // see below for output
@@ -186,7 +186,7 @@ function ctc_edd_license_page() {
 
 		<?php screen_icon(); ?>
 
-		<h2><?php _ex( 'Theme License', 'page title', 'ct-framework' ); ?></h2>
+		<h2><?php _ex( 'Theme License', 'page title', 'church-theme-framework' ); ?></h2>
 
 		<?php if ( $message = ctc_edd_license_config( 'options_page_message' ) ) : ?>
 		<p>
@@ -200,7 +200,7 @@ function ctc_edd_license_page() {
 			
 			<?php wp_nonce_field( 'ctc_edd_license_nonce', 'ctc_edd_license_nonce' ); ?>
 
-			<h3 class="title"><?php _ex( 'License Key', 'heading', 'ct-framework' ); ?></h3>
+			<h3 class="title"><?php _ex( 'License Key', 'heading', 'church-theme-framework' ); ?></h3>
 
 			<table class="form-table">
 
@@ -209,7 +209,7 @@ function ctc_edd_license_page() {
 					<tr valign="top">	
 
 						<th scope="row" valign="top">
-							<?php _e( 'License Key', 'ct-framework' ); ?>
+							<?php _e( 'License Key', 'church-theme-framework' ); ?>
 						</th>
 
 						<td>
@@ -222,12 +222,12 @@ function ctc_edd_license_page() {
 
 			</table>
 
-			<?php submit_button( __( 'Save Key', 'ct-framework' ) ); ?>
+			<?php submit_button( __( 'Save Key', 'church-theme-framework' ) ); ?>
 
 
 			<?php if ( $license ) : ?>
 
-			<h3 class="title"><?php _e( 'License Activation', 'ct-framework' ); ?></h3>
+			<h3 class="title"><?php _e( 'License Activation', 'church-theme-framework' ); ?></h3>
 
 			<table class="form-table">
 
@@ -236,14 +236,14 @@ function ctc_edd_license_page() {
 					<tr valign="top">	
 
 						<th scope="row" valign="top">
-							<?php _e( 'License Status', 'ct-framework' ); ?>
+							<?php _e( 'License Status', 'church-theme-framework' ); ?>
 						</th>
 
 						<td>
 							<?php if ( ctc_edd_license_active() ) : ?>
-								<span class="ctc-license-active"><?php _ex( 'Active', 'license key', 'ct-framework' ); ?></span>
+								<span class="ctc-license-active"><?php _ex( 'Active', 'license key', 'church-theme-framework' ); ?></span>
 							<?php else : ?>
-								<span class="ctc-license-inactive"><?php _ex( 'Inactive', 'license key', 'ct-framework' ); ?></span>
+								<span class="ctc-license-inactive"><?php _ex( 'Inactive', 'license key', 'church-theme-framework' ); ?></span>
 							<?php endif; ?>
 						</td>
 
@@ -255,9 +255,9 @@ function ctc_edd_license_page() {
 
 			<p class="submit">
 				<?php if ( ctc_edd_license_active() ) : ?>
-					<input type="submit" class="button button-primary" name="ctc_edd_license_deactivate" value="<?php _e( 'Deactivate License', 'ct-framework' ); ?>" />
+					<input type="submit" class="button button-primary" name="ctc_edd_license_deactivate" value="<?php _e( 'Deactivate License', 'church-theme-framework' ); ?>" />
 				<?php else : ?>
-					<input type="submit" class="button button-primary" name="ctc_edd_license_activate" value="<?php _e( 'Activate License', 'ct-framework' ); ?>" />
+					<input type="submit" class="button button-primary" name="ctc_edd_license_activate" value="<?php _e( 'Activate License', 'church-theme-framework' ); ?>" />
 				<?php endif; ?>
 			</p>
 
@@ -377,7 +377,7 @@ function ctc_edd_license_activation_failure_notice() {
 			?>
 			<div id="ctc-license-activation-error-notice" class="error">
 				<p>
-					<?php _e( '<b>License key could not be activated.</b> Please make sure the saved key is correct.', 'ct-framework' ); ?>
+					<?php _e( '<b>License key could not be activated.</b> Please make sure the saved key is correct.', 'church-theme-framework' ); ?>
 				</p>
 			</div>
 			<?php
@@ -430,7 +430,7 @@ function ctc_edd_license_notice() {
 		<p>
 			<?php
 			printf(
-				__( '<b>License Activation:</b> Please activate your <a href="%s">License Key</a> for the %s theme.', 'ct-framework' ),
+				__( '<b>License Activation:</b> Please activate your <a href="%s">License Key</a> for the %s theme.', 'church-theme-framework' ),
 				admin_url( 'themes.php?page=theme-license' ),
 				CTC_NAME
 			);

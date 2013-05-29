@@ -30,7 +30,7 @@ function ctc_load_theme_textdomain() {
 /**
  * Use theme's translation file for framework text strings
  *
- * The framework's textdomain is 'ct-framework' while the theme has its own textdomain.
+ * The framework's textdomain is 'church-theme-framework' while the theme has its own textdomain.
  * This makes it so one translation file (the theme's) can be used for both domains.
  *
  * Thank you to Justin Tadlock: https://github.com/justintadlock/hybrid-core/blob/master/functions/i18n.php
@@ -41,7 +41,7 @@ add_filter( 'gettext', 'ctc_gettext', 1, 3 );
 function ctc_gettext( $translated, $text, $domain ) {
 
 	// Framework textdomain?
-	if ( 'ct-framework' == $domain ) {
+	if ( 'church-theme-framework' == $domain ) {
 
 		// Use theme's translation
 		$translations = get_translations_for_domain( CTC_TEMPLATE ); // theme's directory name
