@@ -329,8 +329,18 @@ function ctc_edd_license_activation( ) {
 		if ( $license_data = ctc_edd_license_action( $action ) ) {
 
 			// If activated remotely, set local status; or set local status if was already active remotely -- keep in sync
-			if ( 'activate_license' == $action && ( 'valid' == $license_data->license || 'valid' == ctc_edd_license_check() ) ) {
-				update_option( ctc_edd_license_key_option( 'status' ), 'active' );
+			if ( 'activate_license' == $action ) {
+
+				// Success
+				if ( 'valid' == $license_data->license || 'valid' == ctc_edd_license_check() ) {
+					update_option( ctc_edd_license_key_option( 'status' ), 'active' );
+				}
+
+				// Failure - note error for next page load
+				else {
+					set_transient( 'ctc_edd_license_activation_result', 'fail', 15 ); // will be deleted after shown or in 15 seconds
+				}
+
 			}
 
 			// If deactivated remotely, set local status; or set local status if was already inactive remotely -- keep in sync
@@ -339,6 +349,43 @@ function ctc_edd_license_activation( ) {
 			}
 
 		}
+
+	}
+
+}
+
+/**
+ * Show notice on activation failure
+ */
+
+add_action( 'admin_notices', 'ctc_edd_license_activation_failure_notice' );
+
+function ctc_edd_license_activation_failure_notice() {
+
+	// Only on Theme License page
+	$screen = get_current_screen();
+	if ( 'appearance_page_theme-license' != $screen->base ) {
+		return;
+	}
+
+	// Have a result transient?
+	if ( $activation_result = get_transient( 'ctc_edd_license_activation_result' ) ) {
+
+		// Failed
+		if ( 'fail' == $activation_result ) {
+
+			?>
+			<div id="ctc-license-activation-error-notice" class="error">
+				<p>
+					<?php _e( '<b>License key could not be activated.</b> Please make sure the saved key is correct.', 'ct-framework' ); ?>
+				</p>
+			</div>
+			<?php
+
+		}
+
+		// Delete transient
+		delete_transient( 'ctc_edd_license_activation_result' );
 
 	}
 
