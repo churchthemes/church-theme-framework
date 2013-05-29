@@ -449,7 +449,7 @@ class CTFW_Breadcrumbs {
 			// Output
 			$i = 0;
 			$count = count( $breadcrumbs );
-			$string .= '<div class="ctc-breadcrumbs">';
+			$string .= '<div class="ctfw-breadcrumbs">';
 			foreach( $breadcrumbs as $breadcrumb ) {
 				
 				$i++;

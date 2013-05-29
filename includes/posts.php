@@ -18,9 +18,9 @@ function ctc_add_post_classes( $classes ) {
 
 		// Has featured image?
 		if ( has_post_thumbnail() ) {
-			$classes[] = 'ctc-has-image';
+			$classes[] = 'ctfw-has-image';
 		} else {
-			$classes[] = 'ctc-no-image';
+			$classes[] = 'ctfw-no-image';
 		}
 
 	}

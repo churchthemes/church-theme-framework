@@ -302,14 +302,14 @@ class CTFW_Widget_Posts extends CTFW_Widget {
 
 		// Base arguments
 		$args = array(
-			'orderby'         	=> $this->ctc_instance['orderby'],
-			'order'           	=> $this->ctc_instance['order'],
-			'numberposts'     	=> $this->ctc_instance['limit'],
+			'orderby'         	=> $this->ctfw_instance['orderby'],
+			'order'           	=> $this->ctfw_instance['order'],
+			'numberposts'     	=> $this->ctfw_instance['limit'],
 		);
 
 		// Group argument
-		if ( 'all' != $this->ctc_instance['category'] ) {
-			$args['category'] = $this->ctc_instance['category']; // ID
+		if ( 'all' != $this->ctfw_instance['category'] ) {
+			$args['category'] = $this->ctfw_instance['category']; // ID
 		}
 
 		// Get posts

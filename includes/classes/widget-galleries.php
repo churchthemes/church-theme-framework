@@ -180,9 +180,9 @@ class CTFW_Widget_Galleries extends CTFW_Widget {
 
 		// Get gallery pages/posts
 		$posts = ctc_gallery_posts( array(
-			'order'			=> $this->ctc_instance['order'],
-			'orderby'		=> $this->ctc_instance['orderby'],
-			'limit'			=> $this->ctc_instance['limit']
+			'order'			=> $this->ctfw_instance['order'],
+			'orderby'		=> $this->ctfw_instance['orderby'],
+			'limit'			=> $this->ctfw_instance['limit']
 		) );
 
 		// Return filtered

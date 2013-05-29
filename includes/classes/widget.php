@@ -265,7 +265,7 @@ class CTFW_Widget extends WP_Widget {
 						$input .= '<div class="ctfw-widget-image-preview">' . wp_get_attachment_image( $data['value'], 'medium' ) . '</div>';
 
 						// Button to open media library
-						$input .= '<a href="#" class="button ctfw-widget-image-choose" data-ctc-field-id="' . $data['esc_element_id'] . '">' . _x( 'Choose Image', 'widget image field', 'church-theme-framework' ) . '</a>';		
+						$input .= '<a href="#" class="button ctfw-widget-image-choose" data-ctfw-field-id="' . $data['esc_element_id'] . '">' . _x( 'Choose Image', 'widget image field', 'church-theme-framework' ) . '</a>';		
 
 						// Button to remove image
 						$input .= '<a href="#" class="button ctfw-widget-image-remove">' . _x( 'Remove Image', 'widget image field', 'church-theme-framework' ) . '</a>';		
@@ -481,7 +481,7 @@ class CTFW_Widget extends WP_Widget {
 			$instance = $this->ctc_sanitize( $instance );
 		
 			// Make instance available to other methods used by template (e.g. get_posts())
-			$this->ctc_instance = $instance;
+			$this->ctfw_instance = $instance;
 
 			// Load template with globals available (unlike locate_template())
 			include $template_path;

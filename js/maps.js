@@ -6,14 +6,14 @@
 jQuery(document).ready(function($) {
 
 	// Loop map elements
-	$('.ctc-google-map').each(function() {
+	$('.ctfw-google-map').each(function() {
 
 		// Get map data from element attributes
 		var id = $(this).attr('id');
-		var lat = $(this).attr('data-ctc-map-lat');
-		var lng = $(this).attr('data-ctc-map-lng');
-		var type = $(this).attr('data-ctc-map-type');
-		var zoom = $(this).attr('data-ctc-map-zoom');
+		var lat = $(this).attr('data-ctfw-map-lat');
+		var lng = $(this).attr('data-ctfw-map-lng');
+		var type = $(this).attr('data-ctfw-map-type');
+		var zoom = $(this).attr('data-ctfw-map-zoom');
 
 		// Map being used? Have coordinates?
 		if ($('#' + id).length && lat && lng) {

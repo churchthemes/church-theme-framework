@@ -22,7 +22,7 @@ class CTFW_Walker_Nav_Menu_Description extends Walker_Nav_Menu {
 
 		// Modification: Add class to top level links with no descriptions so dropdown can be moved up
 		if ( 0 == $depth && empty ( $item->description ) ) {
-			$classes[] = 'ctc-header-menu-link-no-description';
+			$classes[] = 'ctfw-header-menu-link-no-description';
 		}
 		
 		$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args ) );
@@ -47,11 +47,11 @@ class CTFW_Walker_Nav_Menu_Description extends Walker_Nav_Menu {
 		// Modified version of line above
 		$link_content = apply_filters( 'the_title', $item->title, $item->ID );
 		if ( 0 == $depth ) { // top-level links only
-			$link_content  = '<div class="ctc-header-menu-link-title">' . $link_content . '</div>'; // wrap title portion
+			$link_content  = '<div class="ctfw-header-menu-link-title">' . $link_content . '</div>'; // wrap title portion
 			if ( ! empty ( $item->description ) ) { // append description if available
-				$link_content .= '<div class="ctc-header-menu-link-description">' . $item->description . '</div>'; // HTML5 allows div in a
+				$link_content .= '<div class="ctfw-header-menu-link-description">' . $item->description . '</div>'; // HTML5 allows div in a
 			}
-			$link_content = '<div class="ctc-header-menu-link-inner">' . $link_content . '</div>'; // wrap title and description in inner container
+			$link_content = '<div class="ctfw-header-menu-link-inner">' . $link_content . '</div>'; // wrap title and description in inner container
 		}		
 		$item_output .= $args->link_before . $link_content . $args->link_after;
 		

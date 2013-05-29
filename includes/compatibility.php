@@ -254,9 +254,9 @@ function ctc_enqueue_ie_unsupported() {
 
 			wp_enqueue_script( 'jquery' ); // version packaged with WordPress
 
-			wp_enqueue_script( 'ctc-ie-unsupported', ctc_theme_url( CTFW_JS_DIR . '/ie-unsupported.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on theme update
+			wp_enqueue_script( 'ctfw-ie-unsupported', ctc_theme_url( CTFW_JS_DIR . '/ie-unsupported.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on theme update
 
-			wp_localize_script( 'ctc-ie-unsupported', 'ctc_ie_unsupported', array( // pass WP data into JS from this point on
+			wp_localize_script( 'ctfw-ie-unsupported', 'ctc_ie_unsupported', array( // pass WP data into JS from this point on
 				'message' => __( 'You are using an outdated version of Internet Explorer. Please upgrade your browser to use this site.', 'church-theme-framework' ),
 				'redirect_url' => apply_filters( 'ctc_upgrade_browser_url', 'http://churchthemes.com/upgrade-browser' )
 			) );

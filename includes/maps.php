@@ -33,7 +33,7 @@ function ctc_google_map( $options = false ) {
 
 		// Unique ID for this map so can have multiple maps on a page
 		$google_map_id_num = rand( 1000000, 9999999 );
-		$google_map_id = 'ctc-google-map-' . $google_map_id_num;
+		$google_map_id = 'ctfw-google-map-' . $google_map_id_num;
 
 		// Data Attributes
 		$data_latitude = esc_attr( $options['latitude'] );
@@ -42,8 +42,8 @@ function ctc_google_map( $options = false ) {
 		$data_zoom = esc_attr( $options['zoom'] );
 
 $html = <<< HTML
-<div class="ctc-google-map-container">
-	<div id="$google_map_id" class="ctc-google-map" data-ctc-map-lat="$data_latitude" data-ctc-map-lng="$data_longitude" data-ctc-map-type="$data_type" data-ctc-map-zoom="$data_zoom"$map_style></div>
+<div class="ctfw-google-map-container">
+	<div id="$google_map_id" class="ctfw-google-map" data-ctfw-map-lat="$data_latitude" data-ctfw-map-lng="$data_longitude" data-ctfw-map-type="$data_type" data-ctfw-map-zoom="$data_zoom"$map_style></div>
 </div>
 HTML;
 

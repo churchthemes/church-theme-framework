@@ -146,7 +146,7 @@ function ctc_shortcode_powered_logo() {
 		$url = ! empty( $support[0] ) ? $support[0] : false;
 
 		// Link and image for footer
-		$output = '<a href="' . esc_url( $url ) . '" rel="nofollow" class="ctc-powered-logo" target="_blank"></a>';
+		$output = '<a href="' . esc_url( $url ) . '" rel="nofollow" class="ctfw-powered-logo" target="_blank"></a>';
 
 	}
 
