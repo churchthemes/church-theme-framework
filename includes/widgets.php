@@ -15,7 +15,7 @@
 /**
  * Available Widgets
  *
- * This can be filtered to register more widgets extending the framework's CTC_Widgets class from the theme or child theme.
+ * This can be filtered to register more widgets extending the framework's CTFW_Widgets class from the theme or child theme.
  * Widget classes existing in theme's includes/classes folder are loaded the same as those in framework/includes/classes.
  * Likewise, templates in the theme's widget-templates directory will be auto-loaded.
  */
@@ -25,7 +25,7 @@ function ctfw_widgets() {
 	// Available widgets
 	$widgets = array(
 		'ctc-categories' => array(										// id_base as specified in widget's class
-			'class'						=> 'CTC_Widget_Categories',		// widget class name
+			'class'						=> 'CTFW_Widget_Categories',		// widget class name
 			'class_file'				=> 'widget-categories.php',		// filename of class in framework class directory
 			'template_file'				=> 'widget-categories.php',		// filename of template in widget-templates directory
 			'ccm_required'				=> false,						// requires Church Content Manager plugin to be active
@@ -36,7 +36,7 @@ function ctfw_widgets() {
 			),
 		),
 		'ctc-posts' => array(
-			'class'						=> 'CTC_Widget_Posts',
+			'class'						=> 'CTFW_Widget_Posts',
 			'class_file'				=> 'widget-posts.php',
 			'template_file'				=> 'widget-posts.php',
 			'ccm_required'				=> false,
@@ -47,7 +47,7 @@ function ctfw_widgets() {
 			)
 		),		
 		'ctc-sermons' => array(
-			'class'						=> 'CTC_Widget_Sermons',
+			'class'						=> 'CTFW_Widget_Sermons',
 			'class_file'				=> 'widget-sermons.php',
 			'template_file'				=> 'widget-sermons.php',
 			'ccm_required'				=> true,
@@ -58,7 +58,7 @@ function ctfw_widgets() {
 			'unregister'				=> array(),
 		),
 		'ctc-events' => array(
-			'class'						=> 'CTC_Widget_Events',
+			'class'						=> 'CTFW_Widget_Events',
 			'class_file'				=> 'widget-events.php',
 			'template_file'				=> 'widget-events.php',
 			'ccm_required'				=> true,
@@ -69,7 +69,7 @@ function ctfw_widgets() {
 			'unregister'				=> array(),
 		),
 		'ctc-gallery' => array(
-			'class'						=> 'CTC_Widget_Gallery',
+			'class'						=> 'CTFW_Widget_Gallery',
 			'class_file'				=> 'widget-gallery.php',
 			'template_file'				=> 'widget-gallery.php',
 			'ccm_required'				=> false, // uses native WordPress galleries
@@ -78,7 +78,7 @@ function ctfw_widgets() {
 			'unregister'				=> array(),
 		),
 		'ctc-galleries' => array(
-			'class'						=> 'CTC_Widget_Galleries',
+			'class'						=> 'CTFW_Widget_Galleries',
 			'class_file'				=> 'widget-galleries.php',
 			'template_file'				=> 'widget-galleries.php',
 			'ccm_required'				=> false, // uses native WordPress galleries
@@ -87,7 +87,7 @@ function ctfw_widgets() {
 			'unregister'				=> array(),
 		),
 		'ctc-people' => array(
-			'class'						=> 'CTC_Widget_People',
+			'class'						=> 'CTFW_Widget_People',
 			'class_file'				=> 'widget-people.php',
 			'template_file'				=> 'widget-people.php',
 			'ccm_required'				=> true,
@@ -98,7 +98,7 @@ function ctfw_widgets() {
 			'unregister'				=> array(),
 		),
 		'ctc-locations' => array(
-			'class'						=> 'CTC_Widget_Locations',
+			'class'						=> 'CTFW_Widget_Locations',
 			'class_file'				=> 'widget-locations.php',
 			'template_file'				=> 'widget-locations.php',
 			'ccm_required'				=> true,
@@ -109,7 +109,7 @@ function ctfw_widgets() {
 			'unregister'				=> array(),
 		),
 		'ctc-archives' => array(
-			'class'						=> 'CTC_Widget_Archives',
+			'class'						=> 'CTFW_Widget_Archives',
 			'class_file'				=> 'widget-archives.php',
 			'template_file'				=> 'widget-archives.php',
 			'ccm_required'				=> false,
@@ -120,7 +120,7 @@ function ctfw_widgets() {
 			)
 		),
 		'ctc-giving' => array(
-			'class'						=> 'CTC_Widget_Giving',
+			'class'						=> 'CTFW_Widget_Giving',
 			'class_file'				=> 'widget-giving.php',
 			'template_file'				=> 'widget-giving.php',
 			'ccm_required'				=> false,
@@ -129,7 +129,7 @@ function ctfw_widgets() {
 			'unregister'				=> array(),
 		),
 		'ctc-slide' => array(
-			'class'						=> 'CTC_Widget_Slide',
+			'class'						=> 'CTFW_Widget_Slide',
 			'class_file'				=> 'widget-slide.php',
 			'template_file'				=> 'widget-slide.php',
 			'ccm_required'				=> false,
@@ -138,7 +138,7 @@ function ctfw_widgets() {
 			'unregister'				=> array(),
 		),
 		'ctc-highlight' => array(
-			'class'						=> 'CTC_Widget_Highlight',
+			'class'						=> 'CTFW_Widget_Highlight',
 			'class_file'				=> 'widget-highlight.php',
 			'template_file'				=> 'widget-highlight.php',
 			'ccm_required'				=> false,

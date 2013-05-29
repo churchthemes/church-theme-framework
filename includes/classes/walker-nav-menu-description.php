@@ -4,7 +4,7 @@
  * Custom walker for adding Description to menu items
  */
 
-class CTC_Walker_Nav_Menu_Description extends Walker_Nav_Menu {
+class CTFW_Walker_Nav_Menu_Description extends Walker_Nav_Menu {
 
 	/**
 	 * Replace the start_el() method from Walker::start_el()

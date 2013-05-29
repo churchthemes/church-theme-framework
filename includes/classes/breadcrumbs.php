@@ -4,10 +4,10 @@
  *
  * This will output a breadcrumb path for WordPress:
  *
- * echo new CTC_Breadcrumbs( $options );
+ * echo new CTFW_Breadcrumbs( $options );
  */
 
-class CTC_Breadcrumbs {
+class CTFW_Breadcrumbs {
 
 	function __construct( $options = array() ) {
 

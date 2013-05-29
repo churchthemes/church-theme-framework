@@ -11,7 +11,7 @@
  * - New condition for $failed to prevent warnings
  */
 
-class CTC_EDD_SL_Theme_Updater {
+class CTFW_EDD_SL_Theme_Updater {
 
 	private $remote_api_url;
 	private $request_data;

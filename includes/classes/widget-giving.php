@@ -3,7 +3,7 @@
  * Giving Widget
  */
 
-class CTC_Widget_Giving extends CTC_Widget {
+class CTFW_Widget_Giving extends CTFW_Widget {
 
 	/**
 	 * Register widget with WordPress
@@ -28,7 +28,7 @@ class CTC_Widget_Giving extends CTC_Widget {
 	/**
 	 * Field configuration
 	 *
-	 * This is used by CTC_Widget class for automatic field output, filtering, sanitization and saving.
+	 * This is used by CTFW_Widget class for automatic field output, filtering, sanitization and saving.
 	 */
 	 
 	function ctc_fields() { // prefix in case WP core adds method with same name

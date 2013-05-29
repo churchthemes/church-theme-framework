@@ -79,10 +79,10 @@ function ctc_edd_license_updater() {
 	if ( ctc_edd_license_config( 'updates' ) ) {
 
 		// Include updater class
-		locate_template( CTFW_CLASS_DIR . '/CTC_EDD_SL_Theme_Updater.php', true );
+		locate_template( CTFW_CLASS_DIR . '/CTFW_EDD_SL_Theme_Updater.php', true );
 
 		// Activate updates
-		$edd_updater = new CTC_EDD_SL_Theme_Updater( array( 
+		$edd_updater = new CTFW_EDD_SL_Theme_Updater( array( 
 			'remote_api_url' 	=> ctc_edd_license_config( 'store_url' ), 		// Store URL running EDD with Software Licensing extension
 			'version' 			=> ctc_edd_license_config( 'version' ), 		// Current version of theme
 			'license' 			=> ctc_edd_license_key(), 						// The license key entered by user
