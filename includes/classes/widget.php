@@ -118,7 +118,7 @@ class CTFW_Widget extends WP_Widget {
 				
 			);
 			$classes = array();
-			$classes[] = 'ctc-widget-' . $data['field']['type'];
+			$classes[] = 'ctfw-widget-' . $data['field']['type'];
 			if ( ! empty( $default_classes[$data['field']['type']] ) ) {
 				$classes[] = $default_classes[$data['field']['type']];
 			}
@@ -137,10 +137,10 @@ class CTFW_Widget extends WP_Widget {
 
 			// Field container classes
 			$data['field_class'] = array();
-			$data['field_class'][] = 'ctc-widget-field';
-			$data['field_class'][] = 'ctc-widget-field-' . $data['id'];
+			$data['field_class'][] = 'ctfw-widget-field';
+			$data['field_class'][] = 'ctfw-widget-field-' . $data['id'];
 			if ( ! empty( $data['field']['hidden'] ) ) { // Hidden (for internal use only, via prepare() filter)
-				$data['field_class'][] = 'ctc-widget-hidden';				
+				$data['field_class'][] = 'ctfw-widget-hidden';				
 			}
 			if ( ! empty( $data['field']['field_class'] ) ) {
 				$data['field_class'][] = $data['field']['field_class']; // append custom classes
@@ -211,7 +211,7 @@ class CTFW_Widget extends WP_Widget {
 							
 								$esc_radio_id = $data['esc_element_id'] . '-' . $option_value;
 							
-								$input .= '<div' . ( ! empty( $data['field']['radio_inline'] ) ? ' class="ctc-widget-radio-inline"' : '' ) . '>';				
+								$input .= '<div' . ( ! empty( $data['field']['radio_inline'] ) ? ' class="ctfw-widget-radio-inline"' : '' ) . '>';				
 								$input .= '	<label for="' . $esc_radio_id . '">';
 								$input .= '		<input type="radio" ' . $data['common_atts'] . ' id="' . $esc_radio_id . '" value="' . esc_attr( $option_value ) . '"' . checked( $option_value, $data['value'], false ) . '/> ' . esc_html( $option_text );
 								$input .= '	</label>';
@@ -253,22 +253,22 @@ class CTFW_Widget extends WP_Widget {
 					case 'image':
 					
 						// Is image set and still exists?
-						$value_container_classes = 'ctc-widget-image-unset';
+						$value_container_classes = 'ctfw-widget-image-unset';
 						if ( ! empty( $data['value'] ) && wp_get_attachment_image_src( $data['value'] ) ) {
-							$value_container_classes = 'ctc-widget-image-set';
+							$value_container_classes = 'ctfw-widget-image-set';
 						}
 
 						// Hidden input for image ID
 						$input .= '<input type="hidden" ' . $data['common_atts'] . ' id="' . $data['esc_element_id'] . '" value="' . $data['esc_value'] . '" />';
 
 						// Show image
-						$input .= '<div class="ctc-widget-image-preview">' . wp_get_attachment_image( $data['value'], 'medium' ) . '</div>';
+						$input .= '<div class="ctfw-widget-image-preview">' . wp_get_attachment_image( $data['value'], 'medium' ) . '</div>';
 
 						// Button to open media library
-						$input .= '<a href="#" class="button ctc-widget-image-choose" data-ctc-field-id="' . $data['esc_element_id'] . '">' . _x( 'Choose Image', 'widget image field', 'church-theme-framework' ) . '</a>';		
+						$input .= '<a href="#" class="button ctfw-widget-image-choose" data-ctc-field-id="' . $data['esc_element_id'] . '">' . _x( 'Choose Image', 'widget image field', 'church-theme-framework' ) . '</a>';		
 
 						// Button to remove image
-						$input .= '<a href="#" class="button ctc-widget-image-remove">' . _x( 'Remove Image', 'widget image field', 'church-theme-framework' ) . '</a>';		
+						$input .= '<a href="#" class="button ctfw-widget-image-remove">' . _x( 'Remove Image', 'widget image field', 'church-theme-framework' ) . '</a>';		
 
 						break;
 
@@ -286,7 +286,7 @@ class CTFW_Widget extends WP_Widget {
 				?>
 				<div class="<?php echo esc_attr( $data['field_class'] ); ?>"<?php echo $data['field_attributes']; ?>>
 				
-					<div class="ctc-widget-name">
+					<div class="ctfw-widget-name">
 					
 						<?php if ( ! empty( $data['field']['name'] ) ) : ?>
 						
@@ -300,7 +300,7 @@ class CTFW_Widget extends WP_Widget {
 						
 					</div>
 					
-					<div class="ctc-widget-value<?php echo ! empty( $value_container_classes ) ? ' ' . $value_container_classes : ''; ?>">
+					<div class="ctfw-widget-value<?php echo ! empty( $value_container_classes ) ? ' ' . $value_container_classes : ''; ?>">
 					
 						<?php echo $input; ?>
 						

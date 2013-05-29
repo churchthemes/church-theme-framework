@@ -2,92 +2,92 @@
  * Admin Widgets
  */
  
-.ctc-widget-field {
+.ctfw-widget-field {
 	margin-bottom: 12px;
 }
 
-	.ctc-widget-field.ctc-widget-no-bottom-margin {
+	.ctfw-widget-field.ctfw-widget-no-bottom-margin {
 		margin-bottom: 0;
 	}
 
-	.ctc-widget-name {
+	.ctfw-widget-name {
 		margin-top: 3px;
 	}
 
-		.ctc-widget-name span { /* (Optional) or (Required) */
+		.ctfw-widget-name span { /* (Optional) or (Required) */
 			color: #595959;
 			font-weight: normal;
 		}
 
 
-	.ctc-widget-value input[type=text], /* can also use widefat class for 100% */
-	.ctc-widget-value textarea {
+	.ctfw-widget-value input[type=text], /* can also use widefat class for 100% */
+	.ctfw-widget-value textarea {
 		width: 100%;
 	}
 	
-	.ctc-widget-value textarea {
+	.ctfw-widget-value textarea {
 		height: 56px;
 	}
 
-	.ctc-widget-value select {
+	.ctfw-widget-value select {
 		max-width: 99%;
 	}
 
-	input[type=text].ctc-widget-small,
-	textarea.ctc-widget-small {
+	input[type=text].ctfw-widget-small,
+	textarea.ctfw-widget-small {
 		width: 100px;
 	}
 
-	input[type=text].ctc-widget-tiny,
-	textarea.ctc-widget-tiny {
+	input[type=text].ctfw-widget-tiny,
+	textarea.ctfw-widget-tiny {
 		width: 40px;
 	}
 
-	.ctc-widget-radio-inline {
+	.ctfw-widget-radio-inline {
 		display: inline-block;
 		margin: 2px 12px 0 0;
 	}
 	
-		.ctc-widget-radio-inline:last-child {
+		.ctfw-widget-radio-inline:last-child {
 			margin-right: 0;
 		}
 
-	.ctc-widget-value .description {
+	.ctfw-widget-value .description {
 		margin-top: 3px !important;
 	}
 
 /* Hidden Fields */
 		
-.ctc-widget-hidden {
+.ctfw-widget-hidden {
 	display: none;
 }
 
 /* Image Field */
 
-.ctc-widget-image-preview img {
+.ctfw-widget-image-preview img {
 	max-width: 100%;
 	height: auto;
 	margin-top: 4px;
 }
 
-.ctc-widget-image-choose,
-.ctc-widget-image-remove {
+.ctfw-widget-image-choose,
+.ctfw-widget-image-remove {
 	display: inline-block;
 	margin-top: 4px !important;
 }
 
-.ctc-widget-image-choose {
+.ctfw-widget-image-choose {
 	margin-right: 5px !important;
 }
 
-.ctc-widget-image-unset .ctc-widget-image-preview,
-.ctc-widget-image-unset .ctc-widget-image-remove {
+.ctfw-widget-image-unset .ctfw-widget-image-preview,
+.ctfw-widget-image-unset .ctfw-widget-image-remove {
 	display: none;
 }
 
 /* Widget/Sidebar Restrictions */
 
-.ctc-widget-incompatible {
+.ctfw-widget-incompatible {
 	display: none; /* initially */
 	color: #dc0909;
 }

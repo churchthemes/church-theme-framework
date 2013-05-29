@@ -53,7 +53,7 @@ function ctc_admin_restrict_widgets_css() {
 					$form_elements[] = "#$sidebar_id div[id*=_$widget_id-] .widget-control-save";
 
 					// Element for showing message
-					$message_elements[] = "#$sidebar_id div[id*=_$widget_id-] .ctc-widget-incompatible";
+					$message_elements[] = "#$sidebar_id div[id*=_$widget_id-] .ctfw-widget-incompatible";
 
 				}
 

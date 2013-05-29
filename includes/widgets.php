@@ -29,7 +29,7 @@ function ctfw_widgets() {
 			'class_file'				=> 'widget-categories.php',		// filename of class in framework class directory
 			'template_file'				=> 'widget-categories.php',		// filename of template in widget-templates directory
 			'ccm_required'				=> false,						// requires Church Content Manager plugin to be active
-			'theme_support'				=> 'ctc-widget-categories',		// add_theme_support() feature required (can be empty)
+			'theme_support'				=> 'ctfw-widget-categories',		// add_theme_support() feature required (can be empty)
 			'theme_support_required'	=> array(),						// additional features theme must support for widget to register
 			'unregister'	=> array(									// widgets to unregister when this is registered
 				'WP_Widget_Categories'
@@ -40,7 +40,7 @@ function ctfw_widgets() {
 			'class_file'				=> 'widget-posts.php',
 			'template_file'				=> 'widget-posts.php',
 			'ccm_required'				=> false,
-			'theme_support'				=> 'ctc-widget-posts',
+			'theme_support'				=> 'ctfw-widget-posts',
 			'theme_support_required'	=> array(),
 			'unregister'				=> array(
 				'WP_Widget_Recent_Posts'
@@ -51,7 +51,7 @@ function ctfw_widgets() {
 			'class_file'				=> 'widget-sermons.php',
 			'template_file'				=> 'widget-sermons.php',
 			'ccm_required'				=> true,
-			'theme_support'				=> 'ctc-widget-sermons',
+			'theme_support'				=> 'ctfw-widget-sermons',
 			'theme_support_required'	=> array(
 				'ccm-sermons',
 			),
@@ -62,7 +62,7 @@ function ctfw_widgets() {
 			'class_file'				=> 'widget-events.php',
 			'template_file'				=> 'widget-events.php',
 			'ccm_required'				=> true,
-			'theme_support'				=> 'ctc-widget-events',
+			'theme_support'				=> 'ctfw-widget-events',
 			'theme_support_required'	=> array(
 				'ccm-events',
 			),
@@ -73,7 +73,7 @@ function ctfw_widgets() {
 			'class_file'				=> 'widget-gallery.php',
 			'template_file'				=> 'widget-gallery.php',
 			'ccm_required'				=> false, // uses native WordPress galleries
-			'theme_support'				=> 'ctc-widget-gallery',
+			'theme_support'				=> 'ctfw-widget-gallery',
 			'theme_support_required'	=> array(),
 			'unregister'				=> array(),
 		),
@@ -82,7 +82,7 @@ function ctfw_widgets() {
 			'class_file'				=> 'widget-galleries.php',
 			'template_file'				=> 'widget-galleries.php',
 			'ccm_required'				=> false, // uses native WordPress galleries
-			'theme_support'				=> 'ctc-widget-galleries',
+			'theme_support'				=> 'ctfw-widget-galleries',
 			'theme_support_required'	=> array(),
 			'unregister'				=> array(),
 		),
@@ -91,7 +91,7 @@ function ctfw_widgets() {
 			'class_file'				=> 'widget-people.php',
 			'template_file'				=> 'widget-people.php',
 			'ccm_required'				=> true,
-			'theme_support'				=> 'ctc-widget-people',
+			'theme_support'				=> 'ctfw-widget-people',
 			'theme_support_required'	=> array(
 				'ccm-people',
 			),
@@ -102,7 +102,7 @@ function ctfw_widgets() {
 			'class_file'				=> 'widget-locations.php',
 			'template_file'				=> 'widget-locations.php',
 			'ccm_required'				=> true,
-			'theme_support'				=> 'ctc-widget-locations',
+			'theme_support'				=> 'ctfw-widget-locations',
 			'theme_support_required'	=> array(
 				'ccm-locations',
 			),
@@ -113,7 +113,7 @@ function ctfw_widgets() {
 			'class_file'				=> 'widget-archives.php',
 			'template_file'				=> 'widget-archives.php',
 			'ccm_required'				=> false,
-			'theme_support'				=> 'ctc-widget-archives',
+			'theme_support'				=> 'ctfw-widget-archives',
 			'theme_support_required'	=> array(),
 			'unregister'	=> array(
 				'WP_Widget_Archives'
@@ -124,7 +124,7 @@ function ctfw_widgets() {
 			'class_file'				=> 'widget-giving.php',
 			'template_file'				=> 'widget-giving.php',
 			'ccm_required'				=> false,
-			'theme_support'				=> 'ctc-widget-giving',
+			'theme_support'				=> 'ctfw-widget-giving',
 			'theme_support_required'	=> array(),
 			'unregister'				=> array(),
 		),
@@ -133,7 +133,7 @@ function ctfw_widgets() {
 			'class_file'				=> 'widget-slide.php',
 			'template_file'				=> 'widget-slide.php',
 			'ccm_required'				=> false,
-			'theme_support'				=> 'ctc-widget-slide',
+			'theme_support'				=> 'ctfw-widget-slide',
 			'theme_support_required'	=> array(),
 			'unregister'				=> array(),
 		),
@@ -142,7 +142,7 @@ function ctfw_widgets() {
 			'class_file'				=> 'widget-highlight.php',
 			'template_file'				=> 'widget-highlight.php',
 			'ccm_required'				=> false,
-			'theme_support'				=> 'ctc-widget-highlight',
+			'theme_support'				=> 'ctfw-widget-highlight',
 			'theme_support_required'	=> array(),
 			'unregister'				=> array(),
 		),	

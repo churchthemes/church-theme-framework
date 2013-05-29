@@ -21,7 +21,7 @@ function ctfw_admin_enqueue_styles() {
 
 	// Admin widgets
 	if ( 'widgets' == $screen->base ) {
-		wp_enqueue_style( 'ctc-widgets', ctc_theme_url( CTFW_CSS_DIR . '/admin-widgets.css' ), false, CTFW_THEME_VERSION ); // bust cache on update
+		wp_enqueue_style( 'ctfw-widgets', ctc_theme_url( CTFW_CSS_DIR . '/admin-widgets.css' ), false, CTFW_THEME_VERSION ); // bust cache on update
 	}
 
 	// Theme license

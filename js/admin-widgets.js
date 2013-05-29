@@ -10,13 +10,13 @@ jQuery(document).ready(function($) {
 	 *******************************/
 
 	// Choose Image
-	$('body').on('click', '.ctc-widget-image-choose', function(event) {
+	$('body').on('click', '.ctfw-widget-image-choose', function(event) {
 
 		// Stop click to URL
 		event.preventDefault();
 
 		// Get field value container
-		var value_container = $(this).parent('.ctc-widget-value');
+		var value_container = $(this).parent('.ctfw-widget-value');
 
 		// Media frame
 		var frame = wp.media({
@@ -29,7 +29,7 @@ jQuery(document).ready(function($) {
 		// Open media frame and set current image
 		// This information was useful: http://bit.ly/13FATWB
 		frame.on('open', function() {
-			var image_id = $('.ctc-widget-image', value_container).val();
+			var image_id = $('.ctfw-widget-image', value_container).val();
 			if (image_id) {
 				var current_attachment = wp.media.attachment(image_id);
 				current_attachment.fetch();
@@ -61,15 +61,15 @@ jQuery(document).ready(function($) {
 				if (attachment_id && attachment_preview_url) {
 
 					// Set attachment ID on hidden input
-					$('.ctc-widget-image', value_container).val(attachment_id);
+					$('.ctfw-widget-image', value_container).val(attachment_id);
 
 					// Set image preview
-					$('.ctc-widget-image-preview', value_container).html('<img src="' + attachment_preview_url + '" />');
+					$('.ctfw-widget-image-preview', value_container).html('<img src="' + attachment_preview_url + '" />');
 
 					// Set class on value container to tell image and remove button to show
 					$(value_container)
-						.removeClass('ctc-widget-image-unset')
-						.addClass('ctc-widget-image-set');
+						.removeClass('ctfw-widget-image-unset')
+						.addClass('ctfw-widget-image-set');
 
 				}
 
@@ -80,24 +80,24 @@ jQuery(document).ready(function($) {
 	});
 
 	// Remove Image
-	$('body').on('click', '.ctc-widget-image-remove', function(event) {
+	$('body').on('click', '.ctfw-widget-image-remove', function(event) {
 
 		// Stop click to URL
 		event.preventDefault();
 
 		// Get field value container
-		var value_container = $(this).parent('.ctc-widget-value');
+		var value_container = $(this).parent('.ctfw-widget-value');
 
 		// Set attachment ID on hidden input
-		$('.ctc-widget-image', value_container).val('');
+		$('.ctfw-widget-image', value_container).val('');
 
 		// Set image preview
-		$('.ctc-widget-image-preview', value_container).empty();
+		$('.ctfw-widget-image-preview', value_container).empty();
 
 		// Set class on value container to tell image and remove button NOT to show
 		$(value_container)
-			.removeClass('ctc-widget-image-set')
-			.addClass('ctc-widget-image-unset');
+			.removeClass('ctfw-widget-image-set')
+			.addClass('ctfw-widget-image-unset');
 
 	});
 
@@ -108,6 +108,6 @@ jQuery(document).ready(function($) {
 	// Add hidden message to all widgets
 	// admin-widgets.css hides this by default
 	// admin_head outputs CSS to show this and hide form content
-	$('.widget-inside').prepend('<div class="ctc-widget-incompatible">' + ctc_widgets.incompatible_message + '</div>');
+	$('.widget-inside').prepend('<div class="ctfw-widget-incompatible">' + ctc_widgets.incompatible_message + '</div>');
 
 });

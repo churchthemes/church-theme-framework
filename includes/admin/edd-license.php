@@ -241,9 +241,9 @@ function ctc_edd_license_page() {
 
 						<td>
 							<?php if ( ctc_edd_license_active() ) : ?>
-								<span class="ctc-license-active"><?php _ex( 'Active', 'license key', 'church-theme-framework' ); ?></span>
+								<span class="ctfw-license-active"><?php _ex( 'Active', 'license key', 'church-theme-framework' ); ?></span>
 							<?php else : ?>
-								<span class="ctc-license-inactive"><?php _ex( 'Inactive', 'license key', 'church-theme-framework' ); ?></span>
+								<span class="ctfw-license-inactive"><?php _ex( 'Inactive', 'license key', 'church-theme-framework' ); ?></span>
 							<?php endif; ?>
 						</td>
 
@@ -375,7 +375,7 @@ function ctc_edd_license_activation_failure_notice() {
 		if ( 'fail' == $activation_result ) {
 
 			?>
-			<div id="ctc-license-activation-error-notice" class="error">
+			<div id="ctfw-license-activation-error-notice" class="error">
 				<p>
 					<?php _e( '<b>License key could not be activated.</b> Please make sure the saved key is correct.', 'church-theme-framework' ); ?>
 				</p>
@@ -426,7 +426,7 @@ function ctc_edd_license_notice() {
 
 	// Notice
 	?>
-	<div id="ctc-license-notice" class="updated">
+	<div id="ctfw-license-notice" class="updated">
 		<p>
 			<?php
 			printf(
