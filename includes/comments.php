@@ -24,7 +24,7 @@ function ctc_comment( $comment, $args, $depth ) {
 /**
  * Attachment inherit discussion status
  * 
- * add_theme_support( 'ctc-attachment-inherit-discussion' ) will cause all attachments to use the comment
+ * add_theme_support( 'ctfw-attachment-inherit-discussion' ) will cause all attachments to use the comment
  * and ping settings from the parent item. If file is not attached to a post/page, discussions will be turned off.
  */
 
@@ -47,7 +47,7 @@ function ctc_attachment_inherit_ping_status( $open, $post_id ) {
 function ctc_attachment_inherit_discussion_status( $type, $open, $post_id ) {
 
 	// Theme supports this
-	if ( current_theme_supports( 'ctc-attachment-inherit-discussion' ) ) {
+	if ( current_theme_supports( 'ctfw-attachment-inherit-discussion' ) ) {
 
 		// Affect attachments only
 		$post = get_post( $post_id );

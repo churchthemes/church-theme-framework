@@ -20,7 +20,7 @@ function ctc_old_wp() {
 	$old = false;
 
 	// Theme uses this feature
-	if ( $support = get_theme_support( 'ctc-wordpress-version' ) ) { // returns false if feature not supported
+	if ( $support = get_theme_support( 'ctfw-wordpress-version' ) ) { // returns false if feature not supported
 
 		// Get minimum required version
 		$required_version = isset( $support[0] ) ? $support[0] : '';
@@ -223,7 +223,7 @@ function ctc_functionality_plugin_notice() {
 /**
  * Unsupported Internet Explorer
  *
- * Theme can use add_theme_support( 'ctc-ie-unsupported', 7 )
+ * Theme can use add_theme_support( 'ctfw-ie-unsupported', 7 )
  * to prompt Internet Explorer 7 users to upgrade to a modern browser.
  */
 
@@ -232,7 +232,7 @@ add_action( 'wp_enqueue_scripts', 'ctc_enqueue_ie_unsupported' ); // front-end o
 function ctc_enqueue_ie_unsupported() {
 
 	// Only if theme requests this
-	if ( $support = get_theme_support( 'ctc-ie-unsupported' ) ) { // returns false if feature not supported
+	if ( $support = get_theme_support( 'ctfw-ie-unsupported' ) ) { // returns false if feature not supported
 
 		// Default and valid version range
 		// Currently specified version must be between 5 and 9 (10 could require more complex regex, but that may never be needed)

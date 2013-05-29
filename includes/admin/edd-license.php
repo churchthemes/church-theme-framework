@@ -7,7 +7,7 @@
  *
  * Add support for this framework feature like this:
  *
- *		add_theme_support( 'ctc-edd-license', array(
+ *		add_theme_support( 'ctfw-edd-license', array(
  *  		'store_url'				=> 'yourstore.com',			// URL of store running EDD with Software Licensing extension
  *			'updates'				=> true,					// default true; enable automatic updates
  *			'options_page'			=> true,					// default true; provide options page for license entry/activaton
@@ -35,7 +35,7 @@ function ctc_edd_license_config( $arg = false ) {
 	$config = array();
 
 	// Get theme support
-	if ( $support = get_theme_support( 'ctc-edd-license' ) ) {
+	if ( $support = get_theme_support( 'ctfw-edd-license' ) ) {
 
 		// Get arguments
 		$config = ! empty( $support[0] ) ? $support[0] : array();

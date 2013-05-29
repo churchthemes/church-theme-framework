@@ -57,7 +57,7 @@ function ctc_term_options( $taxonomy_name, $prepend = array() ) {
 /**
  * Show custom ordering tip
  *
- * add_theme_support( 'ctc-taxonomy-order-note', $url ) will cause a taxonomy ordering plugin
+ * add_theme_support( 'ctfw-taxonomy-order-note', $url ) will cause a taxonomy ordering plugin
  * to be recommended in a note beneath taxonomy lists. $url is to override the default recommendation.
  *
  * This is handy in particular for people groups and sermon speakers.
@@ -68,7 +68,7 @@ add_action( 'admin_init', 'ctc_taxonomy_order_notes' );
 function ctc_taxonomy_order_notes() {
 
 	// Only if theme supports it
-	if ( ! current_theme_supports( 'ctc-taxonomy-order-note' ) ) {
+	if ( ! current_theme_supports( 'ctfw-taxonomy-order-note' ) ) {
 		return false;
 	}
 
@@ -88,7 +88,7 @@ function ctc_taxonomy_order_notes() {
 function ctc_taxonomy_order_note( $taxonomy ) {
 
 	// Only if theme requests this
-	if ( $support = get_theme_support( 'ctc-taxonomy-order-note' ) ) { // returns false if feature not supported
+	if ( $support = get_theme_support( 'ctfw-taxonomy-order-note' ) ) { // returns false if feature not supported
 
 		// Get URL if not using default
 		$url = isset( $support[0] ) ? $support[0] : 'http://churchthemes.com/go/taxonomy-order';

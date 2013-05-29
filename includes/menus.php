@@ -11,7 +11,7 @@
  * Sample import XML file may have Custom Link menu items with a dev or demo site's base URL.
  * This will replace all of those instances with the current site's base URL.
  *
- * Use add_theme_support( 'ctc-correct-imported-menu-urls', 'http://wp.dev/site' );
+ * Use add_theme_support( 'ctfw-correct-imported-menu-urls', 'http://wp.dev/site' );
  */
  
 add_filter( 'import_end', 'ctc_correct_imported_menu_urls' ); // correct custom menu URLs from sample XML content to use actual site's home URL
@@ -19,7 +19,7 @@ add_filter( 'import_end', 'ctc_correct_imported_menu_urls' ); // correct custom 
 function ctc_correct_imported_menu_urls() {
 
 	// Theme supports this?
-	if ( $support = get_theme_support( 'ctc-correct-imported-menu-urls' ) ) {
+	if ( $support = get_theme_support( 'ctfw-correct-imported-menu-urls' ) ) {
 
 		// Have URL to replace?
 		if ( $sample_url = ! empty( $support[0] ) ? $support[0] : '' ) {

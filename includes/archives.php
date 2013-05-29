@@ -158,7 +158,7 @@ function ctc_post_type_get_month_link( $year, $month, $post_type = false ) {
 /**
  * Redirect post type archives to pages
  *
- * Use add_theme_support( 'ctc-archive-redirection' ) to redirect post type archives to pages using specific page templates.
+ * Use add_theme_support( 'ctfw-archive-redirection' ) to redirect post type archives to pages using specific page templates.
  * Post types and page templates from ctc_content_types() are used to automate this (theme must filter page templates in).
  *
  * Page template should output same loop but with with title, featured image, etc. for nicer presentation and to avoid duplicate content.
@@ -170,7 +170,7 @@ add_action( 'template_redirect', 'ctc_redirect_archives_to_pages' );
 function ctc_redirect_archives_to_pages() {
 
 	// Theme supports this?
-	if ( ! current_theme_supports( 'ctc-archive-redirection' ) ) {
+	if ( ! current_theme_supports( 'ctfw-archive-redirection' ) ) {
 		return false;
 	}
 

@@ -18,7 +18,7 @@
  *
  * This code is based on the core image_resize_dimensions() function in wp-content/media.php.
  *
- * Note: This framework feature must be enabled using add_theme_support( 'ctc-image-upscaling' )
+ * Note: This framework feature must be enabled using add_theme_support( 'ctfw-image-upscaling' )
  */
 
 add_filter( 'image_resize_dimensions', 'ctc_image_resize_dimensions_upscale', 10, 6 );
@@ -27,7 +27,7 @@ function ctc_image_resize_dimensions_upscale( $output, $orig_w, $orig_h, $dest_w
 
 	// force upscaling if theme supports it and crop is being done
 	// otherwise $output = null causes regular behavior
-	if ( current_theme_supports( 'ctc-image-upscaling' ) && $crop ) {
+	if ( current_theme_supports( 'ctfw-image-upscaling' ) && $crop ) {
 
 		// resize to target dimensions, upscaling if necessary
 		$new_w = $dest_w;
@@ -83,11 +83,11 @@ function ctc_image_size_dimensions( $size ) {
  *
  * Basic usage:
  *
- * 		add_theme_support( 'ctc-gallery-thumb-size', 'custom-size' );
+ * 		add_theme_support( 'ctfw-gallery-thumb-size', 'custom-size' );
  *
  * Column-specific usage:
  *
- *		add_theme_support( 'ctc-gallery-thumb-size', array(
+ *		add_theme_support( 'ctfw-gallery-thumb-size', array(
  *			'1' => 'large',					// use this size when 1 column
  *			'2' => 'custom-size',	 		// use this size when 2 columns
  *			'3' => 'another-custom-size', 	// use this size when 3 columns
@@ -105,7 +105,7 @@ function ctc_gallery_thumb_size( $out, $pairs, $atts ) {
 	}
 
 	// Use custom size only if theme supports it
-	if ( $support = get_theme_support( 'ctc-gallery-thumb-size' ) ) { // returns false if feature not supported
+	if ( $support = get_theme_support( 'ctfw-gallery-thumb-size' ) ) { // returns false if feature not supported
 
 		// Use custom size based on column
 		if ( ! empty( $support[0] ) ) {
@@ -154,7 +154,7 @@ add_filter( 'init', 'ctc_remove_gallery_styles' );
 
 function ctc_remove_gallery_styles() {
 
-	if ( current_theme_supports( 'ctc-remove-gallery-styles' ) ) {
+	if ( current_theme_supports( 'ctfw-remove-gallery-styles' ) ) {
 		add_filter( 'use_default_gallery_style', '__return_false' );
 	}
 
@@ -167,14 +167,14 @@ function ctc_remove_gallery_styles() {
  * WordPress does this when an attachment template is used (images.php, attachment.php, etc.)
  * Do the same thing when custom attachment templates such as content-attachment.php are used.
  * 
- * Enable with add_theme_support( 'ctc-remove-prepend-attachment' ) 
+ * Enable with add_theme_support( 'ctfw-remove-prepend-attachment' ) 
  */
 
 add_filter( 'wp', 'ctc_remove_prepend_attachment' ); // conditionals like is_attachment() not available until 'wp' action
 
 function ctc_remove_prepend_attachment() {
 
-	if ( is_attachment() && current_theme_supports( 'ctc-remove-prepend-attachment' ) ) {
+	if ( is_attachment() && current_theme_supports( 'ctfw-remove-prepend-attachment' ) ) {
 		remove_filter( 'the_content', 'prepend_attachment' );
 	}
 
@@ -482,7 +482,7 @@ add_action( 'wp_enqueue_scripts', 'ctc_responsive_embeds_enqueue_scripts' ); // 
 function ctc_responsive_embeds_enqueue_scripts() {
 
 	// If theme supports this feature
-	if ( current_theme_supports( 'ctc-responsive-embeds' ) ) {
+	if ( current_theme_supports( 'ctfw-responsive-embeds' ) ) {
 
 		// FitVids.js
 		wp_enqueue_script( 'fitvids', ctc_theme_url( CTFW_JS_DIR . '/jquery.fitvids.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on theme update
@@ -500,7 +500,7 @@ function ctc_responsive_embeds_enqueue_scripts() {
  * This helps make embeds more generic by setting parameters to remove
  * related videos, set neutral colors, reduce branding, etc.
  *
- * Enable with: add_theme_support( 'ctc-generic-embeds' );
+ * Enable with: add_theme_support( 'ctfw-generic-embeds' );
  */
 
 add_filter( 'embed_oembed_html', 'ctc_generic_embeds' );
@@ -508,7 +508,7 @@ add_filter( 'embed_oembed_html', 'ctc_generic_embeds' );
 function ctc_generic_embeds( $html ) {
 
 	// Does theme support this?
-	if ( current_theme_supports( 'ctc-generic-embeds' ) ) {
+	if ( current_theme_supports( 'ctfw-generic-embeds' ) ) {
 
 		// Get iframe source URL
 		preg_match_all( '/<iframe[^>]+src=([\'"])(.+?)\1[^>]*>/i', $html, $matches );

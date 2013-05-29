@@ -134,13 +134,13 @@ function ctc_shortcode_home_url() {
 
 // "Powered By" Logo
 // This is handy for use in footer notice
-// Enable with add_theme_support( 'ctc-powered-logo-shortcode' );
+// Enable with add_theme_support( 'ctfw-powered-logo-shortcode' );
 function ctc_shortcode_powered_logo() {
 
 	$output = '';
 
 	// Theme supports this shortcode?
-	if ( $support = get_theme_support( 'ctc-powered-logo-shortcode' ) ) {
+	if ( $support = get_theme_support( 'ctfw-powered-logo-shortcode' ) ) {
 
 		// Get URL for clicks
 		$url = ! empty( $support[0] ) ? $support[0] : false;
