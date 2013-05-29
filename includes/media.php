@@ -485,10 +485,10 @@ function ctc_responsive_embeds_enqueue_scripts() {
 	if ( current_theme_supports( 'ctc-responsive-embeds' ) ) {
 
 		// FitVids.js
-		wp_enqueue_script( 'fitvids', ctc_theme_url( CTC_FW_JS_DIR . '/jquery.fitvids.js' ), array( 'jquery' ), CTC_VERSION ); // bust cache on theme update
+		wp_enqueue_script( 'fitvids', ctc_theme_url( CTFW_JS_DIR . '/jquery.fitvids.js' ), array( 'jquery' ), CTC_VERSION ); // bust cache on theme update
 
 		// Responsive embeds script
-		wp_enqueue_script( 'ctc-responsive-embeds', ctc_theme_url( CTC_FW_JS_DIR . '/responsive-embeds.js' ), array( 'fitvids' ), CTC_VERSION ); // bust cache on theme update
+		wp_enqueue_script( 'ctc-responsive-embeds', ctc_theme_url( CTFW_JS_DIR . '/responsive-embeds.js' ), array( 'fitvids' ), CTC_VERSION ); // bust cache on theme update
 
 	}
 

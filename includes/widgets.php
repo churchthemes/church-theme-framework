@@ -20,7 +20,7 @@
  * Likewise, templates in the theme's widget-templates directory will be auto-loaded.
  */
 
-function ctc_fw_widgets() {
+function ctfw_widgets() {
 
 	// Available widgets
 	$widgets = array(
@@ -149,7 +149,7 @@ function ctc_fw_widgets() {
 	);
 	
 	// Return filterable
-	return apply_filters( 'ctc_fw_widgets', $widgets );
+	return apply_filters( 'ctfw_widgets', $widgets );
  
 }
 
@@ -163,12 +163,12 @@ function ctc_fw_widgets() {
  * Include and register widgets that theme supports.
  */
 
-add_action( 'widgets_init', 'ctc_fw_register_widgets' ); // same as init 1
+add_action( 'widgets_init', 'ctfw_register_widgets' ); // same as init 1
  
-function ctc_fw_register_widgets() {
+function ctfw_register_widgets() {
 
 	// Available widgets
-	$widgets = ctc_fw_widgets();
+	$widgets = ctfw_widgets();
 
 	// Church Content Manager plugin is installed and activated?
 	$ccm_active = ctc_functionality_plugin_active();
@@ -200,7 +200,7 @@ function ctc_fw_register_widgets() {
 				// Include class if exists
 				$widget_class_paths = array(
 					trailingslashit( CTC_CLASS_DIR ) . $widget_data['class_file'], // check non-framework dir first in case is theme-provided
-					trailingslashit( CTC_FW_CLASS_DIR ) . $widget_data['class_file']
+					trailingslashit( CTFW_CLASS_DIR ) . $widget_data['class_file']
 				);
 				if ( locate_template( $widget_class_paths, true ) ) { // includes and returns true if exists
 
@@ -228,9 +228,9 @@ function ctc_fw_register_widgets() {
  * Unregister Widgets
  */
 
-add_action( 'widgets_init', 'ctc_fw_unregister_widgets' ); // same as init 1
+add_action( 'widgets_init', 'ctfw_unregister_widgets' ); // same as init 1
  
-function ctc_fw_unregister_widgets() {
+function ctfw_unregister_widgets() {
 
 	// Links
 	unregister_widget( 'WP_Widget_Links' );
@@ -251,7 +251,7 @@ function ctc_get_widget_theme_support( $widget_id, $argument ) {
 	$data = null;
 
 	// Get widgets
-	$widgets = ctc_fw_widgets();
+	$widgets = ctfw_widgets();
 
 	// Get widget data
 	if ( isset( $widgets[$widget_id] ) ) { // valid widget
@@ -297,7 +297,7 @@ add_action( 'widgets_init', 'ctc_filter_widget_fields' );
 function ctc_filter_widget_fields() {
 
 	// Loop widgets to filter their fields
-	$widgets = ctc_fw_widgets();
+	$widgets = ctfw_widgets();
 	foreach ( $widgets as $widget_id => $widget_data ) {
 
 		// Set Visible Fields

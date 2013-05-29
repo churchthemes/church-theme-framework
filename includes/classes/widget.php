@@ -469,7 +469,7 @@ class CTC_Widget extends WP_Widget {
 		global $post; // setup_postdata() needs this
 
 		// Available widgets
-		$widgets = ctc_fw_widgets();
+		$widgets = ctfw_widgets();
 
 		// Get template filename
 		$template_file = $widgets[$this->id_base]['template_file'];

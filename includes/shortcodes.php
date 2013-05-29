@@ -17,7 +17,7 @@
  * Shortcodes to handle
  */
 
-function ctc_fw_shortcodes() {
+function ctfw_shortcodes() {
 
 	$shortcodes = array(
 		'ctc_site_name'			=> 'ctc_shortcode_site_name',
@@ -29,7 +29,7 @@ function ctc_fw_shortcodes() {
 		'ctc_powered_logo'		=> 'ctc_shortcode_powered_logo'
 	);
 
-	return apply_filters( 'ctc_fw_shortcodes', $shortcodes );
+	return apply_filters( 'ctfw_shortcodes', $shortcodes );
 
 }
 
@@ -37,11 +37,11 @@ function ctc_fw_shortcodes() {
  * Add shortcodes
  */
 
-add_action( 'init', 'ctc_fw_add_shortcodes' );
+add_action( 'init', 'ctfw_add_shortcodes' );
 
-function ctc_fw_add_shortcodes() {
+function ctfw_add_shortcodes() {
 
-	$shortcodes = ctc_fw_shortcodes();
+	$shortcodes = ctfw_shortcodes();
 
 	foreach ( $shortcodes as $tag => $function ) {
 		add_shortcode( $tag, $function );
@@ -59,11 +59,11 @@ function ctc_fw_add_shortcodes() {
  * Remove shortcodes from post content
  */
 
-add_filter( 'the_content', 'ctc_fw_content_remove_shortcodes', 0 );
+add_filter( 'the_content', 'ctfw_content_remove_shortcodes', 0 );
 
-function ctc_fw_content_remove_shortcodes( $content ) {
+function ctfw_content_remove_shortcodes( $content ) {
 
-	$shortcodes = ctc_fw_shortcodes();
+	$shortcodes = ctfw_shortcodes();
 
 	foreach ( $shortcodes as $tag => $function ) {
 		remove_shortcode( $tag );
@@ -76,11 +76,11 @@ function ctc_fw_content_remove_shortcodes( $content ) {
  * Add them back after post content for use elsewhere
  */
 
-add_filter( 'the_content', 'ctc_fw_content_add_shortcodes', 99 );
+add_filter( 'the_content', 'ctfw_content_add_shortcodes', 99 );
 
-function ctc_fw_content_add_shortcodes( $content ) {
+function ctfw_content_add_shortcodes( $content ) {
 
-	ctc_fw_add_shortcodes();
+	ctfw_add_shortcodes();
 
 	return $content;
 }

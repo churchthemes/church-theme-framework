@@ -13,20 +13,20 @@
  * Note: ct-options, ct-meta-boxes handle their own stylesheets.
  */
 
-add_action( 'admin_enqueue_scripts', 'ctc_fw_admin_enqueue_styles' );
+add_action( 'admin_enqueue_scripts', 'ctfw_admin_enqueue_styles' );
 
-function ctc_fw_admin_enqueue_styles() {
+function ctfw_admin_enqueue_styles() {
 
 	$screen = get_current_screen();
 
 	// Admin widgets
 	if ( 'widgets' == $screen->base ) {
-		wp_enqueue_style( 'ctc-widgets', ctc_theme_url( CTC_FW_CSS_DIR . '/admin-widgets.css' ), false, CTC_VERSION ); // bust cache on update
+		wp_enqueue_style( 'ctc-widgets', ctc_theme_url( CTFW_CSS_DIR . '/admin-widgets.css' ), false, CTC_VERSION ); // bust cache on update
 	}
 
 	// Theme license
 	if ( 'appearance_page_theme-license' == $screen->base ) {
-		wp_enqueue_style( 'ctc-license', ctc_theme_url( CTC_FW_CSS_DIR . '/admin-license.css' ), false, CTC_VERSION ); // bust cache on update
+		wp_enqueue_style( 'ctc-license', ctc_theme_url( CTFW_CSS_DIR . '/admin-license.css' ), false, CTC_VERSION ); // bust cache on update
 	}
 	
 }
@@ -39,9 +39,9 @@ function ctc_fw_admin_enqueue_styles() {
  * Add helper classes to admin <body> for easier style tweaks (such as hiding "Preview" button per post type)
  */
 
-add_filter( 'admin_body_class', 'ctc_fw_admin_body_classes' );
+add_filter( 'admin_body_class', 'ctfw_admin_body_classes' );
  
-function ctc_fw_admin_body_classes( $classes ) {
+function ctfw_admin_body_classes( $classes ) {
 
 	// Add useful get_current_screen() values
 	$screen = get_current_screen();

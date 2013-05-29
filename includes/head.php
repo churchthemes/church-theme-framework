@@ -15,9 +15,9 @@
  * An SEO plugin can be used to fine-tune the <title> for various areas of the site.
  */
  
-add_filter( 'wp_title', 'ctc_fw_head_title', 10, 3 );
+add_filter( 'wp_title', 'ctfw_head_title', 10, 3 );
 
-function ctc_fw_head_title( $title, $sep, $seplocation ) {
+function ctfw_head_title( $title, $sep, $seplocation ) {
 
 	// Homepage (site name - tagline )
 	if ( is_front_page() ) {

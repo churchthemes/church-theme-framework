@@ -79,7 +79,7 @@ function ctc_edd_license_updater() {
 	if ( ctc_edd_license_config( 'updates' ) ) {
 
 		// Include updater class
-		locate_template( CTC_FW_CLASS_DIR . '/CTC_EDD_SL_Theme_Updater.php', true );
+		locate_template( CTFW_CLASS_DIR . '/CTC_EDD_SL_Theme_Updater.php', true );
 
 		// Activate updates
 		$edd_updater = new CTC_EDD_SL_Theme_Updater( array( 
