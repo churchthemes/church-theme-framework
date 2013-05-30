@@ -139,7 +139,9 @@ function ctfw_previous_next_event_join( $join ) {
 
 	global $wpdb;
 
-	return "INNER JOIN $wpdb->postmeta pm ON pm.post_id = p.ID";
+	$join = $wpdb->prepare( "INNER JOIN $wpdb->postmeta pm ON pm.post_id = p.ID" );
+
+	return $join;
 
 }
 

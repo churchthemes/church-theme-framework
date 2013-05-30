@@ -362,7 +362,7 @@ function ctfw_gallery_posts_where( $where ) {
 
 	// Append search for gallery shortcode
 	$where .= $wpdb->prepare(
-		" AND {$wpdb->posts}.post_content LIKE %s",
+		" AND $wpdb->posts.post_content LIKE %s",
 		'%[gallery%'
 	);
 
