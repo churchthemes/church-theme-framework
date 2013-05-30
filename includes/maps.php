@@ -20,6 +20,12 @@ function ctfw_google_map( $options = false ) {
 		wp_enqueue_script( 'google-maps', ctfw_current_protocol() . '://maps.googleapis.com/maps/api/js?sensor=false', false, null ); // no version, generic name to share w/plugins
 		wp_enqueue_script( 'ctfw-maps', ctfw_theme_url( CTFW_JS_DIR . '/maps.js' ), array( 'jquery', 'google-maps' ), CTFW_VERSION ); // bust cache on theme update
 
+		// Pass location of map icons to JS
+		wp_localize_script( 'ctfw-maps', 'ctfw_maps', array(
+			'icon'			=> ctfw_color_url( apply_filters( 'ctfw_maps_icon_color_file', 'images/map-icon.png' ) ),
+			'icon_shadow'	=> ctfw_color_url( apply_filters( 'ctfw_maps_icon_shadow_color_file', 'images/map-icon-shadow.png' ) ),
+		));
+
 		// Type and zoom are optional
 		$options['type'] = isset( $options['type'] ) ? strtoupper( $options['type'] ) : '';
 		$options['zoom'] = isset( $options['zoom'] ) ? (int) $options['zoom'] : '';

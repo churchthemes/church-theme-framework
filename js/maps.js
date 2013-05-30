@@ -50,11 +50,11 @@ jQuery(document).ready(function($) {
 			});
 
 			// Custom Marker
-			var image = new google.maps.MarkerImage(ctc_wp.gmaps_icon,
+			var image = new google.maps.MarkerImage(ctfw_maps.icon,
 				new google.maps.Size(26, 26),
 				new google.maps.Point(0,0),
 				new google.maps.Point(13, 26));
-			var shadow = new google.maps.MarkerImage(ctc_wp.gmaps_icon_shadow,
+			var shadow = new google.maps.MarkerImage(ctfw_maps.icon_shadow,
 				new google.maps.Size(40, 26),
 				new google.maps.Point(0,0),
 				new google.maps.Point(13, 26));
