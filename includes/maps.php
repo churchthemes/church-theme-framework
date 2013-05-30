@@ -9,7 +9,7 @@
  * Only latitude and longitude are required.
  */
 
-function ctc_google_map( $options = false ) {
+function ctfw_google_map( $options = false ) {
 
 	$html = '';
 	
@@ -17,8 +17,8 @@ function ctc_google_map( $options = false ) {
 
 		// Enqueue map scripts to handle Google Maps init
 		// this way the scripts are loaded only when feature is used, not on every page
-		wp_enqueue_script( 'google-maps', ctc_current_protocol() . '://maps.googleapis.com/maps/api/js?sensor=false', false, null ); // no version, generic name to share w/plugins
-		wp_enqueue_script( 'ctfw-maps', ctc_theme_url( CTFW_JS_DIR . '/maps.js' ), array( 'jquery', 'google-maps' ), CTFW_VERSION ); // bust cache on theme update
+		wp_enqueue_script( 'google-maps', ctfw_current_protocol() . '://maps.googleapis.com/maps/api/js?sensor=false', false, null ); // no version, generic name to share w/plugins
+		wp_enqueue_script( 'ctfw-maps', ctfw_theme_url( CTFW_JS_DIR . '/maps.js' ), array( 'jquery', 'google-maps' ), CTFW_VERSION ); // bust cache on theme update
 
 		// Type and zoom are optional
 		$options['type'] = isset( $options['type'] ) ? strtoupper( $options['type'] ) : '';
@@ -51,7 +51,7 @@ HTML;
 		$html = __( '<p><b>Google Map Error:</b> <i>latitude</i> and <i>longitude</i> attributes are required. See documentation for help.</p>', 'church-theme-framework' );
 	}
 
-	return apply_filters( 'ctc_google_map', $html, $options );
+	return apply_filters( 'ctfw_google_map', $html, $options );
 
 }
 
@@ -60,20 +60,20 @@ HTML;
  * Build Google Maps directions URL from address
  */
 
-function ctc_directions_url( $address ) {
+function ctfw_directions_url( $address ) {
 
 	$directions_url = '';
 
 	if ( $address ) {
 
 		// Convert address to one line (replace newlines with commas)
-		$directions_address = ctc_address_one_line( $address );
+		$directions_address = ctfw_address_one_line( $address );
 
 		// Build URL to Google Maps
-		$directions_url = ctc_current_protocol() . '://maps.google.com/maps?f=d&q=' . urlencode( $directions_address );
+		$directions_url = ctfw_current_protocol() . '://maps.google.com/maps?f=d&q=' . urlencode( $directions_address );
 
 	}
 
-	return apply_filters( 'ctc_directions_url', $directions_url, $address );
+	return apply_filters( 'ctfw_directions_url', $directions_url, $address );
 
 }

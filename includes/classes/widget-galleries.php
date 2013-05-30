@@ -29,7 +29,7 @@ class CTFW_Widget_Galleries extends CTFW_Widget {
 	 * This is used by CTFW_Widget class for automatic field output, filtering, sanitization and saving.
 	 */
 	 
-	function ctc_fields() { // prefix in case WP core adds method with same name
+	function ctfw_fields() { // prefix in case WP core adds method with same name
 
 		// Fields
 		$fields = array(
@@ -176,17 +176,17 @@ class CTFW_Widget_Galleries extends CTFW_Widget {
 	 * $this->instance is sanitized before being made available here.
 	 */
 	 
-	function ctc_get_posts() {
+	function ctfw_get_posts() {
 
 		// Get gallery pages/posts
-		$posts = ctc_gallery_posts( array(
+		$posts = ctfw_gallery_posts( array(
 			'order'			=> $this->ctfw_instance['order'],
 			'orderby'		=> $this->ctfw_instance['orderby'],
 			'limit'			=> $this->ctfw_instance['limit']
 		) );
 
 		// Return filtered
-		return apply_filters( 'ctc_galleries_widget_get_posts', $posts );
+		return apply_filters( 'ctfw_galleries_widget_get_posts', $posts );
 		
 	}
 

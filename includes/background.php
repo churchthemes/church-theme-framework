@@ -14,9 +14,9 @@
  * the custom background via the Customiser.
  */
  
-add_action( 'admin_menu', 'ctc_admin_remove_menu_pages', 11 ); // after add theme support for background
+add_action( 'admin_menu', 'ctfw_admin_remove_menu_pages', 11 ); // after add theme support for background
 
-function ctc_admin_remove_menu_pages() {
+function ctfw_admin_remove_menu_pages() {
 
 	global $menu;
 
@@ -38,9 +38,9 @@ function ctc_admin_remove_menu_pages() {
  * the custom background via the Customiser.
  */
 
-add_action( 'admin_init', 'ctc_admin_redirect_background' );
+add_action( 'admin_init', 'ctfw_admin_redirect_background' );
 	
-function ctc_admin_redirect_background() {
+function ctfw_admin_redirect_background() {
 
 	// If theme supports this
 	if ( current_theme_supports( 'ctfw-force-customizer-background' ) ) {

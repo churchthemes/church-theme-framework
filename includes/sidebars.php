@@ -13,10 +13,10 @@
  * Theme passes this data in via appropriate filter (see theme's includes/sidebars.php)
  */
 
-function ctc_get_sidebar_widget_restrictions( $which = 'sidebar_widget' ) {
+function ctfw_get_sidebar_widget_restrictions( $which = 'sidebar_widget' ) {
 
 	if ( in_array( $which, array( 'sidebar_widget', 'widget_sidebar' ) ) ) {
-		return apply_filters( 'ctc_' . $which . '_restrictions', array() );
+		return apply_filters( 'ctfw_' . $which . '_restrictions', array() );
 	}
 
 	return false;
@@ -28,16 +28,16 @@ function ctc_get_sidebar_widget_restrictions( $which = 'sidebar_widget' ) {
  *
  * Check to see if a certain widget is allowed to be used with a certain sidebar and vice-versa.
  *
- * See the ctc_sidebar_widget_restrictions and ctc_widget_sidebar_restrictions filters.
+ * See the ctfw_sidebar_widget_restrictions and ctfw_widget_sidebar_restrictions filters.
  * Both are necessary in consideration of third party widgets and sidebars (via plugin or child theme).
  */
 
-function ctc_sidebar_widget_compatible( $sidebar_id, $widget_id ) {
+function ctfw_sidebar_widget_compatible( $sidebar_id, $widget_id ) {
 
 	$compatible = true;
 
 	// Does this sidebar allow this widget?
-	$sidebar_widget_restrictions = ctc_get_sidebar_widget_restrictions( 'sidebar_widget' );
+	$sidebar_widget_restrictions = ctfw_get_sidebar_widget_restrictions( 'sidebar_widget' );
 	$include_widgets = isset( $sidebar_widget_restrictions[$sidebar_id]['include_widgets'] ) ? $sidebar_widget_restrictions[$sidebar_id]['include_widgets'] : array();
 	$exclude_widgets = isset( $sidebar_widget_restrictions[$sidebar_id]['exclude_widgets'] ) ? $sidebar_widget_restrictions[$sidebar_id]['exclude_widgets'] : array();
 	if (
@@ -48,7 +48,7 @@ function ctc_sidebar_widget_compatible( $sidebar_id, $widget_id ) {
 	}
 
 	// Does this widget allow use in this sidebar?
-	$widget_sidebar_restrictions = ctc_get_sidebar_widget_restrictions( 'widget_sidebar' );
+	$widget_sidebar_restrictions = ctfw_get_sidebar_widget_restrictions( 'widget_sidebar' );
 	$include_sidebars = isset( $widget_sidebar_restrictions[$widget_id]['include_sidebars'] ) ? $widget_sidebar_restrictions[$widget_id]['include_sidebars'] : array();
 	$exclude_sidebars = isset( $widget_sidebar_restrictions[$widget_id]['exclude_sidebars'] ) ? $widget_sidebar_restrictions[$widget_id]['exclude_sidebars'] : array();
 	if (
@@ -59,23 +59,23 @@ function ctc_sidebar_widget_compatible( $sidebar_id, $widget_id ) {
 	}
 
 	// Return filterable
-	return apply_filters( 'ctc_sidebar_widget_compatible', $compatible );
+	return apply_filters( 'ctfw_sidebar_widget_compatible', $compatible );
 
 }
 
 /**
  * Restrict sidebar widgets
  *
- * See ctc_sidebar_widget_compatible() for how this works.
+ * See ctfw_sidebar_widget_compatible() for how this works.
  * admin-widgets.php uses CSS to show message to incompatible widgets.
  *
  * Note: this is global and removed incompatible widget from both front-end
  * and from admin area, in case user does not remove after the warning.
  */
 
-add_filter( 'sidebars_widgets', 'ctc_restrict_sidebars_widgets', 5 );
+add_filter( 'sidebars_widgets', 'ctfw_restrict_sidebars_widgets', 5 );
 
-function ctc_restrict_sidebars_widgets( $sidebars_widgets ) {
+function ctfw_restrict_sidebars_widgets( $sidebars_widgets ) {
 
 	// Loop sidebars
 	foreach( $sidebars_widgets as $sidebar_id => $widgets ) {
@@ -91,7 +91,7 @@ function ctc_restrict_sidebars_widgets( $sidebars_widgets ) {
 		}
 		// Sidebar widget restrictions
 		// (used for checking limit)
-		$sidebar_widget_restrictions = ctc_get_sidebar_widget_restrictions( 'sidebar_widget' );
+		$sidebar_widget_restrictions = ctfw_get_sidebar_widget_restrictions( 'sidebar_widget' );
 		$sidebar_limit = ! empty( $sidebar_widget_restrictions[$sidebar_id]['limit'] ) ? $sidebar_widget_restrictions[$sidebar_id]['limit'] : false;
 
 		// Loop widgets in sidebar
@@ -106,7 +106,7 @@ function ctc_restrict_sidebars_widgets( $sidebars_widgets ) {
 			$widget_id = substr( $widget, 0, strrpos( $widget, '-') ); // chop -# instance off end
 
 			// Remove if either disallows the other
-			if ( ! ctc_sidebar_widget_compatible( $sidebar_id, $widget_id ) ) {
+			if ( ! ctfw_sidebar_widget_compatible( $sidebar_id, $widget_id ) ) {
 				$remove = true;
 			}
 

@@ -21,7 +21,7 @@
  * @return string The URL of the file. 
  */
 
-function ctc_theme_url( $file = '' ) {
+function ctfw_theme_url( $file = '' ) {
 
 	$file = ltrim( $file, '/' ); 
  
@@ -33,7 +33,7 @@ function ctc_theme_url( $file = '' ) {
 		$url = get_template_directory_uri() . "/$file"; 
 	}
 	
-	return apply_filters( 'ctc_theme_url', $url, $file );
+	return apply_filters( 'ctfw_theme_url', $url, $file );
 	
 }
 
@@ -41,22 +41,15 @@ function ctc_theme_url( $file = '' ) {
  * DOWNLOADS
  *************************************************/
 
-// TO DO: TRIPLE-CHECK THE SECURITY ON THIS
-// TO DO: TRIPLE-CHECK THE SECURITY ON THIS
-// TO DO: TRIPLE-CHECK THE SECURITY ON THIS
-// TO DO: TRIPLE-CHECK THE SECURITY ON THIS
-// TO DO: TRIPLE-CHECK THE SECURITY ON THIS
-// TO DO: TRIPLE-CHECK THE SECURITY ON THIS
-
 /**
  * Force download of certain file types via ?download=path/filename.type
  * 
  * This information was useful: http://wordpress.stackexchange.com/questions/3480/how-can-i-force-a-file-download-in-the-wordpress-backend
  */
 
-add_action( 'template_redirect', 'ctc_force_download' );
+add_action( 'template_redirect', 'ctfw_force_download' );
 
-function ctc_force_download() {
+function ctfw_force_download() {
 	
     global $wp_query;
 
@@ -120,13 +113,13 @@ function ctc_force_download() {
  * 				http://yourname.com/wp-content/uploads/sites/6/2013/05/file.pdf (multisite)
  */
 	 
-function ctc_force_download_url( $url ) {
+function ctfw_force_download_url( $url ) {
 
 	// In case URL is not local
 	$download_url = $url;
 
 	// Is URL local?
-	if ( ctc_is_local_url( $url ) ) {
+	if ( ctfw_is_local_url( $url ) ) {
 
 		// Get URL to upload directory
 		$upload_dir = wp_upload_dir();
@@ -141,7 +134,7 @@ function ctc_force_download_url( $url ) {
 
 	}
 
-	return apply_filters( 'ctc_force_download_url', $download_url, $url );
+	return apply_filters( 'ctfw_force_download_url', $download_url, $url );
 
 }
 
@@ -155,7 +148,7 @@ function ctc_force_download_url( $url ) {
  * See wp_get_mime_types() for more matches to add.
  */
 
-function ctc_mime_type_name( $mime_type ) {
+function ctfw_mime_type_name( $mime_type ) {
 
 	// Default if no match
 	$friendly_name = _x( 'File', 'mime type', 'church-theme-framework' );
@@ -167,7 +160,7 @@ function ctc_mime_type_name( $mime_type ) {
 		'video'				=> 'Video',
 		'application/pdf'	=> 'PDF',
 	);
-	$mime_type_names = apply_filters( 'ctc_mime_type_names', $mime_type_names );
+	$mime_type_names = apply_filters( 'ctfw_mime_type_names', $mime_type_names );
 
 	// Check for match
 	foreach ( $mime_type_names as $mime_type_match => $mime_type_name ) {
@@ -180,6 +173,6 @@ function ctc_mime_type_name( $mime_type ) {
 
 	}
 
-	return apply_filters( 'ctc_mime_type_name', $friendly_name , $mime_type );
+	return apply_filters( 'ctfw_mime_type_name', $friendly_name , $mime_type );
 
 }

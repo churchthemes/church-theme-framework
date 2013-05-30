@@ -16,9 +16,9 @@
  * Use add_theme_support( 'ctfw-post-format-content-after' );
  */
 
-add_filter( 'post_format_compat', 'ctc_post_format_content_after' );
+add_filter( 'post_format_compat', 'ctfw_post_format_content_after' );
 
-function ctc_post_format_content_after( $args ) {
+function ctfw_post_format_content_after( $args ) {
 
 	if ( current_theme_supports( 'ctfw-post-format-content-after' ) ) {
 		$args['position'] = 'before';

@@ -7,15 +7,15 @@
  * CT Meta Boxes Setup
  *
  * The actual class is included by ctfw_include_files() in framework.php.
- * This is done here instead of there so ctc_theme_url() is available to use.
+ * This is done here instead of there so ctfw_theme_url() is available to use.
  */
 
-add_filter( 'after_setup_theme', 'ctc_ctmb_setup' ); // very early
+add_filter( 'after_setup_theme', 'ctfw_ctmb_setup' ); // very early
 	
-function ctc_ctmb_setup() {
+function ctfw_ctmb_setup() {
 
 	if ( ! defined( 'CTMB_URL' ) ) { // in case also used in plugin
-		define( 'CTMB_URL', ctc_theme_url( CTFW_LIB_DIR . '/ct-meta-box' ) ); // for enqueing JS/CSS
+		define( 'CTMB_URL', ctfw_theme_url( CTFW_LIB_DIR . '/ct-meta-box' ) ); // for enqueing JS/CSS
 	}
 		
 }

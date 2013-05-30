@@ -29,7 +29,7 @@ class CTFW_Widget_Posts extends CTFW_Widget {
 	 * This is used by CTFW_Widget class for automatic field output, filtering, sanitization and saving.
 	 */
 	 
-	function ctc_fields() { // prefix in case WP core adds method with same name
+	function ctfw_fields() { // prefix in case WP core adds method with same name
 
 		// Fields
 		$fields = array(
@@ -94,7 +94,7 @@ class CTFW_Widget_Posts extends CTFW_Widget {
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
-				'options'			=> ctc_term_options( 'category', array( // array of keys/values for radio or select
+				'options'			=> ctfw_term_options( 'category', array( // array of keys/values for radio or select
 					'all' => _x( 'All Categories', 'posts widget', 'church-theme-framework' )
 				) ),
 				'default'			=> 'all', // value to pre-populate option with (before first save or on reset)
@@ -298,7 +298,7 @@ class CTFW_Widget_Posts extends CTFW_Widget {
 	 * $this->instance is sanitized before being made available here.
 	 */
 	 
-	function ctc_get_posts() {
+	function ctfw_get_posts() {
 
 		// Base arguments
 		$args = array(
@@ -316,7 +316,7 @@ class CTFW_Widget_Posts extends CTFW_Widget {
 		$posts = get_posts( $args );
 			
 		// Return filtered
-		return apply_filters( 'ctc_posts_widget_get_posts', $posts );
+		return apply_filters( 'ctfw_posts_widget_get_posts', $posts );
 		
 	}
 

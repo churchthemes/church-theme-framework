@@ -13,13 +13,13 @@
  * If a user drags a widget into a sidebar that it is not compatible with, a message is shown.
  * Also see admin-widgets.css, admin-widgets.js and widgets.php.
  *
- * Note: ctc_restrict_sidebars_widgets() handles removing widgets from sidebars on both front-end
+ * Note: ctfw_restrict_sidebars_widgets() handles removing widgets from sidebars on both front-end
  * and back-end in case user does not.
  */
 
-add_filter( 'admin_head', 'ctc_admin_restrict_widgets_css' ); 
+add_filter( 'admin_head', 'ctfw_admin_restrict_widgets_css' ); 
 
-function ctc_admin_restrict_widgets_css() {
+function ctfw_admin_restrict_widgets_css() {
 
 	$screen = get_current_screen();
 
@@ -31,7 +31,7 @@ function ctc_admin_restrict_widgets_css() {
 		$message_elements = array();
 
 		// Get all registered widgets
-		$widgets = ctc_get_registered_widgets();
+		$widgets = ctfw_get_registered_widgets();
 
 		// Loop all sidebars
 		$sidebars = wp_get_sidebars_widgets();
@@ -46,7 +46,7 @@ function ctc_admin_restrict_widgets_css() {
 			foreach ( $widgets as $widget_id ) {
 
 				// Check if sidebar and widget are not compatible
-				if ( ! ctc_sidebar_widget_compatible( $sidebar_id, $widget_id ) ) {
+				if ( ! ctfw_sidebar_widget_compatible( $sidebar_id, $widget_id ) ) {
 
 					// Elements for hiding form and save button
 					$form_elements[] = "#$sidebar_id div[id*=_$widget_id-] .widget-content";

@@ -15,7 +15,7 @@
  * Default font stacks for each type of font
  */
 
-function ctc_default_font_stacks() {
+function ctfw_default_font_stacks() {
 
 	// These fonts in the given order when available will be used for each type if for whatever reason the browser cannot load the custom font
 	$default_font_stacks = array(
@@ -26,7 +26,7 @@ function ctc_default_font_stacks() {
 	);
 
 	// Enable filtering to change default font stacks
-	$default_font_stacks = apply_filters( 'ctc_default_font_stacks', $default_font_stacks );
+	$default_font_stacks = apply_filters( 'ctfw_default_font_stacks', $default_font_stacks );
 
 	return $default_font_stacks;
 
@@ -38,10 +38,10 @@ function ctc_default_font_stacks() {
  * Build a font stack based on font and its type - use in CSS
  */
 
-function ctc_font_stack( $font, $available_fonts ) {
+function ctfw_font_stack( $font, $available_fonts ) {
 
 	// Get the default font stack for each type
-	$default_font_stacks = ctc_default_font_stacks();
+	$default_font_stacks = ctfw_default_font_stacks();
 
 	// Build font stack with custom font as primary
 	if ( ! empty( $available_fonts[$font] ) && ! empty( $default_font_stacks[$available_fonts[$font]['type']] ) ) {
@@ -52,7 +52,7 @@ function ctc_font_stack( $font, $available_fonts ) {
 	$font_stack = "'" . $font . "', " . $default_font_stack;
 
 	// Filterable
-	$font_stack = apply_filters( 'ctc_font_stack', $font_stack, $font, $available_fonts );
+	$font_stack = apply_filters( 'ctfw_font_stack', $font_stack, $font, $available_fonts );
 	
 	return $font_stack;
 
@@ -66,7 +66,7 @@ function ctc_font_stack( $font, $available_fonts ) {
  * Google Fonts stylesheet URL for enqueuing
  */
  
-function ctc_google_fonts_style_url( $fonts, $available_fonts, $font_subsets = false ) {
+function ctfw_google_fonts_style_url( $fonts, $available_fonts, $font_subsets = false ) {
 	
 	$url = '';
 	
@@ -97,11 +97,11 @@ function ctc_google_fonts_style_url( $fonts, $available_fonts, $font_subsets = f
 		}
 
 		// Build URL
-		$url = ctc_current_protocol() . '://fonts.googleapis.com/css?family=' . $font_list . $subset_attr;
+		$url = ctfw_current_protocol() . '://fonts.googleapis.com/css?family=' . $font_list . $subset_attr;
 		
 	}
 	
 	// Return filtered
-	return apply_filters( 'ctc_google_fonts_style_url', $url, $fonts, $available_fonts, $font_subsets );
+	return apply_filters( 'ctfw_google_fonts_style_url', $url, $fonts, $available_fonts, $font_subsets );
 	
 }

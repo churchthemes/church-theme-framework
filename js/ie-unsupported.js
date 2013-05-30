@@ -9,7 +9,7 @@ jQuery(document).ready(function($) {
 });
 
 // Tell user to upgrade to a modern browser
-alert(ctc_ie_unsupported.message);
+alert(ctfw_ie_unsupported.message);
 
 // Redirect to a site with upgrade details
-window.location = ctc_ie_unsupported.redirect_url;
+window.location = ctfw_ie_unsupported.redirect_url;

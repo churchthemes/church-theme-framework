@@ -14,7 +14,7 @@
  * May also be used elsewhere (e.g. upcoming events in header)
  */
 
-function ctc_get_events( $args = array() ) {
+function ctfw_get_events( $args = array() ) {
 
 	// Defaults
 	$args['timeframe'] = ! empty( $args['timeframe'] ) ? $args['timeframe'] : 'upcoming';
@@ -50,7 +50,7 @@ function ctc_get_events( $args = array() ) {
 	) );
 
 	// Return filtered
-	return apply_filters( 'ctc_get_events', $posts, $args );
+	return apply_filters( 'ctfw_get_events', $posts, $args );
 
 }
 
@@ -58,10 +58,10 @@ function ctc_get_events( $args = array() ) {
  * Get event meta data
  */
 
-function ctc_event_data( $post_id = null ) {
+function ctfw_event_data( $post_id = null ) {
 
 	// Get meta values
-	$meta = ctc_get_meta_data( array(
+	$meta = ctfw_get_meta_data( array(
 		'start_date',
 		'end_date',
 		'time',
@@ -88,10 +88,10 @@ function ctc_event_data( $post_id = null ) {
 	}
 
 	// Add directions URL (empty if show_directions_link not set)
-	$meta['directions_url'] = $meta['show_directions_link'] ? ctc_directions_url( $meta['address'] ) : '';
+	$meta['directions_url'] = $meta['show_directions_link'] ? ctfw_directions_url( $meta['address'] ) : '';
 
 	// Return filtered
-	return apply_filters( 'ctc_event_meta', $meta, $post_id );
+	return apply_filters( 'ctfw_event_data', $meta, $post_id );
 
 }
 
@@ -105,25 +105,25 @@ function ctc_event_data( $post_id = null ) {
  * This makes get_previous_post() and get_next_post() sort by event Start Date instead of Publish Date
  */
 
-add_action( 'wp', 'ctc_previous_next_event_sorting' ); // is_singular() not available until wp action (after posts_selection)
+add_action( 'wp', 'ctfw_previous_next_event_sorting' ); // is_singular() not available until wp action (after posts_selection)
 
-function ctc_previous_next_event_sorting() {
+function ctfw_previous_next_event_sorting() {
 
 	// While on single event, if theme supports Events from Church Content Manager
 	// IMPORTANT: Without ! is_page(), is_singular() runs, somehow causing /page/#/ URL's on static front page to break
 	if ( ! is_page() && is_singular( 'ccm_event' ) && current_theme_supports( 'ccm-events' ) ) {
 
 		// SQL JOIN
-		add_filter( 'get_previous_post_join', 'ctc_previous_next_event_join' );
-		add_filter( 'get_next_post_join', 'ctc_previous_next_event_join' );
+		add_filter( 'get_previous_post_join', 'ctfw_previous_next_event_join' );
+		add_filter( 'get_next_post_join', 'ctfw_previous_next_event_join' );
 
 		// SQL WHERE
-		add_filter( 'get_previous_post_where', 'ctc_previous_event_where' );
-		add_filter( 'get_next_post_where', 'ctc_next_event_where' );
+		add_filter( 'get_previous_post_where', 'ctfw_previous_event_where' );
+		add_filter( 'get_next_post_where', 'ctfw_next_event_where' );
 
 		// SQL ORDER BY
-		add_filter( 'get_previous_post_sort', 'ctc_previous_event_sort' );
-		add_filter( 'get_next_post_sort', 'ctc_next_event_sort' );
+		add_filter( 'get_previous_post_sort', 'ctfw_previous_event_sort' );
+		add_filter( 'get_next_post_sort', 'ctfw_next_event_sort' );
 
 	}
 
@@ -135,7 +135,7 @@ function ctc_previous_next_event_sorting() {
  * Get events meta for WHERE and ORDER BY to use.
  */
 
-function ctc_previous_next_event_join( $join ) {
+function ctfw_previous_next_event_join( $join ) {
 
 	global $wpdb;
 
@@ -147,7 +147,7 @@ function ctc_previous_next_event_join( $join ) {
  * SQL WHERE for Prev/Next Event
  */
 
-function ctc_previous_next_event_where( $direction ) {
+function ctfw_previous_next_event_where( $direction ) {
 
 	global $wpdb;
 
@@ -189,16 +189,16 @@ function ctc_previous_next_event_where( $direction ) {
 
 }
 
-function ctc_previous_event_where( $where ) {
+function ctfw_previous_event_where( $where ) {
 
-	return ctc_previous_next_event_where( 'previous' );
+	return ctfw_previous_next_event_where( 'previous' );
 
 }
 
 
-function ctc_next_event_where( $where ) {
+function ctfw_next_event_where( $where ) {
 
-	return ctc_previous_next_event_where( 'next' );
+	return ctfw_previous_next_event_where( 'next' );
 
 }
 
@@ -206,14 +206,14 @@ function ctc_next_event_where( $where ) {
  * SQL ORDER BY for Prev/Next Event
  */
 
-function ctc_previous_event_sort( $sort ) {
+function ctfw_previous_event_sort( $sort ) {
 
 	return "ORDER BY pm.meta_value DESC, p.ID DESC LIMIT 1";
 
 }
 
 
-function ctc_next_event_sort( $sort ) {
+function ctfw_next_event_sort( $sort ) {
 
 	return "ORDER BY pm.meta_value ASC, p.ID ASC LIMIT 1";
 

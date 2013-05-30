@@ -75,7 +75,7 @@ class CTFW_Breadcrumbs {
 		if ( $post = get_post( $post_id ) ) {
 
 			// Current post
-			$title = ctc_shorten( get_the_title(), $options['shorten'] );
+			$title = ctfw_shorten( get_the_title(), $options['shorten'] );
 			if ( empty( $title ) ) { // no title? use post type or post format name?
 				if ( $post_format = get_post_format() ) { // show post format if have it
 					$title = get_post_format_string( $post_format );
@@ -103,7 +103,7 @@ class CTFW_Breadcrumbs {
 					$parent_post_id  = $parent_post->post_parent; // if this parent has a parent, while loop will continue
 					
 					$parent_post_breadcrumbs[] = array(
-						ctc_shorten( get_the_title( $parent_post->ID ), $options['shorten'] ),
+						ctfw_shorten( get_the_title( $parent_post->ID ), $options['shorten'] ),
 						get_permalink( $parent_post->ID )
 					);
 					
@@ -116,7 +116,7 @@ class CTFW_Breadcrumbs {
 		
 		}
 		
-		return apply_filters( 'ctc_post_breadcrumbs', $post_breadcrumbs, $post_id );
+		return apply_filters( 'ctfw_post_breadcrumbs', $post_breadcrumbs, $post_id );
 
 	}
 
@@ -166,7 +166,7 @@ class CTFW_Breadcrumbs {
 		
 		}
 		
-		$term_breadcrumbs = apply_filters( 'ctc_taxonomy_term_breadcrumbs', $term_breadcrumbs, $term, $taxonomy );
+		$term_breadcrumbs = apply_filters( 'ctfw_taxonomy_term_breadcrumbs', $term_breadcrumbs, $term, $taxonomy );
 		
 		return $term_breadcrumbs;
 
@@ -240,7 +240,7 @@ class CTFW_Breadcrumbs {
 		// Reverse order
 		$date_breadcrumbs = array_reverse( $date_breadcrumbs );
 
-		return apply_filters( 'ctc_date_breadcrumbs', $date_breadcrumbs, $base_url );
+		return apply_filters( 'ctfw_date_breadcrumbs', $date_breadcrumbs, $base_url );
 
 	}
 
@@ -262,7 +262,7 @@ class CTFW_Breadcrumbs {
 			$post_type_obj = get_post_type_object( $post_type );
 
 			// Page Number
-			$page_num = ctc_page_num();
+			$page_num = ctfw_page_num();
 			if ( $page_num > 1 ) {
 				$this->add_breadcrumb( $breadcrumbs, array(
 					sprintf( _x( 'Page %s', 'breadcrumb', 'church-theme-framework' ), $page_num ),
@@ -293,7 +293,7 @@ class CTFW_Breadcrumbs {
 
 						/* translators: %s is mime type */
 						$this->add_breadcrumb( $breadcrumbs, array(
-							ctc_mime_type_name( $post->post_mime_type ),
+							ctfw_mime_type_name( $post->post_mime_type ),
 							get_permalink()
 						) );
 
@@ -429,7 +429,7 @@ class CTFW_Breadcrumbs {
 
 		}
 
-		return apply_filters( 'ctc_breadcrumbs_array', $breadcrumbs );
+		return apply_filters( 'ctfw_breadcrumbs_array', $breadcrumbs );
 
 	}
 
@@ -483,7 +483,7 @@ class CTFW_Breadcrumbs {
 		// Restore original $post data for proper code execution after breadcrumbs
 		wp_reset_postdata();
 
-		return apply_filters( 'ctc_breadcrumbs_string', $string );
+		return apply_filters( 'ctfw_breadcrumbs_string', $string );
 
 	}
 

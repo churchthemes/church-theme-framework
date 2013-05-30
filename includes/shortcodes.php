@@ -20,13 +20,13 @@
 function ctfw_shortcodes() {
 
 	$shortcodes = array(
-		'ctc_site_name'			=> 'ctc_shortcode_site_name',
-		'ctc_tagline'			=> 'ctc_shortcode_tagline',
-		'ctc_home_url'			=> 'ctc_shortcode_home_url',
-		'ctc_rss_url'			=> 'ctc_shortcode_feed_url',
-		'ctc_copyright_symbol'	=> 'ctc_shortcode_copyright_symbol',
-		'ctc_current_year'		=> 'ctc_shortcode_current_year',
-		'ctc_powered_logo'		=> 'ctc_shortcode_powered_logo'
+		'ctc_site_name'			=> 'ctfw_shortcode_site_name',
+		'ctc_tagline'			=> 'ctfw_shortcode_tagline',
+		'ctc_home_url'			=> 'ctfw_shortcode_home_url',
+		'ctc_rss_url'			=> 'ctfw_shortcode_feed_url',
+		'ctc_copyright_symbol'	=> 'ctfw_shortcode_copyright_symbol',
+		'ctc_current_year'		=> 'ctfw_shortcode_current_year',
+		'ctc_powered_logo'		=> 'ctfw_shortcode_powered_logo'
 	);
 
 	return apply_filters( 'ctfw_shortcodes', $shortcodes );
@@ -90,28 +90,28 @@ function ctfw_content_add_shortcodes( $content ) {
  ******************************************/
 
 // Site Name
-function ctc_shortcode_site_name() {
+function ctfw_shortcode_site_name() {
 
 	return get_bloginfo( 'name' );
 	
 }
 
 // Tagline
-function ctc_shortcode_tagline() {
+function ctfw_shortcode_tagline() {
 
 	return get_bloginfo( 'description' );
 	
 }
 
 // Current Year
-function ctc_shortcode_current_year() {
+function ctfw_shortcode_current_year() {
 
 	return date( 'Y' );
 	
 }
 
 // Copyright Symbol (since &copy; doesn't behave directly in theme options input field)
-function ctc_shortcode_copyright_symbol() {
+function ctfw_shortcode_copyright_symbol() {
 
 	return '&copy;';
 	
@@ -119,14 +119,14 @@ function ctc_shortcode_copyright_symbol() {
 
 // RSS Feed URL
 // [ctc_rss_url] can be used by social media icons
-function ctc_shortcode_feed_url() {
+function ctfw_shortcode_feed_url() {
 
 	return get_bloginfo( 'rss_url' );
 	
 }
 
 // Home URL
-function ctc_shortcode_home_url() {
+function ctfw_shortcode_home_url() {
 
 	return home_url( '/' );
 	
@@ -135,7 +135,7 @@ function ctc_shortcode_home_url() {
 // "Powered By" Logo
 // This is handy for use in footer notice
 // Enable with add_theme_support( 'ctfw-powered-logo-shortcode' );
-function ctc_shortcode_powered_logo() {
+function ctfw_shortcode_powered_logo() {
 
 	$output = '';
 

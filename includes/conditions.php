@@ -11,7 +11,7 @@
  * Is multipage
  */
 
-function ctc_is_multipage() {
+function ctfw_is_multipage() {
 
 	global $multipage;
 
@@ -21,7 +21,7 @@ function ctc_is_multipage() {
 		$is_multipage = true;
 	}
 
-	return apply_filters( 'ctc_is_multipage', $is_multipage );
+	return apply_filters( 'ctfw_is_multipage', $is_multipage );
 
 }
 
@@ -29,7 +29,7 @@ function ctc_is_multipage() {
  * Has <!--more--> quicktag
  */
 
-function ctc_has_more_tag() {
+function ctfw_has_more_tag() {
 
 	global $post;
 
@@ -39,7 +39,7 @@ function ctc_has_more_tag() {
 		$has_more_tag = true;
 	}
 
-	return apply_filters( 'ctc_has_more_tag', $has_more_tag );
+	return apply_filters( 'ctfw_has_more_tag', $has_more_tag );
 
 }
 
@@ -47,7 +47,7 @@ function ctc_has_more_tag() {
  * Has Title
  */
 
-function ctc_has_title() {
+function ctfw_has_title() {
 
 	$has_title = false;
 
@@ -55,7 +55,7 @@ function ctc_has_title() {
 		$has_title = true;
 	}
 
-	return apply_filters( 'ctc_has_title', $has_title );
+	return apply_filters( 'ctfw_has_title', $has_title );
 
 }
 
@@ -63,7 +63,7 @@ function ctc_has_title() {
  * Has Content
  */
 
-function ctc_has_content() {
+function ctfw_has_content() {
 
 	$has_content = false;
 
@@ -71,7 +71,7 @@ function ctc_has_content() {
 		$has_content = true;
 	}
 
-	return apply_filters( 'ctc_has_content', $has_content );
+	return apply_filters( 'ctfw_has_content', $has_content );
 
 }
 
@@ -81,7 +81,7 @@ function ctc_has_content() {
  * True if has manual or automatic excerpt
  */
 
-function ctc_has_excerpt() {
+function ctfw_has_excerpt() {
 
 	$has_excerpt = false;
 
@@ -89,7 +89,7 @@ function ctc_has_excerpt() {
 		$has_excerpt = true;
 	}
 
-	return apply_filters( 'ctc_has_excerpt', $has_excerpt );
+	return apply_filters( 'ctfw_has_excerpt', $has_excerpt );
 
 }
 
@@ -101,7 +101,7 @@ function ctc_has_excerpt() {
  * User can edit post
  */
 
-function ctc_can_edit_post() {
+function ctfw_can_edit_post() {
 
 	global $post;
 
@@ -121,7 +121,7 @@ function ctc_can_edit_post() {
 
 	}
 
-	return apply_filters( 'ctc_can_edit_post', $can_edit );
+	return apply_filters( 'ctfw_can_edit_post', $can_edit );
 
 }
 
@@ -135,7 +135,7 @@ function ctc_can_edit_post() {
  * If a static front page is used and the "Posts page" is set, this is true.
  */
 
-function ctc_is_posts_page() {
+function ctfw_is_posts_page() {
 
 	$bool = false;
 
@@ -143,6 +143,6 @@ function ctc_is_posts_page() {
 		$bool = true;
 	}
 
-	return apply_filters( 'ctc_is_posts_page', $bool );
+	return apply_filters( 'ctfw_is_posts_page', $bool );
 
 }

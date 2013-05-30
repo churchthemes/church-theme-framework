@@ -12,7 +12,7 @@
  * Note: this is intended for use only after Church Content Manager registers taxonomies since that is when show_ui is available.
  */
  
-function ctc_taxonomy_supported( $taxonomy_name ) {
+function ctfw_taxonomy_supported( $taxonomy_name ) {
 
 	// Get taxonomy data
 	$taxonomy = get_taxonomy( $taxonomy_name );
@@ -21,7 +21,7 @@ function ctc_taxonomy_supported( $taxonomy_name ) {
 	$supported = ! empty( $taxonomy->show_ui ) ? true : false;
 		
 	// Return filterable
-	return apply_filters( 'ctc_taxonomy_supported', $supported, $taxonomy_name );
+	return apply_filters( 'ctfw_taxonomy_supported', $supported, $taxonomy_name );
 
 }
 
@@ -32,11 +32,11 @@ function ctc_taxonomy_supported( $taxonomy_name ) {
  * Prepend can be an array to start with, such as "All" or similar.
  */
 
-function ctc_term_options( $taxonomy_name, $prepend = array() ) {
+function ctfw_term_options( $taxonomy_name, $prepend = array() ) {
 
 	$options = array();
 
-	if ( ctc_taxonomy_supported( $taxonomy_name ) ) {
+	if ( ctfw_taxonomy_supported( $taxonomy_name ) ) {
 
 		$terms = $categories = get_terms( $taxonomy_name );
 
@@ -50,7 +50,7 @@ function ctc_term_options( $taxonomy_name, $prepend = array() ) {
 
 	}
 
-	return apply_filters( 'ctc_term_options', $options, $taxonomy_name, $prepend );
+	return apply_filters( 'ctfw_term_options', $options, $taxonomy_name, $prepend );
 
 }
 
@@ -63,9 +63,9 @@ function ctc_term_options( $taxonomy_name, $prepend = array() ) {
  * This is handy in particular for people groups and sermon speakers.
  */
 
-add_action( 'admin_init', 'ctc_taxonomy_order_notes' );
+add_action( 'admin_init', 'ctfw_taxonomy_order_notes' );
 
-function ctc_taxonomy_order_notes() {
+function ctfw_taxonomy_order_notes() {
 
 	// Only if theme supports it
 	if ( ! current_theme_supports( 'ctfw-taxonomy-order-note' ) ) {
@@ -80,12 +80,12 @@ function ctc_taxonomy_order_notes() {
 
 	// Add note to each
 	foreach ( $taxonomies as $taxonomy ) {
-		add_action( 'after-' . $taxonomy . '-table', 'ctc_taxonomy_order_note' );
+		add_action( 'after-' . $taxonomy . '-table', 'ctfw_taxonomy_order_note' );
 	}
 
 }
 
-function ctc_taxonomy_order_note( $taxonomy ) {
+function ctfw_taxonomy_order_note( $taxonomy ) {
 
 	// Only if theme requests this
 	if ( $support = get_theme_support( 'ctfw-taxonomy-order-note' ) ) { // returns false if feature not supported

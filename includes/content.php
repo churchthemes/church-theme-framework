@@ -10,81 +10,81 @@
 /**
  * Content types
  *
- * Theme should filter ctc_content_types to add page_templates since they are theme-specific.
+ * Theme should filter ctfw_content_types to add page_templates since they are theme-specific.
  * The filter can also be used to add other content types.
  */
 
-function ctc_content_types() {
+function ctfw_content_types() {
 
 	$content_types = array(
 
 		'sermon' => array(
 			'post_types'		=> array( 'ccm_sermon' ),
 			'taxonomies'		=> array( 'ccm_sermon_category', 'ccm_sermon_tag', 'ccm_sermon_speaker' ),
-			'page_templates'	=> array(), // should be populated via ctc_content_types filter in theme
+			'page_templates'	=> array(), // should be populated via ctfw_content_types filter in theme
 			'conditions'		=> array(),
 		),
 
 		'event' => array(
 			'post_types'		=> array( 'ccm_event' ),
 			'taxonomies'		=> array(),
-			'page_templates'	=> array(), // should be populated via ctc_content_types filter in theme
+			'page_templates'	=> array(), // should be populated via ctfw_content_types filter in theme
 			'conditions'		=> array(),
 		),
 
 		'people' => array(
 			'post_types'		=> array( 'ccm_person' ),
 			'taxonomies'		=> array( 'ccm_person_group' ),
-			'page_templates'	=> array(), // should be populated via ctc_content_types filter in theme
+			'page_templates'	=> array(), // should be populated via ctfw_content_types filter in theme
 			'conditions'		=> array(),
 		),
 
 		'location' => array(
 			'post_types'		=> array( 'ccm_location' ),
 			'taxonomies'		=> array( 'ccm_location' ),
-			'page_templates'	=> array(), // should be populated via ctc_content_types filter in theme
+			'page_templates'	=> array(), // should be populated via ctfw_content_types filter in theme
 			'conditions'		=> array(),
 		),
 
 		'gallery' => array(
 			'post_types'		=> array(),
 			'taxonomies'		=> array(),
-			'page_templates'	=> array(), // should be populated via ctc_content_types filter in theme
+			'page_templates'	=> array(), // should be populated via ctfw_content_types filter in theme
 			'conditions'		=> array(),
 		),
 
 		'contact' => array(
 			'post_types'		=> array(),
 			'taxonomies'		=> array(),
-			'page_templates'	=> array(), // should be populated via ctc_content_types filter in theme
+			'page_templates'	=> array(), // should be populated via ctfw_content_types filter in theme
 			'conditions'		=> array(),
 		),
 
 		'blog' => array(
 			'post_types'		=> array( 'post' ),
 			'taxonomies'		=> array( 'category', 'tag' ),
-			'page_templates'	=> array(), // should be populated via ctc_content_types filter in theme
+			'page_templates'	=> array(), // should be populated via ctfw_content_types filter in theme
 			'conditions'		=> array( 'is_author', 'is_archive', 'is_home' ), // is_home() is "Your latest posts" on homepage or "Posts page" when static front page used
 		),
 
 		'page' => array(
 			'post_types'		=> array( 'page' ),
 			'taxonomies'		=> array(),
-			'page_templates'	=> array(), // should be populated via ctc_content_types filter in theme
+			'page_templates'	=> array(), // should be populated via ctfw_content_types filter in theme
 			'conditions'		=> array(),
 		),
 
 		'search' => array(
 			'post_types'		=> array(),
 			'taxonomies'		=> array(),
-			'page_templates'	=> array(), // should be populated via ctc_content_types filter in theme
+			'page_templates'	=> array(), // should be populated via ctfw_content_types filter in theme
 			'conditions'		=> array( 'is_search' ),
 		),
 
 	);
 
 	// Allow filtering
-	$content_types = apply_filters( 'ctc_content_types', $content_types );
+	$content_types = apply_filters( 'ctfw_content_types', $content_types );
 
 	// Sanitize types (particularly for filtered in data)
 	$data_keys = array( 'post_types', 'taxonomies', 'page_templates', 'conditions' );
@@ -106,13 +106,13 @@ function ctc_content_types() {
  * The returned values should correspond to sidebar names in includes/sidebars.php.
  */
 
-function ctc_current_content_type() {
+function ctfw_current_content_type() {
 
 	global $post;
 
 	$current_type = false;
 
-	$content_types = ctc_content_types();
+	$content_types = ctfw_content_types();
 
 	// Get content type based on post type, taxonomy or template
 	foreach ( $content_types as $type => $type_data ) {
@@ -123,7 +123,7 @@ function ctc_current_content_type() {
 			$current_type = $type;
 
 			// If parent is a page, base its type on the template it uses
-			if ( 'page' == $type && $parent_page_template_type = ctc_content_type_by_page_template( get_post_meta( $post->post_parent, '_wp_page_template', true ) ) ) {
+			if ( 'page' == $type && $parent_page_template_type = ctfw_content_type_by_page_template( get_post_meta( $post->post_parent, '_wp_page_template', true ) ) ) {
 				$current_type = $parent_page_template_type;
 			}
 
@@ -164,7 +164,7 @@ function ctc_current_content_type() {
 	}
 
 	// Return filterable
-	return apply_filters( 'ctc_current_content_type', $current_type );
+	return apply_filters( 'ctfw_current_content_type', $current_type );
 
 }
 
@@ -174,13 +174,13 @@ function ctc_current_content_type() {
  * Specify a key, such as "page_templates"; otherwise, all data is retrieved.
  */
 
-function ctc_content_type_data( $content_type, $key = false ) {
+function ctfw_content_type_data( $content_type, $key = false ) {
 
 	$data = false;
 
 	if ( ! empty( $content_type ) ) {
 
-		$type_data = ctc_content_types();
+		$type_data = ctfw_content_types();
 
 		if ( ! empty( $type_data[$content_type] ) ) {
 
@@ -196,7 +196,7 @@ function ctc_content_type_data( $content_type, $key = false ) {
 
 	}
 
-	return apply_filters( 'ctc_content_type_data', $data, $content_type, $key );
+	return apply_filters( 'ctfw_content_type_data', $data, $content_type, $key );
 
 }
 
@@ -206,16 +206,16 @@ function ctc_content_type_data( $content_type, $key = false ) {
  * Specify a key, such as "page_templates"; otherwise, all data is retrieved.
  */
 
-function ctc_current_content_type_data( $key = false ) {
+function ctfw_current_content_type_data( $key = false ) {
 
 	// Get current content type
-	$content_type = ctc_current_content_type();
+	$content_type = ctfw_current_content_type();
 
 	// Get data
-	$data = ctc_content_type_data( $content_type, $key );
+	$data = ctfw_content_type_data( $content_type, $key );
 
 	// Return filterable
-	return apply_filters( 'ctc_current_content_type_data', $data, $key );
+	return apply_filters( 'ctfw_current_content_type_data', $data, $key );
 
 }
 
@@ -223,7 +223,7 @@ function ctc_current_content_type_data( $key = false ) {
  * Get content type based on page template
  */
 
-function ctc_content_type_by_page_template( $page_template ) {
+function ctfw_content_type_by_page_template( $page_template ) {
 
 	$page_template_content_type = '';
 
@@ -231,7 +231,7 @@ function ctc_content_type_by_page_template( $page_template ) {
 	$page_template = basename( $page_template ); // remove dir if has
 
 	// Get types
-	$content_types = ctc_content_types();
+	$content_types = ctfw_content_types();
 
 	// Loop conent types
 	foreach ( $content_types as $content_type => $content_type_data ) {
@@ -245,7 +245,7 @@ function ctc_content_type_by_page_template( $page_template ) {
 	}
 
 	// Return filtered
-	return apply_filters( 'ctc_content_type_by_page_template', $page_template_content_type, $page_template );
+	return apply_filters( 'ctfw_content_type_by_page_template', $page_template_content_type, $page_template );
 
 }
 
@@ -259,7 +259,7 @@ function ctc_content_type_by_page_template( $page_template ) {
  * Provide $fields as array without meta field's post type prefix (_ccm_sermon_ for example)
  */
 
-function ctc_get_meta_data( $fields, $post_id = null, $prefix = null ) {
+function ctfw_get_meta_data( $fields, $post_id = null, $prefix = null ) {
 
 	$meta = array();
 
@@ -289,6 +289,6 @@ function ctc_get_meta_data( $fields, $post_id = null, $prefix = null ) {
 
 	}
 
-	return apply_filters( 'ctc_get_meta_data', $meta, $post_id );
+	return apply_filters( 'ctfw_get_meta_data', $meta, $post_id );
 
 }

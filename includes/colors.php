@@ -13,7 +13,7 @@
  * If styles exist in child theme then use those instead of parent
  */
 
-function ctc_colors() {
+function ctfw_colors() {
 
 	$parent_styles_dir = CTFW_THEME_PATH . '/' . CTFW_THEME_COLOR_DIR; // parent theme
 	$child_styles_dir = CTFW_THEME_CHILD_PATH . '/' . CTFW_THEME_COLOR_DIR;
@@ -31,7 +31,7 @@ function ctc_colors() {
 		closedir( $handle );
 	}
 
-	$colors = apply_filters( 'ctc_colors', $colors );
+	$colors = apply_filters( 'ctfw_colors', $colors );
 	
 	return $colors;
  
@@ -43,22 +43,22 @@ function ctc_colors() {
  * If none is provided, it will check the active color scheme.
  */
 
-function ctc_valid_color( $color = false ) {
+function ctfw_valid_color( $color = false ) {
 
 	$valid = false;
 	
 	// Use active if none given
 	if ( empty( $color ) ) {
-		$color = ctc_customization( 'color' );
+		$color = ctfw_customization( 'color' );
 	}
 
-	$colors = ctc_colors();
+	$colors = ctfw_colors();
 
 	if ( ! empty( $colors[$color] ) ) {
 		$valid = true;
 	}
 	
-	return apply_filters( 'ctc_valid_color', $valid, $color );
+	return apply_filters( 'ctfw_valid_color', $valid, $color );
 
 }
 
@@ -69,23 +69,23 @@ function ctc_valid_color( $color = false ) {
  * If no color scheme given, active color scheme used.
  */
 
-function ctc_color_url( $file, $color = false ) {
+function ctfw_color_url( $file, $color = false ) {
 
 	// Use active color scheme if none specified
 	if ( empty( $color ) ) {
-		$color = ctc_customization( 'color' );
+		$color = ctfw_customization( 'color' );
 	}
 
 	// Validate color scheme
 	// (even active one, to prevent any messing with cookies in front-end style customizer)
-	if ( ctc_valid_color( $color ) ) {
-		$url = ctc_theme_url( CTFW_THEME_COLOR_DIR . '/' . $color . '/' . ltrim( $file, '/' ) );
+	if ( ctfw_valid_color( $color ) ) {
+		$url = ctfw_theme_url( CTFW_THEME_COLOR_DIR . '/' . $color . '/' . ltrim( $file, '/' ) );
 	} else {
 		$url = '';
 	}
 
 	// Return filterable
-	return apply_filters( 'ctc_color_url', $url, $file, $color );
+	return apply_filters( 'ctfw_color_url', $url, $file, $color );
 
 }
 
@@ -95,14 +95,14 @@ function ctc_color_url( $file, $color = false ) {
  * This can be used to enqueue the stylesheet.
  */
 
-function ctc_color_style_url( $theme = false ) {
+function ctfw_color_style_url( $theme = false ) {
 
 	$url = '';
 
 	// Make sure active color scheme is valid so nobody tries to mess with file path (ie. via front-end style picker cookie)
-	if ( ctc_valid_color() ) {
+	if ( ctfw_valid_color() ) {
 
-		$color = ctc_customization( 'color' );
+		$color = ctfw_customization( 'color' );
 
 		$color_rel = CTFW_THEME_COLOR_DIR . '/' . $color . '/style.css';
 		
@@ -125,12 +125,12 @@ function ctc_color_style_url( $theme = false ) {
 		// Auto-detect (default)
 		// If parent or child not explicit, use default behavior (child if exists, otherwise parent)
 		else {
-			$url = ctc_theme_url( $color_rel ); // use child theme version if provided
+			$url = ctfw_theme_url( $color_rel ); // use child theme version if provided
 		}
 
 	}
 	
 	// Return filtered
-	return apply_filters( 'ctc_color_style_url', $url, $theme );
+	return apply_filters( 'ctfw_color_style_url', $url, $theme );
 	
 }

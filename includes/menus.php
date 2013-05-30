@@ -14,9 +14,9 @@
  * Use add_theme_support( 'ctfw-correct-imported-menu-urls', 'http://wp.dev/site' );
  */
  
-add_filter( 'import_end', 'ctc_correct_imported_menu_urls' ); // correct custom menu URLs from sample XML content to use actual site's home URL
+add_filter( 'import_end', 'ctfw_correct_imported_menu_urls' ); // correct custom menu URLs from sample XML content to use actual site's home URL
 	
-function ctc_correct_imported_menu_urls() {
+function ctfw_correct_imported_menu_urls() {
 
 	// Theme supports this?
 	if ( $support = get_theme_support( 'ctfw-correct-imported-menu-urls' ) ) {

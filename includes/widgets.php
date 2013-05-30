@@ -171,7 +171,7 @@ function ctfw_register_widgets() {
 	$widgets = ctfw_widgets();
 
 	// Church Content Manager plugin is installed and activated?
-	$ccm_active = ctc_functionality_plugin_active();
+	$ccm_active = ctfw_functionality_plugin_active();
 	
 	// Loop widgets
 	foreach ( $widgets as $widget_id => $widget_data ) {
@@ -245,7 +245,7 @@ function ctfw_unregister_widgets() {
  * Get theme support data for a widget
  */
  
-function ctc_get_widget_theme_support( $widget_id, $argument ) {
+function ctfw_get_widget_theme_support( $widget_id, $argument ) {
 	
 	// Null by default so if argument data not found, isset() returns false
 	$data = null;
@@ -278,7 +278,7 @@ function ctc_get_widget_theme_support( $widget_id, $argument ) {
 	}
 	
 	// Return filterable
-	return apply_filters( 'ctc_get_widget_theme_support', $data, $widget_id, $argument );
+	return apply_filters( 'ctfw_get_widget_theme_support', $data, $widget_id, $argument );
 	
 }
 
@@ -292,19 +292,19 @@ function ctc_get_widget_theme_support( $widget_id, $argument ) {
  * Add filters for classes/widget.php to set visibility and override data on fields based on theme support.
  */
  
-add_action( 'widgets_init', 'ctc_filter_widget_fields' );
+add_action( 'widgets_init', 'ctfw_filter_widget_fields' );
 
-function ctc_filter_widget_fields() {
+function ctfw_filter_widget_fields() {
 
 	// Loop widgets to filter their fields
 	$widgets = ctfw_widgets();
 	foreach ( $widgets as $widget_id => $widget_data ) {
 
 		// Set Visible Fields
-		add_filter( 'ctc_widget_visible_fields-' . $widget_id, 'ctc_set_visible_widget_fields', 10, 2 );
+		add_filter( 'ctfw_widget_visible_fields-' . $widget_id, 'ctfw_set_visible_widget_fields', 10, 2 );
 		
 		// Set Field Overrides
-		add_filter( 'ctc_widget_field_overrides-' . $widget_id, 'ctc_set_widget_field_overrides', 10, 2 );
+		add_filter( 'ctfw_widget_field_overrides-' . $widget_id, 'ctfw_set_widget_field_overrides', 10, 2 );
 
 	}
 
@@ -318,10 +318,10 @@ function ctc_filter_widget_fields() {
  * If an empty array of fields is passed, no fields are used.
   */
 
-function ctc_set_visible_widget_fields( $visible_fields, $widget_id ) {
+function ctfw_set_visible_widget_fields( $visible_fields, $widget_id ) {
 
 	// Get theme's supported fields for widget
-	$supported_fields = ctc_get_widget_theme_support( $widget_id, 'fields' );
+	$supported_fields = ctfw_get_widget_theme_support( $widget_id, 'fields' );
 
 	// Check if fields are set (even if empty)
 	if ( isset( $supported_fields ) ) {
@@ -344,10 +344,10 @@ function ctc_set_visible_widget_fields( $visible_fields, $widget_id ) {
  * Override widget field data based on add_theme_support.
  */
  
-function ctc_set_widget_field_overrides( $field_overrides, $widget_id ) {
+function ctfw_set_widget_field_overrides( $field_overrides, $widget_id ) {
 
 	// Return field overrides, if any
-	return ctc_get_widget_theme_support( $widget_id, 'field_overrides' );
+	return ctfw_get_widget_theme_support( $widget_id, 'field_overrides' );
 
 }
 
@@ -361,7 +361,7 @@ function ctc_set_widget_field_overrides( $field_overrides, $widget_id ) {
  * Is there a better way to do this?
  */
 
-function ctc_get_registered_widgets() {
+function ctfw_get_registered_widgets() {
 
 	global $wp_registered_widgets;
 
@@ -375,6 +375,6 @@ function ctc_get_registered_widgets() {
 
 	$widgets = array_unique( $widgets ); // no duplicates
 
-	return apply_filters( 'ctc_get_registered_widgets', $widgets );
+	return apply_filters( 'ctfw_get_registered_widgets', $widgets );
 
 }

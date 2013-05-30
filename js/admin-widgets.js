@@ -20,10 +20,10 @@ jQuery(document).ready(function($) {
 
 		// Media frame
 		var frame = wp.media({
-			title : ctc_widgets.image_library_title,
+			title : ctfw_widgets.image_library_title,
 			multiple : false,
 			library : { type : 'image' },
-			button : { text : ctc_widgets.image_library_button }
+			button : { text : ctfw_widgets.image_library_button }
 		});
 
 		// Open media frame and set current image
@@ -108,6 +108,6 @@ jQuery(document).ready(function($) {
 	// Add hidden message to all widgets
 	// admin-widgets.css hides this by default
 	// admin_head outputs CSS to show this and hide form content
-	$('.widget-inside').prepend('<div class="ctfw-widget-incompatible">' + ctc_widgets.incompatible_message + '</div>');
+	$('.widget-inside').prepend('<div class="ctfw-widget-incompatible">' + ctfw_widgets.incompatible_message + '</div>');
 
 });

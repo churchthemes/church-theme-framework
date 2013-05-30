@@ -11,10 +11,10 @@
  * Get location meta data
  */
 
-function ctc_location_data( $post_id = null ) {
+function ctfw_location_data( $post_id = null ) {
 
 	// Get meta values
-	$meta = ctc_get_meta_data( array(
+	$data = ctfw_get_meta_data( array(
 		'address',
 		'show_directions_link',
 		'phone',
@@ -26,10 +26,10 @@ function ctc_location_data( $post_id = null ) {
 	), $post_id );
 
 	// Add directions URL (empty if show_directions_link not set)
-	$meta['directions_url'] = $meta['show_directions_link'] ? ctc_directions_url( $meta['address'] ) : '';
+	$data['directions_url'] = $data['show_directions_link'] ? ctfw_directions_url( $data['address'] ) : '';
 
 	// Return filtered
-	return apply_filters( 'ctc_location_meta', $meta, $post_id );
+	return apply_filters( 'ctfw_location_data', $data, $post_id );
 
 }
 

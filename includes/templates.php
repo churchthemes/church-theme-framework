@@ -19,14 +19,14 @@
  * https://github.com/justintadlock/hybrid-base/blob/master/functions.php
  */
  
- function ctc_get_content_template() {
+ function ctfw_get_content_template() {
 
 	// Templates will be attempted to be loaded in the order they are added to this array
 	$templates = array();
 
 	// Get post type
 	$post_type = get_post_type();
-	$post_type_friendly = ctc_make_friendly( $post_type ); // "ccm_post_type" is made into "post-type" for friendlier template naming
+	$post_type_friendly = ctfw_make_friendly( $post_type ); // "ccm_post_type" is made into "post-type" for friendlier template naming
 
 	// Get post format
 	$post_format = get_post_format();

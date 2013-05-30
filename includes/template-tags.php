@@ -11,12 +11,12 @@
  * Output or return the localized, formatted post date, "Today" or "Yesterday", according to options.
  */
 
-function ctc_post_date( $options = array() ) {
+function ctfw_post_date( $options = array() ) {
 
 	$date_formatted = '';
 
 	// Default options
-	$defaults = apply_filters( 'ctc_post_date_default_options', array(
+	$defaults = apply_filters( 'ctfw_post_date_default_options', array(
 		'return'	=> false,
 		'today'		=> true,	// show "Today" if post is from today
 		'yesterday'	=> true,	// show "Yesterday" instead of yesterday's date
@@ -48,7 +48,7 @@ function ctc_post_date( $options = array() ) {
 	}
 
 	// Date filtering
-	$date_formatted = apply_filters( 'ctc_post_date', $date_formatted, $options );
+	$date_formatted = apply_filters( 'ctfw_post_date', $date_formatted, $options );
 
 	// Output or return
 	if ( $options['return'] ) {

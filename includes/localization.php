@@ -14,12 +14,12 @@
  * See http://core.trac.wordpress.org/changeset/22346
  */
 
-add_action( 'after_setup_theme', 'ctc_load_theme_textdomain' );
+add_action( 'after_setup_theme', 'ctfw_load_theme_textdomain' );
  
-function ctc_load_theme_textdomain() {
+function ctfw_load_theme_textdomain() {
 
 	// Textdomain same as theme's directory
-	$textdomain = apply_filters( 'ctc_theme_textdomain', CTFW_THEME_SLUG );
+	$textdomain = apply_filters( 'ctfw_theme_textdomain', CTFW_THEME_SLUG );
 
 	// First, check for language file from the 'languages' folder in theme (recommended only for pre-made translations coming with theme)
 	// Secondarily, load custom language file from outside the theme at wp-content/languages/themes/textdomain-locale.mo (safe from theme updates)
@@ -36,9 +36,9 @@ function ctc_load_theme_textdomain() {
  * Thank you to Justin Tadlock: https://github.com/justintadlock/hybrid-core/blob/master/functions/i18n.php
  */
 
-add_filter( 'gettext', 'ctc_gettext', 1, 3 );
+add_filter( 'gettext', 'ctfw_gettext', 1, 3 );
 
-function ctc_gettext( $translated, $text, $domain ) {
+function ctfw_gettext( $translated, $text, $domain ) {
 
 	// Framework textdomain?
 	if ( 'church-theme-framework' == $domain ) {

@@ -18,7 +18,7 @@
  * @param	string	$position		Position 'after' (default) or 'before' in which to place $move_item in relation to $target_item
  */
 
-function ctc_move_admin_menu_item( &$menu_ord, $move_item, $target_item, $position = 'after' ) {
+function ctfw_move_admin_menu_item( &$menu_ord, $move_item, $target_item, $position = 'after' ) {
 
 	// make sure items given are in array
 	if ( in_array( $move_item, $menu_ord ) && in_array( $target_item, $menu_ord ) ) {
@@ -52,13 +52,13 @@ function ctc_move_admin_menu_item( &$menu_ord, $move_item, $target_item, $positi
 		// if moving item before very first item, run again but with $move_item and $target_item inverted
 		// there was no higher item to move after so we ran as normal and now swap the new two top items
 		if ( 'before' == $position && 0 == $move_key_after ) {
-			ctc_move_admin_menu_item( $menu_ord, $target_item, $move_item ); // run again with item to move and item to move after swapped
+			ctfw_move_admin_menu_item( $menu_ord, $target_item, $move_item ); // run again with item to move and item to move after swapped
 		}
 		
 	}
 	
 	// return manipulated menu or original menu if no manipulation done
-	return apply_filters( 'ctc_move_admin_menu_item', &$menu_ord, $menu_ord, $move_item, $target_item, $position );
+	return apply_filters( 'ctfw_move_admin_menu_item', &$menu_ord, $menu_ord, $move_item, $target_item, $position );
 
 }
 

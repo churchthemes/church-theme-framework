@@ -19,10 +19,10 @@
  * (with an assist from Brian Krogsgard: http://krogsgard.com)
  */
 
-function ctc_cpt_date_archive_setup( $post_types, $wp_rewrite ) {
+function ctfw_cpt_date_archive_setup( $post_types, $wp_rewrite ) {
 
 	// Enable override by child theme
-	$rules = apply_filters( 'ctc_cpt_date_archive_setup_rules', array(), $post_types, $wp_rewrite ); // empty if nothing passed in by filter
+	$rules = apply_filters( 'ctfw_cpt_date_archive_setup_rules', array(), $post_types, $wp_rewrite ); // empty if nothing passed in by filter
 
 	// If rules not already provided via filter
 	if ( empty( $rules ) ) {
@@ -110,7 +110,7 @@ function ctc_cpt_date_archive_setup( $post_types, $wp_rewrite ) {
  * Modified version of WordPress core get_month_link() with post type argument.
  */
  
-function ctc_post_type_get_month_link( $year, $month, $post_type = false ) {
+function ctfw_post_type_get_month_link( $year, $month, $post_type = false ) {
 
 	global $wp_rewrite;
 
@@ -136,7 +136,7 @@ function ctc_post_type_get_month_link( $year, $month, $post_type = false ) {
 		$monthlink = str_replace( '%year%', $year, $monthlink );
 		$monthlink = str_replace( '%monthnum%', zeroise( intval( $month ), 2 ), $monthlink );
 
-		return apply_filters( 'ctc_post_type_month_link', home_url( $slug . user_trailingslashit( $monthlink, 'month' ) ), $year, $month);
+		return apply_filters( 'ctfw_post_type_month_link', home_url( $slug . user_trailingslashit( $monthlink, 'month' ) ), $year, $month);
 
 	} else { // default with query string
 
@@ -145,7 +145,7 @@ function ctc_post_type_get_month_link( $year, $month, $post_type = false ) {
 			$post_type_param = '&post_type=' . $post_type;
 		}
 
-		return apply_filters( 'ctc_post_type_month_link', home_url( '?m=' . $year . zeroise( $month, 2 ) . $post_type_param ), $year, $month );
+		return apply_filters( 'ctfw_post_type_month_link', home_url( '?m=' . $year . zeroise( $month, 2 ) . $post_type_param ), $year, $month );
 
 	}
 
@@ -159,15 +159,15 @@ function ctc_post_type_get_month_link( $year, $month, $post_type = false ) {
  * Redirect post type archives to pages
  *
  * Use add_theme_support( 'ctfw-archive-redirection' ) to redirect post type archives to pages using specific page templates.
- * Post types and page templates from ctc_content_types() are used to automate this (theme must filter page templates in).
+ * Post types and page templates from ctfw_content_types() are used to automate this (theme must filter page templates in).
  *
  * Page template should output same loop but with with title, featured image, etc. for nicer presentation and to avoid duplicate content.
  * This is done only for non-date archive. Feeds are unaffected.
  */
 
-add_action( 'template_redirect', 'ctc_redirect_archives_to_pages' );
+add_action( 'template_redirect', 'ctfw_redirect_archives_to_pages' );
 
-function ctc_redirect_archives_to_pages() {
+function ctfw_redirect_archives_to_pages() {
 
 	// Theme supports this?
 	if ( ! current_theme_supports( 'ctfw-archive-redirection' ) ) {
@@ -180,7 +180,7 @@ function ctc_redirect_archives_to_pages() {
 	}
 
 	// Get content types
-	$content_types = ctc_content_types();
+	$content_types = ctfw_content_types();
 
 	// Loop content types
 	foreach( $content_types as $content_type => $content_type_data ) {
@@ -207,7 +207,7 @@ function ctc_redirect_archives_to_pages() {
 						if ( is_post_type_archive( $post_type ) ) {
 
 							// Check if a page is using primary template
-							if ( $redirect_page = ctc_get_page_by_template( $page_template ) ) {
+							if ( $redirect_page = ctfw_get_page_by_template( $page_template ) ) {
 
 								// Found a page?
 								if ( ! empty( $redirect_page->ID ) ) {

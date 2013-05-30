@@ -21,9 +21,9 @@
  * Note: This framework feature must be enabled using add_theme_support( 'ctfw-image-upscaling' )
  */
 
-add_filter( 'image_resize_dimensions', 'ctc_image_resize_dimensions_upscale', 10, 6 );
+add_filter( 'image_resize_dimensions', 'ctfw_image_resize_dimensions_upscale', 10, 6 );
 
-function ctc_image_resize_dimensions_upscale( $output, $orig_w, $orig_h, $dest_w, $dest_h, $crop ) {
+function ctfw_image_resize_dimensions_upscale( $output, $orig_w, $orig_h, $dest_w, $dest_h, $crop ) {
 
 	// force upscaling if theme supports it and crop is being done
 	// otherwise $output = null causes regular behavior
@@ -57,7 +57,7 @@ function ctc_image_resize_dimensions_upscale( $output, $orig_w, $orig_h, $dest_w
  * Pass in image size to return 123x123
  */
 
-function ctc_image_size_dimensions( $size ) {
+function ctfw_image_size_dimensions( $size ) {
 
 	global $_wp_additional_image_sizes;
 
@@ -67,7 +67,7 @@ function ctc_image_size_dimensions( $size ) {
 		$dimensions = $_wp_additional_image_sizes[$size]['width'] . 'x' . $_wp_additional_image_sizes[$size]['height'];
 	}
 
-	return apply_filters( 'ctc_image_size_dimensions', $dimensions );
+	return apply_filters( 'ctfw_image_size_dimensions', $dimensions );
 
 
 }
@@ -95,9 +95,9 @@ function ctc_image_size_dimensions( $size ) {
  *		) );
  */
 
-add_filter( 'shortcode_atts_gallery', 'ctc_gallery_thumb_size', 10, 3 );
+add_filter( 'shortcode_atts_gallery', 'ctfw_gallery_thumb_size', 10, 3 );
 
-function ctc_gallery_thumb_size( $out, $pairs, $atts ) {
+function ctfw_gallery_thumb_size( $out, $pairs, $atts ) {
 
 	// Always use size specifically set on shortcode
 	if ( ! empty( $atts['size'] ) ) {
@@ -150,9 +150,9 @@ function ctc_gallery_thumb_size( $out, $pairs, $atts ) {
  * It is better to do all styling in style.css.
  */
 
-add_filter( 'init', 'ctc_remove_gallery_styles' );
+add_filter( 'init', 'ctfw_remove_gallery_styles' );
 
-function ctc_remove_gallery_styles() {
+function ctfw_remove_gallery_styles() {
 
 	if ( current_theme_supports( 'ctfw-remove-gallery-styles' ) ) {
 		add_filter( 'use_default_gallery_style', '__return_false' );
@@ -170,9 +170,9 @@ function ctc_remove_gallery_styles() {
  * Enable with add_theme_support( 'ctfw-remove-prepend-attachment' ) 
  */
 
-add_filter( 'wp', 'ctc_remove_prepend_attachment' ); // conditionals like is_attachment() not available until 'wp' action
+add_filter( 'wp', 'ctfw_remove_prepend_attachment' ); // conditionals like is_attachment() not available until 'wp' action
 
-function ctc_remove_prepend_attachment() {
+function ctfw_remove_prepend_attachment() {
 
 	if ( is_attachment() && current_theme_supports( 'ctfw-remove-prepend-attachment' ) ) {
 		remove_filter( 'the_content', 'prepend_attachment' );
@@ -186,7 +186,7 @@ function ctc_remove_prepend_attachment() {
  * Extract gallery shortcode data from content  (unique image IDs, total count, shortcode attribures, etc.).
  */
 
-function ctc_post_galleries_data( $post, $options = array() ) {
+function ctfw_post_galleries_data( $post, $options = array() ) {
 
 	// Default data
 	$data = array(
@@ -278,7 +278,7 @@ function ctc_post_galleries_data( $post, $options = array() ) {
 	}
 
 	// Return filterable
-	return apply_filters( 'ctc_post_galleries_data', $data, $post );
+	return apply_filters( 'ctfw_post_galleries_data', $data, $post );
 
 }
 
@@ -288,7 +288,7 @@ function ctc_post_galleries_data( $post, $options = array() ) {
  * This gets all posts that have a gallery.
  */
 
-function ctc_gallery_posts( $options = array() ) {
+function ctfw_gallery_posts( $options = array() ) {
 
 	$gallery_posts = array();
 
@@ -314,12 +314,12 @@ function ctc_gallery_posts( $options = array() ) {
 		'posts_per_page'	=> $options['limit'],
 		'no_found_rows'		=> true, // faster
 	);
-	$args = apply_filters( 'ctc_gallery_posts_args', $args, $options );
+	$args = apply_filters( 'ctfw_gallery_posts_args', $args, $options );
 
 	// Get posts
-    add_filter( 'posts_where', 'ctc_gallery_posts_where' ); // modify query to search content for [gallery] shortcode so not all posts are gotten
+    add_filter( 'posts_where', 'ctfw_gallery_posts_where' ); // modify query to search content for [gallery] shortcode so not all posts are gotten
 	$posts_query = new WP_Query( $args );
-    remove_filter( 'posts_where', 'ctc_gallery_posts_where' ); // stop filtering WP_Query
+    remove_filter( 'posts_where', 'ctfw_gallery_posts_where' ); // stop filtering WP_Query
 
 	// Compile post's gallery data
 	if ( ! empty( $posts_query->posts ) ) {
@@ -328,7 +328,7 @@ function ctc_gallery_posts( $options = array() ) {
 		foreach ( $posts_query->posts as $post ) {
 
 			// Get gallery data unless option prevents it
-			$galleries_data = $options['extract_data'] ? ctc_post_galleries_data( $post ) : array();
+			$galleries_data = $options['extract_data'] ? ctfw_post_galleries_data( $post ) : array();
 
 			// Add post and gallery data to array
 			if ( ! ( $options['exclude_empty'] && empty( $galleries_data['image_count'] ) ) ) {
@@ -346,7 +346,7 @@ function ctc_gallery_posts( $options = array() ) {
 	}
 
 	// Return filterable
-	return apply_filters( 'ctc_gallery_posts', $gallery_posts, $options );
+	return apply_filters( 'ctfw_gallery_posts', $gallery_posts, $options );
 
 }
 
@@ -356,7 +356,7 @@ function ctc_gallery_posts( $options = array() ) {
  * This way not all posts are gotten; only post with galleries.
  */
 
-function ctc_gallery_posts_where( $where ) {
+function ctfw_gallery_posts_where( $where ) {
 
 	global $wpdb;
 
@@ -376,19 +376,19 @@ function ctc_gallery_posts_where( $where ) {
  * Get IDs of all pages/posts with gallery content.
  */
 
-function ctc_gallery_posts_ids( $options = array() ) {
+function ctfw_gallery_posts_ids( $options = array() ) {
 
 	// Do not extract data in this case, just need IDS
 	$options['extract_data'] = false; // optimization
 
 	// Get posts/pages with IDs
-	$gallery_posts = ctc_gallery_posts( $options );
+	$gallery_posts = ctfw_gallery_posts( $options );
 
 	// Put IDs into array
 	$ids = array_keys( $gallery_posts );
 
 	// Return filtered
-	return apply_filters( 'ctc_gallery_posts_ids', $ids );
+	return apply_filters( 'ctfw_gallery_posts_ids', $ids );
 
 }
 
@@ -399,7 +399,7 @@ function ctc_gallery_posts_ids( $options = array() ) {
  * The shortcode column attribute from the first gallery will be used.
  */
 
-function ctc_post_gallery_preview( $post, $options = array() ) {
+function ctfw_post_gallery_preview( $post, $options = array() ) {
 
 	$preview = '';
 
@@ -408,10 +408,10 @@ function ctc_post_gallery_preview( $post, $options = array() ) {
 		'rows' => 2,
 		'columns' => '' // inherit from shortcode
 	) );
-	$options = apply_filters( 'ctc_post_gallery_preview_options', $options );
+	$options = apply_filters( 'ctfw_post_gallery_preview_options', $options );
 
 	// Get data from galleries used in post
-	$galleries_data = ctc_post_galleries_data( $post );
+	$galleries_data = ctfw_post_galleries_data( $post );
 
 	// Found at least one gallery with image?
 	if ( ! empty( $galleries_data['image_count'] ) ) {
@@ -435,7 +435,7 @@ function ctc_post_gallery_preview( $post, $options = array() ) {
 	}
 
 	// Return filterable
-	return apply_filters( 'ctc_post_gallery_preview', $preview, $post, $options );
+	return apply_filters( 'ctfw_post_gallery_preview', $preview, $post, $options );
 
 }
 
@@ -450,12 +450,12 @@ function ctc_post_gallery_preview( $post, $options = array() ) {
  * embed code and run do_shortcode() in case of [video], [audio] or [embed]
  */
 
-function ctc_embed_code( $content ) {
+function ctfw_embed_code( $content ) {
 
 	global $wp_embed;
 
 	// Convert URL into media shortcode like [audio] or [video]
-	if ( ctc_is_url( $content ) ) {
+	if ( ctfw_is_url( $content ) ) {
 		$embed_code = $wp_embed->shortcode( array(), $content );
 	}
 
@@ -469,7 +469,7 @@ function ctc_embed_code( $content ) {
 	$embed_code = do_shortcode( $embed_code );
 
 	// Return filtered
-	return apply_filters( 'ctc_embed_code', $embed_code, $content );
+	return apply_filters( 'ctfw_embed_code', $embed_code, $content );
 
 }
 
@@ -477,18 +477,18 @@ function ctc_embed_code( $content ) {
  * Responsive embeds JavaScript
  */ 
 
-add_action( 'wp_enqueue_scripts', 'ctc_responsive_embeds_enqueue_scripts' ); // front-end only (yes, wp_enqueue_scripts is correct for styles)
+add_action( 'wp_enqueue_scripts', 'ctfw_responsive_embeds_enqueue_scripts' ); // front-end only (yes, wp_enqueue_scripts is correct for styles)
  
-function ctc_responsive_embeds_enqueue_scripts() {
+function ctfw_responsive_embeds_enqueue_scripts() {
 
 	// If theme supports this feature
 	if ( current_theme_supports( 'ctfw-responsive-embeds' ) ) {
 
 		// FitVids.js
-		wp_enqueue_script( 'fitvids', ctc_theme_url( CTFW_JS_DIR . '/jquery.fitvids.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on theme update
+		wp_enqueue_script( 'fitvids', ctfw_theme_url( CTFW_JS_DIR . '/jquery.fitvids.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on theme update
 
 		// Responsive embeds script
-		wp_enqueue_script( 'ctfw-responsive-embeds', ctc_theme_url( CTFW_JS_DIR . '/responsive-embeds.js' ), array( 'fitvids' ), CTFW_THEME_VERSION ); // bust cache on theme update
+		wp_enqueue_script( 'ctfw-responsive-embeds', ctfw_theme_url( CTFW_JS_DIR . '/responsive-embeds.js' ), array( 'fitvids' ), CTFW_THEME_VERSION ); // bust cache on theme update
 
 	}
 
@@ -503,9 +503,9 @@ function ctc_responsive_embeds_enqueue_scripts() {
  * Enable with: add_theme_support( 'ctfw-generic-embeds' );
  */
 
-add_filter( 'embed_oembed_html', 'ctc_generic_embeds' );
+add_filter( 'embed_oembed_html', 'ctfw_generic_embeds' );
 
-function ctc_generic_embeds( $html ) {
+function ctfw_generic_embeds( $html ) {
 
 	// Does theme support this?
 	if ( current_theme_supports( 'ctfw-generic-embeds' ) ) {
@@ -545,7 +545,7 @@ function ctc_generic_embeds( $html ) {
 			}
 
 			// Modify URL
-			$args = apply_filters( 'ctc_generic_embeds_add_args', $args, $source );
+			$args = apply_filters( 'ctfw_generic_embeds_add_args', $args, $source );
 			$new_url = add_query_arg( $args, $url );
 
 			// Replace source with modified URL

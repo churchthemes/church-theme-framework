@@ -17,7 +17,7 @@
  * This is handy when one template rather than the usual is used for primary content.
  */
 
-function ctc_get_page_by_template( $templates ) {
+function ctfw_get_page_by_template( $templates ) {
 
 	$page = false;
 
@@ -69,7 +69,7 @@ function ctc_get_page_by_template( $templates ) {
 
 	}
 
-	return apply_filters( 'ctc_get_page_by_template', $page, $templates );
+	return apply_filters( 'ctfw_get_page_by_template', $page, $templates );
 
 }
 
@@ -82,13 +82,13 @@ function ctc_get_page_by_template( $templates ) {
  * This is handy when one template rather than the usual is used for primary content.
  */
 
-function ctc_get_page_id_by_template( $templates ) {
+function ctfw_get_page_id_by_template( $templates ) {
 
-	$page = ctc_get_page_by_template( $templates );
+	$page = ctfw_get_page_by_template( $templates );
 
 	$page_id = ! empty( $page->ID ) ? $page->ID : '';
 	
-	return apply_filters( 'ctc_get_page_id_by_template', $page_id, $templates );	
+	return apply_filters( 'ctfw_get_page_id_by_template', $page_id, $templates );	
 
 }
 
@@ -98,7 +98,7 @@ function ctc_get_page_id_by_template( $templates ) {
  * Handy for making select options
  */
 
-function ctc_page_options( $allow_none = true ) {
+function ctfw_page_options( $allow_none = true ) {
 
 	$pages = get_pages( array(
 		'hierarchical' => false,
@@ -117,26 +117,3 @@ function ctc_page_options( $allow_none = true ) {
 	return $page_options;
 
 }
-
-/**********************************
- * VALIDATION
- **********************************/
-
-/**
- * Validate Page ID
- *
- * Return true if valid, false if not.
- */
- 
-function ctc_valid_page( $page_id ) {
-
-	$pages = ctc_page_options();
-	
-	if ( isset( $pages[$page_id] ) ) {
-		return true;
-	}
-	
-	return false;
-
-}
- 

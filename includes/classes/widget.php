@@ -24,12 +24,12 @@ class CTFW_Widget extends WP_Widget {
 	 * Filter the fields from extending class.
 	 */
 
-	function ctc_prepared_fields() {
+	function ctfw_prepared_fields() { // prefix in case WP core adds method with same name
 	
 		// Get fields from extending class
 		$fields = array();
-		if ( method_exists( get_called_class(), 'ctc_fields' ) ) {
-			$fields = $this->ctc_fields();
+		if ( method_exists( get_called_class(), 'ctfw_fields' ) ) {
+			$fields = $this->ctfw_fields();
 		}
 	
 		// Fill array of visible fields with all by default
@@ -39,10 +39,10 @@ class CTFW_Widget extends WP_Widget {
 		}
 		
 		// Let themes/plugins set explicit visibility for fields for specific widget
-		$visible_fields = apply_filters( 'ctc_widget_visible_fields-' . $this->id_base, $visible_fields, $this->id_base );
+		$visible_fields = apply_filters( 'ctfw_widget_visible_fields-' . $this->id_base, $visible_fields, $this->id_base );
 
 		// Let themes/plugins override specific data for field of specific post type
-		$field_overrides = apply_filters( 'ctc_widget_field_overrides-' . $this->id_base, array(), $this->id_base ); // by default no overrides
+		$field_overrides = apply_filters( 'ctfw_widget_field_overrides-' . $this->id_base, array(), $this->id_base ); // by default no overrides
 
 		// Loop fields to modify them with filtered data
 		foreach ( $fields as $id => $field ) {
@@ -62,7 +62,7 @@ class CTFW_Widget extends WP_Widget {
 				foreach ( (array) $fields[$id]['taxonomies'] as $taxonomy_name ) {
 
 					// Taxonomy not supported by theme (or possibly disabled via Church Content Manager)
-					if ( ! ctc_taxonomy_supported( $taxonomy_name ) ) { // check show_ui
+					if ( ! ctfw_taxonomy_supported( $taxonomy_name ) ) { // check show_ui
 						$fields[$id]['hidden'] = true;
 						break; // one strike and you're out
 					}
@@ -84,7 +84,7 @@ class CTFW_Widget extends WP_Widget {
 	function form( $instance ) {
 		
 		// Loop fields
-		$fields = $this->ctc_prepared_fields();
+		$fields = $this->ctfw_prepared_fields();
 		foreach( $fields as $id => $field ) {
 			
 			/**
@@ -327,7 +327,7 @@ class CTFW_Widget extends WP_Widget {
 	 * Used before saving and before providing instance to widget template.
 	 */
 	
-	function ctc_sanitize( $instance ) {
+	function ctfw_sanitize( $instance ) { // prefix in case WP core adds method with same name
 
 		global $allowedposttags;
 		
@@ -335,7 +335,7 @@ class CTFW_Widget extends WP_Widget {
 		$sanitized_instance = array();
 		
 		// Loop valid fields to sanitize
-		$fields = $this->ctc_prepared_fields();
+		$fields = $this->ctfw_prepared_fields();
 		foreach( $fields as $id => $field ) {
 
 			// Get posted value
@@ -451,7 +451,7 @@ class CTFW_Widget extends WP_Widget {
 	function update( $new_instance, $old_instance ) {
 
 		// Sanitize values
-		$instance = $this->ctc_sanitize( $new_instance );
+		$instance = $this->ctfw_sanitize( $new_instance );
 		
 		// Return for saving
 		return $instance;
@@ -478,7 +478,7 @@ class CTFW_Widget extends WP_Widget {
 		if ( $template_path = locate_template( CTFW_THEME_WIDGET_DIR . '/' . $template_file ) ) { // false if does not exist
 		
 			// Sanitize widget instance (field values) before loading template
-			$instance = $this->ctc_sanitize( $instance );
+			$instance = $this->ctfw_sanitize( $instance );
 		
 			// Make instance available to other methods used by template (e.g. get_posts())
 			$this->ctfw_instance = $instance;

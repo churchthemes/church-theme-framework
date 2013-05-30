@@ -15,7 +15,7 @@
  * Detect if old WordPress version used
  */
 
-function ctc_old_wp() {
+function ctfw_old_wp() {
 
 	$old = false;
 
@@ -32,7 +32,7 @@ function ctc_old_wp() {
 
 	}
 
-	return apply_filters( 'ctc_old_wp', $old );
+	return apply_filters( 'ctfw_old_wp', $old );
 
 }
 
@@ -40,7 +40,7 @@ function ctc_old_wp() {
  * Message to show when old version used
  */
 
-function ctc_old_wp_message() {
+function ctfw_old_wp_message() {
 
 	return __( 'The theme you selected requires a newer version of WordPress. Please update and try again.', 'church-theme-framework' );
 
@@ -52,12 +52,12 @@ function ctc_old_wp_message() {
  * Switches to the previously activated theme or the default theme.
  */
 
-add_action( 'after_switch_theme', 'ctc_old_wp_switch_theme', 10, 2 );
+add_action( 'after_switch_theme', 'ctfw_old_wp_switch_theme', 10, 2 );
 
-function ctc_old_wp_switch_theme( $theme_name, $theme ) {
+function ctfw_old_wp_switch_theme( $theme_name, $theme ) {
 
 	// Is WordPress version too old for theme?
-	if ( ctc_old_wp() ) {
+	if ( ctfw_old_wp() ) {
 
 		if ( CTFW_THEME_SLUG != $theme->get_template() ) {
 			switch_theme( $theme->get_template(), $theme->get_stylesheet() );
@@ -67,7 +67,7 @@ function ctc_old_wp_switch_theme( $theme_name, $theme ) {
 
 		unset( $_GET['activated'] );
 
-		add_action( 'admin_notices', 'ctc_old_wp_switch_theme_notice' );
+		add_action( 'admin_notices', 'ctfw_old_wp_switch_theme_notice' );
 
 	}
 
@@ -77,12 +77,12 @@ function ctc_old_wp_switch_theme( $theme_name, $theme ) {
  * Show notice if try to switch to theme while using old version of WordPress
  */
 
-function ctc_old_wp_switch_theme_notice() {
+function ctfw_old_wp_switch_theme_notice() {
 
 	?>
 	<div class="error">
 		<p>
-			<?php echo ctc_old_wp_message(); ?>
+			<?php echo ctfw_old_wp_message(); ?>
 		</p>
 	</div>
 	<?php
@@ -93,15 +93,15 @@ function ctc_old_wp_switch_theme_notice() {
  * Prevent Customizer preview from showing theme while using old version of WordPress
  */
 
-add_action( 'load-customize.php', 'ctc_old_wp_customizer_notice' );
+add_action( 'load-customize.php', 'ctfw_old_wp_customizer_notice' );
 
-function ctc_old_wp_customizer_notice() {
+function ctfw_old_wp_customizer_notice() {
 
 	// Is WordPress version too old for theme?
-	if ( ctc_old_wp() ) {
+	if ( ctfw_old_wp() ) {
 
 		// Show message
-		wp_die( ctc_old_wp_message() . sprintf( ' <a href="javascript:history.go(-1);">%s</a>', __( 'Go back.', 'church-theme-framework' ) ) );
+		wp_die( ctfw_old_wp_message() . sprintf( ' <a href="javascript:history.go(-1);">%s</a>', __( 'Go back.', 'church-theme-framework' ) ) );
 
 	}
 
@@ -115,7 +115,7 @@ function ctc_old_wp_customizer_notice() {
  * Plugin file
  */
 
-function ctc_functionality_plugin_file() {
+function ctfw_functionality_plugin_file() {
 
 	return 'church-content-manager/church-content-manager.php';
 
@@ -125,9 +125,9 @@ function ctc_functionality_plugin_file() {
  * Plugin slug
  */
 
-function ctc_functionality_plugin_slug() {
+function ctfw_functionality_plugin_slug() {
 
-	return dirname( ctc_functionality_plugin_file() );
+	return dirname( ctfw_functionality_plugin_file() );
 
 }
 
@@ -135,17 +135,17 @@ function ctc_functionality_plugin_slug() {
  * Plugin is installed and has been activated
  */
  
-function ctc_functionality_plugin_active() {
+function ctfw_functionality_plugin_active() {
 
 	$activated = false;
 
 	include_once ABSPATH . 'wp-admin/includes/plugin.php';
 	
-	if ( is_plugin_active( ctc_functionality_plugin_file() ) ) {
+	if ( is_plugin_active( ctfw_functionality_plugin_file() ) ) {
 		$activated = true;
 	}
 
-	return apply_filters( 'ctc_functionality_plugin_active', $activated );
+	return apply_filters( 'ctfw_functionality_plugin_active', $activated );
 		
 }
 
@@ -153,15 +153,15 @@ function ctc_functionality_plugin_active() {
  * Plugin is installed but not necessarily activated
  */
  
-function ctc_functionality_plugin_installed() {
+function ctfw_functionality_plugin_installed() {
 
 	$installed = false;
 
-	if ( array_key_exists( ctc_functionality_plugin_file(), get_plugins() ) ) {
+	if ( array_key_exists( ctfw_functionality_plugin_file(), get_plugins() ) ) {
 		$installed = true;
 	}
 
-	return apply_filters( 'ctc_functionality_plugin_installed', $installed );
+	return apply_filters( 'ctfw_functionality_plugin_installed', $installed );
 		
 }
 
@@ -171,9 +171,9 @@ function ctc_functionality_plugin_installed() {
  * Show notice at top of admin until plugin is both installed and activated.
  */
 
-add_action( 'admin_notices', 'ctc_functionality_plugin_notice' );
+add_action( 'admin_notices', 'ctfw_functionality_plugin_notice' );
 
-function ctc_functionality_plugin_notice() {
+function ctfw_functionality_plugin_notice() {
 
 	// SHow only on relevant pages as not to overwhelm the admin
 	$screen = get_current_screen();
@@ -182,21 +182,21 @@ function ctc_functionality_plugin_notice() {
 	}
 
 	// Plugin not installed
-	if ( ! ctc_functionality_plugin_installed() && current_user_can( 'install_plugins' ) ) {
+	if ( ! ctfw_functionality_plugin_installed() && current_user_can( 'install_plugins' ) ) {
 
 		$notice = sprintf(
 			__( '<b>Plugin Required:</b> Please install and activate the <a href="%s" class="thickbox">Church Content Manager</a> plugin to use with the current theme.', 'church-theme-framework' ),
-			network_admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . ctc_functionality_plugin_slug() . '&TB_iframe=true&width=700&height=450' )
+			network_admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . ctfw_functionality_plugin_slug() . '&TB_iframe=true&width=700&height=450' )
 		);
 
 	}
 
 	// Plugin installed but not activated
-	elseif ( ! ctc_functionality_plugin_active() && current_user_can( 'activate_plugins' ) ) {
+	elseif ( ! ctfw_functionality_plugin_active() && current_user_can( 'activate_plugins' ) ) {
 
 		$notice = sprintf(
 			__( 'Please <a href="%s">activate</a> the <b>Church Content Manager</b> plugin required by the current theme.', 'church-theme-framework' ),
-			wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=' . ctc_functionality_plugin_file() ), 'activate-plugin_' . ctc_functionality_plugin_file() )
+			wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=' . ctfw_functionality_plugin_file() ), 'activate-plugin_' . ctfw_functionality_plugin_file() )
 		);
 
 	}
@@ -227,9 +227,9 @@ function ctc_functionality_plugin_notice() {
  * to prompt Internet Explorer 7 users to upgrade to a modern browser.
  */
 
-add_action( 'wp_enqueue_scripts', 'ctc_enqueue_ie_unsupported' ); // front-end only
+add_action( 'wp_enqueue_scripts', 'ctfw_enqueue_ie_unsupported' ); // front-end only
 	
-function ctc_enqueue_ie_unsupported() {
+function ctfw_enqueue_ie_unsupported() {
 
 	// Only if theme requests this
 	if ( $support = get_theme_support( 'ctfw-ie-unsupported' ) ) { // returns false if feature not supported
@@ -254,11 +254,11 @@ function ctc_enqueue_ie_unsupported() {
 
 			wp_enqueue_script( 'jquery' ); // version packaged with WordPress
 
-			wp_enqueue_script( 'ctfw-ie-unsupported', ctc_theme_url( CTFW_JS_DIR . '/ie-unsupported.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on theme update
+			wp_enqueue_script( 'ctfw-ie-unsupported', ctfw_theme_url( CTFW_JS_DIR . '/ie-unsupported.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on theme update
 
-			wp_localize_script( 'ctfw-ie-unsupported', 'ctc_ie_unsupported', array( // pass WP data into JS from this point on
+			wp_localize_script( 'ctfw-ie-unsupported', 'ctfw_ie_unsupported', array( // pass WP data into JS from this point on
 				'message' => __( 'You are using an outdated version of Internet Explorer. Please upgrade your browser to use this site.', 'church-theme-framework' ),
-				'redirect_url' => apply_filters( 'ctc_upgrade_browser_url', 'http://churchthemes.com/upgrade-browser' )
+				'redirect_url' => apply_filters( 'ctfw_upgrade_browser_url', 'http://churchthemes.com/upgrade-browser' )
 			) );
 
 		}

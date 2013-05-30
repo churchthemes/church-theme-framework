@@ -22,7 +22,7 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 		);
 
 		// Redirect Dropdown URL
-		add_action( 'template_redirect', array( &$this, 'ctc_redirect_taxonomy' ) ); // used with Categories widget dropdown redirects
+		add_action( 'template_redirect', array( &$this, 'ctfw_redirect_taxonomy' ) ); // used with Categories widget dropdown redirects
 
 	}
 
@@ -32,7 +32,7 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 	 * This is used by CTFW_Widget class for automatic field output, filtering, sanitization and saving.
 	 */
 	 
-	function ctc_fields() { // prefix in case WP core adds method with same name
+	function ctfw_fields() { // prefix in case WP core adds method with same name
 
 		// Fields
 		$fields = array(
@@ -97,7 +97,7 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
-				'options'			=> $this->ctc_taxonomy_options(), // array of keys/values for radio or select
+				'options'			=> $this->ctfw_taxonomy_options(), // array of keys/values for radio or select
 				'default'			=> 'category', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> true, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -272,7 +272,7 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 	 * Taxonomy Options
 	 */
 
-	function ctc_taxonomy_options() {
+	function ctfw_taxonomy_options() {
 	
 		$options = array();
 	
@@ -300,7 +300,7 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 		}
 		
 		// Return filtered
-		return apply_filters( 'ctc_categories_widget_taxonomy_options', $options );
+		return apply_filters( 'ctfw_categories_widget_taxonomy_options', $options );
 		
 	}
 	
@@ -311,7 +311,7 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 	 * This uses that query string to get permalink for that taxonomy and term
 	 */
 
-	function ctc_redirect_taxonomy() {
+	function ctfw_redirect_taxonomy() {
 
 		// Redirect is being attempted on front page with valid taxonomy
 		$id = isset( $_GET['id'] ) ? (int) $_GET['id'] : '';

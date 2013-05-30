@@ -13,11 +13,11 @@
  * http or https protocol
  */
  
-function ctc_current_protocol() {
+function ctfw_current_protocol() {
 
 	$protocol = is_ssl() ? 'https' : 'http';
 
-	return apply_filters( 'ctc_current_protocol', $protocol );
+	return apply_filters( 'ctfw_current_protocol', $protocol );
 
 }
 
@@ -25,7 +25,7 @@ function ctc_current_protocol() {
  * Check if string is a URL
  */
 
-function ctc_is_url( $string ) {
+function ctfw_is_url( $string ) {
 
 	$bool = false;
 
@@ -35,7 +35,7 @@ function ctc_is_url( $string ) {
 		$bool = true;
 	}
 
-	return apply_filters( 'ctc_is_url', $bool, $string );
+	return apply_filters( 'ctfw_is_url', $bool, $string );
 
 }
 
@@ -44,15 +44,15 @@ function ctc_is_url( $string ) {
  * Check if URL is local
  */
 	 
-function ctc_is_local_url( $url ) {
+function ctfw_is_local_url( $url ) {
 
 	$bool = false;
 
-	if ( ctc_is_url( $url ) && preg_match( '/^' . preg_quote( site_url(), '/' ) . '/', $url ) ) {
+	if ( ctfw_is_url( $url ) && preg_match( '/^' . preg_quote( site_url(), '/' ) . '/', $url ) ) {
 		$bool = true;
 	}
 
-	return apply_filters( 'ctc_is_url_local', $bool, $url );
+	return apply_filters( 'ctfw_is_local_url', $bool, $url );
 
 }
 
@@ -62,12 +62,12 @@ function ctc_is_local_url( $url ) {
  * yourname.com/site becomes /site (useful for cookie path)
  */
 
-function ctc_site_path() {
+function ctfw_site_path() {
 
 	// Just get everything after the domain in the site URL
 	list( , $path ) = explode( $_SERVER['HTTP_HOST'], site_url( '/' ) );
 
-	return apply_filters( 'ctc_site_path', $path );
+	return apply_filters( 'ctfw_site_path', $path );
 
 }
 
@@ -82,7 +82,7 @@ function ctc_site_path() {
  * Used to insert post type overview columns.
  */
  
-function ctc_array_merge_after_key( $original_array, $insert_array, $after_key ) {
+function ctfw_array_merge_after_key( $original_array, $insert_array, $after_key ) {
 
 	$modified_array = array();
 
@@ -99,7 +99,7 @@ function ctc_array_merge_after_key( $original_array, $insert_array, $after_key )
 	
 	}
 
-	return apply_filters( 'ctc_array_merge_after_key', $modified_array, $original_array, $insert_array, $after_key );
+	return apply_filters( 'ctfw_array_merge_after_key', $modified_array, $original_array, $insert_array, $after_key );
 
 }
 
@@ -114,7 +114,7 @@ function ctc_array_merge_after_key( $original_array, $insert_array, $after_key )
  * Useful when need strict character limit but don't want to cut words in half.
  */
 
-function ctc_shorten( $string, $max_chars ) {
+function ctfw_shorten( $string, $max_chars ) {
 
 	$max_chars = absint( $max_chars );
 
@@ -140,7 +140,7 @@ function ctc_shorten( $string, $max_chars ) {
 	}
 
 	// Return filtered
-	return apply_filters( 'ctc_shorten', $processed_string, $string, $max_chars );
+	return apply_filters( 'ctfw_shorten', $processed_string, $string, $max_chars );
 
 }
 
@@ -150,7 +150,7 @@ function ctc_shorten( $string, $max_chars ) {
  * It replaces line breaks with commas.
  */
 
-function ctc_address_one_line( $address ) {
+function ctfw_address_one_line( $address ) {
 
 	$address_one_line = $address;
 
@@ -160,21 +160,21 @@ function ctc_address_one_line( $address ) {
 		$address_one_line = trim( $address_one_line ); // remove whitespace
 	}
 
-	return apply_filters( 'ctc_address_one_line', $address_one_line, $address );
+	return apply_filters( 'ctfw_address_one_line', $address_one_line, $address );
 
 }
 
 /**
  * Make a Church Content Manager post type or taxonomy name friendly
  *
- * This is handy for get_template_part( 'content', ctc_make_friendly( get_post_type() ) );
+ * This is handy for get_template_part( 'content', ctfw_make_friendly( get_post_type() ) );
  * which produces content-post-type.php instead of content-ccm_post_type.php
  */
 
-function ctc_make_friendly( $string ) {
+function ctfw_make_friendly( $string ) {
 
 	$friendly_string = str_replace( array( 'ccm_', '_'), array( '', '-'), $string );
 
-	return apply_filters( 'ctc_make_friendly', $friendly_string, $string );
+	return apply_filters( 'ctfw_make_friendly', $friendly_string, $string );
 }
 
