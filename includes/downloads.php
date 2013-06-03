@@ -3,6 +3,9 @@
  * Download Functions
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /*************************************************
  * DOWNLOADS
  *************************************************/

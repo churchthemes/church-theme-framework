@@ -3,6 +3,9 @@
  * Navigation Menu Functions
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * Correct imported custom menu link base URLs
  *

@@ -3,6 +3,9 @@
  * Post Format Functions
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /*********************************
  * POST FORMATS
  *********************************

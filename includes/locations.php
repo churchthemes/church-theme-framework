@@ -3,6 +3,9 @@
  * Location Functions
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**********************************
  * DATA
  **********************************/

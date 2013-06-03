@@ -3,6 +3,9 @@
  * Gallery Functions
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /***********************************************
  * GALLERIES
  ***********************************************/

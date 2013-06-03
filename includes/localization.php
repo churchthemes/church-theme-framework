@@ -3,6 +3,9 @@
  * Localization Functions
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * Load Theme Textdomain
  *

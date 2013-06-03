@@ -6,6 +6,9 @@
  * comments.php can use this as wp_list_comments callback to load comment.php for rendering each comment.
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 function ctfw_comment( $comment, $args, $depth ) {
 
 	$GLOBALS['comment'] = $comment;

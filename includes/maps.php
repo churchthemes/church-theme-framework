@@ -3,6 +3,9 @@
  * Google Maps Functions
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * Display Google Map
  *

@@ -3,6 +3,9 @@
  * Sermon Functions
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**********************************
  * SERMON ARCHIVES
  **********************************/

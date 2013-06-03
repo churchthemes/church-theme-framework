@@ -7,6 +7,9 @@
  * echo new CTFW_Breadcrumbs( $options );
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 class CTFW_Breadcrumbs {
 
 	function __construct( $options = array() ) {

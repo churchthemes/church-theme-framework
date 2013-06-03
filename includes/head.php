@@ -5,6 +5,9 @@
  * Functions that add to <head>. Also see frontend-css.php for adding styles.
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /*******************************************
  * HEAD
  *******************************************/

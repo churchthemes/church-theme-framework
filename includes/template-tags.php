@@ -5,6 +5,9 @@
  * These output common elements for different post types.
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * Post Date
  *

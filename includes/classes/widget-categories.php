@@ -5,6 +5,9 @@
  * Inspired by default WordPress categories widget but adds support for selecting any exposed taxonomy.
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 class CTFW_Widget_Categories extends CTFW_Widget {
 
 	/**

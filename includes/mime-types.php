@@ -3,6 +3,9 @@
  * Mime Type Functions
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /*************************************************
  * MIME TYPES
  *************************************************/

@@ -3,6 +3,9 @@
  * Meta Data Functions
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /*********************************
  * META DATA
  *********************************

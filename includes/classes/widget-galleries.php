@@ -5,6 +5,9 @@
  * This lists all gallery pages.
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 class CTFW_Widget_Galleries extends CTFW_Widget {
 
 	/**

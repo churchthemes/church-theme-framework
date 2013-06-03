@@ -11,6 +11,9 @@
  * - New condition for $failed to prevent warnings
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 class CTFW_EDD_SL_Theme_Updater {
 
 	private $remote_api_url;

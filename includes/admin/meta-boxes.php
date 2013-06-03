@@ -3,6 +3,9 @@
  * Meta Boxes
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * CT Meta Boxes Setup
  *

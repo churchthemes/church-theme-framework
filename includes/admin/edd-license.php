@@ -19,6 +19,9 @@
  * See ctfw_edd_license_config() below for other arguments and their defaults.
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /*******************************************
  * CONFIGURATION
  *******************************************/

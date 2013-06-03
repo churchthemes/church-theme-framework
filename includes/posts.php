@@ -5,6 +5,9 @@
  * These relate to posts in general -- all types.
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * Add useful post classes
  */

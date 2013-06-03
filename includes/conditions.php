@@ -3,6 +3,9 @@
  * Detect Conditions
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /*******************************************
  * CONTENT
  *******************************************/

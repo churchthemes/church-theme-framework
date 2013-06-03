@@ -5,6 +5,9 @@
  * General helper functions.
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /*************************************************
  * URLs
  *************************************************/

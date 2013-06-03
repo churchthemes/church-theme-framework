@@ -5,6 +5,9 @@
  * Require minimum version of WordPress, Church Content Manager plugin, Internet Explorer, etc.
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /*******************************************
  * WORDPRESS VERSION
  *******************************************/

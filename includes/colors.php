@@ -3,6 +3,9 @@
  * Color Scheme Functions
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /*******************************************
  * COLOR SCHEMES
  *******************************************/

@@ -3,6 +3,9 @@
  * Taxonomy-related Functions
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * Detect taxonomy support
  *

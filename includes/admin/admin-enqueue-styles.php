@@ -3,6 +3,9 @@
  * Framework Admin Styles
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /*******************************************
  * ENQUEUE STYLESHEETS
  *******************************************/

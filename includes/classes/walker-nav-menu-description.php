@@ -4,6 +4,9 @@
  * Custom walker for adding Description to menu items
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 class CTFW_Walker_Nav_Menu_Description extends Walker_Nav_Menu {
 
 	/**

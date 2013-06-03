@@ -3,6 +3,9 @@
  * Framework Admin JavaScript
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /*******************************************
  * ENQUEUE JAVASCRIPT
  *******************************************/

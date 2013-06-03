@@ -3,6 +3,9 @@
  * Template Functions
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * Get content template
  *

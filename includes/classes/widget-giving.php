@@ -3,6 +3,9 @@
  * Giving Widget
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 class CTFW_Widget_Giving extends CTFW_Widget {
 
 	/**

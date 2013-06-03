@@ -3,6 +3,9 @@
  * Background Functions
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /*********************************************
  * CUSTOM BACKGROUND
  *********************************************/

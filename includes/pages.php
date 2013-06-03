@@ -3,7 +3,10 @@
  * Page Functions
  *
  * These functions apply to the page post type only.
- */ 
+ */
+
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**********************************
  * DATA

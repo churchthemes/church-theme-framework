@@ -9,6 +9,9 @@
  * plugins and other shortcodes will very likely be adversely affected.
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /******************************************
  * REGISTER SHORTCODES
  ******************************************/

@@ -5,6 +5,9 @@
  * These functions help setup and integrate custom fonts such as Google Fonts.
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /*******************************************
  * FONT STACKS
  *******************************************/

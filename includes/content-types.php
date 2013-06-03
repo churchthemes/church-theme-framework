@@ -6,6 +6,9 @@
  * It is useful for showing relevant sidebars, header banners, etc.
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /*********************************
  * CONTENT TYPES
  *********************************

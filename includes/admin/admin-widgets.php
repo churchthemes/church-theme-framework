@@ -3,6 +3,9 @@
  * Admin Widgets Functions
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /*******************************************
  * WIDGET RESTRICTIONS 
  *******************************************/

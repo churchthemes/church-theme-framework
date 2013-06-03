@@ -1,4 +1,7 @@
 <?php
+
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
  
 /**
  * Get/Set $paged

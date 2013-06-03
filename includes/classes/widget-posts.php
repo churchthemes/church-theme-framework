@@ -5,6 +5,9 @@
  * This replaces the core Recent Posts widget, adding options to show author, date, excerpt and thumbnail.
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 class CTFW_Widget_Posts extends CTFW_Widget {
 
 	/**

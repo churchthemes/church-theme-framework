@@ -8,6 +8,9 @@
  * Also see classes/widget.php which widgets extend for automatic field rendering, template loading, etc.
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**********************************
  * WIDGET DATA
  **********************************/

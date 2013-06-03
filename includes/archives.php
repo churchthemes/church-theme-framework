@@ -3,6 +3,9 @@
  * Archive Functions
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**********************************
  * DATE ARCHIVES
  **********************************/

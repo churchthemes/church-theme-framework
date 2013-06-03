@@ -3,6 +3,9 @@
  * Sidebar Functions
  */
 
+// No direct access
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**********************************
  * RESTRICT SIDEBARS/WIDGETS
  **********************************/
