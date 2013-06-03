@@ -76,3 +76,27 @@ function ctfw_attachment_inherit_discussion_status( $type, $open, $post_id ) {
 	return $open;
 
 }
+
+/**
+ * Shorten comment author
+ * 
+ * Useful for keeping long trackback titles in check.
+ *
+ * Use add_theme_support( 'ctfw-shorten-comment-author', 50 );
+ */
+
+add_filter( 'get_comment_author', 'resurrect_shorten_comment_author' );
+
+function resurrect_shorten_comment_author( $author ) {
+
+	// Theme uses this feature
+	if ( $support = get_theme_support( 'ctfw-shorten-comment-author' ) ) { // returns false if feature not supported
+
+		// Get character limit
+		$characters = isset( $support[0] ) ? $support[0] : 50; // default
+
+		return ctfw_shorten( $author, $characters );
+
+	}
+
+}
