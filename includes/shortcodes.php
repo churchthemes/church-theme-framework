@@ -21,10 +21,7 @@ function ctfw_shortcodes() {
 
 	$shortcodes = array(
 		'ctc_site_name'			=> 'ctfw_shortcode_site_name',
-		'ctc_tagline'			=> 'ctfw_shortcode_tagline',
-		'ctc_home_url'			=> 'ctfw_shortcode_home_url',
-		'ctc_rss_url'			=> 'ctfw_shortcode_feed_url',
-		'ctc_copyright_symbol'	=> 'ctfw_shortcode_copyright_symbol',
+		'ctc_rss_url'			=> 'ctfw_shortcode_rss_url',
 		'ctc_current_year'		=> 'ctfw_shortcode_current_year',
 		'ctc_powered_logo'		=> 'ctfw_shortcode_powered_logo'
 	);
@@ -96,13 +93,6 @@ function ctfw_shortcode_site_name() {
 	
 }
 
-// Tagline
-function ctfw_shortcode_tagline() {
-
-	return get_bloginfo( 'description' );
-	
-}
-
 // Current Year
 function ctfw_shortcode_current_year() {
 
@@ -110,25 +100,11 @@ function ctfw_shortcode_current_year() {
 	
 }
 
-// Copyright Symbol (since &copy; doesn't behave directly in theme options input field)
-function ctfw_shortcode_copyright_symbol() {
-
-	return '&copy;';
-	
-}
-
 // RSS Feed URL
 // [ctc_rss_url] can be used by social media icons
-function ctfw_shortcode_feed_url() {
+function ctfw_shortcode_rss_url() {
 
 	return get_bloginfo( 'rss_url' );
-	
-}
-
-// Home URL
-function ctfw_shortcode_home_url() {
-
-	return home_url( '/' );
 	
 }
 

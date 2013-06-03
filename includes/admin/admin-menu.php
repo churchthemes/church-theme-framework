@@ -61,9 +61,3 @@ function ctfw_move_admin_menu_item( &$menu_ord, $move_item, $target_item, $posit
 	return apply_filters( 'ctfw_move_admin_menu_item', &$menu_ord, $menu_ord, $move_item, $target_item, $position );
 
 }
-
-/*******************************************
- * ADD
- *******************************************/
- 
-// "Customize" link is added in customize.php

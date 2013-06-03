@@ -3,7 +3,7 @@
  * Widget Setup
  *
  * Register widgets that are supported by theme and filter fields according to theme support.
- * Widgets are also restricted to certai sidebars as configured.
+ * Widgets are also restricted to certain sidebars as configured.
  *
  * Also see classes/widget.php which widgets extend for automatic field rendering, template loading, etc.
  */
@@ -171,7 +171,7 @@ function ctfw_register_widgets() {
 	$widgets = ctfw_widgets();
 
 	// Church Content Manager plugin is installed and activated?
-	$ccm_active = ctfw_functionality_plugin_active();
+	$ccm_active = ctfw_ccm_plugin_active();
 	
 	// Loop widgets
 	foreach ( $widgets as $widget_id => $widget_data ) {

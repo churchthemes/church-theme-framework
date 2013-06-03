@@ -1,6 +1,6 @@
 <?php
 /**
- * Menu Functions
+ * Navigation Menu Functions
  */
 
 /**
@@ -21,8 +21,10 @@ function ctfw_correct_imported_menu_urls() {
 	// Theme supports this?
 	if ( $support = get_theme_support( 'ctfw-correct-imported-menu-urls' ) ) {
 
+		$sample_url = ! empty( $support[0] ) ? $support[0] : '';
+
 		// Have URL to replace?
-		if ( $sample_url = ! empty( $support[0] ) ? $support[0] : '' ) {
+		if ( $sample_url ) {
 
 			// This site's home URL
 			$home_url = home_url();

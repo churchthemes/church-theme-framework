@@ -108,14 +108,14 @@ function ctfw_old_wp_customizer_notice() {
 }
 
 /*****************************************************
- * FUNCTIONALITY PLUGIN
+ * CHURCH CONTENT MANAGER
  *****************************************************/
 
 /**
  * Plugin file
  */
 
-function ctfw_functionality_plugin_file() {
+function ctfw_ccm_plugin_file() {
 
 	return 'church-content-manager/church-content-manager.php';
 
@@ -125,9 +125,9 @@ function ctfw_functionality_plugin_file() {
  * Plugin slug
  */
 
-function ctfw_functionality_plugin_slug() {
+function ctfw_ccm_plugin_slug() {
 
-	return dirname( ctfw_functionality_plugin_file() );
+	return dirname( ctfw_ccm_plugin_file() );
 
 }
 
@@ -135,17 +135,17 @@ function ctfw_functionality_plugin_slug() {
  * Plugin is installed and has been activated
  */
  
-function ctfw_functionality_plugin_active() {
+function ctfw_ccm_plugin_active() {
 
 	$activated = false;
 
 	include_once ABSPATH . 'wp-admin/includes/plugin.php';
 	
-	if ( is_plugin_active( ctfw_functionality_plugin_file() ) ) {
+	if ( is_plugin_active( ctfw_ccm_plugin_file() ) ) {
 		$activated = true;
 	}
 
-	return apply_filters( 'ctfw_functionality_plugin_active', $activated );
+	return apply_filters( 'ctfw_ccm_plugin_active', $activated );
 		
 }
 
@@ -153,15 +153,15 @@ function ctfw_functionality_plugin_active() {
  * Plugin is installed but not necessarily activated
  */
  
-function ctfw_functionality_plugin_installed() {
+function ctfw_ccm_plugin_installed() {
 
 	$installed = false;
 
-	if ( array_key_exists( ctfw_functionality_plugin_file(), get_plugins() ) ) {
+	if ( array_key_exists( ctfw_ccm_plugin_file(), get_plugins() ) ) {
 		$installed = true;
 	}
 
-	return apply_filters( 'ctfw_functionality_plugin_installed', $installed );
+	return apply_filters( 'ctfw_ccm_plugin_installed', $installed );
 		
 }
 
@@ -171,32 +171,32 @@ function ctfw_functionality_plugin_installed() {
  * Show notice at top of admin until plugin is both installed and activated.
  */
 
-add_action( 'admin_notices', 'ctfw_functionality_plugin_notice' );
+add_action( 'admin_notices', 'ctfw_ccm_plugin_notice' );
 
-function ctfw_functionality_plugin_notice() {
+function ctfw_ccm_plugin_notice() {
 
-	// SHow only on relevant pages as not to overwhelm the admin
+	// Show only on relevant pages as not to overwhelm the admin
 	$screen = get_current_screen();
 	if ( ! in_array( $screen->base, array( 'dashboard', 'themes', 'plugins' ) ) ) {
 		return;
 	}
 
 	// Plugin not installed
-	if ( ! ctfw_functionality_plugin_installed() && current_user_can( 'install_plugins' ) ) {
+	if ( ! ctfw_ccm_plugin_installed() && current_user_can( 'install_plugins' ) ) {
 
 		$notice = sprintf(
 			__( '<b>Plugin Required:</b> Please install and activate the <a href="%s" class="thickbox">Church Content Manager</a> plugin to use with the current theme.', 'church-theme-framework' ),
-			network_admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . ctfw_functionality_plugin_slug() . '&TB_iframe=true&width=700&height=450' )
+			network_admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . ctfw_ccm_plugin_slug() . '&TB_iframe=true&width=700&height=450' )
 		);
 
 	}
 
 	// Plugin installed but not activated
-	elseif ( ! ctfw_functionality_plugin_active() && current_user_can( 'activate_plugins' ) ) {
+	elseif ( ! ctfw_ccm_plugin_active() && current_user_can( 'activate_plugins' ) ) {
 
 		$notice = sprintf(
 			__( 'Please <a href="%s">activate</a> the <b>Church Content Manager</b> plugin required by the current theme.', 'church-theme-framework' ),
-			wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=' . ctfw_functionality_plugin_file() ), 'activate-plugin_' . ctfw_functionality_plugin_file() )
+			wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=' . ctfw_ccm_plugin_file() ), 'activate-plugin_' . ctfw_ccm_plugin_file() )
 		);
 
 	}

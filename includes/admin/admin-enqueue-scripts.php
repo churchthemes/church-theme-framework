@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin JavaScript
+ * Framework Admin JavaScript
  */
 
 /*******************************************

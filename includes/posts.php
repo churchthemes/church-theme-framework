@@ -2,7 +2,7 @@
 /**
  * Post Functions
  *
- * These related to posts in general - all types.
+ * These relate to posts in general -- all types.
  */
 
 /**

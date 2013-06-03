@@ -1,41 +1,7 @@
 <?php
 /**
- * File Functions
+ * Download Functions
  */
-
-/*************************************************
- * FILE URLs
- *************************************************/
-
-/**
- * Retrieve the url of a file in the theme. 
- * 
- * Searches in the stylesheet directory before the template directory so themes 
- * which inherit from a parent theme can just override one file.
- * 
- * This is from here and will likely be part of WordPress core. At that time, move this to deprecated.php.
- * http://core.trac.wordpress.org/attachment/ticket/18302/18302.12.diff
- * http://core.trac.wordpress.org/ticket/18302
- * 
- * @param string $file File to search for in the stylesheet directory. 
- * @return string The URL of the file. 
- */
-
-function ctfw_theme_url( $file = '' ) {
-
-	$file = ltrim( $file, '/' ); 
- 
-	if ( empty( $file ) ) { 
-		$url = get_stylesheet_directory_uri(); 
-	} elseif( is_child_theme() && file_exists( get_stylesheet_directory() . "/$file" ) ) { 
-		$url = get_stylesheet_directory_uri() . "/$file"; 
-	} else { 
-		$url = get_template_directory_uri() . "/$file"; 
-	}
-	
-	return apply_filters( 'ctfw_theme_url', $url, $file );
-	
-}
 
 /*************************************************
  * DOWNLOADS
@@ -135,44 +101,5 @@ function ctfw_force_download_url( $url ) {
 	}
 
 	return apply_filters( 'ctfw_force_download_url', $download_url, $url );
-
-}
-
-/*************************************************
- * MIME TYPES
- *************************************************/
-
-/**
- * Friendly mime type name
- *
- * See wp_get_mime_types() for more matches to add.
- */
-
-function ctfw_mime_type_name( $mime_type ) {
-
-	// Default if no match
-	$friendly_name = _x( 'File', 'mime type', 'church-theme-framework' );
-
-	// Friendly mime type names
-	$mime_type_names = array(
-		'image'				=> 'Image',
-		'audio'				=> 'Audio',
-		'video'				=> 'Video',
-		'application/pdf'	=> 'PDF',
-	);
-	$mime_type_names = apply_filters( 'ctfw_mime_type_names', $mime_type_names );
-
-	// Check for match
-	foreach ( $mime_type_names as $mime_type_match => $mime_type_name ) {
-
-		// Match the first part and keep that name (e.g. image/jpeg matches image)
-		if ( preg_match( '/^' . preg_quote( $mime_type_match, '/' ) . '/i', $mime_type ) ) {
-			$friendly_name = $mime_type_name;
-			break;
-		}
-
-	}
-
-	return apply_filters( 'ctfw_mime_type_name', $friendly_name , $mime_type );
 
 }
