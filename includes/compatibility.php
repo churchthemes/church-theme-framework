@@ -23,10 +23,11 @@ function ctfw_old_wp() {
 	$old = false;
 
 	// Theme uses this feature
-	if ( $support = get_theme_support( 'ctfw-wordpress-version' ) ) { // returns false if feature not supported
+	$support = get_theme_support( 'ctfw-wordpress-version' );
+	if ( ! empty( $support[0] ) ) {
 
 		// Get minimum required version
-		$required_version = isset( $support[0] ) ? $support[0] : '';
+		$required_version = $support[0];
 
 		// Is old version used?
 		if ( version_compare( $GLOBALS['wp_version'], $required_version, '<' ) ) {
@@ -235,7 +236,8 @@ add_action( 'wp_enqueue_scripts', 'ctfw_enqueue_ie_unsupported' ); // front-end 
 function ctfw_enqueue_ie_unsupported() {
 
 	// Only if theme requests this
-	if ( $support = get_theme_support( 'ctfw-ie-unsupported' ) ) { // returns false if feature not supported
+	$support = get_theme_support( 'ctfw-ie-unsupported' );
+	if ( $support ) {
 
 		// Default and valid version range
 		// Currently specified version must be between 5 and 9 (10 could require more complex regex, but that may never be needed)

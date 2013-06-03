@@ -88,7 +88,7 @@ class CTFW_Widget extends WP_Widget {
 		
 		// Loop fields
 		$fields = $this->ctfw_prepared_fields();
-		foreach( $fields as $id => $field ) {
+		foreach ( $fields as $id => $field ) {
 			
 			/**
 			 * Field Data
@@ -133,7 +133,7 @@ class CTFW_Widget extends WP_Widget {
 			// Common attributes
 			$data['common_atts'] = 'name="' . $this->get_field_name( $data['id'] ) . '" class="' . esc_attr( $data['classes'] ) . '"';
 			if ( ! empty( $data['field']['attributes'] ) ) { // add custom attributes
-				foreach( $data['field']['attributes'] as $attr_name => $attr_value ) {
+				foreach ( $data['field']['attributes'] as $attr_name => $attr_value ) {
 					$data['common_atts'] .= ' ' . $attr_name . '="' . esc_attr( $attr_value ) . '"';
 				}		
 			}			
@@ -153,7 +153,7 @@ class CTFW_Widget extends WP_Widget {
 			// Field container styles
 			$data['field_attributes'] = '';
 			if ( ! empty( $data['field']['field_attributes'] ) ) { // add custom attributes
-				foreach( $data['field']['field_attributes'] as $attr_name => $attr_value ) {
+				foreach ( $data['field']['field_attributes'] as $attr_name => $attr_value ) {
 					$data['field_attributes'] .= ' ' . $attr_name . '="' . esc_attr( $attr_value ) . '"';
 				}		
 			}
@@ -210,7 +210,7 @@ class CTFW_Widget extends WP_Widget {
 					
 						if ( ! empty( $data['field']['options'] ) ) {
 						
-							foreach( $data['field']['options'] as $option_value => $option_text ) {
+							foreach ( $data['field']['options'] as $option_value => $option_text ) {
 							
 								$esc_radio_id = $data['esc_element_id'] . '-' . $option_value;
 							
@@ -232,7 +232,7 @@ class CTFW_Widget extends WP_Widget {
 						if ( ! empty( $data['field']['options'] ) ) {
 						
 							$input .= '<select ' . $data['common_atts'] . ' id="' . $data['esc_element_id'] . '">';
-							foreach( $data['field']['options'] as $option_value => $option_text ) {
+							foreach ( $data['field']['options'] as $option_value => $option_text ) {
 								$input .= '<option value="' . esc_attr( $option_value ) . '" ' . selected( $option_value, $data['value'], false ) . '> ' . esc_html( $option_text ) . '</option>';
 							}
 							$input .= '</select>';
@@ -339,7 +339,7 @@ class CTFW_Widget extends WP_Widget {
 		
 		// Loop valid fields to sanitize
 		$fields = $this->ctfw_prepared_fields();
-		foreach( $fields as $id => $field ) {
+		foreach ( $fields as $id => $field ) {
 
 			// Get posted value
 			$input = isset( $instance[$id] ) ? $instance[$id] : '';

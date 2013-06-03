@@ -112,6 +112,11 @@ add_action( 'wp', 'ctfw_previous_next_event_sorting' ); // is_singular() not ava
 
 function ctfw_previous_next_event_sorting() {
 
+	// Theme supports it?
+	if ( ! current_theme_supports( 'ctfw-event-navigation' ) ) {
+		return;
+	}
+
 	// While on single event, if theme supports Events from Church Content Manager
 	// IMPORTANT: Without ! is_page(), is_singular() runs, somehow causing /page/#/ URL's on static front page to break
 	if ( ! is_page() && is_singular( 'ccm_event' ) && current_theme_supports( 'ccm-events' ) ) {

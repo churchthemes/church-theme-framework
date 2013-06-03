@@ -7,7 +7,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /*******************************************
- * WIDGET RESTRICTIONS 
+ * WIDGET RESTRICTIONS
  *******************************************/
 
 /**
@@ -24,6 +24,12 @@ add_filter( 'admin_head', 'ctfw_admin_restrict_widgets_css' );
 
 function ctfw_admin_restrict_widgets_css() {
 
+	// Theme supports this?
+	if ( ! current_theme_supports( 'ctfw-sidebar-widget-restrictions' ) )  {
+		return;
+	}
+
+	// Current admin screen
 	$screen = get_current_screen();
 
 	// Widgets page only

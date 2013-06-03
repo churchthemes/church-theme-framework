@@ -72,4 +72,3 @@ function ctfw_image_size_dimensions( $size ) {
 
 
 }
-

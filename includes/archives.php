@@ -34,7 +34,7 @@ function ctfw_cpt_date_archive_setup( $post_types, $wp_rewrite ) {
 		$post_types = (array) $post_types;
 		
 		// Loop given post types to build rules
-		foreach( $post_types as $post_type_slug ) {
+		foreach ( $post_types as $post_type_slug ) {
 
 			// Post type data
 			$post_type = get_post_type_object( $post_type_slug );
@@ -186,7 +186,7 @@ function ctfw_redirect_archives_to_pages() {
 	$content_types = ctfw_content_types();
 
 	// Loop content types
-	foreach( $content_types as $content_type => $content_type_data ) {
+	foreach ( $content_types as $content_type => $content_type_data ) {
 
 		// Get primary template for content type (first in array)
 		$page_template = ! empty( $content_type_data['page_templates'][0] ) ? $content_type_data['page_templates'][0] : false;
@@ -201,7 +201,7 @@ function ctfw_redirect_archives_to_pages() {
 			if ( ! empty( $post_types ) ) {
 
 				// Loop post types
-				foreach( $post_types as $post_type ) {
+				foreach ( $post_types as $post_type ) {
 
 					// Have post type
 					if ( ! empty( $post_type ) ) {

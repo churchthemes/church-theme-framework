@@ -38,7 +38,8 @@ function ctfw_edd_license_config( $arg = false ) {
 	$config = array();
 
 	// Get theme support
-	if ( $support = get_theme_support( 'ctfw-edd-license' ) ) {
+	$support = $support = get_theme_support( 'ctfw-edd-license' );
+	if ( $support ) {
 
 		// Get arguments
 		$config = ! empty( $support[0] ) ? $support[0] : array();

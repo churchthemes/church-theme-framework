@@ -194,8 +194,6 @@ function ctfw_register_widgets() {
 
 		// Theme support is okay
 		if ( $supported ) {
-		
-			// (here could use get_option() to check if feature is disabled by Church Content Manager plugin settings)
 
 			// Church Content Manager is active or not required for widget
 			if ( empty( $widget_data['ccm_required'] ) || $ccm_active ) {
@@ -212,7 +210,7 @@ function ctfw_register_widgets() {
 
 					// Unregister widgets it replaces
 					if ( isset( $widget_data['unregister'] ) ) {
-						foreach( $widget_data['unregister'] as $unregister_widget ) {
+						foreach ( $widget_data['unregister'] as $unregister_widget ) {
 							unregister_widget( $unregister_widget );
 						}				
 					}
@@ -263,7 +261,8 @@ function ctfw_get_widget_theme_support( $widget_id, $argument ) {
 		$widget = $widgets[$widget_id];
 		
 		// Theme has support for widget
-		if ( $support = get_theme_support( $widget['theme_support'] ) ) {
+		$support = get_theme_support( $widget['theme_support'] );
+		if ( $support ) {
 		
 			// Get theme support data
 			$support = isset( $support[0] ) && is_array( $support ) ? $support[0] : false;

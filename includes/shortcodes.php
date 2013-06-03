@@ -41,6 +41,11 @@ add_action( 'init', 'ctfw_add_shortcodes' );
 
 function ctfw_add_shortcodes() {
 
+	// Theme supports this?
+	if ( ! current_theme_supports( 'ctfw-non-content-shortcodes' ) ) {
+		return;
+	}
+
 	$shortcodes = ctfw_shortcodes();
 
 	foreach ( $shortcodes as $tag => $function ) {
@@ -62,6 +67,11 @@ function ctfw_add_shortcodes() {
 add_filter( 'the_content', 'ctfw_content_remove_shortcodes', 0 );
 
 function ctfw_content_remove_shortcodes( $content ) {
+
+	// Theme supports this?
+	if ( ! current_theme_supports( 'ctfw-non-content-shortcodes' ) ) {
+		return;
+	}
 
 	$shortcodes = ctfw_shortcodes();
 
@@ -119,10 +129,11 @@ function ctfw_shortcode_powered_logo() {
 	$output = '';
 
 	// Theme supports this shortcode?
-	if ( $support = get_theme_support( 'ctfw-powered-logo-shortcode' ) ) {
+	$support = get_theme_support( 'ctfw-powered-logo-shortcode' );
+	if ( ! empty( $support[0] ) ) {
 
 		// Get URL for clicks
-		$url = ! empty( $support[0] ) ? $support[0] : false;
+		$url = $support[0];
 
 		// Link and image for footer
 		$output = '<a href="' . esc_url( $url ) . '" rel="nofollow" class="ctfw-powered-logo" target="_blank"></a>';

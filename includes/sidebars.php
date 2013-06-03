@@ -80,8 +80,13 @@ add_filter( 'sidebars_widgets', 'ctfw_restrict_sidebars_widgets', 5 );
 
 function ctfw_restrict_sidebars_widgets( $sidebars_widgets ) {
 
+	// Theme supports this?
+	if ( ! current_theme_supports( 'ctfw-sidebar-widget-restrictions' ) ) {
+		return $sidebars_widgets;
+	}
+
 	// Loop sidebars
-	foreach( $sidebars_widgets as $sidebar_id => $widgets ) {
+	foreach ( $sidebars_widgets as $sidebar_id => $widgets ) {
 
 		// Any widgets?
 		if ( empty( $widgets ) ) {
@@ -99,7 +104,7 @@ function ctfw_restrict_sidebars_widgets( $sidebars_widgets ) {
 
 		// Loop widgets in sidebar
 		$widget_i = 0;
-		foreach( $widgets as $widget_key => $widget ) {
+		foreach ( $widgets as $widget_key => $widget ) {
 
 			$widget_i++;
 

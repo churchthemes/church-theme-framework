@@ -38,35 +38,31 @@ function ctfw_gallery_thumb_size( $out, $pairs, $atts ) {
 		return $out;
 	}
 
-	// Use custom size only if theme supports it
-	if ( $support = get_theme_support( 'ctfw-gallery-thumb-size' ) ) { // returns false if feature not supported
+	// Use custom size based on column only if theme supports it
+	$support = $support = get_theme_support( 'ctfw-gallery-thumb-size' );
+	if ( ! empty( $support[0] ) ) {
 
-		// Use custom size based on column
-		if ( ! empty( $support[0] ) ) {
+		$sizes = $support[0];
 
-			$sizes = $support[0];
+		// Single size specified
+		if ( ! is_array( $sizes ) ) {
+			$out['size'] = $sizes;
+		}
 
-			// Single size specified
-			if ( ! is_array( $sizes ) ) {
-				$out['size'] = $sizes;
-			}
+		// Sizes for different columns specified
+		else {
 
-			// Sizes for different columns specified
-			else {
+			// Sort highest column to lowest
+			krsort( $sizes );
 
-				// Sort highest column to lowest
-				krsort( $sizes );
+			// Number of columns showing based on shortcode attribute or default
+			$columns = ! empty( $atts['columns'] ) ? $atts['columns'] : $pairs['columns'];
 
-				// Number of columns showing based on shortcode attribute or default
-				$columns = ! empty( $atts['columns'] ) ? $atts['columns'] : $pairs['columns'];
-
-				// Loop sizes to set most appropriate
-				foreach ( $sizes as $size_column => $size ) {
-					if ( $columns <= $size_column ) {
-						$out['size'] = $size;
-					}
+			// Loop sizes to set most appropriate
+			foreach ( $sizes as $size_column => $size ) {
+				if ( $columns <= $size_column ) {
+					$out['size'] = $size;
 				}
-
 			}
 
 		}

@@ -43,6 +43,11 @@ add_action( 'wp', 'ctfw_previous_next_person_sorting' ); // is_singular() not av
 
 function ctfw_previous_next_person_sorting() {
 
+	// Theme supports it?
+	if ( ! current_theme_supports( 'ctfw-person-navigation' ) ) {
+		return;
+	}
+
 	// While on single person, if theme supports People from Church Content Manager
 	// IMPORTANT: Without ! is_page(), is_singular() runs, somehow causing /page/#/ URL's on static front page to break
 	if ( ! is_page() && is_singular( 'ccm_person' ) && current_theme_supports( 'ccm-people' ) ) {

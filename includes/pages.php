@@ -28,7 +28,7 @@ function ctfw_get_page_by_template( $templates ) {
 	$templates = (array) $templates;
 
 	// Loop template by priority
-	foreach( $templates as $template ) {
+	foreach ( $templates as $template ) {
 
 		// Templates are stored in directory
 		$template = CTFW_THEME_PAGE_TPL_DIR . '/' . $template;

@@ -38,7 +38,7 @@ function ctfw_get_meta_data( $fields, $post_id = null, $prefix = null ) {
 			}
 
 			// Loop fields to get values
-			foreach( $fields as $field ) {
+			foreach ( $fields as $field ) {
 				$meta[$field] = get_post_meta( $post_id, $prefix . $field, true );
 			}
 

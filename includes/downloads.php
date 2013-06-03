@@ -12,8 +12,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Force download of certain file types via ?download=path/filename.type
+ *
+ * This prompts "Save As" -- handy for MP3, PDF, etc. Only works on local files.
  * 
  * This information was useful: http://wordpress.stackexchange.com/questions/3480/how-can-i-force-a-file-download-in-the-wordpress-backend
+ *
+ * Use add_theme_support( 'ctfw_force_downloads' );
  */
 
 add_action( 'template_redirect', 'ctfw_force_download' );
@@ -22,7 +26,12 @@ function ctfw_force_download() {
 	
     global $wp_query;
 
-	// Sheck if this URL is a request for file download
+	// Theme supports this?
+	if ( ! current_theme_supports( 'ctfw-force-downloads' ) ) {
+		return;
+	}
+
+	// Check if this URL is a request for file download
 	if ( is_front_page() && ! empty( $_GET['download'] ) ) {
 
 		// relative file path
@@ -84,22 +93,27 @@ function ctfw_force_download() {
 	 
 function ctfw_force_download_url( $url ) {
 
-	// In case URL is not local
+	// In case URL is not local or feature not supported by theme
 	$download_url = $url;
 
-	// Is URL local?
-	if ( ctfw_is_local_url( $url ) ) {
+	// Theme supports this?
+	if ( current_theme_supports( 'ctfw-force-downloads' ) ) {
 
-		// Get URL to upload directory
-		$upload_dir = wp_upload_dir();
-		$upload_dir_url = $upload_dir['baseurl'];
+		// Is URL local?
+		if ( ctfw_is_local_url( $url ) ) {
 
-		// Get relative URL for file
-		$relative_url = str_replace( $upload_dir_url, '', $url ); // remove base URL
-		$relative_url = ltrim( $relative_url ); // remove preceding slash
+			// Get URL to upload directory
+			$upload_dir = wp_upload_dir();
+			$upload_dir_url = $upload_dir['baseurl'];
 
-		// Add ?download=file to site URL
-		$download_url = site_url( '/' ) . '?download=' . urlencode( $relative_url );
+			// Get relative URL for file
+			$relative_url = str_replace( $upload_dir_url, '', $url ); // remove base URL
+			$relative_url = ltrim( $relative_url ); // remove preceding slash
+
+			// Add ?download=file to site URL
+			$download_url = site_url( '/' ) . '?download=' . urlencode( $relative_url );
+
+		}
 
 	}
 

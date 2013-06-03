@@ -12,18 +12,22 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Enable date archives for sermon posts
- *
- * This affects archives by date, category, tag, speaker, etc.
  * 
- * At time of making, WordPress (3.4 and possibly later) does not support dated archives for custom post types as it does for standard posts
- * This injects rules so that URL's like /cpt/2012/05 can be used with the custom post type archive template
- * 
+ * At time of making, WordPress (3.6 and possibly later) does not support dated archives for custom post types as it does for standard posts
+ * This injects rules so that URL's like /cpt/2012/05 can be used with the custom post type archive template.
  * Refer to ctfw_cpt_date_archive_setup() for full details.
+ *
+ * Use add_theme_support( 'ctfw-sermon-date-archive' ) and f
  */
 
 add_action( 'generate_rewrite_rules', 'ctfw_sermon_date_archive' ); // enable date archive for sermon post type
  
 function ctfw_sermon_date_archive( $wp_rewrite ) {
+
+	// Theme supports this?
+	if ( ! current_theme_supports( 'ctfw-sermon-date-archive' ) ) {
+		return;
+	}
 
 	// Post types to setup date archives for
 	$post_types = array(

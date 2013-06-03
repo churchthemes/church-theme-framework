@@ -91,7 +91,8 @@ function ctfw_taxonomy_order_notes() {
 function ctfw_taxonomy_order_note( $taxonomy ) {
 
 	// Only if theme requests this
-	if ( $support = get_theme_support( 'ctfw-taxonomy-order-note' ) ) { // returns false if feature not supported
+	$support = get_theme_support( 'ctfw-taxonomy-order-note' );
+	if ( $support ) { // returns false if feature not supported
 
 		// Get URL if not using default
 		$url = isset( $support[0] ) ? $support[0] : 'http://churchthemes.com/go/taxonomy-order';
