@@ -4,6 +4,13 @@
  *
  * The framework widgets extend this class which extends WP_Widget.
  * This extra layer adds methods for automatic field output, field filtering, sanitization, updating and front-end display via template.
+ *
+ * @package    Church_Theme_Framework
+ * @subpackage Classes
+ * @copyright  Copyright (c) 2013, churchthemes.com
+ * @link       https://github.com/churchthemes/church-theme-framework
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @since      1.0
  */
 
 // No direct access

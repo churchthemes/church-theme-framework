@@ -1,6 +1,13 @@
 <?php
 /**
  * Navigation Menu Functions
+ *
+ * @package    Church_Theme_Framework
+ * @subpackage Admin
+ * @copyright  Copyright (c) 2013, churchthemes.com
+ * @link       https://github.com/churchthemes/church-theme-framework
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @since      1.0
  */
 
 // No direct access

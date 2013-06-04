@@ -3,6 +3,13 @@
  * Compatibility Functions
  *
  * Require minimum version of WordPress, Church Content Manager plugin, Internet Explorer, etc.
+ *
+ * @package    Church_Theme_Framework
+ * @subpackage Functions
+ * @copyright  Copyright (c) 2013, churchthemes.com
+ * @link       https://github.com/churchthemes/church-theme-framework
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @since      1.0
  */
 
 // No direct access
