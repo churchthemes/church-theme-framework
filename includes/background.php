@@ -1,6 +1,8 @@
 <?php
 /**
  * Background Functions
+ *
+ * Functions to help theme show and Customizer manage background images.
  */
 
 // No direct access
@@ -58,5 +60,112 @@ function ctfw_admin_redirect_background() {
 		}
 
 	}
+
+}
+
+/*********************************************
+ * PRESET BACKGROUNDS
+ *********************************************/
+
+/**
+ * Get sanitized background presets
+ *
+ * Sanitize and return presets filtered in by theme via ctfw_background_image_presets_array.
+ */
+
+function ctfw_background_image_presets() {
+
+	$backgrounds_clean = array();
+
+	$backgrounds = apply_filters( 'ctfw_background_image_presets_array', array() ); // theme should pass this in
+
+	// Fill, clean and set defaults to prevent errors elsewhere
+	foreach ( $backgrounds as $file => $data ) {
+	
+		if ( ! empty( $data['thumb'] ) ) {
+		
+			$backgrounds_clean[$file]['thumb'] 		= $data['thumb'];
+			
+			$backgrounds_clean[$file]['fullscreen'] = ! empty( $data['fullscreen'] ) ? true : false;
+			if ( $backgrounds_clean[$file]['fullscreen'] ) {
+				$data['repeat'] = 'no-repeat';
+				$data['attachment'] = 'fixed';
+				$data['position'] = 'left';
+			}
+			
+			$backgrounds_clean[$file]['repeat'] 	= isset( $data['repeat'] ) && in_array( $data['repeat'], array( 'no-repeat', 'repeat', 'repeat-x', 'repeat-y' ) ) ? $data['repeat'] : 'no-repeat';
+			
+			$backgrounds_clean[$file]['attachment'] = isset( $data['attachment'] ) && in_array( $data['attachment'], array( 'scroll', 'fixed' ) ) ? $data['attachment'] : 'scroll';
+			
+			$backgrounds_clean[$file]['position'] 	= isset( $data['position'] ) && in_array( $data['position'], array( 'left', 'center', 'right' ) ) ? $data['position'] : '';
+			
+			$backgrounds_clean[$file]['colorable'] 	= ! empty( $data['colorable'] ) ? true : false;
+			
+			// Also add absolute URL's (theme customizer uses)
+			$backgrounds_clean[$file]['url'] = ctfw_background_image_preset_url( $file );
+			$backgrounds_clean[$file]['thumb_url'] = ctfw_background_image_preset_url( $data['thumb'] );
+			
+		}
+
+	}
+	
+	// Return filterable
+	return apply_filters( 'ctfw_background_image_presets', $backgrounds_clean );
+
+}
+
+/**
+ * Get preset background URLs
+ * 
+ * Returns array of absolute URLs. Handy for Rheme Customizer input.
+ */
+
+function ctfw_background_image_preset_urls() {
+
+	$backgrounds = ctfw_background_image_presets();
+
+	$background_urls = array();
+	
+	while( list( $filename ) = each( $backgrounds ) ) {
+
+		$url = ctfw_background_image_preset_url( $filename );
+
+		if ( $url ) {
+			$background_urls[] = $url;
+		}
+
+	}
+	
+	return apply_filters( 'ctfw_background_image_preset_urls', $background_urls );
+	
+}
+
+/**
+ * Get preset background URL (single)
+ * 
+ * Return preset background image URL based on filename.
+ */
+
+function ctfw_background_image_preset_url( $filename ) {
+
+	$url = ctfw_theme_url( CTFW_THEME_IMG_DIR . '/backgrounds/' . $filename );
+
+	return apply_filters( 'ctfw_background_image_preset_url', $url );
+
+}
+
+/**
+ * First preset background's URL
+ *
+ * Handy for using with add_theme_support( 'custom-background', array() );
+ */
+
+function ctfw_background_image_first_preset_url() {
+
+	$first_preset = key( ctfw_background_image_presets() );
+
+	$url = ctfw_background_image_preset_url( $first_preset );
+
+	return apply_filters( 'ctfw_background_image_first_preset_url', $url );
 
 }
