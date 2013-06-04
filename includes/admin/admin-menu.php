@@ -14,20 +14,77 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /*******************************************
- * REORDER
+ * REORDERING
  *******************************************/
+
+/**
+ * Enable custom menu order
+ *
+ * Note ctfw_reorder_admin_menu which does the actual ordering.
+ *
+ * @since 1.0
+ * @return void
+ */
+function ctfw_custom_menu_order() {
+
+	if ( current_theme_supports( 'ctfw-friendly-admin-menu' ) ) {
+		return true;
+	}
+
+}
+
+add_filter( 'custom_menu_order', 'ctfw_custom_menu_order' ); // enable custom menu order
+
+/**
+ * Friendly admin menu order
+ *
+ * Move Pages to top followed by Posts then custom post types.
+ * Show Comments and Media at bottom.
+ *
+ * @since 1.0
+ * @param array $menu_ord Menu data
+ * @return array Modified $menu_ord
+ */
+function ctfw_reorder_admin_menu( $menu_ord ) {
+
+	// Theme supports this?
+	if ( current_theme_supports( 'ctfw-friendly-admin-menu' ) ) {
+
+		// Move Pages before Posts
+		ctfw_move_admin_menu_item( $menu_ord, 'edit.php?post_type=page', 'edit.php', 'before' );
+		
+		// Move Comments and Media after the LAST CPT
+		// This is in case some CPT's are not used or reordered
+		$last_cpt = '';
+		foreach ( $menu_ord as $item ) {
+			if ( preg_match( '/^edit\.php\?post_type=/', $item ) ) {
+				$last_cpt = $item;
+			}
+		}	
+		ctfw_move_admin_menu_item( $menu_ord, 'upload.php', $last_cpt ); // Media Library - last
+		ctfw_move_admin_menu_item( $menu_ord, 'edit-comments.php', $last_cpt ); // Comments - second to last
+
+	}
+		
+	// Return manipulated menu array
+	return $menu_ord;
+
+}
+
+add_filter( 'menu_order', 'ctfw_reorder_admin_menu' );
 
 /**
  * Function to move admin menu item before or after another
  *
  * Use this with custom_menu_order and menu_order filters.
  *
- * @param	array		$menu_ord		The original menu from menu_order filter
- * @param	string	$move_item	Value of item in array to move
- * @param	string	$target_item	Value of item in array to move $move_item before or after
- * @param	string	$position		Position 'after' (default) or 'before' in which to place $move_item in relation to $target_item
+ * @since 0.5
+ * @param array $menu_ord The original menu from menu_order filter
+ * @param string $move_item Value of item in array to move
+ * @param string $target_item Value of item in array to move $move_item before or after
+ * @param string $position Position 'after' (default) or 'before' in which to place $move_item in relation to $target_item
+ * @return array Modified $menu_ord
  */
-
 function ctfw_move_admin_menu_item( &$menu_ord, $move_item, $target_item, $position = 'after' ) {
 
 	// make sure items given are in array
