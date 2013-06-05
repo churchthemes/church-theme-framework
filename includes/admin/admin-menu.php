@@ -23,7 +23,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Note ctfw_reorder_admin_menu which does the actual ordering.
  *
  * @since 1.0
- * @return void
  */
 function ctfw_custom_menu_order() {
 
