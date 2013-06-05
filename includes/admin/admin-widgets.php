@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -25,10 +25,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * Note: ctfw_restrict_sidebars_widgets() handles removing widgets from sidebars on both front-end
  * and back-end in case user does not.
+ *
+ * @since 0.9
  */
-
-add_filter( 'admin_head', 'ctfw_admin_restrict_widgets_css' ); 
-
 function ctfw_admin_restrict_widgets_css() {
 
 	// Theme supports this?
@@ -103,3 +102,4 @@ HTML;
 
 }
 
+add_filter( 'admin_head', 'ctfw_admin_restrict_widgets_css' ); 

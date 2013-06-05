@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -17,8 +17,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Display Google Map
  *
  * Only latitude and longitude are required.
+ *
+ * @since 0.9
+ * @param array $options Options for showing map
+ * @return string Google Maps HTML
  */
-
 function ctfw_google_map( $options = false ) {
 
 	$html = '';
@@ -71,11 +74,13 @@ HTML;
 
 }
 
-
 /**
  * Build Google Maps directions URL from address
+ *
+ * @since 0.9
+ * @param string $address Address to get directions URL for
+ * @return string URL for directions on Google Maps
  */
-
 function ctfw_directions_url( $address ) {
 
 	$directions_url = '';

@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -20,11 +20,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Enqueue admin stylesheets
  *
- * Note: ct-meta-boxes handles its own stylesheet.
+ * Note: CT Meta Box and other framework components handle their own stylesheets.
+ * 
+ * @since 0.9
  */
-
-add_action( 'admin_enqueue_scripts', 'ctfw_admin_enqueue_styles' );
-
 function ctfw_admin_enqueue_styles() {
 
 	$screen = get_current_screen();
@@ -40,3 +39,5 @@ function ctfw_admin_enqueue_styles() {
 	}
 	
 }
+
+add_action( 'admin_enqueue_scripts', 'ctfw_admin_enqueue_styles' );

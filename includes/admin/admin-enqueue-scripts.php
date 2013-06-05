@@ -7,18 +7,19 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-/*******************************************
- * ENQUEUE JAVASCRIPT
- *******************************************/
- 
-add_action( 'admin_enqueue_scripts', 'ctfw_admin_enqueue_scripts' ); // admin-end only
- 
+/**
+ * Enqueue Admin JavaScript
+ * 
+ * Note: CT Meta Box and other framework components handle their own scripts.
+ * 
+ * @since 0.9
+ */ 
 function ctfw_admin_enqueue_scripts() {
 
 	$screen = get_current_screen();
@@ -39,5 +40,7 @@ function ctfw_admin_enqueue_scripts() {
 		));
 
 	}
-	
+
 }
+
+add_action( 'admin_enqueue_scripts', 'ctfw_admin_enqueue_scripts' ); // admin-end only

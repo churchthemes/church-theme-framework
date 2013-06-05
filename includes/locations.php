@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -18,9 +18,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  **********************************/
 
 /**
- * Get location meta data
+ * Get location data
+ *
+ * @since 0.9
+ * @param int $post_id Post ID to get data for; null for current post
+ * @return array Location data
  */
-
 function ctfw_location_data( $post_id = null ) {
 
 	// Get meta values
@@ -42,4 +45,3 @@ function ctfw_location_data( $post_id = null ) {
 	return apply_filters( 'ctfw_location_data', $data, $post_id );
 
 }
-

@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -24,10 +24,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * This causes content to show after in case of large content and to put focus on the key content.
  *
  * Use add_theme_support( 'ctfw-post-format-content-after' );
+ *
+ * @since 0.9
+ * @param array $args post_format_compat arguments
+ * @return array Modified arguments
  */
-
-add_filter( 'post_format_compat', 'ctfw_post_format_content_after' );
-
 function ctfw_post_format_content_after( $args ) {
 
 	if ( current_theme_supports( 'ctfw-post-format-content-after' ) ) {
@@ -37,3 +38,5 @@ function ctfw_post_format_content_after( $args ) {
 	return $args;
 
 }
+
+add_filter( 'post_format_compat', 'ctfw_post_format_content_after' );

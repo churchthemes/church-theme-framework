@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -27,8 +27,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * Thanks to Milan Petrovic for his guide: http://www.dev4press.com/2012/tutorials/wordpress/practical/url-rewriting-custom-post-types-date-archive/
  * (with an assist from Brian Krogsgard: http://krogsgard.com)
+ *
+ * @since 0.9
+ * @param array $post_types Post types to enable date archive for
+ * @param object $wp_rewrite
  */
-
 function ctfw_cpt_date_archive_setup( $post_types, $wp_rewrite ) {
 
 	// Enable override by child theme
@@ -118,21 +121,29 @@ function ctfw_cpt_date_archive_setup( $post_types, $wp_rewrite ) {
  * Get permalink for post type month archive
  *
  * Modified version of WordPress core get_month_link() with post type argument.
+ *
+ * @since 0.9
+ * @global object $wp_rewrite
+ * @param int $year Four digit year
+ * @param int $month Numeric month
+ * @param string $post_type Post type to build link for
+ * @return string Permalink for date archive
  */
- 
 function ctfw_post_type_get_month_link( $year, $month, $post_type = false ) {
 
 	global $wp_rewrite;
 
-	if ( ! $year )
+	if ( ! $year ) {
 		$year = gmdate( 'Y', current_time( 'timestamp' ) );
+	}
 
-	if ( ! $month )
+	if ( ! $month ) {
 		$month = gmdate( 'm', current_time( 'timestamp' ) );
+	}
 
 	$monthlink = $wp_rewrite->get_month_permastruct();
 
-	if ( !empty( $monthlink ) ) { // using pretty permalinks
+	if ( ! empty( $monthlink ) ) { // using pretty permalinks
 
 		// Get rewrite slug for post type
 		$slug = '';
@@ -146,7 +157,7 @@ function ctfw_post_type_get_month_link( $year, $month, $post_type = false ) {
 		$monthlink = str_replace( '%year%', $year, $monthlink );
 		$monthlink = str_replace( '%monthnum%', zeroise( intval( $month ), 2 ), $monthlink );
 
-		return apply_filters( 'ctfw_post_type_month_link', home_url( $slug . user_trailingslashit( $monthlink, 'month' ) ), $year, $month);
+		return apply_filters( 'ctfw_post_type_month_link', home_url( $slug . user_trailingslashit( $monthlink, 'month' ) ), $year, $month );
 
 	} else { // default with query string
 
@@ -173,10 +184,9 @@ function ctfw_post_type_get_month_link( $year, $month, $post_type = false ) {
  *
  * Page template should output same loop but with with title, featured image, etc. for nicer presentation and to avoid duplicate content.
  * This is done only for non-date archive. Feeds are unaffected.
+ *
+ * @since 0.9
  */
-
-add_action( 'template_redirect', 'ctfw_redirect_archives_to_pages' );
-
 function ctfw_redirect_archives_to_pages() {
 
 	// Theme supports this?
@@ -254,3 +264,5 @@ function ctfw_redirect_archives_to_pages() {
 	}
 
 }
+
+add_action( 'template_redirect', 'ctfw_redirect_archives_to_pages' );

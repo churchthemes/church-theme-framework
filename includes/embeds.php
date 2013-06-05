@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -22,8 +22,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * If content is URL, use oEmbed to get embed code. If content is not URL, assume it is
  * embed code and run do_shortcode() in case of [video], [audio] or [embed]
+ *
+ * @since 0.9
+ * @param string $content URL
  */
-
 function ctfw_embed_code( $content ) {
 
 	global $wp_embed;
@@ -49,10 +51,7 @@ function ctfw_embed_code( $content ) {
 
 /**
  * Responsive embeds JavaScript
- */ 
-
-add_action( 'wp_enqueue_scripts', 'ctfw_responsive_embeds_enqueue_scripts' ); // front-end only (yes, wp_enqueue_scripts is correct for styles)
- 
+ */
 function ctfw_responsive_embeds_enqueue_scripts() {
 
 	// If theme supports this feature
@@ -68,6 +67,8 @@ function ctfw_responsive_embeds_enqueue_scripts() {
 
 }
 
+add_action( 'wp_enqueue_scripts', 'ctfw_responsive_embeds_enqueue_scripts' ); // front-end only (yes, wp_enqueue_scripts is correct for styles)
+
 /**
  * Generic embeds
  *
@@ -75,10 +76,11 @@ function ctfw_responsive_embeds_enqueue_scripts() {
  * related videos, set neutral colors, reduce branding, etc.
  *
  * Enable with: add_theme_support( 'ctfw-generic-embeds' );
+ *
+ * @since 0.9
+ * @param string $html Embed HTML code
+ * @return string Modified embed HTML code
  */
-
-add_filter( 'embed_oembed_html', 'ctfw_generic_embeds' );
-
 function ctfw_generic_embeds( $html ) {
 
 	// Does theme support this?
@@ -134,3 +136,5 @@ function ctfw_generic_embeds( $html ) {
 	return $html;
 
 }
+
+add_filter( 'embed_oembed_html', 'ctfw_generic_embeds' );

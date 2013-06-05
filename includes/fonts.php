@@ -9,7 +9,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -20,11 +20,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *******************************************/
 
 /**
- * Define Font Stacks
+ * Define font stacks
  *
  * Default font stacks for each type of font
+ *
+ * @since 0.9
+ * @return array Default font stacks
  */
-
 function ctfw_default_font_stacks() {
 
 	// These fonts in the given order when available will be used for each type if for whatever reason the browser cannot load the custom font
@@ -43,11 +45,15 @@ function ctfw_default_font_stacks() {
 }
 
 /**
- * Font Stack based on font's type
+ * Font stack based on font's type
  *
- * Build a font stack based on font and its type - use in CSS
+ * Build a font stack based on font and its type -- use in CSS
+ *
+ * @since 0.9
+ * @param string $font Font in $available_fonts
+ * @param array $available_fonts Fonts available for use
+ * @return array Font stack for font
  */
-
 function ctfw_font_stack( $font, $available_fonts ) {
 
 	// Get the default font stack for each type
@@ -69,20 +75,25 @@ function ctfw_font_stack( $font, $available_fonts ) {
 }
 
 /*******************************************
- * Google Fonts
+ * GOOGLE FONTS
  *******************************************/
 
 /**
  * Google Fonts stylesheet URL for enqueuing
+ *
+ * @since 0.9
+ * @param array $fonts Fonts to load from Google Fonts
+ * @param array $available_fonts Fonts available for use
+ * @param string $font_subsets Optional character sets to load
+ * @return string Google Fonts stylesheet URL
  */
- 
 function ctfw_google_fonts_style_url( $fonts, $available_fonts, $font_subsets = false ) {
 	
 	$url = '';
 	
 	// No duplicates
 	$fonts = array_unique( $fonts );
-	
+
 	// Build array of fonts
 	$font_array = array();
 	foreach ( $fonts as $font ) {

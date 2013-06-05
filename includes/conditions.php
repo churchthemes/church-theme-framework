@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -19,8 +19,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Is multipage
+ *
+ * @since 0.9
+ * @global bool $multipage
+ * @return bool True if current post has multiple pages
  */
-
 function ctfw_is_multipage() {
 
 	global $multipage;
@@ -37,8 +40,11 @@ function ctfw_is_multipage() {
 
 /**
  * Has <!--more--> quicktag
+ *
+ * @since 0.9
+ * @global object $post
+ * @return bool True if uses more tag
  */
-
 function ctfw_has_more_tag() {
 
 	global $post;
@@ -54,9 +60,11 @@ function ctfw_has_more_tag() {
 }
 
 /**
- * Has Title
+ * Has title
+ *
+ * @since 0.9
+ * @return bool True if has title
  */
-
 function ctfw_has_title() {
 
 	$has_title = false;
@@ -70,9 +78,11 @@ function ctfw_has_title() {
 }
 
 /**
- * Has Content
+ * Has content
+ *
+ * @since 0.9
+ * @return bool True if has content
  */
-
 function ctfw_has_content() {
 
 	$has_content = false;
@@ -86,11 +96,11 @@ function ctfw_has_content() {
 }
 
 /**
- * Has Excerpt
+ * Has excerpt
  *
- * True if has manual or automatic excerpt
+ * @since 0.9
+ * @return bool True if has manual or automatic excerpt
  */
-
 function ctfw_has_excerpt() {
 
 	$has_excerpt = false;
@@ -109,8 +119,11 @@ function ctfw_has_excerpt() {
 
 /**
  * User can edit post
+ *
+ * @since 0.9
+ * @global object $post
+ * @return bool True if user can edit post
  */
-
 function ctfw_can_edit_post() {
 
 	global $post;
@@ -143,8 +156,10 @@ function ctfw_can_edit_post() {
  * Is this the posts page?
  *
  * If a static front page is used and the "Posts page" is set, this is true.
+ *
+ * @since 0.9
+ * @return bool True if is "Posts page"
  */
-
 function ctfw_is_posts_page() {
 
 	$bool = false;

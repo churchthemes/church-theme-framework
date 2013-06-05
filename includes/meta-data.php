@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -20,9 +20,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Get meta data for a post/type (without prefix)
  *
- * Provide $fields as array without meta field's post type prefix (_ccm_sermon_ for example)
+ * @since 0.9
+ * @param array $fields Provide $fields as array without meta field's post type prefix (_ccm_sermon_ for example)
+ * @param int $post_id Optional post ID; otherwise current post used
+ * @param string $prefix Optional prefix override; otherwise post type used as prefix
+ * @return array Meta data
  */
-
 function ctfw_get_meta_data( $fields, $post_id = null, $prefix = null ) {
 
 	$meta = array();

@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -21,8 +21,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Return array of color schemes from colors directory
  *
  * If styles exist in child theme then use those instead of parent
+ *
+ * @since 0.9
+ * @return array Color schemes
  */
-
 function ctfw_colors() {
 
 	$parent_styles_dir = CTFW_THEME_PATH . '/' . CTFW_THEME_COLOR_DIR; // parent theme
@@ -51,8 +53,11 @@ function ctfw_colors() {
  * Check if color scheme is valid
  *
  * If none is provided, it will check the active color scheme.
+ *
+ * @since 0.9
+ * @param string $color Color scheme; empty to use currently active color
+ * @return bool True if color scheme exists
  */
-
 function ctfw_valid_color( $color = false ) {
 
 	$valid = false;
@@ -77,8 +82,12 @@ function ctfw_valid_color( $color = false ) {
  *
  * Checks first in child (if exists), then parent.
  * If no color scheme given, active color scheme used.
+ *
+ * @since 0.9
+ * @param string $file File in a color scheme
+ * @param string $color Color scheme; empty to use currently active color
+ * @return string URL of file in color scheme
  */
-
 function ctfw_color_url( $file, $color = false ) {
 
 	// Use active color scheme if none specified
@@ -100,11 +109,14 @@ function ctfw_color_url( $file, $color = false ) {
 }
 
 /**
- * Color Scheme Style URL
+ * Color scheme stylesheet URL
  *
  * This can be used to enqueue the stylesheet.
+ *
+ * @since 0.9
+ * @param string $theme 'child' or 'parent'
+ * @return string URL of color scheme stylesheet
  */
-
 function ctfw_color_style_url( $theme = false ) {
 
 	$url = '';

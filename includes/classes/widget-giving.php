@@ -7,18 +7,24 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Giving widget class
+ *
+ * @since 0.9
+ */
 class CTFW_Widget_Giving extends CTFW_Widget {
 
 	/**
 	 * Register widget with WordPress
+	 *
+	 * @since 0.9
 	 */
-
 	function __construct() {
 	
 		parent::__construct(
@@ -39,8 +45,10 @@ class CTFW_Widget_Giving extends CTFW_Widget {
 	 * Field configuration
 	 *
 	 * This is used by CTFW_Widget class for automatic field output, filtering, sanitization and saving.
+	 *
+	 * @since 0.9
+	 * @return array Fields for widget
 	 */
-	 
 	function ctfw_fields() { // prefix in case WP core adds method with same name
 
 		// Fields

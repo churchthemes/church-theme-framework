@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -25,10 +25,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * This information was useful: http://wordpress.stackexchange.com/questions/3480/how-can-i-force-a-file-download-in-the-wordpress-backend
  *
  * Use add_theme_support( 'ctfw_force_downloads' );
+ *
+ * @since 0.9
+ * @global object $wp_query
  */
-
-add_action( 'template_redirect', 'ctfw_force_download' );
-
 function ctfw_force_download() {
 	
     global $wp_query;
@@ -87,6 +87,8 @@ function ctfw_force_download() {
 
 }
 
+add_action( 'template_redirect', 'ctfw_force_download' );
+
 /**
  * Convert regular URL to one that forces download ("Save As")
  *
@@ -96,8 +98,11 @@ function ctfw_force_download() {
  * Makes this:	http://yourname.com/?download=%2F2009%2F10%2Ffile.pdf
  * Out of:		http://yourname.com/wp-content/uploads/2013/05/file.pdf
  * 				http://yourname.com/wp-content/uploads/sites/6/2013/05/file.pdf (multisite)
+ *
+ * @since 0.9
+ * @param string $url URL for file
+ * @return string URL forcing "Save As" on file if local
  */
-	 
 function ctfw_force_download_url( $url ) {
 
 	// In case URL is not local or feature not supported by theme

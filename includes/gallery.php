@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -34,10 +34,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *			'3' => 'another-custom-size', 	// use this size when 3 columns
  *			'9' => 'other-custom-size',  	// use this size when any other number of columns used
  *		) );
+ *
+ * @since 0.9
  */
-
-add_filter( 'shortcode_atts_gallery', 'ctfw_gallery_thumb_size', 10, 3 );
-
 function ctfw_gallery_thumb_size( $out, $pairs, $atts ) {
 
 	// Always use size specifically set on shortcode
@@ -80,15 +79,16 @@ function ctfw_gallery_thumb_size( $out, $pairs, $atts ) {
 
 }
 
+add_filter( 'shortcode_atts_gallery', 'ctfw_gallery_thumb_size', 10, 3 );
+
 /**
  * Remove default gallery styles
  *
  * WordPress injects <style> with gallery styles in shortcode output.
  * It is better to do all styling in style.css.
+ * 
+ * @since 0.9
  */
-
-add_filter( 'init', 'ctfw_remove_gallery_styles' );
-
 function ctfw_remove_gallery_styles() {
 
 	if ( current_theme_supports( 'ctfw-remove-gallery-styles' ) ) {
@@ -96,6 +96,8 @@ function ctfw_remove_gallery_styles() {
 	}
 
 }
+
+add_filter( 'init', 'ctfw_remove_gallery_styles' );
 
 /**
  * Remove prepend_attachment content filter
@@ -105,10 +107,9 @@ function ctfw_remove_gallery_styles() {
  * Do the same thing when custom attachment templates such as content-attachment.php are used.
  * 
  * Enable with add_theme_support( 'ctfw-remove-prepend-attachment' ) 
+ * 
+ * @since 0.9
  */
-
-add_filter( 'wp', 'ctfw_remove_prepend_attachment' ); // conditionals like is_attachment() not available until 'wp' action
-
 function ctfw_remove_prepend_attachment() {
 
 	if ( is_attachment() && current_theme_supports( 'ctfw-remove-prepend-attachment' ) ) {
@@ -117,12 +118,18 @@ function ctfw_remove_prepend_attachment() {
 
 }
 
+add_filter( 'wp', 'ctfw_remove_prepend_attachment' ); // conditionals like is_attachment() not available until 'wp' action
+
 /**
- * Get Post's Gallery Data
+ * Get post's gallery data
  *
  * Extract gallery shortcode data from content  (unique image IDs, total count, shortcode attribures, etc.).
+ * 
+ * @since 0.9
+ * @param object $post Post object
+ * @param array $options Options for getting data
+ * @return array Galleries data
  */
-
 function ctfw_post_galleries_data( $post, $options = array() ) {
 
 	// Default data
@@ -220,11 +227,14 @@ function ctfw_post_galleries_data( $post, $options = array() ) {
 }
 
 /**
- * Get Gallery Posts
+ * Get gallery posts
  *
  * This gets all posts that have a gallery.
+ * 
+ * @since 0.9
+ * @param array $options Options for getting posts
+ * @return array Gallery posts
  */
-
 function ctfw_gallery_posts( $options = array() ) {
 
 	$gallery_posts = array();
@@ -291,8 +301,11 @@ function ctfw_gallery_posts( $options = array() ) {
  * Filter gallery posts query to get only those with [gallery] shortcode
  *
  * This way not all posts are gotten; only post with galleries.
+ * 
+ * @since 0.9
+ * @param string $where Original SQL WHERE clause
+ * @return string Modified WHERE clause
  */
-
 function ctfw_gallery_posts_where( $where ) {
 
 	global $wpdb;
@@ -308,11 +321,14 @@ function ctfw_gallery_posts_where( $where ) {
 }
 
 /**
- * Get Gallery Posts IDs
+ * Get gallery posts IDs
  *
  * Get IDs of all pages/posts with gallery content.
+ * 
+ * @since 0.9
+ * @param array $options Options for getting gallery posts IDs
+ * @return array Posts IDs
  */
-
 function ctfw_gallery_posts_ids( $options = array() ) {
 
 	// Do not extract data in this case, just need IDS
@@ -330,12 +346,16 @@ function ctfw_gallery_posts_ids( $options = array() ) {
 }
 
 /**
- * Post Gallery Preview
+ * Post gallery preview
  *
  * Show X rows of thumbnails from post content with gallery shortcode(s).
  * The shortcode column attribute from the first gallery will be used.
+ * 
+ * @since 0.9
+ * @param object $post Post to make gallery preview for
+ * @param array $options Options for preview display
+ * @return string Gallery shortcode output
  */
-
 function ctfw_post_gallery_preview( $post, $options = array() ) {
 
 	$preview = '';
@@ -375,4 +395,3 @@ function ctfw_post_gallery_preview( $post, $options = array() ) {
 	return apply_filters( 'ctfw_post_gallery_preview', $preview, $post, $options );
 
 }
-

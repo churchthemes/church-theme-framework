@@ -9,14 +9,27 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Breadcrumbs class
+ *
+ * @since 0.9
+ */
 class CTFW_Breadcrumbs {
 
+	/**
+	 * Constructor
+	 *
+	 * Set options passed in.
+	 * 
+	 * @since 0.9
+	 * @param array $options
+	 */
 	function __construct( $options = array() ) {
 
 		$this->set_options( $options );
@@ -25,8 +38,9 @@ class CTFW_Breadcrumbs {
 
 	/**
 	 * Set options
+	 * 
+	 * @since 0.9
 	 */
-
 	function set_options( $options ) {
 
 		$defaults = array(
@@ -39,8 +53,11 @@ class CTFW_Breadcrumbs {
 
 	/**
 	 * Add breadcrumb to array (single)
+	 * 
+	 * @since 0.9
+	 * @param array &$breadcrumbs Breadcrumbs data to update
+	 * @param array $add_breadcrumb Breadcrumb data to add
 	 */
-
 	function add_breadcrumb( &$breadcrumbs, $add_breadcrumb = array() ) {
 
 		if ( ! empty( $add_breadcrumb ) ) {
@@ -51,8 +68,11 @@ class CTFW_Breadcrumbs {
 
 	/**
 	 * Add breadcrumbs to array (multiple)
+	 * 
+	 * @since 0.9
+	 * @param array &$breadcrumbs Breadcrumbs data to update
+	 * @param array $add_breadcrumbs Multiple breadcrumbs to add
 	 */
-
 	function add_breadcrumbs_array( &$breadcrumbs, $add_breadcrumbs = array() ) {
 
 		if ( ! empty( $add_breadcrumbs ) ) {
@@ -62,9 +82,14 @@ class CTFW_Breadcrumbs {
 	}
 
 	/**
-	 * Get Post/Page Breadcrumbs
+	 * Get post/page breadcrumbs
+	 * 
+	 * @since 0.9
+	 * @global object Post object
+	 * @param string $post_id ID of current post
+	 * @param array $options Options, if any
+	 * @return array Post breadcrumb ancestors
 	 */
-
 	function post_breadcrumbs( $post_id, $options = array() ) {
 
 		global $post;
@@ -129,11 +154,13 @@ class CTFW_Breadcrumbs {
 	}
 
 	/**
-	 * Get Taxonomy Term Breadcrumbs
-	 *
-	 * $term can be object or ID
+	 * Get taxonomy term breadcrumbs
+	 * 
+	 * @since 0.9
+	 * @param mixed $term Taxonomy term as ID or object
+	 * @param string $taxonomy Taxonomy slug to get breadcrumb ancestors for
+	 * @return array Breadcrumb ancestors for taxonomy term
 	 */
-
 	function taxonomy_term_breadcrumbs( $term, $taxonomy ) {
 
 		$term_breadcrumbs = array();
@@ -181,9 +208,12 @@ class CTFW_Breadcrumbs {
 	}
 
 	/**
-	 * Get Date Breadcrumbs
+	 * Get date breadcrumbs
+	 * 
+	 * @since 0.9
+	 * @param string $base_url Provide a base URL for custom post type archives
+	 * @return array Date breadcrumbs
 	 */
-
 	function date_breadcrumbs( $base_url = false ) {
 
 		$date_breadcrumbs = array();
@@ -254,8 +284,10 @@ class CTFW_Breadcrumbs {
 
 	/**
 	 * Build array
+	 * 
+	 * @since 0.9
+	 * @global object $post Post object
 	 */
-	
 	function build_array() {
 
 		global $post;
@@ -443,8 +475,9 @@ class CTFW_Breadcrumbs {
 
 	/**
 	 * Build string
+	 * 
+	 * @since 0.9
 	 */
-
 	function build_string() {
 
 		$string = '';
@@ -497,6 +530,9 @@ class CTFW_Breadcrumbs {
 
 	/**
 	 * Return string
+	 * 
+	 * @since 0.9
+	 * @return string Breadcrumbs HTML
 	 */
 	
 	function __toString() {

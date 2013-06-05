@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -18,9 +18,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  **********************************/
 
 /**
- * Get person meta data
+ * Get person data
+ *
+ * @since 0.9
+ * @param int $post_id Post ID to get data for; null for current post
+ * @return array Person data
  */
-
 function ctfw_person_data( $post_id = null ) {
 
 	// Get meta values
@@ -41,13 +44,12 @@ function ctfw_person_data( $post_id = null ) {
  **********************************/
 
 /**
- * Prev/Next People Sorting
+ * Prev/next people sorting
  * 
  * This makes get_previous_post() and get_next_post() sort by manual order instead of Publish Date
+ *
+ * @since 0.9
  */
-
-add_action( 'wp', 'ctfw_previous_next_person_sorting' ); // is_singular() not available until wp action (after posts_selection)
-
 function ctfw_previous_next_person_sorting() {
 
 	// Theme supports it?
@@ -71,10 +73,16 @@ function ctfw_previous_next_person_sorting() {
 
 }
 
-/**
- * SQL WHERE for Prev/Next Person
- */
+add_action( 'wp', 'ctfw_previous_next_person_sorting' ); // is_singular() not available until wp action (after posts_selection)
 
+/**
+ * SQL WHERE for previous or next person
+ *
+ * @since 0.9
+ * @global object $wpdb
+ * @param string $direction 'previous' or 'next'
+ * @return string SQL WHERE clause
+ */
 function ctfw_previous_next_person_where( $direction ) {
 
 	global $wpdb, $post;
@@ -111,32 +119,46 @@ function ctfw_previous_next_person_where( $direction ) {
 
 }
 
+/**
+ * SQL WHERE for previous person
+ * 
+ * @since 0.9
+ * @param string $where Current WHERE clause
+ * @return string Custom WHERE clause
+ */
 function ctfw_previous_person_where( $where ) {
-
 	return ctfw_previous_next_person_where( 'previous' );
-
-}
-
-
-function ctfw_next_person_where( $where ) {
-
-	return ctfw_previous_next_person_where( 'next' );
-
 }
 
 /**
- * SQL ORDER BY for Prev/Next person
+ * SQL WHERE for next person
+ * 
+ * @since 0.9
+ * @param string $where Current WHERE clause
+ * @return string Custom WHERE clause
  */
-
-function ctfw_previous_person_sort( $sort ) {
-
-	return "ORDER BY p.menu_order ASC LIMIT 1";
-
+function ctfw_next_person_where( $where ) {
+	return ctfw_previous_next_person_where( 'next' );
 }
 
+/**
+ * SQL ORDER BY for previous person
+ *
+ * @since 0.9
+ * @param string $sort Current ORDER BY clause
+ * @return string Custom ORDER BY clause
+ */
+function ctfw_previous_person_sort( $sort ) {
+	return "ORDER BY p.menu_order ASC LIMIT 1";
+}
 
+/**
+ * SQL ORDER BY for next person
+ *
+ * @since 0.9
+ * @param string $sort Current ORDER BY clause
+ * @return string Custom ORDER BY clause
+ */
 function ctfw_next_person_sort( $sort ) {
-
 	return "ORDER BY p.menu_order DESC LIMIT 1";
-
 }

@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -27,9 +27,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * This is based heavily on Justin Tadlock's hybrid_base_get_content_template() function:
  * https://github.com/justintadlock/hybrid-base/blob/master/functions.php
+ *
+ * @since 0.9
+ * @return string Template file name if template loaded
  */
- 
- function ctfw_get_content_template() {
+function ctfw_get_content_template() {
 
 	// Templates will be attempted to be loaded in the order they are added to this array
 	$templates = array();

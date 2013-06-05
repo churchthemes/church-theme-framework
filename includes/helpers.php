@@ -9,7 +9,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -21,8 +21,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * http or https protocol
+ *
+ * @since 0.9
+ * @return string http or https protocol
  */
- 
 function ctfw_current_protocol() {
 
 	$protocol = is_ssl() ? 'https' : 'http';
@@ -33,8 +35,11 @@ function ctfw_current_protocol() {
 
 /**
  * Check if string is a URL
+ *
+ * @since 0.9
+ * @param string $string String to check for URL format
+ * @return bool True if string i=s URL
  */
-
 function ctfw_is_url( $string ) {
 
 	$bool = false;
@@ -49,11 +54,13 @@ function ctfw_is_url( $string ) {
 
 }
 
-
 /**
  * Check if URL is local
- */
-	 
+ *
+ * @since 0.9
+ * @param string $url URL to test
+ * @return bool True if URL is local
+ */ 
 function ctfw_is_local_url( $url ) {
 
 	$bool = false;
@@ -70,8 +77,10 @@ function ctfw_is_local_url( $url ) {
  * Site path (base URL relative to domain)
  *
  * yourname.com/site becomes /site (useful for cookie path)
+ *
+ * @since 0.9
+ * @return string Site path
  */
-
 function ctfw_site_path() {
 
 	// Just get everything after the domain in the site URL
@@ -91,10 +100,10 @@ function ctfw_site_path() {
  * http://core.trac.wordpress.org/attachment/ticket/18302/18302.12.diff
  * http://core.trac.wordpress.org/ticket/18302
  * 
- * @param string $file File to search for in the stylesheet directory. 
- * @return string The URL of the file. 
+ * @since 0.9
+ * @param string $file File to search for in the stylesheet directory
+ * @return string The URL of the file
  */
-
 function ctfw_theme_url( $file = '' ) {
 
 	$file = ltrim( $file, '/' ); 
@@ -120,8 +129,13 @@ function ctfw_theme_url( $file = '' ) {
  *
  * Meant for one dimensional associative arrays.
  * Used to insert post type overview columns.
+ *
+ * @since 0.9
+ * @param array $original_array Array to merge another into
+ * @param array $insert_array Array to merge into original
+ * @param mixed $after_key Key in original array to merge second array after
+ * @return array Modified array
  */
- 
 function ctfw_array_merge_after_key( $original_array, $insert_array, $after_key ) {
 
 	$modified_array = array();
@@ -152,8 +166,12 @@ function ctfw_array_merge_after_key( $original_array, $insert_array, $after_key 
  *
  * An alternative to wp_trim_words().
  * Useful when need strict character limit but don't want to cut words in half.
+ *
+ * @since 0.9
+ * @param string $string Text string to shorten
+ * @param int $max_chars Maximum number of characters shortened string should have
+ * @return string Modified string if shortening necesary
  */
-
 function ctfw_shorten( $string, $max_chars ) {
 
 	$max_chars = absint( $max_chars );
@@ -188,8 +206,11 @@ function ctfw_shorten( $string, $max_chars ) {
  * Convert address to one line
  *
  * It replaces line breaks with commas.
+ *
+ * @since 0.9
+ * @param string $address Multi-line address
+ * @return string Single line address
  */
-
 function ctfw_address_one_line( $address ) {
 
 	$address_one_line = $address;
@@ -209,12 +230,14 @@ function ctfw_address_one_line( $address ) {
  *
  * This is handy for get_template_part( 'content', ctfw_make_friendly( get_post_type() ) );
  * which produces content-post-type.php instead of content-ccm_post_type.php
+ *
+ * @since 0.9
+ * @param string $string Post type or other prefixed CCM slug to make friendly
+ * @return string Friendlier string without prefix
  */
-
 function ctfw_make_friendly( $string ) {
 
 	$friendly_string = str_replace( array( 'ccm_', '_'), array( '', '-'), $string );
 
 	return apply_filters( 'ctfw_make_friendly', $friendly_string, $string );
 }
-

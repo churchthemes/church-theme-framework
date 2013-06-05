@@ -9,12 +9,20 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Load single comment template
+ *
+ * @since 0.9
+ * @param object $comment Comment data
+ * @param array $args Arguments from wp_list_comments()
+ * @param int $depth Depth level for comment
+ */
 function ctfw_comment( $comment, $args, $depth ) {
 
 	$GLOBALS['comment'] = $comment;
@@ -23,7 +31,7 @@ function ctfw_comment( $comment, $args, $depth ) {
 	$template = isset( $args['ctfw_template'] ) ? $args['ctfw_template'] : 'comment.php'; // default template when ctfw_template argument not passed
 	$template = apply_filters( 'ctfw_comment_template', $template, $comment, $args, $depth );
 
-	// Load comment template for each
+	// Load comment template
 	if ( $template_path = locate_template( $template ) ) {
 		include $template_path; // do manual include so variables get passed (versus using load with locate_template)
 	}
@@ -31,28 +39,45 @@ function ctfw_comment( $comment, $args, $depth ) {
 }
 
 /**
- * Attachment inherit discussion status
+ * Attachment inherit discussion status - comment
  * 
  * add_theme_support( 'ctfw-attachment-inherit-discussion' ) will cause all attachments to use the comment
  * and ping settings from the parent item. If file is not attached to a post/page, discussions will be turned off.
+ *
+ * @since 0.9
+ * @param bool $open Current comment status
+ * @param int $post_id Current post ID
+ * @return bool Inherited discussion status
  */
+function ctfw_attachment_inherit_comment_status( $open, $post_id ) {
+	return ctfw_attachment_inherit_discussion_status( 'comment', $open, $post_id );
+}
 
 add_filter( 'comments_open', 'ctfw_attachment_inherit_comment_status', 10 , 2 );
 
-function ctfw_attachment_inherit_comment_status( $open, $post_id ) {
-
-	return ctfw_attachment_inherit_discussion_status( 'comment', $open, $post_id );
-
+/**
+ * Attachment inherit discussion status - ping
+ *
+ * @since 0.9
+ * @param bool $open Current ping status
+ * @param int $post_id Current post ID
+ * @return bool Inherited discussion status
+ */
+function ctfw_attachment_inherit_ping_status( $open, $post_id ) {
+	return ctfw_attachment_inherit_discussion_status( 'ping', $open, $post_id );
 }
 
 add_filter( 'pings_open', 'ctfw_attachment_inherit_ping_status', 10 , 2 );
 
-function ctfw_attachment_inherit_ping_status( $open, $post_id ) {
-
-	return ctfw_attachment_inherit_discussion_status( 'ping', $open, $post_id );
-
-}
-
+/**
+ * Attachment inherit discussion status - comment or ping
+ *
+ * @since 0.9
+ * @param string $type 'comment' or 'ping'
+ * @param bool $open Current comment or ping status
+ * @param int $post_id Current post ID
+ * @return bool Inherited discussion status
+ */
 function ctfw_attachment_inherit_discussion_status( $type, $open, $post_id ) {
 
 	// Theme supports this
@@ -92,10 +117,11 @@ function ctfw_attachment_inherit_discussion_status( $type, $open, $post_id ) {
  * Useful for keeping long trackback titles in check.
  *
  * Use add_theme_support( 'ctfw-shorten-comment-author', 50 );
+ *
+ * @since 0.9
+ * @param string $author Author name or trackback source
+ * @return string Shortened text
  */
-
-add_filter( 'get_comment_author', 'ctfw_shorten_comment_author' );
-
 function ctfw_shorten_comment_author( $author ) {
 
 	// Theme uses this feature
@@ -110,3 +136,5 @@ function ctfw_shorten_comment_author( $author ) {
 	}
 
 }
+
+add_filter( 'get_comment_author', 'ctfw_shorten_comment_author' );

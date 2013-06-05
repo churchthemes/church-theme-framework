@@ -9,18 +9,24 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Categories widget class
+ *
+ * @since 0.9
+ */
 class CTFW_Widget_Categories extends CTFW_Widget {
 
 	/**
 	 * Register widget with WordPress
+	 *
+	 * @since 0.9
 	 */
-
 	function __construct() {
 
 		parent::__construct(
@@ -40,8 +46,10 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 	 * Field configuration
 	 *
 	 * This is used by CTFW_Widget class for automatic field output, filtering, sanitization and saving.
+	 *
+	 * @since 0.9
+	 * @return array Fields for widget
 	 */
-	 
 	function ctfw_fields() { // prefix in case WP core adds method with same name
 
 		// Fields
@@ -280,8 +288,10 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 	
 	/**
 	 * Taxonomy Options
+	 *
+	 * @since 0.9
+	 * @return array Taxonomy options for fields
 	 */
-
 	function ctfw_taxonomy_options() {
 	
 		$options = array();
@@ -319,8 +329,9 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 	 *
 	 * Dropdown selection results in URL like http://yourname.com/?redirect_taxonomy=ccm_sermon_category&id=14
 	 * This uses that query string to get permalink for that taxonomy and term
+	 *
+	 * @since 0.9
 	 */
-
 	function ctfw_redirect_taxonomy() {
 
 		// Redirect is being attempted on front page with valid taxonomy

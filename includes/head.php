@@ -9,7 +9,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -20,13 +20,16 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *******************************************/
 
 /**
- * Add text to <title>
+ * Automatic <title>
  *
  * An SEO plugin can be used to fine-tune the <title> for various areas of the site.
+ *
+ * @since 0.9
+ * @param string $title Page title determined by WordPress core
+ * @param string $sep Optional, default is '&raquo;'. How to separate the various items within the page title.
+ * @param string $seplocation Optional. Direction to display title, 'right'.
+ * @return string Formatted title
  */
- 
-add_filter( 'wp_title', 'ctfw_head_title', 10, 3 );
-
 function ctfw_head_title( $title, $sep, $seplocation ) {
 
 	$new_title = $title;
@@ -72,4 +75,5 @@ function ctfw_head_title( $title, $sep, $seplocation ) {
 	return $new_title;
 	
 }
-
+ 
+add_filter( 'wp_title', 'ctfw_head_title', 10, 3 );

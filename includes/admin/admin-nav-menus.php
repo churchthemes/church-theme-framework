@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -22,10 +22,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * This will replace all of those instances with the current site's base URL.
  *
  * Use add_theme_support( 'ctfw-correct-imported-menu-urls', 'http://wp.dev/site' );
+ *
+ * @since 0.9
  */
- 
-add_filter( 'import_end', 'ctfw_correct_imported_menu_urls' ); // correct custom menu URLs from sample XML content to use actual site's home URL
-	
 function ctfw_correct_imported_menu_urls() {
 
 	// Theme supports this?
@@ -79,3 +78,5 @@ function ctfw_correct_imported_menu_urls() {
 	}
 	
 }
+
+add_filter( 'import_end', 'ctfw_correct_imported_menu_urls' ); // correct custom menu URLs from sample XML content to use actual site's home URL

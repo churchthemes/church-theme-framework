@@ -10,7 +10,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -25,8 +25,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * Theme should filter ctfw_content_types to add page_templates since they are theme-specific.
  * The filter can also be used to add other content types.
+ *
+ * @since 0.9
+ * @return array Default content types configuration
  */
-
 function ctfw_content_types() {
 
 	$content_types = array(
@@ -117,8 +119,11 @@ function ctfw_content_types() {
  *
  * Useful for showing content-specific elements (breadcrumbs, sidebars, header images).
  * The returned values should correspond to sidebar names in includes/sidebars.php.
+ *
+ * @since 0.9
+ * @global object $post
+ * @return string The current page's content type
  */
-
 function ctfw_current_content_type() {
 
 	global $post;
@@ -185,8 +190,12 @@ function ctfw_current_content_type() {
  * Get data for a specific content type
  *
  * Specify a key, such as "page_templates"; otherwise, all data is retrieved.
+ *
+ * @since 0.9
+ * @param string $content_type Content type to get data for
+ * @param string $key Optionally specify a key to get data for
+ * @return mixed All data (array) for content type or data for specific key
  */
-
 function ctfw_content_type_data( $content_type, $key = false ) {
 
 	$data = false;
@@ -217,8 +226,11 @@ function ctfw_content_type_data( $content_type, $key = false ) {
  * Get data for current content type
  *
  * Specify a key, such as "page_templates"; otherwise, all data is retrieved.
+ *
+ * @since 0.9
+ * @param string $key Optionally get data for specific key
+ * @return mixed All data (array) for content type or data for specific key
  */
-
 function ctfw_current_content_type_data( $key = false ) {
 
 	// Get current content type
@@ -234,8 +246,11 @@ function ctfw_current_content_type_data( $key = false ) {
 
 /**
  * Get content type based on page template
+ *
+ * @since 0.9
+ * @param string $page_template Page template to get content type for
+ * @return string Content type
  */
-
 function ctfw_content_type_by_page_template( $page_template ) {
 
 	$page_template_content_type = '';

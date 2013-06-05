@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -21,8 +21,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Friendly mime type name
  *
  * See wp_get_mime_types() for more matches to add.
+ *
+ * @since 0.9
+ * @param string $mime_type Mime type to get friendly name for
+ * @return string Friendly mime type name
  */
-
 function ctfw_mime_type_name( $mime_type ) {
 
 	// Default if no match

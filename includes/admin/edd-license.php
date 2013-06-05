@@ -23,7 +23,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -38,8 +38,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * Return arguments specified for licensing feature.
  * If no argument passed, whole array is returned.
+ *
+ * @since 0.9
+ * @param string $arg Optional argument to retrieve
+ * @return mixed Whole config array or single argument
  */
-
 function ctfw_edd_license_config( $arg = false ) {
 
 	$config = array();
@@ -79,11 +82,10 @@ function ctfw_edd_license_config( $arg = false ) {
  *******************************************/
 
 /**
- * Theme Updater
+ * Theme updater
+ *
+ * @since 0.9
  */
-
-add_action( 'after_setup_theme', 'ctfw_edd_license_updater', 99 ); // after any use of add_theme_support() at 10
-
 function ctfw_edd_license_updater() {
 
 	// Theme supports updates?
@@ -105,16 +107,21 @@ function ctfw_edd_license_updater() {
 
 }
 
+add_action( 'after_setup_theme', 'ctfw_edd_license_updater', 99 ); // after any use of add_theme_support() at 10
+
 /*******************************************
  * OPTIONS DATA
  *******************************************/
 
 /**
- * License Key Option Name
+ * License key option name
  *
  * Specific to the current theme.
+ *
+ * @since 0.9
+ * @param string $append Append string to base option name
+ * @return string Option name
  */
-
 function ctfw_edd_license_key_option( $append = '' ) {
 
 	$field = CTFW_THEME_SLUG . '_license_key';
@@ -128,9 +135,12 @@ function ctfw_edd_license_key_option( $append = '' ) {
 }
 
 /**
- * License Key Value
+ * License key value
+ *
+ * @since 0.9
+ * @param string $append Append string to base option name
+ * @return string Option value
  */
-
 function ctfw_edd_license_key( $append = '' ) {
 
 	$option = trim( get_option( ctfw_edd_license_key_option( $append ) ) );
@@ -141,8 +151,10 @@ function ctfw_edd_license_key( $append = '' ) {
 
 /**
  * License is locally active
+ *
+ * @since 0.9
+ * @return bool True if active
  */
-
 function ctfw_edd_license_active() {
 
 	$active = false;
@@ -161,10 +173,9 @@ function ctfw_edd_license_active() {
 
 /**
  * Add menu item and page
+ *
+ * @since 0.9
  */
-
-add_action( 'admin_menu', 'ctfw_edd_license_menu' );
-
 function ctfw_edd_license_menu() {
 
 	// Theme supports license options page?
@@ -183,10 +194,13 @@ function ctfw_edd_license_menu() {
 
 }
 
+add_action( 'admin_menu', 'ctfw_edd_license_menu' );
+
 /**
  * Options page content
+ *
+ * @since 0.9
  */
-
 function ctfw_edd_license_page() {
 
 	$license 	= ctfw_edd_license_key();
@@ -285,10 +299,9 @@ function ctfw_edd_license_page() {
  * Register option
  *
  * Create setting in options table
+ *
+ * @since 0.9
  */
-
-add_action( 'admin_init', 'ctfw_edd_license_register_option' );
-
 function ctfw_edd_license_register_option() {
 
 	// If theme supports it
@@ -298,10 +311,17 @@ function ctfw_edd_license_register_option() {
 
 }
 
+add_action( 'admin_init', 'ctfw_edd_license_register_option' );
+
 /**
  * Sanitize license key
+ *
+ * Also unset local status if changing key,
+ *
+ * @since 0.9
+ * @param string $new Key being saved
+ * @return string Sanitized key
  */
-
 function ctfw_edd_license_sanitize( $new ) {
 
 	$old = ctfw_edd_license_key();
@@ -319,10 +339,9 @@ function ctfw_edd_license_sanitize( $new ) {
 
 /**
  * Activate or deactivate license key
+ *
+ * @since 0.9
  */
-
-add_action( 'admin_init', 'ctfw_edd_license_activation' );
-
 function ctfw_edd_license_activation( ) {
 
 	// Activate or Deactivate button clicked
@@ -365,12 +384,13 @@ function ctfw_edd_license_activation( ) {
 
 }
 
+add_action( 'admin_init', 'ctfw_edd_license_activation' );
+
 /**
  * Show notice on activation failure
+ *
+ * @since 0.9
  */
-
-add_action( 'admin_notices', 'ctfw_edd_license_activation_failure_notice' );
-
 function ctfw_edd_license_activation_failure_notice() {
 
 	// Only on Theme License page
@@ -402,16 +422,17 @@ function ctfw_edd_license_activation_failure_notice() {
 
 }
 
+add_action( 'admin_notices', 'ctfw_edd_license_activation_failure_notice' );
+
 /*******************************************
  * LICENSE NOTICE
  *******************************************/
 
 /**
  * Show inactive license notice
+ *
+ * @since 0.9
  */
-
-add_action( 'admin_notices', 'ctfw_edd_license_notice', 7 ); // higher priority than functionality plugin notice
-
 function ctfw_edd_license_notice() {
 
 	// Theme supports this notice?
@@ -452,6 +473,8 @@ function ctfw_edd_license_notice() {
 
 }
 
+add_action( 'admin_notices', 'ctfw_edd_license_notice', 7 ); // higher priority than functionality plugin notice
+
 /*******************************************
  * EDD API
  *******************************************/
@@ -461,8 +484,11 @@ function ctfw_edd_license_notice() {
  *
  * https://easydigitaldownloads.com/docs/software-licensing-api/
  * activate_license, deactivate_license or check_license
+ *
+ * @since 0.9
+ * @param string $action EDD API action: activate_license, deactivate_license or check_license
+ * @return object License data from remote server
  */
-
 function ctfw_edd_license_action( $action ) {
 
 	$license_data = array();
@@ -512,8 +538,10 @@ function ctfw_edd_license_action( $action ) {
  * Check license key status
  *
  * Check if license is valid on remote end.
+ *
+ * @since 0.9
+ * @return string Remote license status
  */
-
 function ctfw_edd_license_check() {
 
 	$status = '';
@@ -532,8 +560,9 @@ function ctfw_edd_license_check() {
  *
  * It's handy to run this periodically in case license has been remotely deactivated.
  * Otherwise, they may think they are up to date when they are not.
+ *
+ * @since 0.9
  */
-
 function ctfw_edd_license_check_deactivation() {
 
 	// Theme stores local option?
@@ -568,10 +597,9 @@ function ctfw_edd_license_check_deactivation() {
  * Run remote deactivation check automatically
  *
  * Check for remote deactivation periodically on relevant pages: Theme License, Themes, Updates
+ *
+ * @since 0.9
  */
-
-add_action( 'current_screen', 'ctfw_edd_license_auto_check_deactivation' );
-
 function ctfw_edd_license_auto_check_deactivation() {
 
 	// Admin only
@@ -602,3 +630,5 @@ function ctfw_edd_license_auto_check_deactivation() {
 	}
 
 }
+
+add_action( 'current_screen', 'ctfw_edd_license_auto_check_deactivation' );

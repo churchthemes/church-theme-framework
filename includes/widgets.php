@@ -12,7 +12,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -28,8 +28,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * This can be filtered to register more widgets extending the framework's CTFW_Widgets class from the theme or child theme.
  * Widget classes existing in theme's includes/classes folder are loaded the same as those in framework/includes/classes.
  * Likewise, templates in the theme's widget-templates directory will be auto-loaded.
+ *
+ * @since 0.9
+ * @return array $widgets Available widgets configuration
  */
-
 function ctfw_widgets() {
 
 	// Available widgets
@@ -171,10 +173,9 @@ function ctfw_widgets() {
  * Register Widgets
  *
  * Include and register widgets that theme supports.
+ *
+ * @since 0.9
  */
-
-add_action( 'widgets_init', 'ctfw_register_widgets' ); // same as init 1
- 
 function ctfw_register_widgets() {
 
 	// Available widgets
@@ -232,18 +233,7 @@ function ctfw_register_widgets() {
 
 }
 
-/**
- * Unregister Widgets
- */
-
-add_action( 'widgets_init', 'ctfw_unregister_widgets' ); // same as init 1
- 
-function ctfw_unregister_widgets() {
-
-	// Links
-	unregister_widget( 'WP_Widget_Links' );
-
-}
+add_action( 'widgets_init', 'ctfw_register_widgets' ); // same as init 1
 
 /*********************************************
  * THEME SUPPORT
@@ -251,8 +241,12 @@ function ctfw_unregister_widgets() {
 
 /**
  * Get theme support data for a widget
+ *
+ * @since 0.9
+ * @param string $widget_id Widget ID
+ * @param string $argument Specific argument
+ * @return mixed Theme support data
  */
- 
 function ctfw_get_widget_theme_support( $widget_id, $argument ) {
 	
 	// Null by default so if argument data not found, isset() returns false
@@ -299,10 +293,9 @@ function ctfw_get_widget_theme_support( $widget_id, $argument ) {
  * Filter widget fields
  *
  * Add filters for classes/widget.php to set visibility and override data on fields based on theme support.
+ *
+ * @since 0.9
  */
- 
-add_action( 'widgets_init', 'ctfw_filter_widget_fields' );
-
 function ctfw_filter_widget_fields() {
 
 	// Loop widgets to filter their fields
@@ -318,6 +311,8 @@ function ctfw_filter_widget_fields() {
 	}
 
 }
+ 
+add_action( 'widgets_init', 'ctfw_filter_widget_fields' );
 
 /**
  * Set Visible Fields
@@ -325,8 +320,12 @@ function ctfw_filter_widget_fields() {
  * Show or hide fields for a widget based on add_theme_support.
  * If no fields specifically supported, all are used.
  * If an empty array of fields is passed, no fields are used.
-  */
-
+ *
+ * @since 0.9
+ * @param array $visible_fields Default visible fields
+ * @param string $widget_id Widget ID
+ * @return array Modified visible fields
+ */
 function ctfw_set_visible_widget_fields( $visible_fields, $widget_id ) {
 
 	// Get theme's supported fields for widget
@@ -351,8 +350,12 @@ function ctfw_set_visible_widget_fields( $visible_fields, $widget_id ) {
  * Set Field Overrides
  *
  * Override widget field data based on add_theme_support.
+ *
+ * @since 0.9
+ * @param array $field_overrides Field data to override current settings with
+ * @param string $widget_id The widget's ID
+ * @return array Field override data
  */
- 
 function ctfw_set_widget_field_overrides( $field_overrides, $widget_id ) {
 
 	// Return field overrides, if any
@@ -368,8 +371,11 @@ function ctfw_set_widget_field_overrides( $field_overrides, $widget_id ) {
  * Get all registered widgets
  *
  * Is there a better way to do this?
+ *
+ * @since 0.9
+ * @global array $wp_registered_widgets
+ * @return array Registered widgets
  */
-
 function ctfw_get_registered_widgets() {
 
 	global $wp_registered_widgets;

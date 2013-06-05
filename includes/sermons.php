@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -24,11 +24,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * This injects rules so that URL's like /cpt/2012/05 can be used with the custom post type archive template.
  * Refer to ctfw_cpt_date_archive_setup() for full details.
  *
- * Use add_theme_support( 'ctfw-sermon-date-archive' ) and f
+ * Use add_theme_support( 'ctfw-sermon-date-archive' )
+ *
+ * @since 0.9
+ * @param object $wp_rewrite object
  */
-
-add_action( 'generate_rewrite_rules', 'ctfw_sermon_date_archive' ); // enable date archive for sermon post type
- 
 function ctfw_sermon_date_archive( $wp_rewrite ) {
 
 	// Theme supports this?
@@ -46,14 +46,19 @@ function ctfw_sermon_date_archive( $wp_rewrite ) {
 
 }
 
+add_action( 'generate_rewrite_rules', 'ctfw_sermon_date_archive' ); // enable date archive for sermon post type
+
 /**********************************
  * SERMON DATA
  **********************************/
 
 /**
- * Get sermon meta data
+ * Get sermon data
+ *
+ * @since 0.9
+ * @param int $post_id Post ID to get data for; null for current post
+ * @return array Sermon data
  */
-
 function ctfw_sermon_data( $post_id = null ) {
 
 	// Get meta values
@@ -82,4 +87,3 @@ function ctfw_sermon_data( $post_id = null ) {
 	return apply_filters( 'ctfw_sermon_data', $data );
 
 }
-

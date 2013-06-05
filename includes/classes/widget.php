@@ -10,20 +10,30 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
 if ( ! defined( 'ABSPATH' ) ) exit;
  
+/**
+ * Main widget class
+ *
+ * @since 0.9
+ */
 class CTFW_Widget extends WP_Widget {
 
 	/**
 	 * Constructor
+	 *
+	 * @since 0.9
+	 * @param string $id_base Widget ID
+	 * @param string $name Widget name
+	 * @param array $widget_options Widget options
+	 * @param array $control_options Control options
 	 */
-
 	function __construct( $id_base = false, $name, $widget_options = array(), $control_options = array() ) {
-	
+
 		parent::__construct( $id_base, $name, $widget_options, $control_options );
 
 	}
@@ -32,8 +42,10 @@ class CTFW_Widget extends WP_Widget {
 	 * Prepared fields
 	 *
 	 * Filter the fields from extending class.
+	 *
+	 * @since 0.9
+	 * @return array Modified fields
 	 */
-
 	function ctfw_prepared_fields() { // prefix in case WP core adds method with same name
 	
 		// Get fields from extending class
@@ -72,7 +84,7 @@ class CTFW_Widget extends WP_Widget {
 				foreach ( (array) $fields[$id]['taxonomies'] as $taxonomy_name ) {
 
 					// Taxonomy not supported by theme (or possibly disabled via Church Content Manager)
-					if ( ! ctfw_taxonomy_supported( $taxonomy_name ) ) { // check show_ui
+					if ( ! ctfw_ccm_taxonomy_supported( $taxonomy_name ) ) { // check show_ui
 						$fields[$id]['hidden'] = true;
 						break; // one strike and you're out
 					}
@@ -89,8 +101,10 @@ class CTFW_Widget extends WP_Widget {
 
 	/**
 	 * Back-end widget form
+	 *
+	 * @since 0.9
+	 * @param array $instance Widget instance
 	 */
-
 	function form( $instance ) {
 		
 		// Loop fields
@@ -335,8 +349,11 @@ class CTFW_Widget extends WP_Widget {
 	 * Sanitize field values
 	 *
 	 * Used before saving and before providing instance to widget template.
+	 *
+	 * @since 0.9
+	 * @param array $instance Widget instance
+	 * @return array Sanitized instance
 	 */
-	
 	function ctfw_sanitize( $instance ) { // prefix in case WP core adds method with same name
 
 		global $allowedposttags;
@@ -456,8 +473,12 @@ class CTFW_Widget extends WP_Widget {
 	
 	/**
 	 * Save sanitized form values
+	 *
+	 * @since 0.9
+	 * @param array $new_instance New widget instance
+	 * @param array $old_instance Old widget instance
+	 * @return array Sanitized data for saving
 	 */
-	
 	function update( $new_instance, $old_instance ) {
 
 		// Sanitize values
@@ -472,8 +493,11 @@ class CTFW_Widget extends WP_Widget {
 	 * Front-end display of widget
 	 *
 	 * Load template from parent or child theme if exists.
+	 *
+	 * @since 0.9
+	 * @param array $args Widget arguments
+	 * @param array $instance Widget instance
 	 */
-
 	function widget( $args, $instance ) {
 
 		global $post; // setup_postdata() needs this

@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * Note ctfw_reorder_admin_menu which does the actual ordering.
  *
- * @since 1.0
+ * @since 0.9
  */
 function ctfw_custom_menu_order() {
 
@@ -40,7 +40,7 @@ add_filter( 'custom_menu_order', 'ctfw_custom_menu_order' ); // enable custom me
  * Move Pages to top followed by Posts then custom post types.
  * Show Comments and Media at bottom.
  *
- * @since 1.0
+ * @since 0.9
  * @param array $menu_ord Menu data
  * @return array Modified $menu_ord
  */
@@ -77,7 +77,7 @@ add_filter( 'menu_order', 'ctfw_reorder_admin_menu' );
  *
  * Use this with custom_menu_order and menu_order filters.
  *
- * @since 0.5
+ * @since 0.9
  * @param array $menu_ord The original menu from menu_order filter
  * @param string $move_item Value of item in array to move
  * @param string $target_item Value of item in array to move $move_item before or after

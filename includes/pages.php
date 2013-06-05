@@ -9,7 +9,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -20,13 +20,17 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  **********************************/
 
 /**
- * Get Page by Template
+ * Get page by template
  *
  * Get newest page using a specific template file name.
+ * 
  * Multiple templates can be specified as array and the first match will be used.
  * This is handy when one template rather than the usual is used for primary content.
+ *
+ * @since 0.9
+ * @param string|array $templates Template or array of templates (first match used)
+ * @return object Page data
  */
-
 function ctfw_get_page_by_template( $templates ) {
 
 	$page = false;
@@ -74,6 +78,7 @@ function ctfw_get_page_by_template( $templates ) {
 		// Got one?
 		if ( ! empty( $page_query->post ) ) {
 			$page = $page_query->post;
+			print_r($page);exit;
 			break; // if not check next template
 		}
 
@@ -83,15 +88,18 @@ function ctfw_get_page_by_template( $templates ) {
 
 }
 
-
 /**
- * Get Page ID by Template
+ * Get page ID by template
  * 
  * Get newest page ID using a specific template file name.
+ * 
  * Multiple templates can be specified as array and the first match will be used.
  * This is handy when one template rather than the usual is used for primary content.
+ *
+ * @since 0.9
+ * @param string|array $templates Template or array of templates (first match used)
+ * @return int Page ID
  */
-
 function ctfw_get_page_id_by_template( $templates ) {
 
 	$page = ctfw_get_page_by_template( $templates );
@@ -103,11 +111,14 @@ function ctfw_get_page_id_by_template( $templates ) {
 }
 
 /**
- * Page Options
+ * Page options
  *
  * Handy for making select options
+ *
+ * @since 0.9
+ * @param bool $allow_none Whether or not to include option for none
+ * @return array Page options
  */
-
 function ctfw_page_options( $allow_none = true ) {
 
 	$pages = get_pages( array(

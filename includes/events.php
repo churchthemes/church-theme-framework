@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -22,8 +22,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * Arguments match those used by events widget
  * May also be used elsewhere (e.g. upcoming events in header)
+ *
+ * @since 0.9
+ * @param array $args Arguments for getting events
+ * @return array Event posts
  */
-
 function ctfw_get_events( $args = array() ) {
 
 	// Defaults
@@ -65,9 +68,12 @@ function ctfw_get_events( $args = array() ) {
 }
 
 /**
- * Get event meta data
+ * Get event data
+ *
+ * @since 0.9
+ * @param int $post_id Post ID to get data for; null for current post
+ * @return array Event data
  */
-
 function ctfw_event_data( $post_id = null ) {
 
 	// Get meta values
@@ -110,13 +116,12 @@ function ctfw_event_data( $post_id = null ) {
  **********************************/
 
 /**
- * Prev/Next Event Sorting
+ * Prev/next event sorting
  * 
  * This makes get_previous_post() and get_next_post() sort by event Start Date instead of Publish Date
+ *
+ * @since 0.9
  */
-
-add_action( 'wp', 'ctfw_previous_next_event_sorting' ); // is_singular() not available until wp action (after posts_selection)
-
 function ctfw_previous_next_event_sorting() {
 
 	// Theme supports it?
@@ -144,12 +149,18 @@ function ctfw_previous_next_event_sorting() {
 
 }
 
+add_action( 'wp', 'ctfw_previous_next_event_sorting' ); // is_singular() not available until wp action (after posts_selection)
+
 /**
  * SQL JOIN for Prev/Next Event
  *
  * Get events meta for WHERE and ORDER BY to use.
+ *
+ * @since 0.9
+ * @global object $wpdb
+ * @param string $join Original JOIN SQL
+ * @return string Modified JOIN SQL
  */
-
 function ctfw_previous_next_event_join( $join ) {
 
 	global $wpdb;
@@ -161,9 +172,13 @@ function ctfw_previous_next_event_join( $join ) {
 }
 
 /**
- * SQL WHERE for Prev/Next Event
+ * SQL WHERE for previous or next event
+ *
+ * @since 0.9
+ * @global object $wpdb
+ * @param string $direction 'previous' or 'next'
+ * @return string SQL WHERE clause
  */
-
 function ctfw_previous_next_event_where( $direction ) {
 
 	global $wpdb;
@@ -206,32 +221,46 @@ function ctfw_previous_next_event_where( $direction ) {
 
 }
 
+/**
+ * SQL WHERE for previous event
+ * 
+ * @since 0.9
+ * @param string $where Current WHERE clause
+ * @return string Custom WHERE clause
+ */
 function ctfw_previous_event_where( $where ) {
-
 	return ctfw_previous_next_event_where( 'previous' );
-
-}
-
-
-function ctfw_next_event_where( $where ) {
-
-	return ctfw_previous_next_event_where( 'next' );
-
 }
 
 /**
- * SQL ORDER BY for Prev/Next Event
+ * SQL WHERE for next event
+ * 
+ * @since 0.9
+ * @param string $where Current WHERE clause
+ * @return string Custom WHERE clause
  */
-
-function ctfw_previous_event_sort( $sort ) {
-
-	return "ORDER BY pm.meta_value DESC, p.ID DESC LIMIT 1";
-
+function ctfw_next_event_where( $where ) {
+	return ctfw_previous_next_event_where( 'next' );
 }
 
+/**
+ * SQL ORDER BY for previous event
+ *
+ * @since 0.9
+ * @param string $sort Current ORDER BY clause
+ * @return string Custom ORDER BY clause
+ */
+function ctfw_previous_event_sort( $sort ) {
+	return "ORDER BY pm.meta_value DESC, p.ID DESC LIMIT 1";
+}
 
+/**
+ * SQL ORDER BY for next event
+ *
+ * @since 0.9
+ * @param string $sort Current ORDER BY clause
+ * @return string Custom ORDER BY clause
+ */
 function ctfw_next_event_sort( $sort ) {
-
 	return "ORDER BY pm.meta_value ASC, p.ID ASC LIMIT 1";
-
 }

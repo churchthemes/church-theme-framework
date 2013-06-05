@@ -13,7 +13,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -25,8 +25,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Shortcodes to handle
+ *
+ * @since 0.9
+ * @return array Shortcodes to register or unregister
  */
-
 function ctfw_shortcodes() {
 
 	$shortcodes = array(
@@ -42,10 +44,9 @@ function ctfw_shortcodes() {
 
 /**
  * Add shortcodes
+ *
+ * @since 0.9
  */
-
-add_action( 'init', 'ctfw_add_shortcodes' );
-
 function ctfw_add_shortcodes() {
 
 	// Theme supports this?
@@ -61,6 +62,8 @@ function ctfw_add_shortcodes() {
 
 }
 
+add_action( 'init', 'ctfw_add_shortcodes' );
+
 /******************************************
  * DISALLOW IN CONTENT
  ******************************************/
@@ -69,10 +72,11 @@ function ctfw_add_shortcodes() {
 
 /**
  * Remove shortcodes from post content
+ *
+ * @since 0.9
+ * @param string $content Post content
+ * @return string Post content (unmodified)
  */
-
-add_filter( 'the_content', 'ctfw_content_remove_shortcodes', 0 );
-
 function ctfw_content_remove_shortcodes( $content ) {
 
 	// Theme supports this?
@@ -89,12 +93,15 @@ function ctfw_content_remove_shortcodes( $content ) {
 	return $content;
 }
 
+add_filter( 'the_content', 'ctfw_content_remove_shortcodes', 0 );
+
 /**
  * Add them back after post content for use elsewhere
+ *
+ * @since 0.9
+ * @param string $content Post content
+ * @return string Post content (unmodified)
  */
-
-add_filter( 'the_content', 'ctfw_content_add_shortcodes', 99 );
-
 function ctfw_content_add_shortcodes( $content ) {
 
 	ctfw_add_shortcodes();
@@ -102,35 +109,53 @@ function ctfw_content_add_shortcodes( $content ) {
 	return $content;
 }
 
+add_filter( 'the_content', 'ctfw_content_add_shortcodes', 99 );
+
 /******************************************
  * SHORTCODE FUNCTIONS
  ******************************************/
 
-// Site Name
+/**
+ * Site name
+ *
+ * @since 0.9
+ * @return string Site name
+ */
 function ctfw_shortcode_site_name() {
-
 	return get_bloginfo( 'name' );
-	
 }
 
-// Current Year
+/**
+ * Current year
+ *
+ * @since 0.9
+ * @return string Four digit year
+ */
 function ctfw_shortcode_current_year() {
-
 	return date( 'Y' );
-	
 }
 
-// RSS Feed URL
-// [ctc_rss_url] can be used by social media icons
+/**
+ * RSS feed URL
+ * 
+ * [ctc_rss_url] can be used by social media icons
+ * 
+ * @since 0.9
+ * @return string RSS feed URL
+ */
 function ctfw_shortcode_rss_url() {
-
 	return get_bloginfo( 'rss_url' );
-	
 }
 
-// "Powered By" Logo
-// This is handy for use in footer notice
-// Enable with add_theme_support( 'ctfw-powered-logo-shortcode' );
+/**
+ * "Powered By" logo
+ * 
+ * This is handy for use in footer notice
+ * Enable with add_theme_support( 'ctfw-powered-logo-shortcode' );
+ * 
+ * @since 0.9
+ * @return string HTML for logo
+ */
 function ctfw_shortcode_powered_logo() {
 
 	$output = '';
@@ -150,4 +175,3 @@ function ctfw_shortcode_powered_logo() {
 	return $output;
 	
 }
-

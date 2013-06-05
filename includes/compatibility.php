@@ -9,7 +9,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -19,12 +19,16 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * WORDPRESS VERSION
  *******************************************/
 
-/* Based on code from default Twenty Thirteen theme */
+// Based on code from default Twenty Thirteen theme
 
 /**
  * Detect if old WordPress version used
+ *
+ * Use add_theme_support( 'ctfw-wordpress-version', 7 ); // 7 and under not supported
+ *
+ * @since 0.9
+ * @return bool True if theme supports feature and version is old
  */
-
 function ctfw_old_wp() {
 
 	$old = false;
@@ -49,22 +53,23 @@ function ctfw_old_wp() {
 
 /**
  * Message to show when old version used
+ *
+ * @since 0.9
+ * @return string Message saying version is old
  */
-
 function ctfw_old_wp_message() {
-
 	return __( 'The theme you selected requires a newer version of WordPress. Please update and try again.', 'church-theme-framework' );
-
 }
 
 /**
  * Prevent switching to theme on old version of WordPress
  * 
  * Switches to the previously activated theme or the default theme.
+ *
+ * @since 0.9
+ * @param string $theme_name Theme slug
+ * @param object $theme Theme object
  */
-
-add_action( 'after_switch_theme', 'ctfw_old_wp_switch_theme', 10, 2 );
-
 function ctfw_old_wp_switch_theme( $theme_name, $theme ) {
 
 	// Is WordPress version too old for theme?
@@ -84,10 +89,13 @@ function ctfw_old_wp_switch_theme( $theme_name, $theme ) {
 
 }
 
+add_action( 'after_switch_theme', 'ctfw_old_wp_switch_theme', 10, 2 );
+
 /**
  * Show notice if try to switch to theme while using old version of WordPress
+ *
+ * @since 0.9
  */
-
 function ctfw_old_wp_switch_theme_notice() {
 
 	?>
@@ -102,10 +110,9 @@ function ctfw_old_wp_switch_theme_notice() {
 
 /**
  * Prevent Customizer preview from showing theme while using old version of WordPress
+ *
+ * @since 0.9
  */
-
-add_action( 'load-customize.php', 'ctfw_old_wp_customizer_notice' );
-
 function ctfw_old_wp_customizer_notice() {
 
 	// Is WordPress version too old for theme?
@@ -118,34 +125,38 @@ function ctfw_old_wp_customizer_notice() {
 
 }
 
+add_action( 'load-customize.php', 'ctfw_old_wp_customizer_notice' );
+
 /*****************************************************
  * CHURCH CONTENT MANAGER
  *****************************************************/
 
 /**
  * Plugin file
+ *
+ * @since 0.9
+ * @return string Main plugin file relative to plugin directory
  */
-
 function ctfw_ccm_plugin_file() {
-
 	return 'church-content-manager/church-content-manager.php';
-
 }
 
 /**
  * Plugin slug
+ *
+ * @since 0.9
+ * @return string Plugin slug based on its directory
  */
-
 function ctfw_ccm_plugin_slug() {
-
 	return dirname( ctfw_ccm_plugin_file() );
-
 }
 
 /**
  * Plugin is installed and has been activated
+ *
+ * @since 0.9
+ * @return bool True if plugin installed and active
  */
- 
 function ctfw_ccm_plugin_active() {
 
 	$activated = false;
@@ -162,8 +173,10 @@ function ctfw_ccm_plugin_active() {
 
 /**
  * Plugin is installed but not necessarily activated
+ *
+ * @since 0.9
+ * @return bool True if plugin is installed
  */
- 
 function ctfw_ccm_plugin_installed() {
 
 	$installed = false;
@@ -177,13 +190,12 @@ function ctfw_ccm_plugin_installed() {
 }
 
 /**
- * Admin Notice
+ * Admin notice
  *
  * Show notice at top of admin until plugin is both installed and activated.
+ *
+ * @since 0.9
  */
-
-add_action( 'admin_notices', 'ctfw_ccm_plugin_notice' );
-
 function ctfw_ccm_plugin_notice() {
 
 	// Show only on relevant pages as not to overwhelm the admin
@@ -227,6 +239,32 @@ function ctfw_ccm_plugin_notice() {
 
 }
 
+add_action( 'admin_notices', 'ctfw_ccm_plugin_notice' );
+
+/**
+ * Detect taxonomy support
+ *
+ * If not supported, theme or plugin causes taxonomy to register with show_ui to false
+ * This is used in widgets to show and render fields dependent on taxonomies.
+ *
+ * Note: this is intended for use only after Church Content Manager registers taxonomies since that is when show_ui is available.
+ *
+ * @since 0.9
+ * @param string $taxonomy_name Taxonomy name
+ */
+function ctfw_ccm_taxonomy_supported( $taxonomy_name ) {
+
+	// Get taxonomy data
+	$taxonomy = get_taxonomy( $taxonomy_name );
+
+	// If show_ui is true, taxonomy is supported by theme and plugin
+	$supported = ! empty( $taxonomy->show_ui ) ? true : false;
+		
+	// Return filterable
+	return apply_filters( 'ctfw_ccm_taxonomy_supported', $supported, $taxonomy_name );
+
+}
+
 /*******************************************
  * BROWSERS
  *******************************************/
@@ -236,10 +274,9 @@ function ctfw_ccm_plugin_notice() {
  *
  * Theme can use add_theme_support( 'ctfw-ie-unsupported', 7 )
  * to prompt Internet Explorer 7 users to upgrade to a modern browser.
+ *
+ * @since 0.9
  */
-
-add_action( 'wp_enqueue_scripts', 'ctfw_enqueue_ie_unsupported' ); // front-end only
-	
 function ctfw_enqueue_ie_unsupported() {
 
 	// Only if theme requests this
@@ -278,3 +315,5 @@ function ctfw_enqueue_ie_unsupported() {
 	}	
 
 }
+
+add_action( 'wp_enqueue_scripts', 'ctfw_enqueue_ie_unsupported' ); // front-end only

@@ -9,7 +9,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -23,11 +23,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Remove Custom Background from Admin Menu
  * 
  * Use add_theme_support( 'ctfw-force-customizer-background' ) to force users to edit
- * the custom background via the Customiser.
+ * the custom background via the Customizer.
+ *
+ * @since 0.9
  */
- 
-add_action( 'admin_menu', 'ctfw_admin_remove_menu_pages', 11 ); // after add theme support for background
-
 function ctfw_admin_remove_menu_pages() {
 
 	global $menu;
@@ -42,16 +41,17 @@ function ctfw_admin_remove_menu_pages() {
 	}
 
 }
+ 
+add_action( 'admin_menu', 'ctfw_admin_remove_menu_pages', 11 ); // after add theme support for background
 
 /**
  * Redirect Custom Background to Theme Customizer
  *
  * Use add_theme_support( 'ctfw-force-customizer-background' ) to force users to edit
  * the custom background via the Customiser.
+ *
+ * @since 0.9
  */
-
-add_action( 'admin_init', 'ctfw_admin_redirect_background' );
-	
 function ctfw_admin_redirect_background() {
 
 	// If theme supports this
@@ -70,6 +70,8 @@ function ctfw_admin_redirect_background() {
 
 }
 
+add_action( 'admin_init', 'ctfw_admin_redirect_background' );
+
 /*********************************************
  * PRESET BACKGROUNDS
  *********************************************/
@@ -78,8 +80,10 @@ function ctfw_admin_redirect_background() {
  * Get sanitized background presets
  *
  * Sanitize and return presets added via add_theme_support( 'ctfw-preset-backgrounds', array() );
+ *
+ * @since 0.9
+ * @return array Preset background images configuration
  */
-
 function ctfw_background_image_presets() {
 
 	$backgrounds_clean = array();
@@ -130,9 +134,11 @@ function ctfw_background_image_presets() {
 /**
  * Get preset background URLs
  * 
- * Returns array of absolute URLs. Handy for Rheme Customizer input.
+ * Returns array of absolute URLs. Handy for Theme Customizer input.
+ *
+ * @since 0.9
+ * @return array Absolute URL's for all background presets.
  */
-
 function ctfw_background_image_preset_urls() {
 
 	$backgrounds = ctfw_background_image_presets();
@@ -157,8 +163,11 @@ function ctfw_background_image_preset_urls() {
  * Get preset background URL (single)
  * 
  * Return preset background image URL based on filename.
+ *
+ * @since 0.9
+ * @param string $filename File name of background image
+ * @return string Absolute URL for single background image preset
  */
-
 function ctfw_background_image_preset_url( $filename ) {
 
 	$url = ctfw_theme_url( CTFW_THEME_IMG_DIR . '/backgrounds/' . $filename );
@@ -170,9 +179,11 @@ function ctfw_background_image_preset_url( $filename ) {
 /**
  * First preset background's URL
  *
- * Handy for using with add_theme_support( 'custom-background', array() );
+ * Handy for using as default with add_theme_support( 'custom-background', array() );
+ *
+ * @since 0.9
+ * @return string URL of firest preset background
  */
-
 function ctfw_background_image_first_preset_url() {
 
 	$first_preset = key( ctfw_background_image_presets() );

@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
@@ -21,8 +21,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Get sidebar/widget restrictions
  *
  * Theme passes this data in via appropriate filter (see theme's includes/sidebars.php)
+ * 
+ * @since 0.9
+ * @param string $which 'sidebar_widget' or 'widget_sidebar'
  */
-
 function ctfw_get_sidebar_widget_restrictions( $which = 'sidebar_widget' ) {
 
 	if ( in_array( $which, array( 'sidebar_widget', 'widget_sidebar' ) ) ) {
@@ -40,8 +42,12 @@ function ctfw_get_sidebar_widget_restrictions( $which = 'sidebar_widget' ) {
  *
  * See the ctfw_sidebar_widget_restrictions and ctfw_widget_sidebar_restrictions filters.
  * Both are necessary in consideration of third party widgets and sidebars (via plugin or child theme).
+ * 
+ * @since 0.9
+ * @param string $sidebar_id Sidebar ID
+ * @param string $widget_ID Widget ID
+ * @return bool Whether or not widget is allowed in sidebar
  */
-
 function ctfw_sidebar_widget_compatible( $sidebar_id, $widget_id ) {
 
 	$compatible = true;
@@ -81,10 +87,11 @@ function ctfw_sidebar_widget_compatible( $sidebar_id, $widget_id ) {
  *
  * Note: this is global and removed incompatible widget from both front-end
  * and from admin area, in case user does not remove after the warning.
+ *
+ * @since 0.9
+ * @param array $sidebars_widgets
+ * @return array Modified $sidebars_widgets
  */
-
-add_filter( 'sidebars_widgets', 'ctfw_restrict_sidebars_widgets', 5 );
-
 function ctfw_restrict_sidebars_widgets( $sidebars_widgets ) {
 
 	// Theme supports this?
@@ -149,3 +156,5 @@ function ctfw_restrict_sidebars_widgets( $sidebars_widgets ) {
     return $sidebars_widgets;
 
 }
+
+add_filter( 'sidebars_widgets', 'ctfw_restrict_sidebars_widgets', 5 );

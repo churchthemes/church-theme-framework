@@ -7,19 +7,32 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Navigation walker class
+ *
+ * @since 0.9
+ */
 class CTFW_Walker_Nav_Menu_Description extends Walker_Nav_Menu {
 
 	/**
 	 * Replace the start_el() method from Walker::start_el()
+	 * 
 	 * Based on source from /wp-includes/nav-menu-template.php (WordPress 3.4.1)
+	 *
+	 * @since 0.9
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param object $item Menu item data object.
+	 * @param int $depth Depth of menu item. Used for padding.
+	 * @param int $current_page Menu item ID.
+	 * @param object $args
+	 * 
 	 */
-	
 	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 
 		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';

@@ -7,12 +7,11 @@
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.0
+ * @since      0.9
  */
 
 // No direct access
 if ( ! defined( 'ABSPATH' ) ) exit;
-
 
 /***********************************************
  * SIZES
@@ -22,8 +21,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Output image size dimensions
  *
  * Pass in image size to return 123x123
+ * 
+ * @since 0.9
+ * @global array $_wp_additional_image_sizes
+ * @param string $size Image size name to get dimensions for
+ * @return string Dimensions for image size
  */
-
 function ctfw_image_size_dimensions( $size ) {
 
 	global $_wp_additional_image_sizes;
@@ -44,10 +47,11 @@ function ctfw_image_size_dimensions( $size ) {
  *
  * Each post type has a recommended image size.
  * See includes/support.php for notes on Highlight and Slide widgets.
+ * 
+ * @since 0.9
+ * @param string $content Featured image meta box content
+ * @return string Content with image size note appended
  */
-
-add_filter( 'admin_post_thumbnail_html', 'ctfw_featured_image_notes' );
- 
 function ctfw_featured_image_notes( $content ) {
 
 	// Theme supports this?
@@ -102,6 +106,8 @@ function ctfw_featured_image_notes( $content ) {
 	
 }
 
+add_filter( 'admin_post_thumbnail_html', 'ctfw_featured_image_notes' );
+
 /***********************************************
  * RESIZING
  ***********************************************/
@@ -116,10 +122,16 @@ function ctfw_featured_image_notes( $content ) {
  * This code is based on the core image_resize_dimensions() function in wp-content/media.php.
  *
  * Note: This framework feature must be enabled using add_theme_support( 'ctfw-image-upscaling' )
+ * 
+ * @since 0.9
+ * @param array $output Current output
+ * @param int $orig_w Original width
+ * @param int $orig_h Original height
+ * @param int $dest_w New width
+ * @param int $dest_h New height
+ * @param bool $crop Whether or not to crop
+ * @return array Modified $output
  */
-
-add_filter( 'image_resize_dimensions', 'ctfw_image_resize_dimensions_upscale', 10, 6 );
-
 function ctfw_image_resize_dimensions_upscale( $output, $orig_w, $orig_h, $dest_w, $dest_h, $crop ) {
 
 	// force upscaling if theme supports it and crop is being done
@@ -147,3 +159,5 @@ function ctfw_image_resize_dimensions_upscale( $output, $orig_w, $orig_h, $dest_
 	return $output;
 
 }
+
+add_filter( 'image_resize_dimensions', 'ctfw_image_resize_dimensions_upscale', 10, 6 );
