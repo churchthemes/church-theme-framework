@@ -3,7 +3,7 @@
  * Taxonomy-related Admin Functions
  *
  * @package    Church_Theme_Framework
- * @subpackage Functions
+ * @subpackage Admin
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -12,38 +12,6 @@
 
 // No direct access
 if ( ! defined( 'ABSPATH' ) ) exit;
-
-/**
- * Taxonomy term options
- *
- * Returns ID/name pairs useful for creating select options.
- *
- * @since 0.9
- * @param string $taxonomy_name Taxonomy slug
- * @param array $prepend Array to start with such as "All" or similar
- * @return array ID/name pairs
- */
-function ctfw_term_options( $taxonomy_name, $prepend = array() ) {
-
-	$options = array();
-
-	if ( ! preg_match( '/^ccm_/', $taxonomy_name ) || ctfw_ccm_taxonomy_supported( $taxonomy_name ) ) { // make sure CCM taxonomy support
-
-		$terms = $categories = get_terms( $taxonomy_name );
-
-		if ( ! empty( $prepend ) ) {
-			$options = $prepend;
-		}
-
-		foreach ( $terms as $term ) {
-			$options[$term->term_id] = $term->name;
-		}
-
-	}
-
-	return apply_filters( 'ctfw_term_options', $options, $taxonomy_name, $prepend );
-
-}
 
 /**
  * Show custom ordering notes
