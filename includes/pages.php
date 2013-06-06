@@ -78,7 +78,6 @@ function ctfw_get_page_by_template( $templates ) {
 		// Got one?
 		if ( ! empty( $page_query->post ) ) {
 			$page = $page_query->post;
-			print_r($page);exit;
 			break; // if not check next template
 		}
 
