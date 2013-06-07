@@ -35,7 +35,7 @@ function ctfw_content_types() {
 
 		'sermon' => array(
 			'post_types'		=> array( 'ccm_sermon' ),
-			'taxonomies'		=> array( 'ccm_sermon_topic', 'ccm_sermon_tag', 'ccm_sermon_speaker' ),
+			'taxonomies'		=> array( 'ccm_sermon_topic', 'ccm_sermon_series', 'ccm_sermon_book', 'ccm_sermon_speaker', 'ccm_sermon_tag' ),
 			'page_templates'	=> array(), // should be populated via ctfw_content_types filter in theme
 			'conditions'		=> array(),
 		),
