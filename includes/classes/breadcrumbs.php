@@ -23,25 +23,33 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class CTFW_Breadcrumbs {
 
 	/**
+	 * Display options
+	 *
+	 * @since 0.9
+	 * @var array
+	 */
+	public $options;
+
+	/**
 	 * Constructor
 	 *
 	 * Set options passed in.
 	 * 
 	 * @since 0.9
-	 * @param array $options
+	 * @access public
+	 * @param array $options Options affecting display of breadcrumb path
 	 */
-	function __construct( $options = array() ) {
-
+	public function __construct( $options = array() ) {
 		$this->set_options( $options );
-
 	}
 
 	/**
 	 * Set options
 	 * 
 	 * @since 0.9
+	 * @access public
 	 */
-	function set_options( $options ) {
+	public function set_options( $options ) {
 
 		$defaults = array(
 			'separator'	=> _x( ' > ', 'breadcrumb separator', 'church-theme-framework' ),
@@ -55,10 +63,11 @@ class CTFW_Breadcrumbs {
 	 * Add breadcrumb to array (single)
 	 * 
 	 * @since 0.9
+	 * @access public
 	 * @param array &$breadcrumbs Breadcrumbs data to update
 	 * @param array $add_breadcrumb Breadcrumb data to add
 	 */
-	function add_breadcrumb( &$breadcrumbs, $add_breadcrumb = array() ) {
+	public function add_breadcrumb( &$breadcrumbs, $add_breadcrumb = array() ) {
 
 		if ( ! empty( $add_breadcrumb ) ) {
 			$this->add_breadcrumbs_array( $breadcrumbs, array( $add_breadcrumb ) );
@@ -73,7 +82,7 @@ class CTFW_Breadcrumbs {
 	 * @param array &$breadcrumbs Breadcrumbs data to update
 	 * @param array $add_breadcrumbs Multiple breadcrumbs to add
 	 */
-	function add_breadcrumbs_array( &$breadcrumbs, $add_breadcrumbs = array() ) {
+	public function add_breadcrumbs_array( &$breadcrumbs, $add_breadcrumbs = array() ) {
 
 		if ( ! empty( $add_breadcrumbs ) ) {
 			$breadcrumbs = array_merge( $add_breadcrumbs, $breadcrumbs );
@@ -85,12 +94,13 @@ class CTFW_Breadcrumbs {
 	 * Get post/page breadcrumbs
 	 * 
 	 * @since 0.9
+	 * @access public
 	 * @global object Post object
 	 * @param string $post_id ID of current post
 	 * @param array $options Options, if any
 	 * @return array Post breadcrumb ancestors
 	 */
-	function post_breadcrumbs( $post_id, $options = array() ) {
+	public function post_breadcrumbs( $post_id, $options = array() ) {
 
 		global $post;
 
@@ -157,11 +167,12 @@ class CTFW_Breadcrumbs {
 	 * Get taxonomy term breadcrumbs
 	 * 
 	 * @since 0.9
+	 * @access public
 	 * @param mixed $term Taxonomy term as ID or object
 	 * @param string $taxonomy Taxonomy slug to get breadcrumb ancestors for
 	 * @return array Breadcrumb ancestors for taxonomy term
 	 */
-	function taxonomy_term_breadcrumbs( $term, $taxonomy ) {
+	public function taxonomy_term_breadcrumbs( $term, $taxonomy ) {
 
 		$term_breadcrumbs = array();
 			
@@ -211,10 +222,11 @@ class CTFW_Breadcrumbs {
 	 * Get date breadcrumbs
 	 * 
 	 * @since 0.9
+	 * @access public
 	 * @param string $base_url Provide a base URL for custom post type archives
 	 * @return array Date breadcrumbs
 	 */
-	function date_breadcrumbs( $base_url = false ) {
+	public function date_breadcrumbs( $base_url = false ) {
 
 		$date_breadcrumbs = array();
 
@@ -286,9 +298,10 @@ class CTFW_Breadcrumbs {
 	 * Build array
 	 * 
 	 * @since 0.9
+	 * @access public
 	 * @global object $post Post object
 	 */
-	function build_array() {
+	public function build_array() {
 
 		global $post;
 
@@ -477,8 +490,9 @@ class CTFW_Breadcrumbs {
 	 * Build string
 	 * 
 	 * @since 0.9
+	 * @access public
 	 */
-	function build_string() {
+	public function build_string() {
 
 		$string = '';
 
@@ -532,13 +546,12 @@ class CTFW_Breadcrumbs {
 	 * Return string
 	 * 
 	 * @since 0.9
+	 * @access public
 	 * @return string Breadcrumbs HTML
 	 */
 	
-	function __toString() {
-
+	public function __toString() {
 		return $this->build_string();
-
 	}
 
 }

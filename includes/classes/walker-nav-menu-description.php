@@ -26,6 +26,7 @@ class CTFW_Walker_Nav_Menu_Description extends Walker_Nav_Menu {
 	 * Based on source from /wp-includes/nav-menu-template.php (WordPress 3.4.1)
 	 *
 	 * @since 0.9
+	 * @access public
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param object $item Menu item data object.
 	 * @param int $depth Depth of menu item. Used for padding.
@@ -33,7 +34,7 @@ class CTFW_Walker_Nav_Menu_Description extends Walker_Nav_Menu {
 	 * @param object $args
 	 * 
 	 */
-	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 
 		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
 
