@@ -113,6 +113,27 @@ function ctfw_has_excerpt() {
 
 }
 
+/**
+ * Has manual excerpt
+ *
+ * @since 0.9
+ * @global object $post
+ * @return bool True if has manual excerpt
+ */
+function ctfw_has_manual_excerpt() {
+
+	global $post;
+
+	$bool = false;
+
+	if ( trim( strip_tags( $post->post_excerpt ) ) ) {
+		$bool = true;
+	}
+
+	return apply_filters( 'ctfw_has_manual_excerpt', $bool );
+
+}
+
 /*******************************************
  * USERS
  *******************************************/
