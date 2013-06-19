@@ -114,10 +114,9 @@ class CTFW_Widget_Galleries extends CTFW_Widget {
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array( // array of keys/values for radio or select
 					'date'		=> _x( 'Date Added', 'galleries widget order by', 'church-theme-framework' ),
-					'modified'	=> _x( 'Date Updated', 'galleries widget order by', 'church-theme-framework' ),
 					'title'		=> _x( 'Title', 'galleries widget order by', 'church-theme-framework' ),
 				),
-				'default'			=> 'modified', // value to pre-populate option with (before first save or on reset)
+				'default'			=> 'date', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> true, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
 				'attributes'		=> array(), // attributes to add to input element
@@ -168,7 +167,7 @@ class CTFW_Widget_Galleries extends CTFW_Widget {
 				'number_min'		=> '0', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
-				'default'			=> '8', // value to pre-populate option with (before first save or on reset)
+				'default'			=> '5', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
 				'attributes'		=> array(), // attributes to add to input element
