@@ -90,18 +90,26 @@ function ctfw_event_data( $post_id = null ) {
 		'map_zoom'
 	), $post_id );
 
+	// Timestamps
+	$start_date_timestamp = strtotime( $meta['start_date'] );
+	$end_date_timestamp = strtotime( $meta['end_date'] );
+
 	// Add friendly date
 	$date_format = get_option( 'date_format' );
 	if ( $meta['end_date'] != $meta['start_date'] ) { // date range
 
 		// Date formats
 		// Make compact range of "June 1 - June 5, 2013 if using "F j, Y" format (year removed from start date as not to be redundant)
-		$start_date_format = 'F j, Y' == $date_format ? 'F j' : $date_format;
+		if ( 'F j, Y' == $date_format && date_i18n( 'Y', $start_date_timestamp ) == date_i18n( 'Y', $end_date_timestamp ) ) { // Year on both dates must be same
+			$start_date_format = 'F j'; // remove year
+		} else {
+			$start_date_format = $date_format;
+		}
 		$end_date_format = $date_format;
 
 		// Format dates
-		$start_date_formatted = date_i18n( $start_date_format, strtotime( $meta['start_date'] ) );
-		$end_date_formatted = date_i18n( $end_date_format, strtotime( $meta['end_date'] ) );
+		$start_date_formatted = date_i18n( $start_date_format, $start_date_timestamp );
+		$end_date_formatted = date_i18n( $end_date_format, $end_date_timestamp );
 
 		// Build range
 		/* translators: date range */
@@ -112,9 +120,7 @@ function ctfw_event_data( $post_id = null ) {
 		);
 
 	} else { // start date only
-
-		$meta['date'] = date_i18n( $date_format, strtotime( $meta['start_date'] ) );
-
+		$meta['date'] = date_i18n( $date_format, $start_date_timestamp );
 	}
 
 	// Add directions URL (empty if show_directions_link not set)
