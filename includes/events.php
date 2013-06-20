@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Arguments match those used by events widget
  * May also be used elsewhere (e.g. upcoming events in header)
  *
- * @since 0.9
+ * @since 0.9.1
  * @param array $args Arguments for getting events
  * @return array Event posts
  */
