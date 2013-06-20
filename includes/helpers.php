@@ -240,4 +240,24 @@ function ctfw_make_friendly( $string ) {
 	$friendly_string = str_replace( array( 'ccm_', '_'), array( '', '-'), $string );
 
 	return apply_filters( 'ctfw_make_friendly', $friendly_string, $string );
+
+}
+
+/*************************************************
+ * DATES
+ *************************************************/
+
+/**
+ * Compact date range
+ *
+ * Show "June 1 - June 4, 2013" instead of "June 1, 2013 - June 4, 2013".
+ * Only works with "F j, Y" date format.
+ *
+ * @since 0.9.1
+ * @param string $date1 First date in range
+ * @param string $date2 Second date in range
+ * @return string Compact date range
+ */
+function ctfw_compact_date_range( $date1, $date2 ) {
+
 }

@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * Use add_theme_support( 'ctfw-people-group-manual-order' ); to enable
  *
- * @since 0.9
+ * @since 0.9.1
  * @param object $query Query object to modify
  * @return object Modified query
  */
