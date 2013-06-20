@@ -14,6 +14,38 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**********************************
+ * PEOPLE ORDERING
+ **********************************/
+
+/**
+ * Make group taxonomy archive order manually (like People template)
+ *
+ * Use add_theme_support( 'ctfw-people-group-manual-order' ); to enable
+ *
+ * @since 0.9
+ * @param object $query Query object to modify
+ * @return object Modified query
+ */
+function resurrect_people_group_order( $query ) {
+
+	// Theme supports this?
+	if ( current_theme_supports( 'ctfw-people-group-manual-order' ) ) {
+
+		// On group archive
+		if ( $query->is_archive && ! empty( $query->query['ccm_person_group'] ) ) {
+			$query->set( 'orderby', 'menu_order' );
+			$query->set( 'order', 'ASC' );
+		}
+
+	}
+
+	return $query;
+
+}
+
+add_filter( 'pre_get_posts' , 'resurrect_people_group_order' );
+
+/**********************************
  * PEOPLE DATA
  **********************************/
 
