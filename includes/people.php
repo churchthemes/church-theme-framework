@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @param object $query Query object to modify
  * @return object Modified query
  */
-function resurrect_people_group_order( $query ) {
+function ctfw_people_group_order( $query ) {
 
 	// Theme supports this?
 	if ( current_theme_supports( 'ctfw-people-group-manual-order' ) ) {
@@ -43,7 +43,7 @@ function resurrect_people_group_order( $query ) {
 
 }
 
-add_filter( 'pre_get_posts' , 'resurrect_people_group_order' );
+add_filter( 'pre_get_posts' , 'ctfw_people_group_order' );
 
 /**********************************
  * PEOPLE DATA
