@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Arguments match those used by events widget
  * May also be used elsewhere (e.g. upcoming events in header)
  *
- * @since 0.9.1
+ * @since 0.9
  * @param array $args Arguments for getting events
  * @return array Event posts
  */
@@ -93,14 +93,28 @@ function ctfw_event_data( $post_id = null ) {
 	// Add friendly date
 	$date_format = get_option( 'date_format' );
 	if ( $meta['end_date'] != $meta['start_date'] ) { // date range
+
+		// Date formats
+		// Make compact range of "June 1 - June 5, 2013 if using "F j, Y" format (year removed from start date as not to be redundant)
+		$start_date_format = 'F j, Y' == $date_format ? 'F j' : $date_format;
+		$end_date_format = $date_format;
+
+		// Format dates
+		$start_date_formatted = date_i18n( $start_date_format, strtotime( $meta['start_date'] ) );
+		$end_date_formatted = date_i18n( $end_date_format, strtotime( $meta['end_date'] ) );
+
+		// Build range
 		/* translators: date range */
 		$meta['date'] = sprintf(
 			__( '%s &ndash; %s', 'church-theme-framework' ),
-			date_i18n( $date_format, strtotime( $meta['start_date'] ) ),
-			date_i18n( $date_format, strtotime( $meta['end_date'] ) )
+			$start_date_formatted,
+			$end_date_formatted
 		);
+
 	} else { // start date only
+
 		$meta['date'] = date_i18n( $date_format, strtotime( $meta['start_date'] ) );
+
 	}
 
 	// Add directions URL (empty if show_directions_link not set)
