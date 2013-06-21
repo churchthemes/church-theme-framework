@@ -1,6 +1,8 @@
 <?php
 /**
- * Pagination Functions
+ * Page Navigation Functions
+ *
+ * These functions relate to navigating between pages: page numbering, pagination, prev/next, etc.
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
