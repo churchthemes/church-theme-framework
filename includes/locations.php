@@ -55,7 +55,7 @@ function ctfw_location_data( $post_id = null ) {
  * 
  * This makes get_previous_post() and get_next_post() sort by manual order instead of Publish Date
  *
- * @since 0.9.0
+ * @since 0.9.1
  */
 function ctfw_previous_next_location_sorting() {
 

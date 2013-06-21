@@ -58,7 +58,7 @@ function ctfw_old_wp() {
  * @return string Message saying version is old
  */
 function ctfw_old_wp_message() {
-	return __( 'The theme you selected requires a newer version of WordPress. Please update and try again.', 'church-theme-framework' );
+	return sprintf( __( '<b>Activation Failed:</b> %s requires a newer version of WordPress. Please update and try again.', 'church-theme-framework' ), CTFW_THEME_NAME );
 }
 
 /**
@@ -83,6 +83,10 @@ function ctfw_old_wp_switch_theme( $theme_name, $theme ) {
 
 		unset( $_GET['activated'] );
 
+		// Don't show regular notices (license activation, CCM plugin, etc.)
+		ctfw_activation_remove_notices();
+
+		// Show notice saying to update WP then try again
 		add_action( 'admin_notices', 'ctfw_old_wp_switch_theme_notice' );
 
 	}
