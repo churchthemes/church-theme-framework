@@ -14,7 +14,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**********************************
- * DATA
+ * LOCATION DATA
  **********************************/
 
 /**
@@ -45,3 +45,39 @@ function ctfw_location_data( $post_id = null ) {
 	return apply_filters( 'ctfw_location_data', $data, $post_id );
 
 }
+
+/**********************************
+ * LOCATION NAVIGATION
+ **********************************/
+
+/**
+ * Prev/next location sorting
+ * 
+ * This makes get_previous_post() and get_next_post() sort by manual order instead of Publish Date
+ *
+ * @since 0.9.0
+ */
+function ctfw_previous_next_location_sorting() {
+
+	// Theme supports it?
+	if ( ! current_theme_supports( 'ctfw-location-navigation' ) ) {
+		return;
+	}
+
+	// While on single location, if theme supports Locations from Church Content Manager
+	// IMPORTANT: Without ! is_page(), is_singular() runs, somehow causing /page/#/ URL's on static front page to break
+	if ( ! is_page() && is_singular( 'ccm_location' ) && current_theme_supports( 'ccm-locations' ) ) {
+
+		// SQL WHERE
+		add_filter( 'get_previous_post_where', 'ctfw_previous_post_where' );
+		add_filter( 'get_next_post_where', 'ctfw_next_post_where' );
+
+		// SQL ORDER BY
+		add_filter( 'get_previous_post_sort', 'ctfw_previous_post_sort' );
+		add_filter( 'get_next_post_sort', 'ctfw_next_post_sort' );
+
+	}
+
+}
+
+add_action( 'wp', 'ctfw_previous_next_location_sorting' ); // is_singular() not available until wp action (after posts_selection)
