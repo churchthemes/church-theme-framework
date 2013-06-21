@@ -80,7 +80,7 @@ function ctfw_person_data( $post_id = null ) {
  * 
  * This makes get_previous_post() and get_next_post() sort by manual order instead of Publish Date
  *
- * @since 0.9
+ * @since 0.9.0
  */
 function ctfw_previous_next_person_sorting() {
 
@@ -94,103 +94,15 @@ function ctfw_previous_next_person_sorting() {
 	if ( ! is_page() && is_singular( 'ccm_person' ) && current_theme_supports( 'ccm-people' ) ) {
 
 		// SQL WHERE
-		add_filter( 'get_previous_post_where', 'ctfw_previous_person_where' );
-		add_filter( 'get_next_post_where', 'ctfw_next_person_where' );
+		add_filter( 'get_previous_post_where', 'ctfw_previous_post_where' );
+		add_filter( 'get_next_post_where', 'ctfw_next_post_where' );
 
 		// SQL ORDER BY
-		add_filter( 'get_previous_post_sort', 'ctfw_previous_person_sort' );
-		add_filter( 'get_next_post_sort', 'ctfw_next_person_sort' );
+		add_filter( 'get_previous_post_sort', 'ctfw_previous_post_sort' );
+		add_filter( 'get_next_post_sort', 'ctfw_next_post_sort' );
 
 	}
 
 }
 
 add_action( 'wp', 'ctfw_previous_next_person_sorting' ); // is_singular() not available until wp action (after posts_selection)
-
-/**
- * SQL WHERE for previous or next person
- *
- * @since 0.9
- * @global object $wpdb
- * @param string $direction 'previous' or 'next'
- * @return string SQL WHERE clause
- */
-function ctfw_previous_next_person_where( $direction ) {
-
-	global $wpdb, $post;
-
-	// Direction
-	if ( 'previous' == $direction ) {
-		$op = '>';
-	} else {
-		$op = '<';
-	}
-
-	// SQL WHERE
-	// Note that Order may not be a unique value, so in that case sorting by ID is also done.
-	// Otherwise people with same Order would get skipped over. More details: http://bit.ly/15pUv2j
-	$where = $wpdb->prepare(
-		"WHERE
-			(
-				(
-					p.menu_order = %s
-					AND p.ID $op %d
-				)
-				OR p.menu_order $op %s
-			)
-			AND p.post_type = %s
-			AND p.post_status = 'publish'
-		",
-		$post->menu_order,
-		get_the_ID(),
-		$post->menu_order,
-		get_post_type()
-	);
-
-	return $where;
-
-}
-
-/**
- * SQL WHERE for previous person
- * 
- * @since 0.9
- * @param string $where Current WHERE clause
- * @return string Custom WHERE clause
- */
-function ctfw_previous_person_where( $where ) {
-	return ctfw_previous_next_person_where( 'previous' );
-}
-
-/**
- * SQL WHERE for next person
- * 
- * @since 0.9
- * @param string $where Current WHERE clause
- * @return string Custom WHERE clause
- */
-function ctfw_next_person_where( $where ) {
-	return ctfw_previous_next_person_where( 'next' );
-}
-
-/**
- * SQL ORDER BY for previous person
- *
- * @since 0.9
- * @param string $sort Current ORDER BY clause
- * @return string Custom ORDER BY clause
- */
-function ctfw_previous_person_sort( $sort ) {
-	return "ORDER BY p.menu_order ASC LIMIT 1";
-}
-
-/**
- * SQL ORDER BY for next person
- *
- * @since 0.9
- * @param string $sort Current ORDER BY clause
- * @return string Custom ORDER BY clause
- */
-function ctfw_next_person_sort( $sort ) {
-	return "ORDER BY p.menu_order DESC LIMIT 1";
-}
