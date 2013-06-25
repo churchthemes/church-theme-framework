@@ -117,8 +117,8 @@ function ctfw_background_image_presets() {
 				$backgrounds_clean[$file]['colorable'] 	= ! empty( $data['colorable'] ) ? true : false;
 				
 				// Also add absolute URL's (theme customizer uses)
-				$backgrounds_clean[$file]['url'] = ctfw_background_image_preset_url( $file );
-				$backgrounds_clean[$file]['thumb_url'] = ctfw_background_image_preset_url( $data['thumb'] );
+				$backgrounds_clean[$file]['url'] = ! empty( $backgrounds_clean[$file]['url'] ) ? $backgrounds_clean[$file]['url'] : ctfw_background_image_preset_url( $file );
+				$backgrounds_clean[$file]['thumb_url'] = ! empty( $backgrounds_clean[$file]['thumb_url'] ) ? $backgrounds_clean[$file]['thumb_url'] : ctfw_background_image_preset_url( $data['thumb'] );
 				
 			}
 
