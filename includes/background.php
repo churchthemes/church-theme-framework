@@ -170,7 +170,7 @@ function ctfw_background_image_preset_urls() {
  */
 function ctfw_background_image_preset_url( $filename ) {
 
-	$url = ctfw_theme_url( CTFW_THEME_IMG_DIR . '/backgrounds/' . $filename );
+	$url = ctfw_theme_url( CTFW_THEME_BG_DIR . $filename );
 
 	return apply_filters( 'ctfw_background_image_preset_url', $url );
 
