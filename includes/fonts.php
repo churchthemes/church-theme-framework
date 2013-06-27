@@ -79,6 +79,81 @@ function ctfw_font_stack( $font, $available_fonts ) {
  *******************************************/
 
 /**
+ * Return Google Fonts array
+ *
+ * Optionally filter by target to narrrow results.
+ * Theme should filter ctfw_google_fonts to make fonts available to framework.
+ * It should use this function for getting fonts.
+ *
+ * @since 0.9.2
+ * @param string $target If want to narrow results to specific target
+ * @return array Fonts with size and type
+ */
+function ctfw_google_fonts( $target = false ) {
+
+	// Get fonts from theme
+	$fonts = apply_filters( 'ctfw_google_fonts', array() );
+
+	// Narrow to specific target
+	if ( ! empty( $target ) ) {
+
+		foreach ( $fonts as $font => $font_data ) {
+
+			if ( ! empty( $font_data['targets'] ) && ! in_array( $target, $font_data['targets'] ) ) { // if no targets, use in all
+				unset( $fonts[$font] );
+			}
+
+		}
+
+	}
+
+	// Return fonts
+	return $fonts;
+
+}
+
+/**
+ * Google Font options array
+ *
+ * Alphabetical array of font names useful for Customizer fields and other select inputs.
+ *
+ * @since 0.9.2
+ * @param array $options Narrow fonts by specific target, show type, etc.
+ * @return array Array of fonts with name as key and friendly name as value
+ */
+function ctfw_google_font_options_array( $options = array() ) {
+
+	$font_options = array();
+
+	// Default options
+	$options = wp_parse_args( $options, array(
+		'target'	=> '',
+		'show_type'	=> false
+	) );
+
+	// Get fonts, optionally by target
+	$google_fonts = ctfw_google_fonts( $options['target'] );
+
+	// Loop fonts
+	foreach ( $google_fonts as $font_name => $font_data ) {
+		
+		$font_options[$font_name] = $font_name;
+
+		// Show type
+		if ( $options['show_type'] && ! empty( $font_data['type'] ) ) {
+			$font_options[$font_name] .= ' (' . $font_data['type'] . ')';
+		}
+
+	}
+
+	// Sort alphabetical
+	ksort( $font_options );
+
+	return apply_filters( 'ctfw_google_font_options_array', $font_options, $options );
+
+}
+
+/**
  * Google Fonts stylesheet URL for enqueuing
  *
  * @since 0.9
@@ -87,9 +162,11 @@ function ctfw_font_stack( $font, $available_fonts ) {
  * @param string $font_subsets Optional character sets to load
  * @return string Google Fonts stylesheet URL
  */
-function ctfw_google_fonts_style_url( $fonts, $available_fonts, $font_subsets = false ) {
+function ctfw_google_fonts_style_url( $fonts, $font_subsets = false ) {
 	
 	$url = '';
+
+	$available_fonts = ctfw_google_fonts();
 	
 	// No duplicates
 	$fonts = array_unique( $fonts );
