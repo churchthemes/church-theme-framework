@@ -92,7 +92,7 @@ function ctfw_background_image_presets() {
 	$support = get_theme_support( 'ctfw-preset-backgrounds' );
 	if ( ! empty( $support[0] ) ) {
 
-		$backgrounds = $support[0];
+		$backgrounds = apply_filters( 'ctfw_background_image_presets_raw', $support[0] ); // filter before cleaning
 
 		// Fill, clean and set defaults to prevent errors elsewhere
 		foreach ( $backgrounds as $file => $data ) {
@@ -125,7 +125,7 @@ function ctfw_background_image_presets() {
 		}
 
 	}
-	
+
 	// Return filterable
 	return apply_filters( 'ctfw_background_image_presets', $backgrounds_clean );
 
