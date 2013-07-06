@@ -14,7 +14,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /******************************************
- * WORDPRESS IMPORTER
+ * URL CORRECTION
  ******************************************/
 
 /**
@@ -28,6 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Use add_theme_support( 'ctfw-correct-imported-urls', 'http://wp.dev/site' );
  *
  * @since 0.9.3
+ * @global object $wpdb
  */
 function ctfw_correct_imported_urls() {
 
@@ -83,6 +84,86 @@ function ctfw_correct_imported_urls() {
 			}
 
 		}
+
+	}
+
+}
+
+add_filter( 'import_end', 'ctfw_correct_imported_urls' ); // WordPress Importer plugin hook
+
+/******************************************
+ * STATIC FRONT PAGE
+ ******************************************/
+
+/**
+ * Check if homepage set for static front before import
+ * 
+ * Set a global if page using homepage template does not exist before import.
+ * This helps determine after import if the homepage was imported.
+ * 
+ * add_theme_support( 'ctfw-import-set-static-front' );
+ *
+ * @since 0.9.3
+ * @global $ctfw_no_homepage_before_import
+ */
+function ctfw_import_check_static_front() {
+
+	global $ctfw_no_homepage_before_import;
+
+	// Theme supports this?
+	if ( current_theme_supports( 'ctfw-import-set-static-front' ) ) {
+
+		// Use content types to determine Homepage page template.
+	    
+		// Check if page using that template exists
+
+			// If not, we'll want to set homepage after import
+			// $ctfw_import_set_static_front = true;
+
+	}
+
+}
+
+add_filter( 'import_start', 'ctfw_correct_imported_urls' ); // WordPress Importer plugin hook
+
+/**
+ * Set homepage as static front page after import
+ * 
+ * If no static front is set and page using homepage template did not exist before import, set it.
+ * Page using blog template is set as Posts Page if nothing already set.
+ *
+ * add_theme_support( 'ctfw-import-set-static-front' );
+ *
+ * @since 0.9.3
+ * @global $ctfw_no_homepage_before_import
+ */
+function ctfw_import_set_static_front() {
+
+	global $ctfw_no_homepage_before_import;
+
+	// Theme supports this?
+	if ( current_theme_supports( 'ctfw-import-set-static-front' ) ) {
+
+		// No static front page is set
+
+			// Page using homepage template did not exist before import
+			if ( $ctfw_no_homepage_before_import ) {
+
+				// Use content types to determine Homepage page template
+				
+				// Get page using homepage template
+
+				// Set it as static front page
+
+				// Posts Page is not set...
+
+					// Use content types to determine Blog page template
+
+					// Get page using Blog template
+
+					// Set as Posts Page
+
+			}
 
 	}
 
