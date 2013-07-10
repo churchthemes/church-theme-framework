@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Sample import XML file may have URLs from the dev site in menu, content, meta fields, etc.
  * This will replace all of those instances with the current site's base URL.
  *
- * Use add_theme_support( 'ctfw-correct-imported-urls', 'http://wp.dev/site' );
+ * Use add_theme_support( 'ctfw-import-correct-urls', 'http://wp.dev/site' );
  *
  * @since 0.9.3
  * @global object $wpdb
@@ -35,7 +35,7 @@ function ctfw_correct_imported_urls() {
 	global $wpdb;
 
 	// Theme supports this?
-	$support = get_theme_support( 'ctfw-correct-imported-urls' );
+	$support = get_theme_support( 'ctfw-import-correct-urls' );
 	if ( ! empty( $support[0] ) ) {
 
 		// Base URLs
