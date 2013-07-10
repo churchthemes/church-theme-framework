@@ -204,6 +204,93 @@ add_action( 'import_end', 'ctfw_import_set_static_front' ); // WordPress Importe
  * MENU LOCATIONS
  ******************************************/
 
+/**
+ * Set menu locations after import
+ *
+ * If zero locations already set, sample menus (if exist) are set to appropriate location.
+ * If at least one location is set, assume admin is done configuring.
+ * 
+ * Use add_theme_support( 'ctfw-import-set-menu-locations' );
+ *
+ * @since 0.9.3
+ */
+function ctfw_import_set_menu_locations() {
+
+	// Theme supports this?
+	$support = get_theme_support( 'ctfw-import-set-menu-locations' );
+	if ( ! empty( $support[0] ) ) {
+
+		// Locations and menus
+		$locations = $support[0];
+
+		// Get currently set locations
+		$nav_menu_locations = get_nav_menu_locations();
+
+		// If zero locations set, set them
+		$check_nav_menu_locations = array_filter( $nav_menu_locations ); // remove empty values (may be set to 0)
+		if ( empty( $check_nav_menu_locations ) ) {
+
+			// Loop locations and corresponding menu
+			foreach ( $locations as $location => $menu ) {
+
+				// Does menu exist?
+				if ( is_nav_menu( $menu ) ) {
+
+					// Get menu ID
+					$menu_obj = wp_get_nav_menu_object( $menu );
+
+					// Set it on appropriate location
+					if ( ! empty( $menu_obj->term_id ) ) {
+						$nav_menu_locations[$location] = $menu_obj->term_id;
+					}
+
+				}
+				
+			}
+
+			// Update menu theme mod
+			set_theme_mod( 'nav_menu_locations', $nav_menu_locations );
+
+		}
+
+	}
+
+}
+
+add_action( 'import_end', 'ctfw_import_set_menu_locations' ); // WordPress Importer plugin hook
+
+/******************************************
+ * WP SAMPLE CONTENT
+ ******************************************/
+
+/**
+ * Delete WordPress sample content before import
+ *
+ * Move the sample post, page and comment that fresh WordPress installs have into Trash.
+ *
+ * Use add_theme_support( 'ctfw-import-delete-wp-content' );
+ *
+ * @since 0.9.3
+ */
+function ctfw_import_delete_wp_sample_content() {
+
+	// Theme supports this?
+	if ( current_theme_supports( 'ctfw-import-delete-wp-content' ) ) {
+
+		// Sample post
+		wp_delete_post( 1 ); // move to trash
+
+		// Sample page
+		wp_delete_post( 2 ); // move to trash
+
+		// sample content
+		wp_delete_comment( 1 );
+
+	}
+
+}
+
+add_action( 'import_start', 'ctfw_import_delete_wp_sample_content' ); // WordPress Importer plugin hook
 
 /******************************************
  * WIDGET IMPORTER
