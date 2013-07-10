@@ -188,13 +188,15 @@ function ctfw_post_galleries_data( $post, $options = array() ) {
 						'post_type' => 'attachment',
 						'post_status' => 'inherit', // for attachments
 						'post_mime_type' => 'image',
-						'numberposts' => -1 // all
+						'numberposts' => -1, // all
+						'orderby' => 'menu_order', // want first manually ordered ('Add Media > Uploaded to this page' lets drag order)
+						'order' => 'ASC'
 					) ) ;
 
 					// Found some?
 					if ( ! empty( $images ) ) {
 
-						// Add to array containing imag IDs from all galleries in post
+						// Add to array containing image IDs from all galleries in post
 						$attached_image_ids = array_keys( $images );
 						$galleries_image_ids = array_merge( $galleries_image_ids, $attached_image_ids );
 
