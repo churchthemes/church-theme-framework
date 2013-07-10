@@ -276,3 +276,27 @@ function ctfw_content_type_by_page_template( $page_template ) {
 	return apply_filters( 'ctfw_content_type_by_page_template', $page_template_content_type, $page_template );
 
 }
+
+/**
+ * Get primary page template based on content type
+ *
+ * @since 0.9.3
+ * @param string $content_type Content type to get page template for
+ * @return string Page template
+ */
+function ctfw_page_template_by_content_type( $content_type ) {
+
+	$page_template = '';
+
+	// Page templates
+	$page_templates = ctfw_content_type_data( $content_type, 'page_templates' );
+
+	// Get first page template
+	if ( ! empty( $page_templates[0] ) ) {
+		$page_template = $page_templates[0];
+	}
+
+	// Return filtered
+	return apply_filters( 'ctfw_page_template_by_content_type', $page_template, $content_type );
+
+}

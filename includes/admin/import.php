@@ -89,7 +89,7 @@ function ctfw_correct_imported_urls() {
 
 }
 
-add_filter( 'import_end', 'ctfw_correct_imported_urls' ); // WordPress Importer plugin hook
+add_action( 'import_end', 'ctfw_correct_imported_urls' ); // WordPress Importer plugin hook
 
 /******************************************
  * STATIC FRONT PAGE
@@ -104,27 +104,36 @@ add_filter( 'import_end', 'ctfw_correct_imported_urls' ); // WordPress Importer 
  * add_theme_support( 'ctfw-import-set-static-front' );
  *
  * @since 0.9.3
- * @global $ctfw_no_homepage_before_import
+ * @global $ctfw_import_no_homepage_before
  */
 function ctfw_import_check_static_front() {
 
-	global $ctfw_no_homepage_before_import;
+	global $ctfw_import_no_homepage_before;
+
+	// Default
+	$ctfw_import_no_homepage_before = true;
 
 	// Theme supports this?
-	if ( current_theme_supports( 'ctfw-import-set-static-front' ) ) {
+	$support = get_theme_support( 'ctfw-import-set-static-front' );
+	if ( ! empty( $support[0] ) ) {
 
-		// Use content types to determine Homepage page template.
-	    
+		// Get homepage template
+		$homepage_tpl = $support[0];
+
 		// Check if page using that template exists
+		$homepage_page = ctfw_get_page_by_template( $homepage_tpl );
+		if ( ! $homepage_page ) {
 
 			// If not, we'll want to set homepage after import
-			// $ctfw_import_set_static_front = true;
+			$ctfw_import_no_homepage_before = true;
+
+		}
 
 	}
 
 }
 
-add_filter( 'import_start', 'ctfw_correct_imported_urls' ); // WordPress Importer plugin hook
+add_action( 'import_start', 'ctfw_import_check_static_front' ); // WordPress Importer plugin hook
 
 /**
  * Set homepage as static front page after import
@@ -135,41 +144,66 @@ add_filter( 'import_start', 'ctfw_correct_imported_urls' ); // WordPress Importe
  * add_theme_support( 'ctfw-import-set-static-front' );
  *
  * @since 0.9.3
- * @global $ctfw_no_homepage_before_import
+ * @global $ctfw_import_no_homepage_before
  */
 function ctfw_import_set_static_front() {
 
-	global $ctfw_no_homepage_before_import;
+	global $ctfw_import_no_homepage_before;
 
 	// Theme supports this?
-	if ( current_theme_supports( 'ctfw-import-set-static-front' ) ) {
+	$support = get_theme_support( 'ctfw-import-set-static-front' );
+	if ( ! empty( $support[0] ) ) {
 
-		// No static front page is set
+		// Page using homepage template did not exist before import
+		if ( $ctfw_import_no_homepage_before ) {
 
-			// Page using homepage template did not exist before import
-			if ( $ctfw_no_homepage_before_import ) {
+			// No static front page is set
+			if ( get_option( 'show_on_front' ) != 'page' || ! get_option( 'page_on_front' ) ) {
 
-				// Use content types to determine Homepage page template
-				
-				// Get page using homepage template
+				// Get homepage template
+				$homepage_tpl = $support[0];
 
-				// Set it as static front page
+				// Check if page using that template exists now
+				$homepage_id = ctfw_get_page_id_by_template( $homepage_tpl );
+				if ( $homepage_id ) {
 
-				// Posts Page is not set...
+					// Set it as static front page
+					update_option( 'show_on_front', 'page' );
+					update_option( 'page_on_front', $homepage_id );
 
-					// Use content types to determine Blog page template
+					// Is Posts Page set?
+					if ( ! get_option( 'page_for_posts' ) ) {
 
-					// Get page using Blog template
+						// Use content types to determine Blog page template
+						$blog_tpl = ctfw_page_template_by_content_type( 'blog' );
 
-					// Set as Posts Page
+						// Does Blog page exist?
+						$blog_page_id = ctfw_get_page_id_by_template( $blog_tpl );
+						if ( $blog_page_id ) {
+
+							// Set as Posts Page
+							update_option( 'page_for_posts', $blog_page_id );
+
+						}
+					
+					}
+
+				}
 
 			}
+
+		}
 
 	}
 
 }
 
-add_filter( 'import_end', 'ctfw_correct_imported_urls' ); // WordPress Importer plugin hook
+add_action( 'import_end', 'ctfw_import_set_static_front' ); // WordPress Importer plugin hook
+
+/******************************************
+ * MENU LOCATIONS
+ ******************************************/
+
 
 /******************************************
  * WIDGET IMPORTER
