@@ -25,6 +25,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Sample import XML file may have URLs from the dev site in menu, content, meta fields, etc.
  * This will replace all of those instances with the current site's base URL.
  *
+ * Note: this does not replace URLs in widgets. See ctfw_correct_imported_widget_urls() for that.
+ *
  * Use add_theme_support( 'ctfw-import-correct-urls', 'http://wp.dev/site' );
  *
  * @since 0.9.3
@@ -35,53 +37,39 @@ function ctfw_correct_imported_urls() {
 	global $wpdb;
 
 	// Theme supports this?
-	$support = get_theme_support( 'ctfw-import-correct-urls' );
-	if ( ! empty( $support[0] ) ) {
+	$url_data = ctfw_url_correction_data(); // empty if no theme support
+	if ( $url_data ) {
 
-		// Base URLs
-		$old_url = untrailingslashit( $support[0] ); // URL to replace
-		$new_url = untrailingslashit( home_url() ); // this site's home URL
+		// Queries to run
+		// Based on code from the Velvet Blues Update URLs plugin: http://wordpress.org/plugins/velvet-blues-update-urls/developers/
+		$queries = array(
 
-		// Upload URLs
-		$upload_dir = wp_upload_dir();
-		$old_uploads_url = $old_url . '/' . basename( WP_CONTENT_DIR ) . '/uploads'; // we assume import data uses single, not multisite
-		$new_uploads_url = $upload_dir['baseurl']; // could be multisite
+			// Posts, pages, custom post types, revisions
+			"UPDATE $wpdb->posts SET post_content = REPLACE(post_content, %s, %s)",
 
-		// This site is not the same site sample content came from
-		if ( $new_url != $old_url ) {
+			// Excerpts
+			"UPDATE $wpdb->posts SET post_excerpt = REPLACE(post_excerpt, %s, %s)",
 
-			// Queries to run
-			// Based on code from the Velvet Blues Update URLs plugin: http://wordpress.org/plugins/velvet-blues-update-urls/developers/
-			$queries = array(
+			// Attachments
+			"UPDATE $wpdb->posts SET guid = REPLACE(guid, %s, %s) WHERE post_type = 'attachment'",
 
-				// Posts, pages, custom post types, revisions
-				"UPDATE $wpdb->posts SET post_content = REPLACE(post_content, %s, %s)",
+			// Custom fields, menu items
+			"UPDATE $wpdb->postmeta SET meta_value = REPLACE(meta_value, %s, %s)",
 
-				// Excerpts
-				"UPDATE $wpdb->posts SET post_excerpt = REPLACE(post_excerpt, %s, %s)",
+			// GUIDs
+			"UPDATE $wpdb->posts SET guid = REPLACE(guid, %s, %s)"
 
-				// Attachments
-				"UPDATE $wpdb->posts SET guid = REPLACE(guid, %s, %s) WHERE post_type = 'attachment'",
+		);
 
-				// Custom fields, menu items
-				"UPDATE $wpdb->postmeta SET meta_value = REPLACE(meta_value, %s, %s)",
+		// Run queries to make replacements
+		foreach ( $queries as $query ) {
 
-				// GUIDs
-				"UPDATE $wpdb->posts SET guid = REPLACE(guid, %s, %s)"
+			// Update file upload URLs
+			// This accounts for differing URLs between single and multisite installs
+			$wpdb->query( $wpdb->prepare( $query, $url_data['old_uploads_url'], $url_data['new_uploads_url'] ) );
 
-			);
-
-			// Run queries to make replacements
-			foreach ( $queries as $query ) {
-
-				// Update file upload URLs
-				// This accounts for differing URLs between single and multisite installs
-				$wpdb->query( $wpdb->prepare( $query, $old_uploads_url, $new_uploads_url ) );
-
-				// Update URLs in general
-				$wpdb->query( $wpdb->prepare( $query, $old_url, $new_url ) );
-
-			}
+			// Update URLs in general
+			$wpdb->query( $wpdb->prepare( $query, $url_data['old_url'], $url_data['new_url'] ) );
 
 		}
 
@@ -90,6 +78,82 @@ function ctfw_correct_imported_urls() {
 }
 
 add_action( 'import_end', 'ctfw_correct_imported_urls' ); // WordPress Importer plugin hook
+
+/**
+ * Correct imported URL's in widgets
+ *
+ * This assumes the Widget Importer & Exporter.
+ * 
+ * A sample widget file may have URLs from the dev site in widget settings.
+ * This will replace all of those instances with the current site's base URL.
+ *
+ * Use add_theme_support( 'ctfw-import-correct-urls', 'http://wp.dev/site' );
+ *
+ * @since 0.9.3
+ * @param array $widget Widget settings
+ * @return array Modified widget settings
+ */
+function ctfw_correct_imported_widget_urls( $widget ) {
+
+	// Theme supports this?
+	$url_data = ctfw_url_correction_data(); // empty if no theme support
+	if ( $url_data ) {
+
+		// Loop widget's settings to modify values
+		foreach ( $widget as $field => $value ) {
+
+			// Replace file upload URLs
+			// This accounts for differing URLs between single and multisite installs
+			$widget->$field = str_replace( $url_data['old_uploads_url'], $url_data['new_uploads_url'], $value );
+
+			// Replace URLs in general
+			$widget->$field = str_replace( $url_data['old_url'], $url_data['new_url'], $value );
+
+		}
+
+	}
+
+	// Return for importer to use
+	return $widget;
+
+}
+
+add_filter( 'wie_widget_settings', 'ctfw_correct_imported_widget_urls' ); // Widget Importer & Exporter plugin hook
+
+/**
+ * URL correction data
+ *
+ * Returns URL correction data if feature is supported and URL needs changed.
+ *
+ * @since 0.9.3
+ */
+function ctfw_url_correction_data() {
+
+	$data = array();
+
+	// Theme supports this?
+	$support = get_theme_support( 'ctfw-import-correct-urls' );
+	if ( ! empty( $support[0] ) ) {
+
+		// Base URLs
+		$data['old_url'] = untrailingslashit( $support[0] ); // URL to replace
+		$data['new_url'] = untrailingslashit( home_url() ); // this site's home URL
+
+		// Upload URLs
+		$upload_dir = wp_upload_dir();
+		$data['old_uploads_url'] = $data['old_url'] . '/' . basename( WP_CONTENT_DIR ) . '/uploads'; // we assume import data uses single, not multisite
+		$data['new_uploads_url'] = $upload_dir['baseurl']; // could be multisite
+
+		// Make sure this site is not the same site sample content came from
+		if ( $data['new_url'] == $data['old_url'] ) {
+			$data = array();
+		}
+
+	}
+
+	return apply_filters( 'ctfw_url_correction_data', $data );
+
+}
 
 /******************************************
  * STATIC FRONT PAGE
@@ -291,8 +355,3 @@ function ctfw_import_delete_wp_sample_content() {
 }
 
 add_action( 'import_start', 'ctfw_import_delete_wp_sample_content' ); // WordPress Importer plugin hook
-
-/******************************************
- * WIDGET IMPORTER
- ******************************************/
-
