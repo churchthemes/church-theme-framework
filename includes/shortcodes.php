@@ -34,8 +34,7 @@ function ctfw_shortcodes() {
 	$shortcodes = array(
 		'ctc_site_name'			=> 'ctfw_shortcode_site_name',
 		'ctc_rss_url'			=> 'ctfw_shortcode_rss_url',
-		'ctc_current_year'		=> 'ctfw_shortcode_current_year',
-		'ctc_powered_logo'		=> 'ctfw_shortcode_powered_logo'
+		'ctc_current_year'		=> 'ctfw_shortcode_current_year'
 	);
 
 	return apply_filters( 'ctfw_shortcodes', $shortcodes );
@@ -145,33 +144,4 @@ function ctfw_shortcode_current_year() {
  */
 function ctfw_shortcode_rss_url() {
 	return get_bloginfo( 'rss_url' );
-}
-
-/**
- * "Powered By" logo
- * 
- * This is handy for use in footer notice
- * Enable with add_theme_support( 'ctfw-powered-logo-shortcode' );
- * 
- * @since 0.9
- * @return string HTML for logo
- */
-function ctfw_shortcode_powered_logo() {
-
-	$output = '';
-
-	// Theme supports this shortcode?
-	$support = get_theme_support( 'ctfw-powered-logo-shortcode' );
-	if ( ! empty( $support[0] ) ) {
-
-		// Get URL for clicks
-		$url = $support[0];
-
-		// Link and image for footer
-		$output = '<a href="' . esc_url( $url ) . '" rel="nofollow" class="ctfw-powered-logo" target="_blank"></a>';
-
-	}
-
-	return $output;
-	
 }
