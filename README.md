@@ -1,7 +1,7 @@
 Church Theme Framework
 ======================
 
-A library of code useful for church WordPress themes using the [Church Theme Functionality](https://github.com/churchthemes/church-theme-functionality) plugin.
+A library of code useful for church WordPress themes using the [Church Theme Content](https://github.com/churchthemes/church-theme-content) plugin.
 
 Purpose
 -------
