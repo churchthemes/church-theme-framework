@@ -145,9 +145,12 @@ function ctfw_url_correction_data() {
 		$data['new_uploads_url'] = $upload_dir['baseurl']; // could be multisite
 
 		// Make sure this site is not the same site sample content came from
+		// UPDATE: We DO want replacement to happen even if same site, because it also accounts for multisite upload URLs
+		/*
 		if ( $data['new_url'] == $data['old_url'] ) {
 			$data = array();
 		}
+		*/
 
 	}
 
