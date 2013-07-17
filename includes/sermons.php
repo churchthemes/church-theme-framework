@@ -38,7 +38,7 @@ function ctfw_sermon_date_archive( $wp_rewrite ) {
 
 	// Post types to setup date archives for
 	$post_types = array(
-		'ccm_sermon'
+		'ctc_sermon'
 	);
 
 	// Do it
@@ -62,7 +62,7 @@ add_action( 'generate_rewrite_rules', 'ctfw_sermon_date_archive' ); // enable da
 function ctfw_sermon_data( $post_id = null ) {
 
 	// Get meta values
-	$data = ctfw_get_meta_data( array( // without _ccm_sermon_ prefix
+	$data = ctfw_get_meta_data( array( // without _ctc_sermon_ prefix
 		'video',		// URL to uploaded file, external file, external site with oEmbed support, or manual embed code (HTML or shortcode)
 		'audio',		// URL to uploaded file, external file, external site with oEmbed support, or manual embed code (HTML or shortcode)
 		'pdf',			// URL to uploaded file or external file

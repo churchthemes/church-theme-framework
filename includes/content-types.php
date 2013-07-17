@@ -34,29 +34,29 @@ function ctfw_content_types() {
 	$content_types = array(
 
 		'sermon' => array(
-			'post_types'		=> array( 'ccm_sermon' ),
-			'taxonomies'		=> array( 'ccm_sermon_topic', 'ccm_sermon_book', 'ccm_sermon_speaker', 'ccm_sermon_series', 'ccm_sermon_tag' ),
+			'post_types'		=> array( 'ctc_sermon' ),
+			'taxonomies'		=> array( 'ctc_sermon_topic', 'ctc_sermon_book', 'ctc_sermon_speaker', 'ctc_sermon_series', 'ctc_sermon_tag' ),
 			'page_templates'	=> array(), // should be populated via ctfw_content_types filter in theme
 			'conditions'		=> array(),
 		),
 
 		'event' => array(
-			'post_types'		=> array( 'ccm_event' ),
+			'post_types'		=> array( 'ctc_event' ),
 			'taxonomies'		=> array(),
 			'page_templates'	=> array(), // should be populated via ctfw_content_types filter in theme
 			'conditions'		=> array(),
 		),
 
 		'people' => array(
-			'post_types'		=> array( 'ccm_person' ),
-			'taxonomies'		=> array( 'ccm_person_group' ),
+			'post_types'		=> array( 'ctc_person' ),
+			'taxonomies'		=> array( 'ctc_person_group' ),
 			'page_templates'	=> array(), // should be populated via ctfw_content_types filter in theme
 			'conditions'		=> array(),
 		),
 
 		'location' => array(
-			'post_types'		=> array( 'ccm_location' ),
-			'taxonomies'		=> array( 'ccm_location' ),
+			'post_types'		=> array( 'ctc_location' ),
+			'taxonomies'		=> array( 'ctc_location' ),
 			'page_templates'	=> array(), // should be populated via ctfw_content_types filter in theme
 			'conditions'		=> array(),
 		),

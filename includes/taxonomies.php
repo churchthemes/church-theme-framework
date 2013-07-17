@@ -14,17 +14,17 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * Detect CCM taxonomy support
+ * Detect CTC taxonomy support
  *
  * If not supported, theme or plugin causes taxonomy to register with show_ui to false
  * This is used in widgets to show and render fields dependent on taxonomies.
  *
- * Note: this is intended for use only after Church Content Manager registers taxonomies since that is when show_ui is available.
+ * Note: this is intended for use only after Church Theme Content registers taxonomies since that is when show_ui is available.
  *
  * @since 0.9
  * @param string $taxonomy_name Taxonomy name
  */
-function ctfw_ccm_taxonomy_supported( $taxonomy_name ) {
+function ctfw_ctc_taxonomy_supported( $taxonomy_name ) {
 
 	// Get taxonomy data
 	$taxonomy = get_taxonomy( $taxonomy_name );
@@ -33,7 +33,7 @@ function ctfw_ccm_taxonomy_supported( $taxonomy_name ) {
 	$supported = ! empty( $taxonomy->show_ui ) ? true : false;
 		
 	// Return filterable
-	return apply_filters( 'ctfw_ccm_taxonomy_supported', $supported, $taxonomy_name );
+	return apply_filters( 'ctfw_ctc_taxonomy_supported', $supported, $taxonomy_name );
 
 }
 
@@ -51,7 +51,7 @@ function ctfw_term_options( $taxonomy_name, $prepend = array() ) {
 
 	$options = array();
 
-	if ( ! preg_match( '/^ccm_/', $taxonomy_name ) || ctfw_ccm_taxonomy_supported( $taxonomy_name ) ) { // make sure CCM taxonomy support
+	if ( ! preg_match( '/^ctc_/', $taxonomy_name ) || ctfw_ctc_taxonomy_supported( $taxonomy_name ) ) { // make sure CTC taxonomy support
 
 		$terms = $categories = get_terms( $taxonomy_name );
 

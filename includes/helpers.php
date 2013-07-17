@@ -226,18 +226,18 @@ function ctfw_address_one_line( $address ) {
 }
 
 /**
- * Make a Church Content Manager post type or taxonomy name friendly
+ * Make a Church Theme Content post type or taxonomy name friendly
  *
  * This is handy for get_template_part( 'content', ctfw_make_friendly( get_post_type() ) );
- * which produces content-post-type.php instead of content-ccm_post_type.php
+ * which produces content-post-type.php instead of content-ctc_post_type.php
  *
  * @since 0.9
- * @param string $string Post type or other prefixed CCM slug to make friendly
+ * @param string $string Post type or other prefixed CTC slug to make friendly
  * @return string Friendlier string without prefix
  */
 function ctfw_make_friendly( $string ) {
 
-	$friendly_string = str_replace( array( 'ccm_', '_'), array( '', '-'), $string );
+	$friendly_string = str_replace( array( 'ctc_', '_'), array( '', '-'), $string );
 
 	return apply_filters( 'ctfw_make_friendly', $friendly_string, $string );
 

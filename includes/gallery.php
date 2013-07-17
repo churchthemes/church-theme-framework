@@ -257,7 +257,7 @@ function ctfw_gallery_posts( $options = array() ) {
 	// Query arguments
 	$args = array(
 		'p'					=> $options['post_id'], // if getting one
-		'post_type'			=> array( 'page', 'post', 'ccm_sermon', 'ccm_event', 'ccm_person', 'ccm_location' ),
+		'post_type'			=> array( 'page', 'post', 'ctc_sermon', 'ctc_event', 'ctc_person', 'ctc_location' ),
 		'orderby'			=> $options['orderby'],
 		'order'				=> $options['order'],
 		'posts_per_page'	=> $options['limit'],

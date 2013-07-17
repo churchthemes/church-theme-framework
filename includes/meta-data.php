@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Get meta data for a post/type (without prefix)
  *
  * @since 0.9
- * @param array $fields Provide $fields as array without meta field's post type prefix (_ccm_sermon_ for example)
+ * @param array $fields Provide $fields as array without meta field's post type prefix (_ctc_sermon_ for example)
  * @param int $post_id Optional post ID; otherwise current post used
  * @param string $prefix Optional prefix override; otherwise post type used as prefix
  * @return array Meta data

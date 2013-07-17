@@ -32,9 +32,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 function ctfw_shortcodes() {
 
 	$shortcodes = array(
-		'ctc_site_name'			=> 'ctfw_shortcode_site_name',
-		'ctc_rss_url'			=> 'ctfw_shortcode_rss_url',
-		'ctc_current_year'		=> 'ctfw_shortcode_current_year'
+		'ctcom_site_name'			=> 'ctfw_shortcode_site_name',
+		'ctcom_rss_url'			=> 'ctfw_shortcode_rss_url',
+		'ctcom_current_year'		=> 'ctfw_shortcode_current_year'
 	);
 
 	return apply_filters( 'ctfw_shortcodes', $shortcodes );
@@ -137,7 +137,7 @@ function ctfw_shortcode_current_year() {
 /**
  * RSS feed URL
  * 
- * [ctc_rss_url] can be used by social media icons
+ * [ctcom_rss_url] can be used by social media icons
  * 
  * @since 0.9
  * @return string RSS feed URL

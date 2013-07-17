@@ -32,7 +32,7 @@ function ctfw_people_group_order( $query ) {
 	if ( current_theme_supports( 'ctfw-people-group-manual-order' ) ) {
 
 		// On group archive
-		if ( $query->is_archive && ! empty( $query->query['ccm_person_group'] ) ) {
+		if ( $query->is_archive && ! empty( $query->query['ctc_person_group'] ) ) {
 			$query->set( 'orderby', 'menu_order' );
 			$query->set( 'order', 'ASC' );
 		}
@@ -59,7 +59,7 @@ add_filter( 'pre_get_posts' , 'ctfw_people_group_order' );
 function ctfw_person_data( $post_id = null ) {
 
 	// Get meta values
-	$data = ctfw_get_meta_data( array( // without _ccm_person_ prefix
+	$data = ctfw_get_meta_data( array( // without _ctc_person_ prefix
 		'position',
 		'phone',
 		'email',
@@ -89,9 +89,9 @@ function ctfw_previous_next_person_sorting() {
 		return;
 	}
 
-	// While on single person, if theme supports People from Church Content Manager
+	// While on single person, if theme supports People from Church Theme Content
 	// IMPORTANT: Without ! is_page(), is_singular() runs, somehow causing /page/#/ URL's on static front page to break
-	if ( ! is_page() && is_singular( 'ccm_person' ) && current_theme_supports( 'ccm-people' ) ) {
+	if ( ! is_page() && is_singular( 'ctc_person' ) && current_theme_supports( 'ctc-people' ) ) {
 
 		// SQL WHERE
 		add_filter( 'get_previous_post_where', 'ctfw_previous_post_where' );

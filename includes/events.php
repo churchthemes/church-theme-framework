@@ -35,23 +35,23 @@ function ctfw_get_events( $args = array() ) {
 
 	// Show upcoming events
 	$compare = '>=';  // all events with start OR end date today or later
-	$meta_key = '_ccm_event_start_date'; // order by this; want earliest starting date first
+	$meta_key = '_ctc_event_start_date'; // order by this; want earliest starting date first
 	$order = 'ASC'; // sort from soonest to latest
 
 	// Show past events
 	if ( 'past' == $args['timeframe'] ) {
 		$compare = '<'; // all events with start AND end date BEFORE today
-		$meta_key = '_ccm_event_end_date'; // order by this; want finish date first
+		$meta_key = '_ctc_event_end_date'; // order by this; want finish date first
 		$order = 'DESC'; // sort from most recently past to oldest
 	}
 
 	// Get events
 	$posts = get_posts( array(
-		'post_type'			=> 'ccm_event',
+		'post_type'			=> 'ctc_event',
 		'numberposts'		=> $args['limit'],
 		'meta_query' => array(
 			array(
-				'key' => '_ccm_event_end_date', // the latest date that the event goes to (could be start date)
+				'key' => '_ctc_event_end_date', // the latest date that the event goes to (could be start date)
 				'value' => date_i18n( 'Y-m-d' ), // today's date, localized
 				'compare' => $compare,
 				'type' => 'DATE'
@@ -149,9 +149,9 @@ function ctfw_previous_next_event_sorting() {
 		return;
 	}
 
-	// While on single event, if theme supports Events from Church Content Manager
+	// While on single event, if theme supports Events from Church Theme Content
 	// IMPORTANT: Without ! is_page(), is_singular() runs, somehow causing /page/#/ URL's on static front page to break
-	if ( ! is_page() && is_singular( 'ccm_event' ) && current_theme_supports( 'ccm-events' ) ) {
+	if ( ! is_page() && is_singular( 'ctc_event' ) && current_theme_supports( 'ctc-events' ) ) {
 
 		// SQL JOIN
 		add_filter( 'get_previous_post_join', 'ctfw_previous_next_event_join' );
@@ -204,8 +204,8 @@ function ctfw_previous_next_event_where( $direction ) {
 	global $wpdb;
 
 	// Start Date meta
-	$meta_key = '_ccm_event_start_date';
-	$meta_value = get_post_meta( get_the_ID(), '_ccm_event_start_date', true );
+	$meta_key = '_ctc_event_start_date';
+	$meta_value = get_post_meta( get_the_ID(), '_ctc_event_start_date', true );
 
 	// Direction
 	if ( 'previous' == $direction ) {

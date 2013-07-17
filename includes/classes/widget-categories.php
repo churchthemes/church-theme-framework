@@ -327,7 +327,7 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 	/**
 	 * Redirect Dropdown URL
 	 *
-	 * Dropdown selection results in URL like http://yourname.com/?redirect_taxonomy=ccm_sermon_topic&id=14
+	 * Dropdown selection results in URL like http://yourname.com/?redirect_taxonomy=ctc_sermon_topic&id=14
 	 * This uses that query string to get permalink for that taxonomy and term
 	 *
 	 * @since 0.9
