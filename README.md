@@ -26,7 +26,7 @@ Developers can use as many or as few framework features as needed.
 * Sermon archives by year, month and day
 * Podcasting and recurring events provided by the Church Theme Content plugin
 * Correct prev/next sorting of events (event date), locations and people (manual order)
-* Flexible widgets for posts, sermons, events, locations, people, galleries, taxonomies, giving, slides and highlights
+* Widgets for sermons, events, locations, people, galleries, taxonomies, giving, slides and highlights
 * Widget output is controlled by template files
 * Ability to disable or override specific widget fields
 * Restrict certain widgets to specific sidebars and vice-versa
@@ -101,3 +101,7 @@ There are several helper functions included to assist you with development. Brow
 ### A complete example
 
 Browse the code from one of our commercial themes at [churchthemes.com](http://churchthemes.com) for a complete example of a finished theme using this framework.
+
+### Changelog
+
+View the [release tags](https://github.com/churchthemes/church-theme-framework/tags).
