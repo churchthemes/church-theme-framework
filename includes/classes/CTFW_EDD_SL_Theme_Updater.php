@@ -70,7 +70,7 @@ class CTFW_EDD_SL_Theme_Updater {
 
 		// CT Mod: change message, add textdomain
 		//$update_onclick = ' onclick="if ( confirm(\'' . esc_js( __( "Updating this theme will lose any customizations you have made. 'Cancel' to stop, 'OK' to update." ) ) . '\') ) {return true;}return false;"';
-		$update_onclick = ' onclick="if ( confirm(\'' . esc_js( sprintf( __( "Any customizations you have made directly to %s's theme files will be lost. Please consider using a child theme for modifications.", "ct-framework" ), $theme->get( 'Name' ) ) ) . '\') ) {return true;}return false;"';
+		$update_onclick = ' onclick="if ( confirm(\'' . esc_js( sprintf( __( "Any customizations you have made directly to %s's theme files will be lost. Please consider using a child theme for modifications.", "church-theme-framework" ), $theme->get( 'Name' ) ) ) . '\') ) {return true;}return false;"';
 
 		if ( version_compare( $this->version, $api_response->new_version, '<' ) ) {
 

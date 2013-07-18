@@ -77,7 +77,7 @@ function ctfw_featured_image_notes( $content ) {
 			// Only size specified (use default message)
 			elseif ( ! empty( $post_types[$screen->post_type] ) ) {
 				$size = $post_types[$screen->post_type];
-				$message = ! empty( $support[1] ) ? $support[1] : __( 'The target image size is %s.', 'ctfw' ); // third argument, if any
+				$message = ! empty( $support[1] ) ? $support[1] : __( 'The target image size is %s.', 'church-theme-framework' ); // third argument, if any
 			}
 
 			// Show message
