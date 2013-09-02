@@ -48,7 +48,7 @@ function ctfw_edd_license_config( $arg = false ) {
 	$config = array();
 
 	// Get theme support
-	$support = $support = get_theme_support( 'ctfw-edd-license' );
+	$support = get_theme_support( 'ctfw-edd-license' );
 	if ( $support ) {
 
 		// Get arguments
@@ -57,10 +57,10 @@ function ctfw_edd_license_config( $arg = false ) {
 		// Set defaults
 		$config = wp_parse_args( $config, array(
 			'store_url'				=> '',						// URL of store running EDD with Software Licensing extension
-			'version'				=> CTFW_THEME_VERSION,				// default is to auto-determine from theme
+			'version'				=> CTFW_THEME_VERSION,		// default is to auto-determine from theme
 			'license'				=> ctfw_edd_license_key(),	// default is to use '{theme}_license_key' option
-			'item_name'				=> CTFW_THEME_NAME,				// default is to use theme name; must match download name in EDD
-			'author'				=> CTFW_THEME_AUTHOR,				// default is to auto-determine from theme
+			'item_name'				=> CTFW_THEME_NAME,			// default is to use theme name; must match download name in EDD
+			'author'				=> CTFW_THEME_AUTHOR,		// default is to auto-determine from theme
 			'updates'				=> true,					// default true; enable automatic updates
 			'options_page'			=> true,					// default true; provide options page for license entry/activaton
 			'options_page_message'	=> '',						// optional message to show on options page
