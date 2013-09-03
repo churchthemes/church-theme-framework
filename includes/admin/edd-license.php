@@ -410,7 +410,7 @@ function ctfw_edd_license_activation_failure_notice() {
 				<p>
 					<?php
 					printf(
-						__( '<b>License key could not be activated.</b> Read the <a href="%s" target="_blank">License Keys</a> guide for help.', 'resurrect' ),
+						__( '<b>License key could not be activated.</b> Read the <a href="%s" target="_blank">License Keys</a> guide for help.', 'church-theme-framework' ),
 						'http://churchthemes.com/go/license-keys'
 					);
 					?>
