@@ -408,7 +408,12 @@ function ctfw_edd_license_activation_failure_notice() {
 			?>
 			<div id="ctfw-license-activation-error-notice" class="error">
 				<p>
-					<?php _e( '<b>License key could not be activated.</b> Please make sure the saved key is correct.', 'church-theme-framework' ); ?>
+					<?php
+					printf(
+						__( '<b>License key could not be activated.</b> Read the <a href="%s" target="_blank">License Keys</a> guide for help.', 'resurrect' ),
+						'http://churchthemes.com/go/license-keys'
+					);
+					?>
 				</p>
 			</div>
 			<?php
@@ -571,9 +576,10 @@ function ctfw_edd_license_check_deactivation() {
 	}
 
 	// Only if locally active
-	if ( ! ctfw_edd_license_active() ) { // already inactive locally
-		return;
-	}
+	// Update: Do run always, because might be expired now
+	//if ( ! ctfw_edd_license_active() ) { // already inactive locally
+	//	return;
+	//}
 
 	// Check remote status
 	$status = ctfw_edd_license_check();
@@ -582,7 +588,7 @@ function ctfw_edd_license_check_deactivation() {
 	if ( ! empty( $status ) ) { // don't do anything if times out
 
 		// Deactivated remotely
-		if ( 'inactive' == $status ) { // status is not valid
+		if ( in_array( $status, array( 'inactive', 'expired' ) ) ) { // status is not valid
 
 			// Deactivate locally
 			delete_option( ctfw_edd_license_key_option( 'status' ) );
@@ -596,7 +602,7 @@ function ctfw_edd_license_check_deactivation() {
 /**
  * Run remote deactivation check automatically
  *
- * Check for remote deactivation periodically on relevant pages: Theme License, Themes, Updates
+ * Check for remote deactivation periodically on relevant pages: Dashboard, Theme License, Themes, Updates
  *
  * @since 0.9
  */
@@ -614,7 +620,7 @@ function ctfw_edd_license_auto_check_deactivation() {
 
 	// Only in relevant areas
 	$screen = get_current_screen();
-	if ( in_array( $screen->base, array( 'appearance_page_theme-license', 'themes', 'update-core' ) ) ) {
+	if ( in_array( $screen->base, array( 'dashboard', 'appearance_page_theme-license', 'themes', 'update-core' ) ) ) {
 
 		// Has this been checked in last day?
 		if ( ! get_transient( 'ctfw_edd_license_auto_check_deactivation' ) ) {
