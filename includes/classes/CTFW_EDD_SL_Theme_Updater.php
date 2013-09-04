@@ -80,7 +80,7 @@ class CTFW_EDD_SL_Theme_Updater {
 
 			echo '<div id="update-nag">';
 
-				// CT Mod: Change message, localize
+				// CT Mod: Change message, localize -- now link directly to changelog
 				/*
 				printf( '<strong>%1$s %2$s</strong> is available. <a href="%3$s" class="thickbox" title="%4s">Check out what\'s new</a> or <a href="%5$s"%6$s>update now</a>.',
 					$theme->get( 'Name' ),
@@ -91,13 +91,12 @@ class CTFW_EDD_SL_Theme_Updater {
 					$update_onclick
 				);
 				*/
-				printf( __( '<strong>%1$s %2$s</strong> is available. Check out <a href="%3$s" class="thickbox" title="%4s">what\'s new</a> or <a href="%5$s"%6$s>update now</a>.', 'church-theme-framework' ),
+				printf( __( '<strong>%1$s %2$s</strong> is available. <a href="%3$s"%4$s>Update Now</a> or read the <a href="%5$s" target="_blank">Changelog</a>.', 'church-theme-framework' ),
 					$theme->get( 'Name' ),
 					$api_response->new_version,
-					'#TB_inline?width=640&amp;inlineId=' . $this->theme_slug . '_changelog',
-					$theme->get( 'Name' ),
 					$update_url,
-					$update_onclick
+					$update_onclick,
+					'http://churchthemes.com/go/changelog/' . CTFW_THEME_SLUG . '/'
 				);
 
 			echo '</div>';
