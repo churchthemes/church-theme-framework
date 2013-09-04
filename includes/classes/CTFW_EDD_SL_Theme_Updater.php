@@ -28,7 +28,11 @@ class CTFW_EDD_SL_Theme_Updater {
 		$args = wp_parse_args( $args, array(
 			'remote_api_url' => 'http://easydigitaldownloads.com',
 			'request_data'   => array(),
-			'theme_slug'     => get_stylesheet(),
+
+			// https://easydigitaldownloads.com/support/topic/updating-theme-deletes-child-theme-and-actives-parent-theme-instead/#post-71936
+			//'theme_slug'     => get_stylesheet(),
+			'theme_slug'     => get_template(),
+
 			'item_name'      => '',
 			'license'        => '',
 			'version'        => '',
