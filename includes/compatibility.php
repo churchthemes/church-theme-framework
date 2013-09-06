@@ -255,6 +255,9 @@ add_action( 'admin_notices', 'ctfw_ctc_plugin_notice' );
  * Theme can use add_theme_support( 'ctfw-ie-unsupported', 7 )
  * to prompt Internet Explorer 7 users to upgrade to a modern browser.
  *
+ * Note script is always loaded because caching (WP Engine, etc) can cause server-side
+ * detection to fail (giving non-IE users the warning).
+ *
  * @since 0.9
  */
 function ctfw_enqueue_ie_unsupported() {
@@ -278,22 +281,21 @@ function ctfw_enqueue_ie_unsupported() {
 			$version = $default_version;
 		}
 
-		// Use that version or older?
-		if ( preg_match( '/MSIE [5-' . preg_quote( $version ) . ']/i', $_SERVER['HTTP_USER_AGENT'] ) ) {
+		// Client-side JS to compare versions, alert and redirect
+		wp_enqueue_script( 'ctfw-ie-unsupported', ctfw_theme_url( CTFW_JS_DIR . '/ie-unsupported.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on theme update
 
-			wp_enqueue_script( 'jquery' ); // version packaged with WordPress
-
-			wp_enqueue_script( 'ctfw-ie-unsupported', ctfw_theme_url( CTFW_JS_DIR . '/ie-unsupported.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on theme update
-
-			wp_localize_script( 'ctfw-ie-unsupported', 'ctfw_ie_unsupported', array( // pass WP data into JS from this point on
-				'message' => __( 'You are using an outdated version of Internet Explorer. Please upgrade your browser to use this site.', 'church-theme-framework' ),
-				'redirect_url' => apply_filters( 'ctfw_upgrade_browser_url', 'http://churchthemes.com/upgrade-browser' )
-			) );
-
-		}
+		// Pass data
+		wp_localize_script( 'ctfw-ie-unsupported', 'ctfw_ie_unsupported', array( // pass WP data into JS from this point on
+			'default_version' => $default_version,
+			'min_version' => $min_version,
+			'max_version' => $max_version,
+			'version' => $version,
+			'message' => __( 'You are using an outdated version of Internet Explorer. Please upgrade your browser to use this site.', 'church-theme-framework' ),
+			'redirect_url' => apply_filters( 'ctfw_upgrade_browser_url', 'http://churchthemes.com/upgrade-browser' )
+		) );
 
 	}	
 
 }
 
-add_action( 'wp_enqueue_scripts', 'ctfw_enqueue_ie_unsupported' ); // front-end only
+add_action( 'wp_enqueue_scripts', 'ctfw_enqueue_ie_unsupported', 1 ); // before all others
