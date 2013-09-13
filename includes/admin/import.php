@@ -14,6 +14,24 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /******************************************
+ * IMPORTATION
+ ******************************************/
+
+/**
+ * Remove image upscaling support on theme import
+ *
+ * It can slow things down, risking execution timeout.
+ * Regenerate Thumbnails plugin can be used afterward if necessary.
+ *
+ * @since 1.0.5
+ */
+function ctfw_import_remove_upscaling() {
+	remove_theme_support( 'ctfw-image-upscaling' );
+}
+
+add_action( 'import_start', 'ctfw_import_remove_upscaling' );
+
+/******************************************
  * URL CORRECTION
  ******************************************/
 
