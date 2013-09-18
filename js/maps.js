@@ -42,7 +42,9 @@ jQuery( document ).ready( function( $ ) {
 				zoom: parseInt( zoom ),
 				mapTypeId: map_type, // ROADMAP, SATELLITE, HYBRID or TERRAIN
 				disableDefaultUI: true, // remove map controls
-				scrollwheel: false, // this can catch on mobile page touch-scrolling
+				scrollwheel: false,
+				draggable: false, // this can catch on mobile page touch-scrolling
+				disableDoubleClickZoom: true,
 				center: latlng,
 				styles: [{ // hide business name labels
 					featureType: "poi",
