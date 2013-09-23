@@ -36,6 +36,11 @@ class CTFW_Widget extends WP_Widget {
 
 		parent::__construct( $id_base, $name, $widget_options, $control_options );
 
+		// Called class
+		// get_called_class() only works for PHP 5.3+
+		$widgets = ctfw_widgets();
+		$this->ctfw_class = isset( $widgets[$this->id_base]['class'] ) ? $widgets[$this->id_base]['class'] : '';
+
 	}
 	
 	/**
@@ -47,10 +52,10 @@ class CTFW_Widget extends WP_Widget {
 	 * @return array Modified fields
 	 */
 	function ctfw_prepared_fields() { // prefix in case WP core adds method with same name
-	
+
 		// Get fields from extending class
 		$fields = array();
-		if ( method_exists( get_called_class(), 'ctfw_fields' ) ) {
+		if ( method_exists( $this->ctfw_class, 'ctfw_fields' ) ) {
 			$fields = $this->ctfw_fields();
 		}
 	
