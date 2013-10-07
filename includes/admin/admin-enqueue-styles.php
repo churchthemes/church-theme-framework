@@ -29,7 +29,7 @@ function ctfw_admin_enqueue_styles() {
 	$screen = get_current_screen();
 
 	// Admin widgets
-	if ( 'widgets' == $screen->base && current_theme_supports( 'ctfw-sidebar-widget-restrictions' ) ) {
+	if ( 'widgets' == $screen->base ) {
 		wp_enqueue_style( 'ctfw-widgets', ctfw_theme_url( CTFW_CSS_DIR . '/admin-widgets.css' ), false, CTFW_THEME_VERSION ); // bust cache on update
 	}
 

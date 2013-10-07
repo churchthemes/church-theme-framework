@@ -118,6 +118,8 @@ jQuery( document ).ready( function( $ ) {
 	// Add hidden message to all widgets
 	// admin-widgets.css hides this by default
 	// admin_head outputs CSS to show this and hide form content
-	$( '.widget-inside' ).prepend( '<div class="ctfw-widget-incompatible">' + ctfw_widgets.incompatible_message + '</div>' );
+	if ( ctfw_widgets.widget_restrictions ) { // if feature supported
+		$( '.widget-inside' ).prepend( '<div class="ctfw-widget-incompatible">' + ctfw_widgets.incompatible_message + '</div>' );
+	}
 
 } );

@@ -37,6 +37,7 @@ function ctfw_admin_enqueue_scripts() {
 			'image_library_title'	=> _x( 'Choose Image for Widget', 'widget image library', 'church-theme-framework' ),
 			'image_library_button'	=> _x( 'Use in Widget', 'widget image library', 'church-theme-framework' ),
 			'incompatible_message'	=> __( 'Sorry, this widget is not made for use in this area. Please delete.', 'church-theme-framework' ),
+			'widget_restrictions'	=> current_theme_supports( 'ctfw-sidebar-widget-restrictions' )
 		));
 
 	}
