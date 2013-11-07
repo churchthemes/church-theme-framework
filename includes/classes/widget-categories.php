@@ -141,7 +141,7 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array( // array of keys/values for radio or select
 					'title'			=> _x( 'Title', 'categories widget order by', 'church-theme-framework' ),
-					'publish_date'	=> _x( 'Date', 'categories widget order by', 'church-theme-framework' ),
+					'ID'			=> _x( 'Date', 'categories widget order by', 'church-theme-framework' ),
 					'count'			=> _x( 'Post Count', 'categories widget order by', 'church-theme-framework' ),
 				),
 				'default'			=> 'title', // value to pre-populate option with (before first save or on reset)
