@@ -291,7 +291,7 @@ function ctfw_enqueue_ie_unsupported() {
 			'max_version' => $max_version,
 			'version' => $version,
 			'message' => __( 'You are using an outdated version of Internet Explorer. Please upgrade your browser to use this site.', 'church-theme-framework' ),
-			'redirect_url' => apply_filters( 'ctfw_upgrade_browser_url', 'http://churchthemes.com/upgrade-browser' )
+			'redirect_url' => apply_filters( 'ctfw_upgrade_browser_url', 'http://browsehappy.com/' )
 		) );
 
 	}	
