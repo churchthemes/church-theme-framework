@@ -89,5 +89,6 @@
 
 .ctfw-widget-incompatible {
 	display: none; /* initially */
+	margin: 10px 0;
 	color: #dc0909;
 }
