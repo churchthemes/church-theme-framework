@@ -59,7 +59,8 @@ function ctfw_get_events( $args = array() ) {
 		),
 		'meta_key' 			=> $meta_key,
 		'orderby'			=> 'meta_value',
-		'order'				=> $order
+		'order'				=> $order,
+		'suppress_filters'	=> false // keep WPML from showing posts from all languages: http://bit.ly/I1JIlV + http://bit.ly/1f9GZ7D
 	) );
 
 	// Return filtered

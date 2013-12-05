@@ -325,6 +325,7 @@ class CTFW_Widget_Posts extends CTFW_Widget {
 			'orderby'         	=> $this->ctfw_instance['orderby'],
 			'order'           	=> $this->ctfw_instance['order'],
 			'numberposts'     	=> $this->ctfw_instance['limit'],
+			'suppress_filters'	=> false // keep WPML from showing posts from all languages: http://bit.ly/I1JIlV + http://bit.ly/1f9GZ7D
 		);
 
 		// Group argument
