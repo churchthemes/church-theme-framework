@@ -46,40 +46,37 @@ function ctfw_location_data( $post_id = null ) {
 
 }
 
+
+
+
 /**
- * Get first location
+ * Get first ordered post
  *
- * Can be useful for showing primary location in footer or place of prominence
+ * Get first post according to manual order
  *
  * @since 1.0.9
- * @return array Location data
+ * @return Array Post data
  */
-function ctfw_first_location() {
+function ctfw_first_ordered_post( $post_type ) {
 
-	$location_id = 0;
-	$location = array();
-	
-	// Get first location
-	$locations = get_posts( array(
-		'post_type'			=> 'ctc_location',
+	$post = array();
+
+	// Get first post
+	$posts = get_posts( array(
+		'post_type'			=> $post_type,
 		'orderby'			=> 'menu_order', // first manually ordered
 		'order'				=> 'ASC',
 		'numberposts'		=> 1,
 		'suppress_filters'	=> false // assist multilingual
 	) );
 
-	// Get location ID
-	if ( isset( $locations[0] ) && ! empty( $locations[0]->ID ) ) {
-		$location_id = $locations[0]->ID;
-	}
-
-	// Get location data
-	if ( $location_id ) {
-		$location = ctfw_location_data( $location_id );
+	// Get post as array
+	if ( isset( $posts[0] ) ) {
+		$post = (array) $posts[0];
 	}
 
 	// Return filtered
-	return apply_filters( 'ctfw_first_location', $location );
+	return apply_filters( 'ctfw_first_ordered_post', $post );
 
 }
 
