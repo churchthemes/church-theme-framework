@@ -13,6 +13,10 @@
 // No direct access
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/*******************************************
+ * JAVASCRIPT MAP
+ *******************************************/
+
 /**
  * Display Google Map
  *
@@ -73,6 +77,84 @@ HTML;
 	return apply_filters( 'ctfw_google_map', $html, $options );
 
 }
+
+/*******************************************
+ * IMAGE MAP
+ *******************************************/
+
+/**
+ * Google Map Image Tag
+ *
+ * Return a HiDPI-ready Google Map <img> URL.
+ *
+ * @since 1.0.9
+ * @param array $options Options for showing map
+ * @return string Google Maps HTML
+ */
+function ctfw_google_map_image( $options = array() ) {
+$options = array();
+	// Default arguments
+	$options = wp_parse_args( $options, apply_filters( 'ctfw_google_map_image_options', array(
+		'latitude'		=> 31.768319, // Jerusalem
+		'longitude'		=> 35.213710,
+		'type'			=> 'road',
+		'zoom'			=> '14',
+		'width'			=> 480,
+		'height'		=> 320,
+		'alt'			=> '',
+		'scale'			=> 2,			// double for HiDPI devices
+		'marker_color'	=> 'f2f2f2'	// hex without # (light gray)
+	) ) );
+
+	// Extract options
+	extract( $options, EXTR_SKIP );
+
+	// Clean options
+	$type = strtolower( $type );
+	$marker_color = str_replace( '#', '', $marker_color );
+
+	// Start arguments
+	$map_args = array();
+
+	// Required arguments
+	$map_args['size'] = $width . 'x' . $height;
+	$map_args['center'] = $latitude . ',' . $longitude;
+	$map_args['scale'] = $scale; // double for Retina
+	$map_args['markers'] = 'color:0x' . $marker_color . '|' . $map_args['center'];
+
+	// Have zoom?
+	if ( ! empty( $zoom ) ) {
+		$map_args['zoom'] = $zoom;
+	}
+
+	// Have type?
+	if ( ! empty( $type ) ) {
+		$map_args['maptype'] = strtolower( $type );
+	}
+
+	// Sensor last
+	$map_args['sensor'] = 'false';
+
+	// Filter map arguments
+	$map_args = apply_filters( 'ctfw_google_map_image_args', $map_args );
+
+	// Add arguments to URL
+	$map_url = add_query_arg( $map_args, 'http://maps.googleapis.com/maps/api/staticmap' );
+
+	// Filter URL
+	$map_args = apply_filters( 'ctfw_google_map_image_url', $map_args );
+
+	// Build image tag
+	$img_tag = '<img src="' . esc_url( $map_url ) . '" class="ctfw-google-map-image" alt="' . esc_attr( $alt ) . '" width="' . esc_attr( $width ) . '" height="' . esc_attr( $height ) . '">';
+
+	// Return
+	return apply_filters( 'ctfw_google_map_image', $img_tag );
+
+}
+
+/*******************************************
+ * HELPERS
+ *******************************************/
 
 /**
  * Build Google Maps directions URL from address
