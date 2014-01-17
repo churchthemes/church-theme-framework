@@ -42,7 +42,6 @@ function ctfw_add_post_classes( $classes ) {
 
 add_filter( 'post_class', 'ctfw_add_post_classes' );
 
-
 /**
  * Get first ordered post
  *
