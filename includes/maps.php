@@ -92,7 +92,7 @@ HTML;
  * @return string Google Maps HTML
  */
 function ctfw_google_map_image( $options = array() ) {
-$options = array();
+
 	// Default arguments
 	$options = wp_parse_args( $options, apply_filters( 'ctfw_google_map_image_options', array(
 		'latitude'		=> 31.768319, // Jerusalem
