@@ -41,3 +41,36 @@ function ctfw_add_post_classes( $classes ) {
 }
 
 add_filter( 'post_class', 'ctfw_add_post_classes' );
+
+
+/**
+ * Get first ordered post
+ *
+ * Get first post according to manual order
+ *
+ * @since 1.0.9
+ * @param string $post_type Post type to use
+ * @return Array Post data
+ */
+function ctfw_first_ordered_post( $post_type ) {
+
+	$post = array();
+
+	// Get first post
+	$posts = get_posts( array(
+		'post_type'			=> $post_type,
+		'orderby'			=> 'menu_order', // first manually ordered
+		'order'				=> 'ASC',
+		'numberposts'		=> 1,
+		'suppress_filters'	=> false // assist multilingual
+	) );
+
+	// Get post as array
+	if ( isset( $posts[0] ) ) {
+		$post = (array) $posts[0];
+	}
+
+	// Return filtered
+	return apply_filters( 'ctfw_first_ordered_post', $post );
+
+}
