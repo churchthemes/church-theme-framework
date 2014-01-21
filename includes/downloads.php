@@ -47,43 +47,48 @@ function ctfw_force_download() {
 
 		// check for directory traversal attack
 		if ( ! validate_file( $relative_file_path ) ) { // false means it passed validation
-			
+
 			// path to file in uploads folder (only those can be downloaded)
 			$upload_dir = wp_upload_dir();
 			$upload_file_path = $upload_dir['basedir'] . '/' . $relative_file_path;
 
-			// make sure file valid as upload (valid type, extension, etc.)
-			$validate = wp_check_filetype_and_ext( $upload_file_path, basename( $upload_file_path ) );
-			if ( $validate['type'] && $validate['ext'] ) { // empty if type not in upload_mimes, doesn't exist, etc.
+			// file exists in uploads folder?
+			if ( file_exists( $upload_file_path ) ) {
 
-				// headers to prompt "save as"
-				$filename = basename( $upload_file_path );
-				$filesize = filesize( $upload_file_path );
-				header( 'Content-Type: application/octet-stream', true, 200 ); // replace WordPress 404 Not Found with 200 Okay
-				header( 'Content-Disposition: attachment; filename=' . $filename );
-				header( 'Expires: 0' );
-				header( 'Cache-Control: must-revalidate' );
-				header( 'Pragma: public' );
-				header( 'Content-Length: ' . $filesize );
+				// make sure file valid as upload (valid type, extension, etc.)
+				$validate = wp_check_filetype_and_ext( $upload_file_path, basename( $upload_file_path ) );
+				if ( $validate['type'] && $validate['ext'] ) { // empty if type not in upload_mimes, doesn't exist, etc.
 
-				// clear buffering just in case
-				@ob_end_clean();
-				flush();
-				
-				// Prepare to use WP_Filesystem
-				if ( ! class_exists( 'WP_Filesystem_Base') ) {
-					require_once ABSPATH . 'wp-admin/includes/file.php';
+					// headers to prompt "save as"
+					$filename = basename( $upload_file_path );
+					$filesize = filesize( $upload_file_path );
+					header( 'Content-Type: application/octet-stream', true, 200 ); // replace WordPress 404 Not Found with 200 Okay
+					header( 'Content-Disposition: attachment; filename=' . $filename );
+					header( 'Expires: 0' );
+					header( 'Cache-Control: must-revalidate' );
+					header( 'Pragma: public' );
+					header( 'Content-Length: ' . $filesize );
+
+					// clear buffering just in case
+					@ob_end_clean();
+					flush();
+					
+					// Prepare to use WP_Filesystem
+					if ( ! class_exists( 'WP_Filesystem_Base') ) {
+						require_once ABSPATH . 'wp-admin/includes/file.php';
+					}
+					WP_Filesystem();
+
+					// Output file contents using Direct method
+					// This is like using echo file_get_contents()
+					// readfile() should be more efficient but generates Theme Check warning RE: WP Filesystem
+					//@readfile( $upload_file_path ); // suppress errors
+					echo $wp_filesystem->get_contents( $upload_file_path );
+
+					// we're done, stop further execution
+					exit;
+
 				}
-				WP_Filesystem();
-
-				// Output file contents using Direct method
-				// This is like using echo file_get_contents()
-				// readfile() should be more efficient but generates Theme Check warning RE: WP Filesystem
-				//@readfile( $upload_file_path ); // suppress errors
-				echo $wp_filesystem->get_contents( $upload_file_path );
-
-				// we're done, stop further execution
-				exit;
 
 			}
 			
