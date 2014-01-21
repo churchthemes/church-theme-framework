@@ -28,10 +28,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * @since 0.9
  * @global object $wp_query
+ * @global object $wp_filesystem;
  */
 function ctfw_force_download() {
 	
-    global $wp_query;
+    global $wp_query, $wp_filesystem;
 
 	// Theme supports this?
 	if ( ! current_theme_supports( 'ctfw-force-downloads' ) ) {
@@ -64,14 +65,23 @@ function ctfw_force_download() {
 				header( 'Cache-Control: must-revalidate' );
 				header( 'Pragma: public' );
 				header( 'Content-Length: ' . $filesize );
-				
+
 				// clear buffering just in case
 				@ob_end_clean();
 				flush();
 				
-				// output file contents
-				@readfile( $upload_file_path ); // @ to prevent printing any error messages
-				
+				// Prepare to use WP_Filesystem
+				if ( ! class_exists( 'WP_Filesystem_Base') ) {
+					require_once ABSPATH . 'wp-admin/includes/file.php';
+				}
+				WP_Filesystem();
+
+				// Output file contents using Direct method
+				// This is like using echo file_get_contents()
+				// readfile() should be more efficient but generates Theme Check warning RE: WP Filesystem
+				//@readfile( $upload_file_path ); // suppress errors
+				echo $wp_filesystem->get_contents( $upload_file_path );
+
 				// we're done, stop further execution
 				exit;
 
