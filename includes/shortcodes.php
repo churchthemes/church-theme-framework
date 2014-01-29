@@ -80,7 +80,7 @@ function ctfw_content_remove_shortcodes( $content ) {
 
 	// Theme supports this?
 	if ( ! current_theme_supports( 'ctfw-non-content-shortcodes' ) ) {
-		return;
+		return $content;
 	}
 
 	$shortcodes = ctfw_shortcodes();
