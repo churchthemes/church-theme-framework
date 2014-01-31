@@ -53,6 +53,7 @@ class CTFW_Breadcrumbs {
 
 		$defaults = array(
 			'separator'	=> _x( ' > ', 'breadcrumb separator', 'church-theme-framework' ),
+			'classes'	=> '', // additional classes
 		);
 
 		$this->options = wp_parse_args( $options, $defaults );
@@ -501,10 +502,13 @@ class CTFW_Breadcrumbs {
 		// Output breadcrumbs
 		if ( ! empty( $breadcrumbs ) ) {
 
+			// Additional classes?
+			$classes = $this->options['classes'] ? ' ' . $this->options['classes'] : '';
+
 			// Output
 			$i = 0;
 			$count = count( $breadcrumbs );
-			$string .= '<div class="ctfw-breadcrumbs">';
+			$string .= '<div class="ctfw-breadcrumbs' . $classes . '">';
 			foreach ( $breadcrumbs as $breadcrumb ) {
 				
 				$i++;
