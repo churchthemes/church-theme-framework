@@ -65,7 +65,7 @@ function ctfw_is_local_url( $url ) {
 
 	$bool = false;
 
-	if ( ctfw_is_url( $url ) && preg_match( '/^' . preg_quote( site_url(), '/' ) . '/', $url ) ) {
+	if ( ctfw_is_url( $url ) && preg_match( '/^' . preg_quote( home_url(), '/' ) . '/', $url ) ) {
 		$bool = true;
 	}
 
@@ -84,7 +84,7 @@ function ctfw_is_local_url( $url ) {
 function ctfw_site_path() {
 
 	// Just get everything after the domain in the site URL
-	list( , $path ) = explode( $_SERVER['HTTP_HOST'], site_url( '/' ) );
+	list( , $path ) = explode( $_SERVER['HTTP_HOST'], home_url( '/' ) );
 
 	return apply_filters( 'ctfw_site_path', $path );
 
