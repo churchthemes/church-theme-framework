@@ -22,13 +22,14 @@ jQuery( document ).ready( function( $ ) {
 			"iframe[src*='viddler.com']",
 			"iframe[src*='rd.io']",
 			"iframe[src*='rdio.com']",
-			"iframe[src*='spotify.com']"
+			"iframe[src*='spotify.com']",
+			"iframe[src*='soundcloud.com']",
+			"iframe[src*='snd.sc']"
 		]
 	} );
 
 	// Other embedded media only need max-width: 100% ( height is static ) - SoundCloud, MediaElement.js, etc.
 	// Important: when done via stylesheet, MediaElement.js volume control flickers
-	$( "iframe[src*='soundcloud.com'], iframe[src*='snd.sc'], .wp-video-shortcode, .wp-audio-shortcode" ).css( 'max-width', '100%' );
-
+	$( ".wp-video-shortcode, .wp-audio-shortcode" ).css( 'max-width', '100%' );
 
 } );
