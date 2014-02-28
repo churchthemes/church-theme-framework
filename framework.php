@@ -90,6 +90,7 @@ $ctfw_includes = array(
 		// Functions
 		CTFW_INC_DIR . '/archives.php',
 		CTFW_INC_DIR . '/background.php',
+		CTFW_INC_DIR . '/body.php',
 		CTFW_INC_DIR . '/colors.php',
 		CTFW_INC_DIR . '/comments.php',
 		CTFW_INC_DIR . '/compatibility.php',
