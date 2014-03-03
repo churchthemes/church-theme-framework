@@ -173,7 +173,7 @@ function ctfw_directions_url( $address ) {
 		$directions_address = ctfw_address_one_line( $address );
 
 		// Build URL to Google Maps
-		$directions_url = ctfw_current_protocol() . '://maps.google.com/maps?f=d&q=' . urlencode( $directions_address );
+		$directions_url = 'https://www.google.com/maps/dir//' . urlencode( $directions_address ) . '/'; // works with new and old maps
 
 	}
 
