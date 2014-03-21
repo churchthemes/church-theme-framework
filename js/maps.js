@@ -7,7 +7,7 @@ jQuery( document ).ready( function( $ ) {
 	// Loop map elements
 	$( '.ctfw-google-map' ).each( function() {
 
-		var id, lat, lng, type, zoom, latlng, map_type, map, image, shadow, marker;
+		var id, lat, lng, type, zoom, latlng, map_type, map, image, marker;
 
 		// Get map data from element attributes
 		id = $( this ).attr( 'id' );
@@ -59,16 +59,11 @@ jQuery( document ).ready( function( $ ) {
 				new google.maps.Size( 26, 26 ),
 				new google.maps.Point( 0,0 ),
 				new google.maps.Point( 13, 26 ) );
-			shadow = new google.maps.MarkerImage( ctfw_maps.icon_shadow,
-				new google.maps.Size( 40, 26 ),
-				new google.maps.Point( 0,0 ),
-				new google.maps.Point( 13, 26 ) );
 			marker = new google.maps.Marker( {
 				position: latlng,
 				map: map,
 				clickable: false,
-				icon: image,
-				shadow: shadow
+				icon: image
 			} );
 
 			// Keep marker centered on window resize
