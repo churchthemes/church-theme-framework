@@ -22,6 +22,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * http or https protocol
  *
+ * Note: Use // in place of http:// or https:// instead of this.
+ * http://stackoverflow.com/questions/550038/is-it-valid-to-replace-http-with-in-a-script-src-http
+ *
  * @since 0.9
  * @return string http or https protocol
  */
