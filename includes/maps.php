@@ -138,7 +138,7 @@ function ctfw_google_map_image( $options = array() ) {
 	$map_args = apply_filters( 'ctfw_google_map_image_args', $map_args );
 
 	// Add arguments to URL
-	$map_url = add_query_arg( $map_args, 'http://maps.googleapis.com/maps/api/staticmap' );
+	$map_url = add_query_arg( $map_args, '//maps.googleapis.com/maps/api/staticmap' );
 
 	// Filter URL
 	$map_args = apply_filters( 'ctfw_google_map_image_url', $map_args );
