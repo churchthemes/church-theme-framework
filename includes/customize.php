@@ -126,3 +126,35 @@ function ctfw_customize_sanitize_radio( $setting, $input, $choices ) {
 	return apply_filters( 'ctfw_customize_sanitize_radio', $output, $setting, $input, $choices );
 
 }
+
+/**
+ * Sanitize Color
+ *
+ * If hex code empty or invalid, use default value when empty value is not permitted.
+ * Add # to front of hex code if missing.
+ *
+ * @since 1.1.4
+ * @param string $setting The setting being sanitized, as provided in defaults array
+ * @param string $input The user-entered value
+ * @return string Sanitized value
+ */
+function ctfw_customize_sanitize_color( $setting, $input ) {
+
+	// Default values
+	$defaults = ctfw_customize_defaults();
+
+	// Return null if hex code invalid
+	$output = sanitize_hex_color( $input );
+
+	// If invalid or empty and empty value not permitted, use default
+	if ( empty( $output ) && ! empty( $defaults[$setting]['no_empty'] ) ) {
+		$output = $defaults[$setting]['value'];
+	}
+
+	// Add # if missing
+	$output = maybe_hash_hex_color( $output );
+
+	// Return sanitized, filterable
+	return apply_filters( 'ctfw_customize_sanitize_color', $output, $setting, $input );
+
+}
