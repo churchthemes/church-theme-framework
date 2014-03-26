@@ -15,6 +15,10 @@
 // No direct access
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/*******************************************
+ * VALUES
+ *******************************************/
+
 /**
  * Customization option ID
  *
@@ -89,4 +93,35 @@ function ctfw_customization( $option ) {
  */
 function ctfw_customize_defaults() {
 	return apply_filters( 'ctfw_customize_defaults', array() );
+}
+
+/*******************************************
+ * SANITIZATION
+ *******************************************/
+
+/**
+ * Sanitize Radio Choices
+ *
+ * Check if input matches choices given and if not use default value when empty value not permitted.
+ *
+ * @since 1.1.4
+ * @param string $setting The setting being sanitized, as provided in defaults array
+ * @param array $choices Valid choices to check against
+ * @return string Sanitized value
+ */
+function ctfw_customize_sanitize_radio( $input, $setting, $choices ) {
+
+	// Default values
+	$defaults = ctfw_customize_defaults();
+
+	// Not valid choice; use default if empty value not permitted
+	if ( ! isset( $choices[$input] ) && ! empty( $defaults[$setting]['no_empty'] ) ) {
+		$output = $defaults[$setting]['value'];
+	} else {
+		$output = $input; // valid choice
+	}
+
+	// Return sanitized, filterable
+	return apply_filters( 'ctfw_customize_sanitize_radio', $output, $input, $setting, $choices );
+
 }
