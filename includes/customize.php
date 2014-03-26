@@ -158,3 +158,26 @@ function ctfw_customize_sanitize_color( $setting, $input ) {
 	return apply_filters( 'ctfw_customize_sanitize_color', $output, $setting, $input );
 
 }
+
+/**
+ * Sanitize Checkbox
+ *
+ * This is useful for using directly with sanitize_callback and sanitize_js_callback.
+ *
+ * @since 1.1.4
+ * @param string $input The user-entered value
+ * @return string Sanitized value
+ */
+function ctfw_customize_sanitize_checkbox( $input, $object ) {
+
+	// True or empty
+	if ( 1 == $input ) {
+		$output = $input;
+	} else {
+		$output = '';
+	}
+
+	// Return sanitized, filterable
+	return apply_filters( 'ctfw_customize_sanitize_checkbox', $output, $input, $object );
+
+}
