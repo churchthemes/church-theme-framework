@@ -106,10 +106,11 @@ function ctfw_customize_defaults() {
  *
  * @since 1.1.4
  * @param string $setting The setting being sanitized, as provided in defaults array
+ * @param string $input The user-entered value
  * @param array $choices Valid choices to check against
  * @return string Sanitized value
  */
-function ctfw_customize_sanitize_radio( $input, $setting, $choices ) {
+function ctfw_customize_sanitize_radio( $setting, $input, $choices ) {
 
 	// Default values
 	$defaults = ctfw_customize_defaults();
@@ -122,6 +123,6 @@ function ctfw_customize_sanitize_radio( $input, $setting, $choices ) {
 	}
 
 	// Return sanitized, filterable
-	return apply_filters( 'ctfw_customize_sanitize_radio', $output, $input, $setting, $choices );
+	return apply_filters( 'ctfw_customize_sanitize_radio', $output, $setting, $input, $choices );
 
 }
