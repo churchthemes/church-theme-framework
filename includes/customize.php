@@ -100,7 +100,9 @@ function ctfw_customize_defaults() {
  *******************************************/
 
 /**
- * Sanitize Radio Choices
+ * Sanitize Single Choice
+ *
+ * Sanitize radio or single select.
  *
  * Check if input matches choices given and if not use default value when empty value not permitted.
  *
@@ -110,7 +112,7 @@ function ctfw_customize_defaults() {
  * @param array $choices Valid choices to check against
  * @return string Sanitized value
  */
-function ctfw_customize_sanitize_radio( $setting, $input, $choices ) {
+function ctfw_customize_sanitize_single_choice( $setting, $input, $choices ) {
 
 	// Default values
 	$defaults = ctfw_customize_defaults();
@@ -123,7 +125,7 @@ function ctfw_customize_sanitize_radio( $setting, $input, $choices ) {
 	}
 
 	// Return sanitized, filterable
-	return apply_filters( 'ctfw_customize_sanitize_radio', $output, $setting, $input, $choices );
+	return apply_filters( 'ctfw_customize_sanitize_single_choice', $output, $setting, $input, $choices );
 
 }
 
