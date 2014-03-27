@@ -100,6 +100,29 @@ function ctfw_customize_defaults() {
  *******************************************/
 
 /**
+ * Sanitize Checkbox
+ *
+ * This is useful for using directly with sanitize_callback and sanitize_js_callback.
+ *
+ * @since 1.1.4
+ * @param string $input The user-entered value
+ * @return string Sanitized value
+ */
+function ctfw_customize_sanitize_checkbox( $input, $object ) {
+
+	// True or empty
+	if ( 1 == $input ) {
+		$output = $input;
+	} else {
+		$output = '';
+	}
+
+	// Return sanitized, filterable
+	return apply_filters( 'ctfw_customize_sanitize_checkbox', $output, $input, $object );
+
+}
+
+/**
  * Sanitize Single Choice
  *
  * Sanitize radio or single select.
@@ -162,24 +185,26 @@ function ctfw_customize_sanitize_color( $setting, $input ) {
 }
 
 /**
- * Sanitize Checkbox
+ * Sanitize Google Font
  *
- * This is useful for using directly with sanitize_callback and sanitize_js_callback.
+ * Check if input matches choices given and if not use default value when empty value not permitted.
  *
  * @since 1.1.4
- * @param string $input The user-entered value
+ * @param string $setting The setting being sanitized, as provided in defaults array
+ * @param string $input Unsanitized value submitted by user
  * @return string Sanitized value
  */
-function ctfw_customize_sanitize_checkbox( $input, $object ) {
+function ctfw_customize_sanitize_google_font( $setting, $input ) {
 
-	// True or empty
-	if ( 1 == $input ) {
-		$output = $input;
-	} else {
-		$output = '';
-	}
+	// Valid choices
+	$choices = ctfw_google_font_options_array( array( 'target' => $setting ) );
+
+	// Check input against options; use default if empty value not permitted
+	// ctfw_customize_sanitize_single_choice() is for radio or single select
+	$output = ctfw_customize_sanitize_single_choice( $setting, $input, $choices );
 
 	// Return sanitized, filterable
-	return apply_filters( 'ctfw_customize_sanitize_checkbox', $output, $input, $object );
+	return apply_filters( 'exodus_customize_sanitize_google_font', $output, $setting, $input );
 
 }
+
