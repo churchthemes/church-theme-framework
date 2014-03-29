@@ -123,6 +123,65 @@ function ctfw_theme_url( $file = '' ) {
 	
 }
 
+/**
+ * Sanitize URL List
+ *
+ * Make sure URL is not empty and not invalid.
+ * Shortcodes can be whitelisted with $allowed_strings.
+ *
+ * This is useful for social media icon URLs in Customizer.
+ *
+ * @since 1.1.4
+ * @param string|array $urls String having URLs one per line, or array
+ * @param array Strings to always allow, such as shortcodes
+ * @return string Sanitized list of URLs
+ */
+function ctfw_sanitize_url_list( $urls, $allowed_strings = array() ) {
+
+	// Convert to array
+	$urls_array = $urls;
+	if ( ! is_array( $urls ) ) {
+		$urls_array = explode( "\n", $urls_array );
+	}
+	$urls_array = (array) $urls_array; // in case one as string
+
+	// Loop each URL line to build sanitized array
+	$sanitized_urls = array();
+	foreach ( $urls_array as $key => $url ) {
+
+		// Remove whitespace from ends
+		$url = trim( $url );
+
+		// Sanitize URL
+		// Unless string is explicitly allowed, use as is (such as a shortcode)
+		if ( ! in_array( $url, $allowed_strings ) ) {
+
+			$url = esc_url_raw( $url, array(
+				'http',
+				'https',
+				'feed',
+				'itms', // iTunes Music Store
+				'skype'
+			) );
+
+		}
+
+		// Add to new list
+		// May have been empty to begin with, after trim or after URL escaping
+		if ( ! empty( $url ) ) {
+			$sanitized_urls[] = $url;
+		}
+
+	}
+
+	// Convert sanitized array to list
+	$sanitized_urls = implode( "\n", $sanitized_urls );
+
+	// Return sanitized filterable
+	return apply_filters( 'ctfw_sanitize_url_list', $sanitized_urls, $urls, $allowed_strings );
+
+}
+
 /*************************************************
  * ARRAYS
  *************************************************/

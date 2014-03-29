@@ -208,3 +208,8 @@ function ctfw_customize_sanitize_google_font( $setting, $input ) {
 
 }
 
+/**
+ * Also see ctfw_sanitize_url_list() in includes/helpers.php.
+ * It is useful for social media URL lists in Customizer.
+ */
+
