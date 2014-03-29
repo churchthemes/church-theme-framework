@@ -204,7 +204,7 @@ function ctfw_customize_sanitize_google_font( $setting, $input ) {
 	$output = ctfw_customize_sanitize_single_choice( $setting, $input, $choices );
 
 	// Return sanitized, filterable
-	return apply_filters( 'exodus_customize_sanitize_google_font', $output, $setting, $input );
+	return apply_filters( 'ctfw_customize_sanitize_google_font', $output, $setting, $input );
 
 }
 
