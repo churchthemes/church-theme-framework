@@ -32,6 +32,7 @@ function ctfw_add_body_classes( $classes ) {
 	if ( current_theme_supports( 'ctfw-body-classes' ) ) {
 
 		// Mobile Detection
+		// Useful for :hover issues
 		if ( wp_is_mobile() ) { // from WordPress core
 			$classes[] = 'ctfw-is-mobile';
 		} else {
