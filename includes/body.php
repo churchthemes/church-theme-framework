@@ -31,6 +31,13 @@ function ctfw_add_body_classes( $classes ) {
 	// Theme supports body helper classes?
 	if ( current_theme_supports( 'ctfw-body-classes' ) ) {
 
+		// Mobile Detection
+		if ( wp_is_mobile() ) { // from WordPress core
+			$classes[] = 'ctfw-is-mobile';
+		} else {
+			$classes[] = 'ctfw-not-mobile';
+		}
+
 		// iOS Detection
 		// Especially useful for re-styling form submit buttons
 		if ( wp_is_mobile() && preg_match( '/iPad|iPod|iPhone/', $_SERVER['HTTP_USER_AGENT'] ) ) { // from WordPress core
