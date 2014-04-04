@@ -33,7 +33,7 @@ function ctfw_shortcodes() {
 
 	$shortcodes = array(
 		'ctcom_site_name'			=> 'ctfw_shortcode_site_name',
-		'ctcom_rss_url'			=> 'ctfw_shortcode_rss_url',
+		'ctcom_rss_url'				=> 'ctfw_shortcode_rss_url',
 		'ctcom_current_year'		=> 'ctfw_shortcode_current_year'
 	);
 
