@@ -8,6 +8,10 @@
 	margin-bottom: 12px;
 }
 
+	.ctfw-widget-field:first-child {
+		margin-top: 12px;
+	}
+
 	.ctfw-widget-field.ctfw-widget-no-bottom-margin {
 		margin-bottom: 0;
 	}
@@ -55,7 +59,8 @@
 		}
 
 	.ctfw-widget-value .description {
-		margin-top: 3px !important;
+		margin-top: 6px !important;
+		padding: 0 !important;
 	}
 
 /* Hidden Fields */
