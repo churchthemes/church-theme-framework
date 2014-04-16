@@ -1,5 +1,7 @@
 /**
  * Admin Widgets Page JavaScript
+ *
+ * Appearance > Widgets and Customizer both use this.
  */
 
 jQuery( document ).ready( function( $ ) {
@@ -69,7 +71,10 @@ jQuery( document ).ready( function( $ ) {
 				if ( attachment_id && attachment_preview_url ) {
 
 					// Set attachment ID on hidden input
-					$( '.ctfw-widget-image', value_container ).val( attachment_id );
+					// Also trigger change event to make Customizer refresh preview
+					$( '.ctfw-widget-image', value_container )
+						.val( attachment_id )
+						.change();
 
 					// Set image preview
 					$( '.ctfw-widget-image-preview', value_container ).html( '<img src="' + attachment_preview_url + '" />' );
@@ -99,7 +104,10 @@ jQuery( document ).ready( function( $ ) {
 		value_container = $( this ).parent( '.ctfw-widget-value' );
 
 		// Set attachment ID on hidden input
-		$( '.ctfw-widget-image', value_container ).val( '' );
+		// Also trigger change event to make Customizer refresh preview
+		$( '.ctfw-widget-image', value_container )
+			.val( '' )
+			.change();
 
 		// Set image preview
 		$( '.ctfw-widget-image-preview', value_container ).empty();
