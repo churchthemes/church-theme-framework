@@ -37,15 +37,16 @@ function ctfw_widgets() {
 	// Available widgets
 	$widgets = array(
 		'ctfw-categories' => array(										// id_base as specified in widget's class
-			'class'						=> 'CTFW_Widget_Categories',		// widget class name
+			'class'						=> 'CTFW_Widget_Categories',	// widget class name
 			'class_file'				=> 'widget-categories.php',		// filename of class in framework class directory
 			'template_file'				=> 'widget-categories.php',		// filename of template in widget-templates directory
 			'ctc_required'				=> false,						// requires Church Theme Content plugin to be active
-			'theme_support'				=> 'ctfw-widget-categories',		// add_theme_support() feature required (can be empty)
+			'theme_support'				=> 'ctfw-widget-categories',	// add_theme_support() feature required (can be empty)
 			'theme_support_required'	=> array(),						// additional features theme must support for widget to register
-			'unregister'	=> array(									// widgets to unregister when this is registered
-				'WP_Widget_Categories'
-			),
+			'icon'						=> 'dashicons-microphone',
+			'unregister' 				=> array(						// widgets to unregister when this is registered
+											'WP_Widget_Categories'
+										),
 		),
 		'ctfw-posts' => array(
 			'class'						=> 'CTFW_Widget_Posts',
@@ -127,9 +128,9 @@ function ctfw_widgets() {
 			'ctc_required'				=> false,
 			'theme_support'				=> 'ctfw-widget-archives',
 			'theme_support_required'	=> array(),
-			'unregister'	=> array(
-				'WP_Widget_Archives'
-			)
+			'unregister' 				=> array(
+											'WP_Widget_Archives'
+										)
 		),
 		'ctfw-giving' => array(
 			'class'						=> 'CTFW_Widget_Giving',
