@@ -29,6 +29,7 @@ function ctfw_admin_enqueue_styles() {
 	$screen = get_current_screen();
 
 	// Admin widgets
+	// Framework also enqueues this for Customizer in framework/includes/customize.php
 	if ( 'widgets' == $screen->base ) {
 		wp_enqueue_style( 'ctfw-widgets', ctfw_theme_url( CTFW_CSS_DIR . '/admin-widgets.css' ), false, CTFW_THEME_VERSION ); // bust cache on update
 	}

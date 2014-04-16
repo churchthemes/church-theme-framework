@@ -213,3 +213,45 @@ function ctfw_customize_sanitize_google_font( $setting, $input ) {
  * It is useful for social media URL lists in Customizer.
  */
 
+
+/*********************************************
+ * SCRIPTS & STYLES
+ *********************************************/
+
+/**
+ * Enqueue JavaScript for customizer controls
+ *
+ * @since 1.1.5
+ */
+function ctfw_customize_enqueue_scripts() {
+
+	// New media uploader in WP 3.5+
+	wp_enqueue_media(); 
+
+	// Main widgets script
+	wp_enqueue_script( 'ctfw-admin-widgets', ctfw_theme_url( CTFW_JS_DIR . '/admin-widgets.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on update
+	wp_localize_script( 'ctfw-admin-widgets', 'ctfw_widgets', array( // make data available
+		'image_library_title'	=> _x( 'Choose Image for Widget', 'widget image library', 'church-theme-framework' ),
+		'image_library_button'	=> _x( 'Use in Widget', 'widget image library', 'church-theme-framework' ),
+		'incompatible_message'	=> __( 'Sorry, this widget is not made for use in this area. Please delete.', 'church-theme-framework' ),
+		'widget_restrictions'	=> current_theme_supports( 'ctfw-sidebar-widget-restrictions' )
+	));
+
+}
+
+add_action( 'customize_controls_print_scripts', 'ctfw_customize_enqueue_scripts' );
+
+/**
+ * Enqueue styles for customizer controls
+ *
+ * @since 1.1.5
+ */
+function ctfw_customize_enqueue_styles() {
+
+	// Admin widgets
+	// Same stylesheet used for Appearance > Widgets
+	wp_enqueue_style( 'ctfw-widgets', ctfw_theme_url( CTFW_CSS_DIR . '/admin-widgets.css' ), false, CTFW_THEME_VERSION ); // bust cache on update
+
+}
+
+add_action( 'customize_controls_print_styles', 'ctfw_customize_enqueue_styles' );
