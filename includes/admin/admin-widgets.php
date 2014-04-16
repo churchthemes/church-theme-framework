@@ -65,8 +65,8 @@ function ctfw_admin_restrict_widgets_css() {
 	// Current admin screen
 	$screen = get_current_screen();
 
-	// Widgets page only
-	if ( 'widgets' == $screen->base ) {
+	// Widgets page or Customizer only
+	if ( 'widgets' == $screen->base || 'customize' == $screen->base ) {
 
 		// Elements will be captured into these
 		$form_elements = array();
@@ -90,12 +90,29 @@ function ctfw_admin_restrict_widgets_css() {
 				// Check if sidebar and widget are not compatible
 				if ( ! ctfw_sidebar_widget_compatible( $sidebar_id, $widget_id ) ) {
 
-					// Elements for hiding form and save button
-					$form_elements[] = "#$sidebar_id div[id*=_$widget_id-] .widget-content";
-					$form_elements[] = "#$sidebar_id div[id*=_$widget_id-] .widget-control-save";
+					// Appearance > Widgets
+					if ( 'widgets' == $screen->base ) {
 
-					// Element for showing message
-					$message_elements[] = "#$sidebar_id div[id*=_$widget_id-] .ctfw-widget-incompatible";
+						// Elements for hiding form and save button
+						$form_elements[] = "#$sidebar_id div[id*=_$widget_id-] .widget-content";
+						$form_elements[] = "#$sidebar_id div[id*=_$widget_id-] .widget-control-save";
+
+						// Element for showing message
+						$message_elements[] = "#$sidebar_id div[id*=_$widget_id-] .ctfw-widget-incompatible";
+
+					}
+
+					// Customizer
+					elseif ( 'customize' == $screen->base ) {
+
+						// Elements for hiding form and save button
+						$form_elements[] = "#accordion-section-sidebar-widgets-$sidebar_id div[id*=_$widget_id-] .widget-content";
+						$form_elements[] = "#accordion-section-sidebar-widgets-$sidebar_id div[id*=_$widget_id-] .widget-control-save";
+
+						// Element for showing message
+						$message_elements[] = "#accordion-section-sidebar-widgets-$sidebar_id div[id*=_$widget_id-] .ctfw-widget-incompatible";
+
+					}
 
 				}
 
@@ -129,4 +146,5 @@ HTML;
 
 }
 
-add_filter( 'admin_head', 'ctfw_admin_restrict_widgets_css' ); 
+add_action( 'admin_head', 'ctfw_admin_restrict_widgets_css' ); 
+add_action( 'customize_controls_print_scripts', 'ctfw_admin_restrict_widgets_css' ); // Customizer too
