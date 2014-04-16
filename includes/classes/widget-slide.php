@@ -33,11 +33,7 @@ class CTFW_Widget_Slide extends CTFW_Widget {
 			_x( 'CT Slide', 'widget', 'church-theme-framework' ),
 			array(
 				'description' => __( 'A slide to be shown in a slider', 'church-theme-framework' )
-			),
-			array(
-				'width' => 300,
-				'height' => 550
-			)			
+			)
 		);
 	
 	}
