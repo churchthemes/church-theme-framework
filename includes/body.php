@@ -22,6 +22,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * Enable with add_theme_support( 'ctfw-body-classes' );
  *
+ * IMPORTANT: Do not do client detection (mobile, browser, etc.) here.
+ * Instead, do in theme's JS so works with caching plugins.
+ *
  * @since 1.1.2
  * @param array $classes Classes currently being added to body tag
  * @return array Modified classes
@@ -31,21 +34,7 @@ function ctfw_add_body_classes( $classes ) {
 	// Theme supports body helper classes?
 	if ( current_theme_supports( 'ctfw-body-classes' ) ) {
 
-		// Mobile Detection
-		// Useful for :hover issues
-		if ( wp_is_mobile() ) { // from WordPress core
-			$classes[] = 'ctfw-is-mobile';
-		} else {
-			$classes[] = 'ctfw-not-mobile';
-		}
-
-		// iOS Detection
-		// Especially useful for re-styling form submit buttons
-		if ( wp_is_mobile() && preg_match( '/iPad|iPod|iPhone/', $_SERVER['HTTP_USER_AGENT'] ) ) { // from WordPress core
-			$classes[] = 'ctfw-is-ios';
-		} else {
-			$classes[] = 'ctfw-not-ios';
-		}
+		// Currently none
 
 	}
 
