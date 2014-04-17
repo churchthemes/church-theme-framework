@@ -130,4 +130,45 @@ jQuery( document ).ready( function( $ ) {
 		$( '.widget-inside' ).prepend( '<div class="ctfw-widget-incompatible">' + ctfw_widgets.incompatible_message + '</div>' );
 	}
 
+	// Pre-fill Search when "Add to Widget" clicked
+	// Show only Slide for Slider widget area and same for Homepage Highlights
+	$( '.add-new-widget' ).click( function( e ) {
+
+		var accordion_section, accordion_section_id, sidebar, search;
+
+		// Which widget area is open?
+		accordion_section = $( this ).parents( '.accordion-section' );
+		accordion_section_id = $( accordion_section ).prop( 'id' );
+
+		// Get widget area name
+		sidebar = false;
+		if ( accordion_section_id ) {
+			sidebar = accordion_section_id.replace( /^accordion-section-sidebar-widgets-/, '' );
+		}
+
+		// Limit Slide and Highlight widget areas to their appropriate widgets
+		search = '';
+		if ( sidebar ) {
+
+			if ( sidebar.match( /slider/ ) ) {
+				search = 'Slide';
+			} else if ( sidebar.match( /highlights/ ) ) {
+				search = 'Highlight';
+			}
+
+		}
+
+		// Update Search input
+		if ( search ) {
+
+			setTimeout( function() {
+				$( '#widgets-search' )
+					.val( search )
+					.change();
+			}, 100 )
+
+		}
+
+	} );
+
 } );
