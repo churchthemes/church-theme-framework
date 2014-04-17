@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2014, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -85,8 +85,7 @@ function ctfw_sidebar_widget_compatible( $sidebar_id, $widget_id ) {
  * See ctfw_sidebar_widget_compatible() for how this works.
  * admin-widgets.php uses CSS to show message to incompatible widgets.
  *
- * Note: this is global and removed incompatible widget from both front-end
- * and from admin area, in case user does not remove after the warning.
+ * Note: This affects both saving and displaying of widgets.
  *
  * @since 0.9
  * @param array $sidebars_widgets
@@ -128,18 +127,20 @@ function ctfw_restrict_sidebars_widgets( $sidebars_widgets ) {
 			$widget_id = substr( $widget, 0, strrpos( $widget, '-') ); // chop -# instance off end
 
 			// Remove if either disallows the other
-			if ( ! ctfw_sidebar_widget_compatible( $sidebar_id, $widget_id ) ) {
+			// Front-end only because this can cause JavaScript error with WordPress 3.9 Customizer when "Add a Widget" clicked
+			// The user will always see "Not compatible" in widget editors until they remove, but will never show on frontend
+			if ( ! is_admin() && ! ctfw_sidebar_widget_compatible( $sidebar_id, $widget_id ) ) {
 				$remove = true;
 			}
 
 			// Remove if widget limit for sidebar has been reached
-			// (front-end only since no warning shown and don't want re-arranging to cause loss)
+			// Front-end only since no warning shown and don't want re-arranging to cause loss
 			if ( ! is_admin() && $sidebar_limit && $widget_i > $sidebar_limit ) {
 				$remove = true;
 			}
 
 			// Remove widget from sidebar
-			if ( $remove)  {
+			if ( $remove )  {
 				unset( $sidebars_widgets[$sidebar_id][$widget_key] );
 			}
 
