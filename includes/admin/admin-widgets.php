@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * This is for passing into localization for JavaScript when admin-widget.js is enqueued.
  * It's functionized because admin-widget.js is inqueued in two places: Appearance > Widgets and Customize
  *
- * @since 1.1.5
+ * @since 1.2
  * @return array Data for JavaScript
  */
 

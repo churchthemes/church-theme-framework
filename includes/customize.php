@@ -221,7 +221,7 @@ function ctfw_customize_sanitize_google_font( $setting, $input ) {
 /**
  * Enqueue JavaScript for customizer controls
  *
- * @since 1.1.5
+ * @since 1.2
  */
 function ctfw_customize_enqueue_scripts() {
 
@@ -239,7 +239,7 @@ add_action( 'customize_controls_print_scripts', 'ctfw_customize_enqueue_scripts'
 /**
  * Enqueue styles for customizer controls
  *
- * @since 1.1.5
+ * @since 1.2
  */
 function ctfw_customize_enqueue_styles() {
 
