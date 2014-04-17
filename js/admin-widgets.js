@@ -130,45 +130,50 @@ jQuery( document ).ready( function( $ ) {
 		$( '.widget-inside' ).prepend( '<div class="ctfw-widget-incompatible">' + ctfw_widgets.incompatible_message + '</div>' );
 	}
 
-	// Pre-fill Search when "Add to Widget" clicked
+	// Customizer: Pre-fill Search when "Add a Widget" clicked
 	// Show only Slide for Slider widget area and same for Homepage Highlights
-	$( '.add-new-widget' ).click( function( e ) {
+	if ( $( '.wp-customizer' ).length ) { // on Customizer only
 
-		var accordion_section, accordion_section_id, sidebar, search;
+		// "Add a Widget" clicked
+		$( '.add-new-widget' ).click( function( e ) {
 
-		// Which widget area is open?
-		accordion_section = $( this ).parents( '.accordion-section' );
-		accordion_section_id = $( accordion_section ).prop( 'id' );
+			var accordion_section, accordion_section_id, sidebar, search;
 
-		// Get widget area name
-		sidebar = false;
-		if ( accordion_section_id ) {
-			sidebar = accordion_section_id.replace( /^accordion-section-sidebar-widgets-/, '' );
-		}
+			// Which widget area is open?
+			accordion_section = $( this ).parents( '.accordion-section' );
+			accordion_section_id = $( accordion_section ).prop( 'id' );
 
-		// Limit Slide and Highlight widget areas to their appropriate widgets
-		search = '';
-		if ( sidebar ) {
-
-			if ( sidebar.match( /slider/ ) ) {
-				search = 'Slide';
-			} else if ( sidebar.match( /highlights/ ) ) {
-				search = 'Highlight';
+			// Get widget area name
+			sidebar = false;
+			if ( accordion_section_id ) {
+				sidebar = accordion_section_id.replace( /^accordion-section-sidebar-widgets-/, '' );
 			}
 
-		}
+			// Limit Slide and Highlight widget areas to their appropriate widgets
+			search = '';
+			if ( sidebar ) {
 
-		// Update Search input
-		if ( search ) {
+				if ( sidebar.match( /slider/ ) ) {
+					search = 'Slide';
+				} else if ( sidebar.match( /highlights/ ) ) {
+					search = 'Highlight';
+				}
 
-			setTimeout( function() {
-				$( '#widgets-search' )
-					.val( search )
-					.change();
-			}, 100 )
+			}
 
-		}
+			// Update Search input
+			if ( search ) {
 
-	} );
+				setTimeout( function() {
+					$( '#widgets-search' )
+						.val( search )
+						.change();
+				}, 100 )
+
+			}
+
+		} );
+
+	}
 
 } );
