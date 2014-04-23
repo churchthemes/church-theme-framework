@@ -192,3 +192,56 @@ function ctfw_ngettext_with_context( $translated, $single, $plural, $number, $co
 }
 
 add_filter( 'ngettext_with_context', 'ctfw_ngettext_with_context', 1, 6 );
+
+/*******************************************
+ * REPLACE TEXT
+ *******************************************/
+
+/**
+ * Replace WordPress core text strings
+ *
+ * WordPress core and its translations sometimes use text that is not preferred.
+ *
+ * Example: Spanish translation uses "Correo electrónico" on comment forms, which is too long
+ * so "Email" would be better to use since it is just as valid in Spanish.
+ *
+ * Use with add_theme_support() like this:
+ *
+ *		add_theme_support( 'ctfw-replace-wp-text', array(
+ *			'Correo electrónico'	=> __( 'Email', 'exodus' ), // Spanish: too long for comment form
+ *		) );
+ *
+ * @since 1.2.2
+ * @param string Translated string
+ * @param string Original string
+ * @param string Textdomain
+ * @return string Translated string, possibly modified
+ */
+function ctfw_replace_wp_text( $translated, $original, $domain ) {
+
+	// Get theme support
+	$support = get_theme_support( 'ctfw-replace-wp-text' );
+
+	// Feature is used
+	if ( ! empty( $support[0] ) ) {
+
+		// WordPress core text strings only
+		if ( 'default' == $domain ) {
+
+			// Get strings to replace
+			$strings = $support[0];
+
+			// Replace original and translated strings
+			if ( ! empty( $strings[$translated] ) ) {
+				$translated = $strings[$translated];
+			}
+
+		}
+
+	}
+
+	return $translated;
+
+}
+
+add_filter( 'gettext', 'ctfw_replace_wp_text', 10, 3 );
