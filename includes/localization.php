@@ -208,7 +208,7 @@ add_filter( 'ngettext_with_context', 'ctfw_ngettext_with_context', 1, 6 );
  * Use with add_theme_support() like this:
  *
  *		add_theme_support( 'ctfw-replace-wp-text', array(
- *			'Correo electrónico'	=> __( 'Email', 'exodus' ), // Spanish: too long for comment form
+ *			'Correo electrónico'	=> __( 'Email', 'textdomain' ), // Spanish: too long for comment form
  *		) );
  *
  * @since 1.2.2
