@@ -6,7 +6,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Classes
- * @copyright  Copyright (c) 2013, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2014, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -340,6 +340,15 @@ class CTFW_Breadcrumbs {
 
 					// Get post type data
 					$post_type = get_post_type();
+
+					// No post type found
+					// Get post type via content type (section)
+					$post_types = ctfw_current_content_type_data( 'post_types' );
+					if ( is_array( $post_types ) && 1 == count( $post_types ) && isset( $post_types[0] ) ) { // use section's post type if only one
+						$post_type = $post_types[0];
+					}
+
+					// Get post type object
 					$post_type_obj = get_post_type_object( $post_type );
 
 					// Attachment
