@@ -411,10 +411,17 @@ class CTFW_Breadcrumbs {
 
 						// Blog Tag
 						if ( is_tag() ) {
+
+							// Get tag name
+							$tag_data = get_term( get_query_var( 'tag_id' ), 'post_tag' );
+							$tag_name = ! empty( $tag_data->name ) ? $tag_data->name : get_query_var( 'tag' );
+
+							// Add tag to breadcrumb
 							$this->add_breadcrumb( $breadcrumbs, array(
-								get_query_var( 'tag' ),
+								$tag_name,
 								get_tag_link( get_query_var( 'tag_id' ) )
 							) );
+
 						}
 
 						// Custom Taxonomy and Parents
