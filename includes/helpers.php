@@ -279,7 +279,7 @@ function ctfw_address_one_line( $address ) {
 
 	if ( $address ) {
 		$address_one_line = strip_tags( $address ); // remove HTML
-		$address_one_line = str_replace( "\n", ', ', $address_one_line ); // replace line breaks with commas
+		$address_one_line = preg_replace( '/\r\n|\n|\r/', ', ', $address_one_line ); // replace line breaks with commas
 		$address_one_line = trim( $address_one_line ); // remove whitespace
 	}
 
