@@ -238,18 +238,45 @@ function ctfw_shorten( $string, $max_chars ) {
 
 	$max_chars = absint( $max_chars );
 
-	// Shorten to within X characters without cutting words in half
-	if ( $max_chars && mb_strlen( $string ) > $max_chars ) {
+	// Use multibyte functions if available (helpful for non-English characters)
+	// Some hosts disable multibyte functions
+	if ( function_exists( 'mb_strlen' ) && function_exists( 'mb_substr' ) && function_exists( 'mb_strrpos' ) ) {
 
-		// Shorten
-		$haystack = mb_substr( $string, 0, $max_chars );
-		$length = mb_strrpos( $haystack, ' ' );
-		$processed_string = mb_substr( $string, 0, $length );
+		// Shorten to within X characters without cutting words in half
+		if ( $max_chars && mb_strlen( $string ) > $max_chars ) {
 
-		// Append ... if string was shortened
-		if ( mb_strlen( $processed_string ) < mb_strlen( $string ) ) {
-			/* translators: ... after shortened string */
-			$processed_string .= _x( '&hellip;', 'shortened text', 'church-theme-framework' );
+			// Shorten
+			$haystack = mb_substr( $string, 0, $max_chars );
+			$length = mb_strrpos( $haystack, ' ' );
+			$processed_string = mb_substr( $string, 0, $length );
+
+			// Append ... if string was shortened
+			if ( mb_strlen( $processed_string ) < mb_strlen( $string ) ) {
+				/* translators: ... after shortened string */
+				$processed_string .= _x( '&hellip;', 'shortened text', 'church-theme-framework' );
+			}
+
+		}
+
+	}
+
+	// Same code as above but using non-multibyte functions
+	else {
+
+		// Shorten to within X characters without cutting words in half
+		if ( $max_chars && strlen( $string ) > $max_chars ) {
+
+			// Shorten
+			$haystack = substr( $string, 0, $max_chars );
+			$length = strrpos( $haystack, ' ' );
+			$processed_string = substr( $string, 0, $length );
+
+			// Append ... if string was shortened
+			if ( strlen( $processed_string ) < strlen( $string ) ) {
+				/* translators: ... after shortened string */
+				$processed_string .= _x( '&hellip;', 'shortened text', 'church-theme-framework' );
+			}
+
 		}
 
 	}
