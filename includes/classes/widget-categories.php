@@ -34,7 +34,7 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 			_x( 'CT Categories', 'widget', 'church-theme-framework' ),
 			array(
 				'description' => __( 'Shows categories of various types', 'church-theme-framework' )
-			)			
+			)
 		);
 
 		// Redirect Dropdown URL
@@ -104,7 +104,7 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Type
 			'taxonomy' => array(
 				'name'				=> _x( 'Type', 'categories widget', 'church-theme-framework' ),
@@ -128,7 +128,7 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Order By
 			'orderby' => array(
 				'name'				=> _x( 'Order By', 'categories widget', 'church-theme-framework' ),
@@ -156,7 +156,7 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Order
 			'order' => array(
 				'name'				=> '',
@@ -183,7 +183,7 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Limit
 			'limit' => array(
 				'name'				=> _x( 'Limit', 'categories widget', 'church-theme-framework' ),
@@ -207,7 +207,7 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Count
 			'show_count' => array(
 				'name'				=> '',
@@ -231,7 +231,7 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Hierarchy
 			'show_hierarchy' => array(
 				'name'				=> '',
@@ -255,7 +255,7 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Dropdown
 			'show_dropdown' => array(
 				'name'				=> '',
@@ -281,11 +281,11 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 			),
 
 		);
-		
+
 		return $fields;
-	
+
 	}
-	
+
 	/**
 	 * Taxonomy Options
 	 *
@@ -293,37 +293,37 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 	 * @return array Taxonomy options for fields
 	 */
 	function ctfw_taxonomy_options() {
-	
+
 		$options = array();
-	
+
 		// Get exposed taxonomies
 		$taxonomies = get_taxonomies( array(
 			'public'	=> true,
 			'show_ui'	=> true // weed out post_format
 		), 'objects' );
-		
+
 		// Loop taxonomies
 		foreach ( $taxonomies as $taxonomy_slug => $taxonomy_object ) {
-		
+
 			$taxonomy_name = $taxonomy_object->labels->name;
-			
+
 			// Set custom names for blog taxonomies
 			if ( 'category' == $taxonomy_slug ) {
 				$taxonomy_name = _x( 'Blog Categories', 'categories widget', 'church-theme-framework' );
 			} elseif ( 'post_tag' == $taxonomy_slug ) {
 				$taxonomy_name = _x( 'Blog Tags', 'categories widget', 'church-theme-framework' );
 			}
-		
+
 			// Add to array
 			$options[$taxonomy_slug] = $taxonomy_name;
-		
+
 		}
-		
+
 		// Return filtered
 		return apply_filters( 'ctfw_categories_widget_taxonomy_options', $options );
-		
+
 	}
-	
+
 	/**
 	 * Redirect Dropdown URL
 	 *
@@ -340,13 +340,13 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 
 			// Get pretty URL
 			$taxonomy = $_GET['redirect_taxonomy'];
-			$term_url = get_term_link( $id, $taxonomy );		
-			
+			$term_url = get_term_link( $id, $taxonomy );
+
 			// Send to URL
 			wp_redirect( $term_url, 301 );
-			
+
 		}
 
 	}
-		
+
 }

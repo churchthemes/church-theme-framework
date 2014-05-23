@@ -52,7 +52,7 @@ function ctfw_customization( $option ) {
 
 	// Get options array to pull value from
 	$options = get_option( ctfw_customize_option_id() );
-	
+
 	// Get default value
 	$defaults = ctfw_customize_defaults();
 	$default = isset( $defaults[$option]['value'] ) ? $defaults[$option]['value'] : '';
@@ -61,15 +61,15 @@ function ctfw_customization( $option ) {
 	if ( ! isset( $options[$option] ) ) {
 		$value = $default;
 	}
-	
+
 	// Option has been saved
 	else {
-		
+
 		// Value is empty when not allowed, use default
 		if ( empty( $options[$option] ) && ! empty( $defaults[$option]['no_empty'] ) ) {
 			$value = $default;
 		}
-		
+
 		// Otherwise, stick with current value
 		else {
 			$value = $options[$option];
@@ -79,7 +79,7 @@ function ctfw_customization( $option ) {
 
 	// Return filtered
 	return apply_filters( 'ctfw_customization', $value, $option );
-	
+
 }
 
 /**
@@ -226,7 +226,7 @@ function ctfw_customize_sanitize_google_font( $setting, $input ) {
 function ctfw_customize_enqueue_scripts() {
 
 	// New media uploader in WP 3.5+
-	wp_enqueue_media(); 
+	wp_enqueue_media();
 
 	// Main widgets script
 	wp_enqueue_script( 'ctfw-admin-widgets', ctfw_theme_url( CTFW_JS_DIR . '/admin-widgets.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on update

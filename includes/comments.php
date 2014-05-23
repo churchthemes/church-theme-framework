@@ -1,7 +1,7 @@
 <?php
 /**
  * Comment Callback
- * 
+ *
  * comments.php can use this as wp_list_comments callback to load comment.php for rendering each comment.
  *
  * @package    Church_Theme_Framework
@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 function ctfw_comment( $comment, $args, $depth ) {
 
 	$GLOBALS['comment'] = $comment;
-	
+
 	// Get template to use from args
 	$template = isset( $args['ctfw_template'] ) ? $args['ctfw_template'] : 'comment.php'; // default template when ctfw_template argument not passed
 	$template = apply_filters( 'ctfw_comment_template', $template, $comment, $args, $depth );
@@ -40,7 +40,7 @@ function ctfw_comment( $comment, $args, $depth ) {
 
 /**
  * Attachment inherit discussion status - comment
- * 
+ *
  * add_theme_support( 'ctfw-attachment-inherit-discussion' ) will cause all attachments to use the comment
  * and ping settings from the parent item. If file is not attached to a post/page, discussions will be turned off.
  *
@@ -113,7 +113,7 @@ function ctfw_attachment_inherit_discussion_status( $type, $open, $post_id ) {
 
 /**
  * Shorten comment author
- * 
+ *
  * Useful for keeping long trackback titles in check.
  *
  * Use add_theme_support( 'ctfw-shorten-comment-author', 50 );

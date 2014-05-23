@@ -12,7 +12,7 @@
 
 // No direct access
 if ( ! defined( 'ABSPATH' ) ) exit;
- 
+
 /*******************************************
  * BODY CLASSES
  *******************************************/
@@ -41,5 +41,5 @@ function ctfw_add_body_classes( $classes ) {
 	return $classes;
 
 }
- 
+
 add_filter( 'body_class', 'ctfw_add_body_classes' );

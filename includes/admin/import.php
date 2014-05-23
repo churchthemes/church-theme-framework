@@ -39,7 +39,7 @@ add_action( 'import_start', 'ctfw_import_remove_upscaling' );
  * Correct imported URL's in menu, content, etc.
  *
  * This assumes the WordPress Importer plugin is used.
- * 
+ *
  * Sample import XML file may have URLs from the dev site in menu, content, meta fields, etc.
  * This will replace all of those instances with the current site's base URL.
  *
@@ -101,7 +101,7 @@ add_action( 'import_end', 'ctfw_correct_imported_urls' ); // WordPress Importer 
  * Correct imported URL's in widgets
  *
  * This assumes the Widget Importer & Exporter.
- * 
+ *
  * A sample widget file may have URLs from the dev site in widget settings.
  * This will replace all of those instances with the current site's base URL.
  *
@@ -182,10 +182,10 @@ function ctfw_url_correction_data() {
 
 /**
  * Check if homepage set for static front before import
- * 
+ *
  * Set a global if page using homepage template does not exist before import.
  * This helps determine after import if the homepage was imported.
- * 
+ *
  * add_theme_support( 'ctfw-import-set-static-front' );
  *
  * @since 0.9.3
@@ -222,7 +222,7 @@ add_action( 'import_start', 'ctfw_import_check_static_front' ); // WordPress Imp
 
 /**
  * Set homepage as static front page after import
- * 
+ *
  * If no static front is set and page using homepage template did not exist before import, set it.
  * Page using blog template is set as Posts Page if nothing already set.
  *
@@ -270,7 +270,7 @@ function ctfw_import_set_static_front() {
 							update_option( 'page_for_posts', $blog_page_id );
 
 						}
-					
+
 					}
 
 				}
@@ -294,7 +294,7 @@ add_action( 'import_end', 'ctfw_import_set_static_front' ); // WordPress Importe
  *
  * If zero locations already set, sample menus (if exist) are set to appropriate location.
  * If at least one location is set, assume admin is done configuring.
- * 
+ *
  * Use add_theme_support( 'ctfw-import-set-menu-locations' );
  *
  * @since 0.9.3
@@ -330,7 +330,7 @@ function ctfw_import_set_menu_locations() {
 					}
 
 				}
-				
+
 			}
 
 			// Update menu theme mod

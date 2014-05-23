@@ -15,11 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Enqueue Admin JavaScript
- * 
+ *
  * Note: CT Meta Box and other framework components handle their own scripts.
- * 
+ *
  * @since 0.9
- */ 
+ */
 function ctfw_admin_enqueue_scripts() {
 
 	$screen = get_current_screen();
@@ -29,7 +29,7 @@ function ctfw_admin_enqueue_scripts() {
 	if ( 'widgets' == $screen->base ) { // don't enqueue unless needed
 
 		// New media uploader in WP 3.5+
-		wp_enqueue_media(); 
+		wp_enqueue_media();
 
 		// Main widgets script
 		wp_enqueue_script( 'ctfw-admin-widgets', ctfw_theme_url( CTFW_JS_DIR . '/admin-widgets.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on update

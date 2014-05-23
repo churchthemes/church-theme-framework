@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Force download of certain file types via ?download=path/filename.type
  *
  * This prompts "Save As" -- handy for MP3, PDF, etc. Only works on local files.
- * 
+ *
  * This information was useful: http://wordpress.stackexchange.com/questions/3480/how-can-i-force-a-file-download-in-the-wordpress-backend
  *
  * Use add_theme_support( 'ctfw_force_downloads' );
@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @global object $wp_filesystem;
  */
 function ctfw_force_download() {
-	
+
     global $wp_query, $wp_filesystem;
 
 	// Theme supports this?
@@ -72,7 +72,7 @@ function ctfw_force_download() {
 					// clear buffering just in case
 					@ob_end_clean();
 					flush();
-					
+
 					// Prepare to use WP_Filesystem
 					if ( ! class_exists( 'WP_Filesystem_Base') ) {
 						require_once ABSPATH . 'wp-admin/includes/file.php';
@@ -91,13 +91,13 @@ function ctfw_force_download() {
 				}
 
 			}
-			
+
 		}
 
 		// failure of any type results in 404 file not found
 	    $wp_query->set_404();
 	    status_header( 404 );
-		
+
 	}
 
 }
@@ -109,7 +109,7 @@ add_action( 'template_redirect', 'ctfw_force_download' );
  *
  * This keeps the browser from doing what it wants with the file (such as play MP3 or show PDF).
  * Note that file must be in uploads folder and extension must be allowed by WordPress.
- * 
+ *
  * Makes this:	http://yourname.com/?download=%2F2009%2F10%2Ffile.pdf
  * Out of:		http://yourname.com/wp-content/uploads/2013/05/file.pdf
  * 				http://yourname.com/wp-content/uploads/sites/6/2013/05/file.pdf (multisite)

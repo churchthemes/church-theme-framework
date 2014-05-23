@@ -63,7 +63,7 @@ function ctfw_old_wp_message() {
 
 /**
  * Prevent switching to theme on old version of WordPress
- * 
+ *
  * Switches to the previously activated theme or the default theme.
  *
  * @since 0.9
@@ -166,13 +166,13 @@ function ctfw_ctc_plugin_active() {
 	$activated = false;
 
 	include_once ABSPATH . 'wp-admin/includes/plugin.php';
-	
+
 	if ( is_plugin_active( ctfw_ctc_plugin_file() ) ) {
 		$activated = true;
 	}
 
 	return apply_filters( 'ctfw_ctc_plugin_active', $activated );
-		
+
 }
 
 /**
@@ -190,7 +190,7 @@ function ctfw_ctc_plugin_installed() {
 	}
 
 	return apply_filters( 'ctfw_ctc_plugin_installed', $installed );
-		
+
 }
 
 /**
@@ -294,7 +294,7 @@ function ctfw_enqueue_ie_unsupported() {
 			'redirect_url' => apply_filters( 'ctfw_upgrade_browser_url', 'http://browsehappy.com/' )
 		) );
 
-	}	
+	}
 
 }
 

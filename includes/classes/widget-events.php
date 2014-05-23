@@ -26,13 +26,13 @@ class CTFW_Widget_Events extends CTFW_Widget {
 	 * @since 0.9
 	 */
 	function __construct() {
-	
+
 		parent::__construct(
 			'ctfw-events',
 			_x( 'CT Events', 'events widget', 'church-theme-framework' ),
 			array(
 				'description' => _x( 'Shows upcoming or past events', 'events widget', 'church-theme-framework' )
-			)			
+			)
 		);
 
 	}
@@ -126,7 +126,7 @@ class CTFW_Widget_Events extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Limit
 			'limit' => array(
 				'name'				=> _x( 'Limit', 'events widget', 'church-theme-framework' ),
@@ -174,7 +174,7 @@ class CTFW_Widget_Events extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Date
 			'show_date' => array(
 				'name'				=> '',
@@ -198,7 +198,7 @@ class CTFW_Widget_Events extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Time
 			'show_time' => array(
 				'name'				=> '',
@@ -222,7 +222,7 @@ class CTFW_Widget_Events extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Excerpt
 			'show_excerpt' => array(
 				'name'				=> '',
@@ -248,10 +248,10 @@ class CTFW_Widget_Events extends CTFW_Widget {
 			),
 
 		);
-		
+
 		// Return config
 		return $fields;
-	
+
 	}
 
 }

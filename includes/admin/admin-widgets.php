@@ -146,5 +146,5 @@ HTML;
 
 }
 
-add_action( 'admin_head', 'ctfw_admin_restrict_widgets_css' ); 
+add_action( 'admin_head', 'ctfw_admin_restrict_widgets_css' );
 add_action( 'customize_controls_print_scripts', 'ctfw_admin_restrict_widgets_css' ); // Customizer too

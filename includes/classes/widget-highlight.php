@@ -26,15 +26,15 @@ class CTFW_Widget_Highlight extends CTFW_Widget {
 	 * @since 0.9
 	 */
 	function __construct() {
-	
+
 		parent::__construct(
 			'ctfw-highlight',
 			_x( 'CT Highlight', 'widget', 'church-theme-framework' ),
 			array(
 				'description' => __( 'Shows a highlight', 'church-theme-framework' )
-			)			
+			)
 		);
-	
+
 	}
 
 	/**
@@ -197,10 +197,10 @@ class CTFW_Widget_Highlight extends CTFW_Widget {
 			),
 
 		);
-		
+
 		// Return config
 		return $fields;
-	
+
 	}
 
 }

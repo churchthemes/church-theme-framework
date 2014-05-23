@@ -1,7 +1,7 @@
 <?php
 /**
  * Easy Digital Downloads Software Licensing Theme Updater
- * 
+ *
  * Modified for Church Theme Framework. See "CT Mod" comments.
  *
  * - Prefixed to remind that this is modified

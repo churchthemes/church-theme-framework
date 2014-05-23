@@ -27,7 +27,7 @@ class CTFW_Widget_Slide extends CTFW_Widget {
 	 * @return array Fields for widget
 	 */
 	function __construct() {
-	
+
 		parent::__construct(
 			'ctfw-slide',
 			_x( 'CT Slide', 'widget', 'church-theme-framework' ),
@@ -35,7 +35,7 @@ class CTFW_Widget_Slide extends CTFW_Widget {
 				'description' => __( 'A slide to be shown in a slider', 'church-theme-framework' )
 			)
 		);
-	
+
 	}
 
 	/**
@@ -221,10 +221,10 @@ class CTFW_Widget_Slide extends CTFW_Widget {
 			),
 
 		);
-		
+
 		// Return config
 		return $fields;
-	
+
 	}
 
 }

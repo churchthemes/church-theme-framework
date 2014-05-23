@@ -22,7 +22,7 @@ class CTFW_Walker_Nav_Menu_Description extends Walker_Nav_Menu {
 
 	/**
 	 * Replace the start_el() method from Walker::start_el()
-	 * 
+	 *
 	 * Based on source from /wp-includes/nav-menu-template.php (WordPress 3.4.1)
 	 *
 	 * @since 0.9
@@ -32,7 +32,7 @@ class CTFW_Walker_Nav_Menu_Description extends Walker_Nav_Menu {
 	 * @param int $depth Depth of menu item. Used for padding.
 	 * @param int $current_page Menu item ID.
 	 * @param object $args
-	 * 
+	 *
 	 */
 	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 
@@ -47,7 +47,7 @@ class CTFW_Walker_Nav_Menu_Description extends Walker_Nav_Menu {
 		if ( 0 == $depth && empty ( $item->description ) ) {
 			$classes[] = 'ctfw-header-menu-link-no-description';
 		}
-		
+
 		$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args ) );
 		$class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
 
@@ -63,10 +63,10 @@ class CTFW_Walker_Nav_Menu_Description extends Walker_Nav_Menu {
 
 		$item_output = $args->before;
 		$item_output .= '<a'. $attributes .'>';
-		
+
 		// Original source from WordPress core
 		//$item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
-		
+
 		// Modified version of line above
 		$link_content = apply_filters( 'the_title', $item->title, $item->ID );
 		if ( 0 == $depth ) { // top-level links only
@@ -75,14 +75,14 @@ class CTFW_Walker_Nav_Menu_Description extends Walker_Nav_Menu {
 				$link_content .= '<div class="ctfw-header-menu-link-description">' . $item->description . '</div>'; // HTML5 allows div in a
 			}
 			$link_content = '<div class="ctfw-header-menu-link-inner">' . $link_content . '</div>'; // wrap title and description in inner container
-		}		
+		}
 		$item_output .= $args->link_before . $link_content . $args->link_after;
-		
+
 		$item_output .= '</a>';
 		$item_output .= $args->after;
 
 		$output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
-		
+
 	}
-	
+
 }

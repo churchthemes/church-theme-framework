@@ -19,10 +19,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Custom Post Type Date Archive Setup
- * 
+ *
  * At time of making, WordPress (3.6 and possibly later) does not support dated archives for custom post types as it does for standard posts.
  * This injects rules so that URL's like /cpt/2012/05 can be used with the custom post type archive template.
- * 
+ *
  * Note: resave permalinks if ever change this
  *
  * Thanks to Milan Petrovic for his guide: http://www.dev4press.com/2012/tutorials/wordpress/practical/url-rewriting-custom-post-types-date-archive/
@@ -42,7 +42,7 @@ function ctfw_cpt_date_archive_setup( $post_types, $wp_rewrite ) {
 
 		// Cast single post type as array
 		$post_types = (array) $post_types;
-		
+
 		// Loop given post types to build rules
 		foreach ( $post_types as $post_type_slug ) {
 
@@ -54,30 +54,30 @@ function ctfw_cpt_date_archive_setup( $post_types, $wp_rewrite ) {
 
 				// Date archive rules
 				$date_rules = array(
-				
+
 					// Year, Month, Day: /cpt-slug/2012/01/1
 					array(
 						'rule' => '([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})', // URL pattern
 						'vars' => array( 'year', 'monthnum', 'day' ) // corresponding query parameters
 					),
-					
+
 					// Year, Month: /cpt-slug/2012/01
 					array(
 						'rule' => '([0-9]{4})/([0-9]{1,2})',
 						'vars' => array( 'year', 'monthnum' )
 					),
-					
+
 					// Day: /cpt-slug/2012
 					array(
 						'rule' => '([0-9]{4})',
 						'vars' => array( 'year' )
 					)
-					
+
 				);
 
 				// Build rewrite rules and queries
 				foreach ( $date_rules as $date_rule ) {
-				
+
 					// Base query
 					$query = 'index.php?post_type=' . $post_type_slug;
 
@@ -91,21 +91,21 @@ function ctfw_cpt_date_archive_setup( $post_types, $wp_rewrite ) {
 					// Base rule
 					$archive_slug = ! empty( $post_type->rewrite['slug'] ) ? $post_type->rewrite['slug'] : $post_type->name; // use rewrite slug if provided; otherwise post type slug
 					$rule = $archive_slug . '/'. $date_rule['rule'];
-					
+
 					// Date URL
 					$rules[$rule . '/?$' ] = $query;
-					
+
 					// Feed URLs
 					$rules[$rule . '/feed/(feed|rdf|rss|rss2|atom)/?$' ] = $query . '&feed=' . $wp_rewrite->preg_index( $i );
 					$rules[$rule . '/(feed|rdf|rss|rss2|atom)/?$' ] = $query . '&feed=' . $wp_rewrite->preg_index( $i );
-					
+
 					// Paginated URLs
 					$rules[$rule . '/page/([0-9]{1,})/?$' ] = $query . '&paged=' . $wp_rewrite->preg_index( $i );
-					
+
 				}
-				
+
 			}
-			
+
 		}
 
 	}

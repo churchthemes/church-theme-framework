@@ -34,7 +34,7 @@ class CTFW_Widget_Galleries extends CTFW_Widget {
 			_x( 'CT Galleries', 'widget', 'church-theme-framework' ),
 			array(
 				'description' => __( 'Shows list of gallery pages', 'church-theme-framework' )
-			)			
+			)
 		);
 
 	}
@@ -128,7 +128,7 @@ class CTFW_Widget_Galleries extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Order
 			'order' => array(
 				'name'				=> '',
@@ -181,9 +181,9 @@ class CTFW_Widget_Galleries extends CTFW_Widget {
 			),
 
 		);
-		
+
 		return $fields;
-	
+
 	}
 
 	/**
@@ -206,7 +206,7 @@ class CTFW_Widget_Galleries extends CTFW_Widget {
 
 		// Return filtered
 		return apply_filters( 'ctfw_galleries_widget_get_posts', $posts );
-		
+
 	}
 
 

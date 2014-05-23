@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Get page by template
  *
  * Get newest page using a specific template file name.
- * 
+ *
  * Multiple templates can be specified as array and the first match will be used.
  * This is handy when one template rather than the usual is used for primary content.
  *
@@ -54,16 +54,16 @@ function ctfw_get_page_by_template( $templates ) {
 			'sort_order' => 'DESC',
 			'number' => 1
 		) );
-		
+
 		// Got one?
 		if ( ! empty( $pages[0] ) ) {
 			return $pages[0];
 		}
-		
+
 		*/
-		
+
 		// Note: the method above fails for pages that have parent(s) so using WP_Query directly
-		
+
 		// If more than one, gets the newest
 		$page_query = new WP_Query( array(
 			'post_type'			=> 'page',
@@ -74,7 +74,7 @@ function ctfw_get_page_by_template( $templates ) {
 			'orderby'			=> 'ID',
 			'order'				=> 'DESC'
 		) );
-		
+
 		// Got one?
 		if ( ! empty( $page_query->post ) ) {
 			$page = $page_query->post;
@@ -89,9 +89,9 @@ function ctfw_get_page_by_template( $templates ) {
 
 /**
  * Get page ID by template
- * 
+ *
  * Get newest page ID using a specific template file name.
- * 
+ *
  * Multiple templates can be specified as array and the first match will be used.
  * This is handy when one template rather than the usual is used for primary content.
  *
@@ -104,8 +104,8 @@ function ctfw_get_page_id_by_template( $templates ) {
 	$page = ctfw_get_page_by_template( $templates );
 
 	$page_id = ! empty( $page->ID ) ? $page->ID : '';
-	
-	return apply_filters( 'ctfw_get_page_id_by_template', $page_id, $templates );	
+
+	return apply_filters( 'ctfw_get_page_id_by_template', $page_id, $templates );
 
 }
 
@@ -123,17 +123,17 @@ function ctfw_page_options( $allow_none = true ) {
 	$pages = get_pages( array(
 		'hierarchical' => false,
 	) );
-	
+
 	$page_options = array();
-	
+
 	if ( ! empty( $allow_none ) ) {
 		$page_options[] = '';
 	}
-	
+
 	foreach ( $pages as $page ) {
 		$page_options[$page->ID] = $page->post_title;
 	}
-	
+
 	return $page_options;
 
 }

@@ -21,14 +21,14 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @since 0.9
  */
 class CTFW_Widget_Archives extends CTFW_Widget {
-	
+
 	/**
 	 * Register widget with WordPress
 	 *
 	 * @since 0.9
 	 */
 	function __construct() {
-	
+
 		parent::__construct(
 			'ctfw-archives',
 			_x( 'CT Archives', 'widget', 'church-theme-framework' ),
@@ -101,7 +101,7 @@ class CTFW_Widget_Archives extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Type
 			'post_type' => array(
 				'name'				=> _x( 'Type', 'archives widget', 'church-theme-framework' ),
@@ -125,7 +125,7 @@ class CTFW_Widget_Archives extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Limit
 			'limit' => array(
 				'name'				=> _x( 'Limit', 'archives widget', 'church-theme-framework' ),
@@ -149,7 +149,7 @@ class CTFW_Widget_Archives extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Count
 			'show_count' => array(
 				'name'				=> '',
@@ -199,9 +199,9 @@ class CTFW_Widget_Archives extends CTFW_Widget {
 			),
 
 		);
-		
+
 		return $fields;
-	
+
 	}
 
 	/**
@@ -211,7 +211,7 @@ class CTFW_Widget_Archives extends CTFW_Widget {
 	 * @return array Options for post type field
 	 */
 	function ctfw_post_type_options() {
-	
+
 		$options = array();
 
 		// Get supported post types with archives
@@ -220,15 +220,15 @@ class CTFW_Widget_Archives extends CTFW_Widget {
 			'show_ui'		=> true, // theme support or plugin settings may set false
 			'has_archive'	=> true
 		), 'objects' );
-		
+
 		// Loop post types
 		foreach ( $post_types as $post_type_slug => $post_type_object ) {
-		
+
 			$post_type_name = $post_type_object->labels->name;
-		
+
 			// Add to array
 			$options[$post_type_slug] = $post_type_name;
-		
+
 		}
 
 		// Add blog post type with special name (has_archive excludes it)
@@ -238,12 +238,12 @@ class CTFW_Widget_Archives extends CTFW_Widget {
 			),
 			$options
 		);
-		
+
 		// Return filtered
 		return apply_filters( 'ctfw_archives_widget_post_type_options', $options );
-		
+
 	}
-	
+
 	/**
 	 * Get archives
 	 *
@@ -259,7 +259,7 @@ class CTFW_Widget_Archives extends CTFW_Widget {
 
 		// Get post type
 		$post_type = $this->ctfw_instance['post_type'];
-		
+
 		// Get limit
 		$limit = absint( $this->ctfw_instance['limit'] );
 		$sql_limit = '';
@@ -293,10 +293,10 @@ class CTFW_Widget_Archives extends CTFW_Widget {
 				$post_type
 			)
 		) );
-	
+
 		// Return filtered
 		return apply_filters( 'ctfw_archives_widget_get_archives', $archives );
-	
+
 	}
 
 }

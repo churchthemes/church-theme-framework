@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Get/set $paged
- * 
+ *
  * For use in templates that can be used as static front page.
  * get_query_var( 'paged' ) returns nothing on front page, but get_query_var( 'page' ) does.
  * This returns and sets globally $paged so that the query and pagination work.
@@ -38,7 +38,7 @@ function ctfw_page_num() {
 	$paged = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : ( get_query_var( 'page' ) ? get_query_var( 'page' ) : 1 );
 
 	return apply_filters( 'ctfw_page_num', $paged );
-	
+
 }
 
 /***********************************************
@@ -95,7 +95,7 @@ function ctfw_previous_next_post_where( $direction ) {
 
 /**
  * SQL WHERE for manual order of previous post
- * 
+ *
  * @since 0.9.1
  * @param string $where Current WHERE clause
  * @return string Custom WHERE clause
@@ -106,7 +106,7 @@ function ctfw_previous_post_where( $where ) {
 
 /**
  * SQL WHERE for manual order of for next post
- * 
+ *
  * @since 0.9.1
  * @param string $where Current WHERE clause
  * @return string Custom WHERE clause

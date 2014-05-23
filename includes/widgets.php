@@ -58,7 +58,7 @@ function ctfw_widgets() {
 			'unregister'				=> array(
 				'WP_Widget_Recent_Posts'
 			)
-		),		
+		),
 		'ctfw-sermons' => array(
 			'class'						=> 'CTFW_Widget_Sermons',
 			'class_file'				=> 'widget-sermons.php',
@@ -158,12 +158,12 @@ function ctfw_widgets() {
 			'theme_support'				=> 'ctfw-widget-highlight',
 			'theme_support_required'	=> array(),
 			'unregister'				=> array(),
-		),	
+		),
 	);
-	
+
 	// Return filterable
 	return apply_filters( 'ctfw_widgets', $widgets );
- 
+
 }
 
 /**********************************
@@ -184,7 +184,7 @@ function ctfw_register_widgets() {
 
 	// Church Theme Content plugin is installed and activated?
 	$ctc_active = ctfw_ctc_plugin_active();
-	
+
 	// Loop widgets
 	foreach ( $widgets as $widget_id => $widget_data ) {
 
@@ -206,7 +206,7 @@ function ctfw_register_widgets() {
 
 			// Church Theme Content is active or not required for widget
 			if ( empty( $widget_data['ctc_required'] ) || $ctc_active ) {
-				
+
 				// Include class if exists
 				$widget_class_paths = array(
 					trailingslashit( CTFW_THEME_CLASS_DIR ) . $widget_data['class_file'], // check non-framework dir first in case is theme-provided
@@ -221,15 +221,15 @@ function ctfw_register_widgets() {
 					if ( isset( $widget_data['unregister'] ) ) {
 						foreach ( $widget_data['unregister'] as $unregister_widget ) {
 							unregister_widget( $unregister_widget );
-						}				
+						}
 					}
-				
+
 				}
-				
+
 			}
-		
+
 		}
-	
+
 	}
 
 }
@@ -249,7 +249,7 @@ add_action( 'widgets_init', 'ctfw_register_widgets' ); // same as init 1
  * @return mixed Theme support data
  */
 function ctfw_get_widget_theme_support( $widget_id, $argument ) {
-	
+
 	// Null by default so if argument data not found, isset() returns false
 	$data = null;
 
@@ -261,35 +261,35 @@ function ctfw_get_widget_theme_support( $widget_id, $argument ) {
 
 		// Widget data
 		$widget = $widgets[$widget_id];
-		
+
 		// Theme has support for widget
 		$support = get_theme_support( $widget['theme_support'] );
 		if ( $support ) {
-		
+
 			// Get theme support data
 			$support = isset( $support[0] ) && is_array( $support ) ? $support[0] : false;
 
 			// Get fields supported
 			if ( isset( $support[$argument] ) ) { // argument is set (even if empty)
-			
+
 				// Make new array out of fields theme supports
 				$data = $support[$argument];
 
 			}
-		
+
 		}
-		
+
 	}
-	
+
 	// Return filterable
 	return apply_filters( 'ctfw_get_widget_theme_support', $data, $widget_id, $argument );
-	
+
 }
 
 /*********************************************
  * FIELD FILTERING
  *********************************************/
- 
+
 /**
  * Filter widget fields
  *
@@ -305,14 +305,14 @@ function ctfw_filter_widget_fields() {
 
 		// Set Visible Fields
 		add_filter( 'ctfw_widget_visible_fields-' . $widget_id, 'ctfw_set_visible_widget_fields', 10, 2 );
-		
+
 		// Set Field Overrides
 		add_filter( 'ctfw_widget_field_overrides-' . $widget_id, 'ctfw_set_widget_field_overrides', 10, 2 );
 
 	}
 
 }
- 
+
 add_action( 'widgets_init', 'ctfw_filter_widget_fields' );
 
 /**
@@ -334,14 +334,14 @@ function ctfw_set_visible_widget_fields( $visible_fields, $widget_id ) {
 
 	// Check if fields are set (even if empty)
 	if ( isset( $supported_fields ) ) {
-	
+
 		// Make new array out of fields theme supports
 		$visible_fields = $supported_fields;
-		
+
 		// (here could access Church Theme Content plugin settings to override theme's feature support)
-		
+
 	}
-	
+
 	// Return default or filtered field list
 	return $visible_fields;
 

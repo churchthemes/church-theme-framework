@@ -26,13 +26,13 @@ class CTFW_Widget_People extends CTFW_Widget {
 	 * @since 0.9
 	 */
 	function __construct() {
-	
+
 		parent::__construct(
 			'ctfw-people',
 			_x( 'CT People', 'widget', 'church-theme-framework' ),
 			array(
 				'description' => __( 'Shows people according to options', 'church-theme-framework' )
-			)			
+			)
 		);
 
 	}
@@ -125,7 +125,7 @@ class CTFW_Widget_People extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array( 'ctc_person_group' ), // hide field if taxonomies are not supported
 			),
-			
+
 			// Order By
 			'orderby' => array(
 				'name'				=> _x( 'Order By', 'people widget', 'church-theme-framework' ),
@@ -152,7 +152,7 @@ class CTFW_Widget_People extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Order
 			'order' => array(
 				'name'				=> '',
@@ -179,7 +179,7 @@ class CTFW_Widget_People extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Limit
 			'limit' => array(
 				'name'				=> _x( 'Limit', 'people widget', 'church-theme-framework' ),
@@ -203,7 +203,7 @@ class CTFW_Widget_People extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Image
 			'show_image' => array(
 				'name'				=> '',
@@ -227,7 +227,7 @@ class CTFW_Widget_People extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Position
 			'show_position' => array(
 				'name'				=> '',
@@ -349,10 +349,10 @@ class CTFW_Widget_People extends CTFW_Widget {
 			),
 
 		);
-		
+
 		// Return config
 		return $fields;
-	
+
 	}
 
 	/**
@@ -382,11 +382,11 @@ class CTFW_Widget_People extends CTFW_Widget {
 
 		// Get posts
 		$posts = get_posts( $args );
-			
+
 		// Return filtered
 		return apply_filters( 'ctfw_people_widget_get_posts', $posts );
-		
+
 	}
 
 }
-	
+

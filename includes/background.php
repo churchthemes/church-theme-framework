@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Remove Custom Background from Admin Menu
- * 
+ *
  * Use add_theme_support( 'ctfw-force-customizer-background' ) to force users to edit
  * the custom background via the Customizer.
  *
@@ -41,7 +41,7 @@ function ctfw_admin_remove_menu_pages() {
 	}
 
 }
- 
+
 add_action( 'admin_menu', 'ctfw_admin_remove_menu_pages', 11 ); // after add theme support for background
 
 /**
@@ -63,7 +63,7 @@ function ctfw_admin_redirect_background() {
 			// Redirect to Theme Customizer
 			wp_redirect( admin_url( 'customize.php' ) );
 			exit;
-		
+
 		}
 
 	}
@@ -96,30 +96,30 @@ function ctfw_background_image_presets() {
 
 		// Fill, clean and set defaults to prevent errors elsewhere
 		foreach ( $backgrounds as $file => $data ) {
-		
+
 			if ( ! empty( $data['thumb'] ) ) {
-			
+
 				$backgrounds_clean[$file]['thumb'] 		= $data['thumb'];
-				
+
 				$backgrounds_clean[$file]['fullscreen'] = ! empty( $data['fullscreen'] ) ? true : false;
 				if ( $backgrounds_clean[$file]['fullscreen'] ) {
 					$data['repeat'] = 'no-repeat';
 					$data['attachment'] = 'fixed';
 					$data['position'] = 'left';
 				}
-				
+
 				$backgrounds_clean[$file]['repeat'] 	= isset( $data['repeat'] ) && in_array( $data['repeat'], array( 'no-repeat', 'repeat', 'repeat-x', 'repeat-y' ) ) ? $data['repeat'] : 'no-repeat';
-				
+
 				$backgrounds_clean[$file]['attachment'] = isset( $data['attachment'] ) && in_array( $data['attachment'], array( 'scroll', 'fixed' ) ) ? $data['attachment'] : 'scroll';
-				
+
 				$backgrounds_clean[$file]['position'] 	= isset( $data['position'] ) && in_array( $data['position'], array( 'left', 'center', 'right' ) ) ? $data['position'] : '';
-				
+
 				$backgrounds_clean[$file]['colorable'] 	= ! empty( $data['colorable'] ) ? true : false;
-				
+
 				// Also add absolute URL's (theme customizer uses)
 				$backgrounds_clean[$file]['url'] = ! empty( $data['url'] ) ? $data['url'] : ctfw_background_image_preset_url( $file );
 				$backgrounds_clean[$file]['thumb_url'] = ! empty( $data['thumb_url'] ) ? $data['thumb_url'] : ctfw_background_image_preset_url( $data['thumb'] );
-				
+
 			}
 
 		}
@@ -133,7 +133,7 @@ function ctfw_background_image_presets() {
 
 /**
  * Get preset background URLs
- * 
+ *
  * Returns array of absolute URLs. Handy for Theme Customizer input.
  *
  * @since 0.9
@@ -144,7 +144,7 @@ function ctfw_background_image_preset_urls() {
 	$backgrounds = ctfw_background_image_presets();
 
 	$background_urls = array();
-	
+
 	while( list( $filename ) = each( $backgrounds ) ) {
 
 		$url = ctfw_background_image_preset_url( $filename );
@@ -154,14 +154,14 @@ function ctfw_background_image_preset_urls() {
 		}
 
 	}
-	
+
 	return apply_filters( 'ctfw_background_image_preset_urls', $background_urls );
-	
+
 }
 
 /**
  * Get preset background URL (single)
- * 
+ *
  * Return preset background image URL based on filename.
  *
  * @since 0.9

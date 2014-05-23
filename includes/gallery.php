@@ -86,7 +86,7 @@ add_filter( 'shortcode_atts_gallery', 'ctfw_gallery_thumb_size', 10, 3 );
  *
  * WordPress injects <style> with gallery styles in shortcode output.
  * It is better to do all styling in style.css.
- * 
+ *
  * @since 0.9
  */
 function ctfw_remove_gallery_styles() {
@@ -105,9 +105,9 @@ add_filter( 'init', 'ctfw_remove_gallery_styles' );
  * This keeps the_content() from outputting a thumbnail or link to file.
  * WordPress does this when an attachment template is used (images.php, attachment.php, etc.)
  * Do the same thing when custom attachment templates such as content-attachment.php are used.
- * 
- * Enable with add_theme_support( 'ctfw-remove-prepend-attachment' ) 
- * 
+ *
+ * Enable with add_theme_support( 'ctfw-remove-prepend-attachment' )
+ *
  * @since 0.9
  */
 function ctfw_remove_prepend_attachment() {
@@ -124,7 +124,7 @@ add_filter( 'wp', 'ctfw_remove_prepend_attachment' ); // conditionals like is_at
  * Get post's gallery data
  *
  * Extract gallery shortcode data from content  (unique image IDs, total count, shortcode attribures, etc.).
- * 
+ *
  * @since 0.9
  * @param object $post Post object
  * @param array $options Options for getting data
@@ -232,7 +232,7 @@ function ctfw_post_galleries_data( $post, $options = array() ) {
  * Get gallery posts
  *
  * This gets all posts that have a gallery.
- * 
+ *
  * @since 0.9
  * @param array $options Options for getting posts
  * @return array Gallery posts
@@ -303,7 +303,7 @@ function ctfw_gallery_posts( $options = array() ) {
  * Filter gallery posts query to get only those with [gallery] shortcode
  *
  * This way not all posts are gotten; only post with galleries.
- * 
+ *
  * @since 0.9
  * @param string $where Original SQL WHERE clause
  * @return string Modified WHERE clause
@@ -326,7 +326,7 @@ function ctfw_gallery_posts_where( $where ) {
  * Get gallery posts IDs
  *
  * Get IDs of all pages/posts with gallery content.
- * 
+ *
  * @since 0.9
  * @param array $options Options for getting gallery posts IDs
  * @return array Posts IDs
@@ -352,7 +352,7 @@ function ctfw_gallery_posts_ids( $options = array() ) {
  *
  * Show X rows of thumbnails from post content with gallery shortcode(s).
  * The shortcode column attribute from the first gallery will be used.
- * 
+ *
  * @since 0.9
  * @param object $post Post to make gallery preview for
  * @param array $options Options for preview display

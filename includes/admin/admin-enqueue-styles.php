@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Enqueue admin stylesheets
  *
  * Note: CT Meta Box and other framework components handle their own stylesheets.
- * 
+ *
  * @since 0.9
  */
 function ctfw_admin_enqueue_styles() {
@@ -38,7 +38,7 @@ function ctfw_admin_enqueue_styles() {
 	if ( 'appearance_page_theme-license' == $screen->base ) {
 		wp_enqueue_style( 'ctfw-license', ctfw_theme_url( CTFW_CSS_DIR . '/admin-license.css' ), false, CTFW_THEME_VERSION ); // bust cache on update
 	}
-	
+
 }
 
 add_action( 'admin_enqueue_scripts', 'ctfw_admin_enqueue_styles' );

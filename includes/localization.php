@@ -25,9 +25,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * There is no option for using languages folder in theme, because this is dangerous.
  * This folder is only for storing the .pot file and any pre-made translations.
  * It is absolutely best to keep it outside of theme.
- * 
+ *
  * See http://core.trac.wordpress.org/changeset/22346
- * 
+ *
  * @since 0.9
  */
 function ctfw_load_theme_textdomain() {
@@ -65,7 +65,7 @@ add_action( 'after_setup_theme', 'ctfw_load_theme_textdomain' );
 
 /**
  * Filter gettext to use theme's translation file for framework text strings
- * 
+ *
  * @since 0.9
  * @param string $translated Translated text
  * @param string $text Original text
@@ -75,7 +75,7 @@ add_action( 'after_setup_theme', 'ctfw_load_theme_textdomain' );
 function ctfw_gettext( $translated, $text, $domain ) {
 
 	// Theme supports?
-	if ( current_theme_supports( 'ctfw-load-translation' ) ) {	
+	if ( current_theme_supports( 'ctfw-load-translation' ) ) {
 
 		// Framework textdomain?
 		if ( 'church-theme-framework' == $domain ) {
@@ -96,7 +96,7 @@ add_filter( 'gettext', 'ctfw_gettext', 1, 3 );
 
 /**
  * Filter gettext_with_context to use theme's translation file for framework text strings
- * 
+ *
  * @since 1.1.3
  * @param string $translated Translated text
  * @param string $text Original text
@@ -107,7 +107,7 @@ add_filter( 'gettext', 'ctfw_gettext', 1, 3 );
 function ctfw_gettext_with_context( $translated, $text, $context, $domain ) {
 
 	// Theme supports?
-	if ( current_theme_supports( 'ctfw-load-translation' ) ) {	
+	if ( current_theme_supports( 'ctfw-load-translation' ) ) {
 
 		// Framework textdomain?
 		if ( 'church-theme-framework' == $domain ) {
@@ -128,7 +128,7 @@ add_filter( 'gettext_with_context', 'ctfw_gettext_with_context', 1, 4 );
 
 /**
  * Filter ngettext to use theme's translation file for framework text strings
- * 
+ *
  * @since 1.1.3
  * @param string $translated Translated text
  * @param string $single Singular form of original text
@@ -161,7 +161,7 @@ add_filter( 'ngettext', 'ctfw_ngettext', 1, 5 );
 
 /**
  * Filter ngettext_with_context to use theme's translation file for framework text strings
- * 
+ *
  * @since 1.1.3
  * @param string $translated Translated text
  * @param string $single Singular form of original text

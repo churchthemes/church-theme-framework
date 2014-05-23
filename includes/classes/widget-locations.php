@@ -26,13 +26,13 @@ class CTFW_Widget_Locations extends CTFW_Widget {
 	 * @since 0.9
 	 */
 	function __construct() {
-	
+
 		parent::__construct(
 			'ctfw-locations',
 			_x( 'CT Locations', 'widget', 'church-theme-framework' ),
 			array(
 				'description' => __( 'Shows church location(s)', 'church-theme-framework' )
-			)			
+			)
 		);
 
 	}
@@ -99,7 +99,7 @@ class CTFW_Widget_Locations extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Order By
 			'orderby' => array(
 				'name'				=> _x( 'Order By', 'locations widget', 'church-theme-framework' ),
@@ -126,7 +126,7 @@ class CTFW_Widget_Locations extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Order
 			'order' => array(
 				'name'				=> '',
@@ -153,7 +153,7 @@ class CTFW_Widget_Locations extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Limit
 			'limit' => array(
 				'name'				=> _x( 'Limit', 'locations widget', 'church-theme-framework' ),
@@ -201,7 +201,7 @@ class CTFW_Widget_Locations extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Address
 			'show_address' => array(
 				'name'				=> '',
@@ -225,7 +225,7 @@ class CTFW_Widget_Locations extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Phone
 			'show_phone' => array(
 				'name'				=> '',
@@ -249,7 +249,7 @@ class CTFW_Widget_Locations extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Times
 			'show_times' => array(
 				'name'				=> '',
@@ -273,7 +273,7 @@ class CTFW_Widget_Locations extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Map
 			'show_map' => array(
 				'name'				=> '',
@@ -297,12 +297,12 @@ class CTFW_Widget_Locations extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 		);
-		
+
 		// Return config
 		return $fields;
-	
+
 	}
 
 	/**
@@ -324,11 +324,11 @@ class CTFW_Widget_Locations extends CTFW_Widget {
 			'numberposts'    	=> $this->ctfw_instance['limit'],
 			'suppress_filters'	=> false // keep WPML from showing posts from all languages: http://bit.ly/I1JIlV + http://bit.ly/1f9GZ7D
 		) );
-			
+
 		// Return filtered
 		return apply_filters( 'ctfw_locations_widget_get_posts', $posts );
-		
+
 	}
-	
+
 }
-	
+

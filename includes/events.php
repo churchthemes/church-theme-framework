@@ -138,7 +138,7 @@ function ctfw_event_data( $post_id = null ) {
 
 /**
  * Prev/next event sorting
- * 
+ *
  * This makes get_previous_post() and get_next_post() sort by event Start Date instead of Publish Date
  *
  * @since 0.9
@@ -244,7 +244,7 @@ function ctfw_previous_next_event_where( $direction ) {
 
 /**
  * SQL WHERE for previous event
- * 
+ *
  * @since 0.9
  * @param string $where Current WHERE clause
  * @return string Custom WHERE clause
@@ -255,7 +255,7 @@ function ctfw_previous_event_where( $where ) {
 
 /**
  * SQL WHERE for next event
- * 
+ *
  * @since 0.9
  * @param string $where Current WHERE clause
  * @return string Custom WHERE clause

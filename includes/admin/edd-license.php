@@ -95,7 +95,7 @@ function ctfw_edd_license_updater() {
 		locate_template( CTFW_CLASS_DIR . '/CTFW_EDD_SL_Theme_Updater.php', true );
 
 		// Activate updates
-		$edd_updater = new CTFW_EDD_SL_Theme_Updater( array( 
+		$edd_updater = new CTFW_EDD_SL_Theme_Updater( array(
 			'remote_api_url' 	=> ctfw_edd_license_config( 'store_url' ), 		// Store URL running EDD with Software Licensing extension
 			'version' 			=> ctfw_edd_license_config( 'version' ), 		// Current version of theme
 			'license' 			=> ctfw_edd_license_key(), 						// The license key entered by user
@@ -220,9 +220,9 @@ function ctfw_edd_license_page() {
 		<?php endif; ?>
 
 		<form method="post" action="options.php">
-		
+
 			<?php settings_fields( 'ctfw_edd_license' ); ?>
-			
+
 			<?php wp_nonce_field( 'ctfw_edd_license_nonce', 'ctfw_edd_license_nonce' ); ?>
 
 			<h3 class="title"><?php _ex( 'License Key', 'heading', 'church-theme-framework' ); ?></h3>
@@ -231,7 +231,7 @@ function ctfw_edd_license_page() {
 
 				<tbody>
 
-					<tr valign="top">	
+					<tr valign="top">
 
 						<th scope="row" valign="top">
 							<?php _e( 'License Key', 'church-theme-framework' ); ?>
@@ -258,7 +258,7 @@ function ctfw_edd_license_page() {
 
 				<tbody>
 
-					<tr valign="top">	
+					<tr valign="top">
 
 						<th scope="row" valign="top">
 							<?php _e( 'License Status', 'church-theme-framework' ); ?>
@@ -512,9 +512,9 @@ function ctfw_edd_license_action( $action ) {
 			if ( $license ) {
 
 				// Data to send in API request
-				$api_params = array( 
-					'edd_action'	=> $action, 
-					'license' 		=> $license, 
+				$api_params = array(
+					'edd_action'	=> $action,
+					'license' 		=> $license,
 					'item_name'		=> urlencode( ctfw_edd_license_config( 'item_name' ) ) // name of download in EDD
 				);
 

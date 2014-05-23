@@ -26,13 +26,13 @@ class CTFW_Widget_Giving extends CTFW_Widget {
 	 * @since 0.9
 	 */
 	function __construct() {
-	
+
 		parent::__construct(
 			'ctfw-giving',
 			_x( 'CT Giving', 'widget', 'church-theme-framework' ),
 			array(
 				'description' => __( 'Shows a message and button', 'church-theme-framework' ),
-			)		
+			)
 		);
 
 	}
@@ -99,7 +99,7 @@ class CTFW_Widget_Giving extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Message
 			'text' => array(
 				'name'				=> _x( 'Message', 'giving widget', 'church-theme-framework' ),
@@ -173,9 +173,9 @@ class CTFW_Widget_Giving extends CTFW_Widget {
 			),
 
 		);
-		
+
 		return $fields;
-	
+
 	}
 
 }

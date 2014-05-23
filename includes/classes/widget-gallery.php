@@ -26,7 +26,7 @@ class CTFW_Widget_Gallery extends CTFW_Widget {
 	 * @since 0.9
 	 */
 	function __construct() {
-	
+
 		parent::__construct(
 			'ctfw-gallery',
 			_x( 'CT Gallery', 'gallery widget', 'church-theme-framework' ),
@@ -134,7 +134,7 @@ class CTFW_Widget_Gallery extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Show Link
 			'show_link' => array(
 				'name'				=> '',
@@ -158,7 +158,7 @@ class CTFW_Widget_Gallery extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Order By
 			'orderby' => array(
 				'name'				=> _x( 'Order By', 'gallery widget', 'church-theme-framework' ),
@@ -186,7 +186,7 @@ class CTFW_Widget_Gallery extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Order
 			'order' => array(
 				'name'				=> '',
@@ -213,7 +213,7 @@ class CTFW_Widget_Gallery extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Limit
 			'limit' => array(
 				'name'				=> _x( 'Limit', 'gallery widget', 'church-theme-framework' ),
@@ -237,7 +237,7 @@ class CTFW_Widget_Gallery extends CTFW_Widget {
 				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
-			
+
 			// Thumbnail Size
 			'thumb_size' => array(
 				'name'				=> _x( 'Thumbnail Size', 'gallery widget', 'church-theme-framework' ),
@@ -267,12 +267,12 @@ class CTFW_Widget_Gallery extends CTFW_Widget {
 			),
 
 		);
-		
+
 		// Return config
 		return $fields;
-	
+
 	}
-	
+
 	/**
 	 * Get posts
 	 *
@@ -326,7 +326,7 @@ class CTFW_Widget_Gallery extends CTFW_Widget {
 
 		// Return filtered
 		return apply_filters( 'ctfw_gallery_widget_get_posts', $posts );
-		
+
 	}
-		
+
 }

@@ -69,7 +69,7 @@ function ctfw_font_stack( $font, $available_fonts ) {
 
 	// Filterable
 	$font_stack = apply_filters( 'ctfw_font_stack', $font_stack, $font, $available_fonts );
-	
+
 	return $font_stack;
 
 }
@@ -136,7 +136,7 @@ function ctfw_google_font_options_array( $options = array() ) {
 
 	// Loop fonts
 	foreach ( $google_fonts as $font_name => $font_data ) {
-		
+
 		$font_options[$font_name] = $font_name;
 
 		// Show type
@@ -163,11 +163,11 @@ function ctfw_google_font_options_array( $options = array() ) {
  * @return string Google Fonts stylesheet URL
  */
 function ctfw_google_fonts_style_url( $fonts, $font_subsets = false ) {
-	
+
 	$url = '';
 
 	$available_fonts = ctfw_google_fonts();
-	
+
 	// In case there is one
 	$fonts = (array) $fonts;
 
@@ -179,15 +179,15 @@ function ctfw_google_fonts_style_url( $fonts, $font_subsets = false ) {
 	foreach ( $fonts as $font ) {
 		if ( ! empty( $available_fonts[$font] ) ) { // font is valid
 			$font_array[] = urlencode( $font ) . ( ! empty( $available_fonts[$font]['sizes'] ) ? ':' . $available_fonts[$font]['sizes'] : '' );
-		}	
+		}
 	}
-	
+
 	// Have font(s)...
 	if ( ! empty( $font_array ) ) {
-	
+
 		// Build list from array
 		$font_list = implode( '|', $font_array );
-		
+
 		// Subset passed in? Format it
 		$subset_attr = '';
 		if ( ! empty( $font_subsets ) ) {
@@ -199,10 +199,10 @@ function ctfw_google_fonts_style_url( $fonts, $font_subsets = false ) {
 
 		// Build URL
 		$url = '//fonts.googleapis.com/css?family=' . $font_list . $subset_attr;
-		
+
 	}
-	
+
 	// Return filtered
 	return apply_filters( 'ctfw_google_fonts_style_url', $url, $fonts, $available_fonts, $font_subsets );
-	
+
 }

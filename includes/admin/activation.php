@@ -69,7 +69,7 @@ function ctfw_after_activation() {
 		}
 
 	}
-	
+
 }
 
 add_action( 'load-themes.php', 'ctfw_after_activation' );

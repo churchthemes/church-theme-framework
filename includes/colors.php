@@ -30,7 +30,7 @@ function ctfw_colors() {
 	$parent_styles_dir = CTFW_THEME_PATH . '/' . CTFW_THEME_COLOR_DIR; // parent theme
 	$child_styles_dir = CTFW_THEME_CHILD_PATH . '/' . CTFW_THEME_COLOR_DIR;
 	$styles_dir = file_exists( $child_styles_dir ) ? $child_styles_dir : $parent_styles_dir;  // if a styles dir was made for child theme, use it
-	
+
 	$colors = array();
 	if ( file_exists( $styles_dir ) && $handle = opendir( $styles_dir ) ) { // if colors directory exists in child theme, use it
 		while ( false !== ( $entry = readdir($handle) ) ) { // loop style schemes available in style directory
@@ -44,9 +44,9 @@ function ctfw_colors() {
 	}
 
 	$colors = apply_filters( 'ctfw_colors', $colors );
-	
+
 	return $colors;
- 
+
 }
 
 /**
@@ -61,7 +61,7 @@ function ctfw_colors() {
 function ctfw_valid_color( $color = false ) {
 
 	$valid = false;
-	
+
 	// Use active if none given
 	if ( empty( $color ) ) {
 		$color = ctfw_customization( 'color' );
@@ -72,7 +72,7 @@ function ctfw_valid_color( $color = false ) {
 	if ( ! empty( $colors[$color] ) ) {
 		$valid = true;
 	}
-	
+
 	return apply_filters( 'ctfw_valid_color', $valid, $color );
 
 }
@@ -127,13 +127,13 @@ function ctfw_color_style_url( $theme = false ) {
 		$color = ctfw_customization( 'color' );
 
 		$color_rel = CTFW_THEME_COLOR_DIR . '/' . $color . '/style.css';
-		
+
 		$color_parent_path = CTFW_THEME_PATH . '/' . $color_rel;
 		$color_parent_url = CTFW_THEME_URL . '/' . $color_rel;
-		
+
 		$color_child_path = CTFW_THEME_CHILD_PATH . '/' . $color_rel;
 		$color_child_url = CTFW_THEME_CHILD_URL . '/' . $color_rel;
-	
+
 		// Force parent version
 		if ( 'parent' == $theme && file_exists( $color_parent_path ) ) {
 			$url = $color_parent_url;
@@ -143,7 +143,7 @@ function ctfw_color_style_url( $theme = false ) {
 		else if ( 'child' == $theme && file_exists( $color_child_path ) ) {
 			$url = $color_child_url;
 		}
-		
+
 		// Auto-detect (default)
 		// If parent or child not explicit, use default behavior (child if exists, otherwise parent)
 		else {
@@ -151,8 +151,8 @@ function ctfw_color_style_url( $theme = false ) {
 		}
 
 	}
-	
+
 	// Return filtered
 	return apply_filters( 'ctfw_color_style_url', $url, $theme );
-	
+
 }

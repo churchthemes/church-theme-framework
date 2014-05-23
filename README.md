@@ -13,6 +13,6 @@ Church Theme Framework is a drop-in framework. In other words, it's a directory 
 * Consistent features
 
 Full Details
--------  
+-------
 
 For full details, see the [Developer's Guide](http://churchthemes.com/guides/developer/framework/) on churchthemes.com.

@@ -4,7 +4,7 @@
  *
  * The framework provides code and assets common to multiple themes for more organized and efficient development/updates.
  * It is intended for use in themes that use the Church Theme Content plugin.
- * 
+ *
  * @package   Church_Theme_Framework
  * @copyright Copyright (c) 2013 - 2014, churchthemes.com
  * @link      https://github.com/churchthemes/church-theme-framework
@@ -63,7 +63,7 @@ if ( ! defined( 'CTFW_THEME_LANG_DIR' ) )		define( 'CTFW_THEME_LANG_DIR',		'lang
 
 /**
  * Framework directory constants
- * 
+ *
  * Note use of theme constants. Theme and framework structures mirror each other.
  */
 if ( ! defined( 'CTFW_DIR' ) )					define( 'CTFW_DIR',					basename( dirname( __FILE__) ) );			// framework directory (where this file is)
@@ -86,7 +86,7 @@ $ctfw_includes = array(
 
 	// Frontend or Admin
 	'always' => array(
-	
+
 		// Functions
 		CTFW_INC_DIR . '/archives.php',
 		CTFW_INC_DIR . '/background.php',
@@ -122,16 +122,16 @@ $ctfw_includes = array(
 		CTFW_INC_DIR . '/shortcodes.php',
 		CTFW_INC_DIR . '/sidebars.php',
 		CTFW_INC_DIR . '/widgets.php',
-		
+
 		// Classes
 		CTFW_CLASS_DIR . '/customize-controls.php',
 		CTFW_CLASS_DIR . '/widget.php',
-		
+
 	),
 
 	// Admin Only
 	'admin' => array(
-	
+
 		// Functions
 		CTFW_ADMIN_DIR . '/activation.php',
 		CTFW_ADMIN_DIR . '/admin-enqueue-styles.php',
@@ -141,12 +141,12 @@ $ctfw_includes = array(
 		CTFW_ADMIN_DIR . '/edd-license.php',
 		CTFW_ADMIN_DIR . '/import.php',
 		CTFW_ADMIN_DIR . '/meta-boxes.php',
-		
+
 		// Libraries
 		CTFW_LIB_DIR . '/ct-meta-box/ct-meta-box.php',
 
 	),
-	
+
 	// Frontend Only
 	'frontend' => array (
 
@@ -178,50 +178,50 @@ ctfw_load_includes( $ctfw_includes );
  * @param array $includes Files to include
  */
 function ctfw_load_includes( $includes ) {
-		
+
 	// Loop conditions
 	foreach ( $includes as $condition => $files ) {
-	
+
 		// Check condition
 		$do_includes = false;
 		switch( $condition ) {
-			
+
 			// Admin Only
 			case 'admin':
-			
+
 				if ( is_admin() ) {
 					$do_includes = true;
 				}
-				
+
 				break;
-				
+
 			// Frontend Only
 			case 'frontend':
-			
+
 				if ( ! is_admin() ) {
 					$do_includes = true;
 				}
-				
+
 				break;
-				
+
 			// Admin or Frontend (always)
 			default:
-			
+
 				$do_includes = true;
-				
-				break;			
-			
+
+				break;
+
 		}
-	
+
 		// Loop files if condition met
 		if ( $do_includes ) {
-		
-			foreach ( $files as $file ) {	
+
+			foreach ( $files as $file ) {
 				locate_template( $file, true ); // include from child theme first, then parent theme
 			}
-			
+
 		}
-		
+
 	}
 
 }

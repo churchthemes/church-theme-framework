@@ -3,7 +3,7 @@
  *
  * Appearance > Widgets and Customizer's widget controls both use these styles.
  */
- 
+
 .ctfw-widget-field {
 	margin-bottom: 12px;
 }
@@ -30,7 +30,7 @@
 	.ctfw-widget-value textarea {
 		width: 100%;
 	}
-	
+
 	.ctfw-widget-value textarea {
 		height: 56px;
 	}
@@ -53,7 +53,7 @@
 		display: inline-block;
 		margin: 2px 12px 0 0;
 	}
-	
+
 		.ctfw-widget-radio-inline:last-child {
 			margin-right: 0;
 		}
@@ -64,7 +64,7 @@
 	}
 
 /* Hidden Fields */
-		
+
 .ctfw-widget-hidden {
 	display: none;
 }

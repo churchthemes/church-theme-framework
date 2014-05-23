@@ -60,20 +60,20 @@ function ctfw_head_title( $title, $sep, $seplocation ) {
 			$before = $title;
 			$after = get_bloginfo( 'name' );
 		}
-		
+
 		// Build title
 		$before = trim( $before ) . $page_number;
 		$after = trim( $after );
 		$new_title = $before;
 		if ( $after ) {
-			/* translators: delimiter for <title> content */ 
+			/* translators: delimiter for <title> content */
 			$new_title .= _x( ' - ', 'head title', 'church-theme-framework' ) . $after;
 		}
 
 	}
-	
+
 	return $new_title;
-	
+
 }
- 
+
 add_filter( 'wp_title', 'ctfw_head_title', 10, 3 );

@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Output image size dimensions
  *
  * Pass in image size to return 123x123
- * 
+ *
  * @since 0.9
  * @global array $_wp_additional_image_sizes
  * @param string $size Image size name to get dimensions for
@@ -47,7 +47,7 @@ function ctfw_image_size_dimensions( $size ) {
  *
  * Each post type has a recommended image size.
  * See includes/support.php for notes on Highlight and Slide widgets.
- * 
+ *
  * @since 0.9
  * @param string $content Featured image meta box content
  * @return string Content with image size note appended
@@ -64,7 +64,7 @@ function ctfw_featured_image_notes( $content ) {
 		// Get admin screen
 		$screen = get_current_screen();
 		if ( ! empty( $screen->post_type ) && ! empty( $post_types[$screen->post_type] ) ) {
-		
+
 			// Get post type data
 			$post_type_data = $post_types[$screen->post_type];
 
@@ -103,7 +103,7 @@ function ctfw_featured_image_notes( $content ) {
 
 	// Return content with note appended
 	return $content;
-	
+
 }
 
 add_filter( 'admin_post_thumbnail_html', 'ctfw_featured_image_notes' );
@@ -122,7 +122,7 @@ add_filter( 'admin_post_thumbnail_html', 'ctfw_featured_image_notes' );
  * This code is based on the core image_resize_dimensions() function in wp-content/media.php.
  *
  * Note: This framework feature must be enabled using add_theme_support( 'ctfw-image-upscaling' )
- * 
+ *
  * @since 0.9
  * @param array $output Current output
  * @param int $orig_w Original width

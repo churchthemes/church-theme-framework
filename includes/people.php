@@ -77,7 +77,7 @@ function ctfw_person_data( $post_id = null ) {
 
 /**
  * Prev/next people sorting
- * 
+ *
  * This makes get_previous_post() and get_next_post() sort by manual order instead of Publish Date
  *
  * @since 0.9.0
