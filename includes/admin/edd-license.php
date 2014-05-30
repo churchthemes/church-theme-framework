@@ -668,7 +668,7 @@ function ctfw_edd_license_sync() {
 
 	// Check remote status
 	$status = ctfw_edd_license_check();
-
+echo 'status: ' . $status;
 	// Continue only if got a response
 	if ( ! empty( $status ) ) { // don't do anything if times out
 
@@ -705,6 +705,9 @@ function ctfw_edd_license_sync() {
  * Sync remote/local status automatically
  *
  * Check for remote status change periodically on relevant pages: Dashboard, Theme License, Themes, Updates
+ * Check in real-time on Theme License page so if remote change was made, they see it immediately as if in account.
+ *
+ * Once daily is enough to keep notice on dashboard and updates up to date without hammering remote server.
  *
  * @since 0.9
  */
@@ -720,17 +723,18 @@ function ctfw_edd_license_auto_sync() {
 		return;
 	}
 
-	// Only in relevant areas
+	// Periodically in relevant areas or always on Theme License page
 	$screen = get_current_screen();
 	if ( in_array( $screen->base, array( 'dashboard', 'appearance_page_theme-license', 'themes', 'update-core' ) ) ) {
 
-		// Has this been checked in last day?
-		if ( ! get_transient( 'ctfw_edd_license_auto_sync' ) ) {
+		// Has this been checked in last day or is it theme license page?
+		if ( ! get_transient( 'ctfw_edd_license_auto_sync' ) || 'appearance_page_theme-license' == $screen->base ) {
 
 			// Check remote status and sync both ways if necessary
 			ctfw_edd_license_sync();
 
 			// Set transient to prevent check until next day
+			// Once per day is enough to keep notice on dashboard and updates pages without hammering remote server
 			set_transient( 'ctfw_edd_license_auto_sync', true, DAY_IN_SECONDS );
 
 		}
