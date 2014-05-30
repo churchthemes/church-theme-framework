@@ -14,7 +14,7 @@
  *			'options_page_message'		=> '',								// optional message to show on options page
  *			'activation_error_message'	=> __( 'Your message', 'theme' ),	// optional notice to override default with when activation fails
  *			'inactive_notice'			=> true,							// default true; show notice with link to license options page before license active
- *			'renewal_url'				=> '',								// optional URL for showing renewal links
+ *			'renewal_url'				=> '',								// optional URL renewal links {license_key} will be replaced
  *    	) );
  *
  * This default configuration assumes download's name in EDD is same as theme name.
@@ -68,7 +68,7 @@ function ctfw_edd_license_config( $arg = false ) {
 			'options_page_message'		=> '',						// optional message to show on options page
 			'activation_error_message'	=> __( '<b>License key could not be activated.</b>', 'church-theme-framework' ),
 			'inactive_notice'			=> true,					// default true; show notice with link to license options page before license active
-			'renewal_url'				=> '',						// optional URL for showing renewal links
+			'renewal_url'				=> '',						// optional URL renewal links {license_key} will be replaced
 		) );
 
 		// Get specific argument?
@@ -637,6 +637,9 @@ function ctfw_edd_license_process_renew_button() {
 
 		// Renewal URL provided
 		if ( ! empty( $renewal_url ) ) {
+
+			// Replace {license_key}
+			$renewal_url = str_replace( '{license_key}', ctfw_edd_license_key(), $renewal_url );
 
 			// Redirect to renewal URL
 			wp_redirect( $renewal_url );
