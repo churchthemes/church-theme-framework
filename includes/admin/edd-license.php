@@ -541,6 +541,43 @@ function ctfw_edd_license_action( $action ) {
 }
 
 /**
+ * Get remote license data
+ *
+ * Get status, expiration, etc. from remote
+ *
+ * @since 1.3
+ * @param string Optional key to get value for
+ * @return array License data array or single value for key
+ */
+function ctfw_edd_license_data( $key = false ) {
+
+	// Get remote license data
+	$data = ctfw_edd_license_action( 'check_license' );
+
+	// Convert data to array
+	$data = (array) $data;
+
+	// Get value for specific key?
+	if ( isset( $key ) ) { // key is given
+
+		// Value exists for key in object
+		if ( ! empty( $data[$key] ) ) {
+			$data = $data[$key];
+		}
+
+		// If key or value not found, return nothing
+		// (instead of full license data from above)
+		else {
+			$data = '';
+		}
+
+	}
+
+	return apply_filters( 'ctfw_edd_license_data', $data, $key );
+
+}
+
+/**
  * Check license key status
  *
  * Check if license is valid on remote end.
@@ -550,12 +587,7 @@ function ctfw_edd_license_action( $action ) {
  */
 function ctfw_edd_license_check() {
 
-	$status = '';
-
-	// Call action via API
-	if ( $license_data = ctfw_edd_license_action( 'check_license' ) ) {
-		$status = $license_data->license;
-	}
+	$status = ctfw_edd_license_data( 'license' );
 
 	return apply_filters( 'ctfw_edd_license_check', $status );
 
@@ -584,6 +616,8 @@ function ctfw_edd_license_check_deactivation() {
 
 	// Check remote status
 	$status = ctfw_edd_license_check();
+
+echo 'status: ' . $status;
 
 	// Continue only if got a response
 	if ( ! empty( $status ) ) { // don't do anything if times out
@@ -624,15 +658,15 @@ function ctfw_edd_license_auto_check_deactivation() {
 	if ( in_array( $screen->base, array( 'dashboard', 'appearance_page_theme-license', 'themes', 'update-core' ) ) ) {
 
 		// Has this been checked in last day?
-		if ( ! get_transient( 'ctfw_edd_license_auto_check_deactivation' ) ) {
+//		if ( ! get_transient( 'ctfw_edd_license_auto_check_deactivation' ) ) {
 
 			// Check remote status and deactivate locally if necessary
 			ctfw_edd_license_check_deactivation();
 
 			// Set transient to prevent check until next day
-			set_transient( 'ctfw_edd_license_auto_check_deactivation', true, DAY_IN_SECONDS );
+//			set_transient( 'ctfw_edd_license_auto_check_deactivation', true, DAY_IN_SECONDS );
 
-		}
+//		}
 
 	}
 
