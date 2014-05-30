@@ -515,7 +515,8 @@ function ctfw_edd_license_action( $action ) {
 				$api_params = array(
 					'edd_action'	=> $action,
 					'license' 		=> $license,
-					'item_name'		=> urlencode( ctfw_edd_license_config( 'item_name' ) ) // name of download in EDD
+					'item_name'		=> urlencode( ctfw_edd_license_config( 'item_name' ) ), // name of download in EDD
+					'url'			=> urlencode( trailingslashit( site_url() ) ) // URL of this site activated for license
 				);
 
 				// Call the API
@@ -588,7 +589,7 @@ function ctfw_edd_license_check_deactivation() {
 	if ( ! empty( $status ) ) { // don't do anything if times out
 
 		// Deactivated remotely
-		if ( in_array( $status, array( 'inactive', 'expired' ) ) ) { // status is not valid
+		if ( in_array( $status, array( 'inactive', 'expired', 'site_inactive' ) ) ) { // status is not valid
 
 			// Deactivate locally
 			delete_option( ctfw_edd_license_key_option( 'status' ) );
