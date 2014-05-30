@@ -110,7 +110,7 @@ function ctfw_edd_license_updater() {
 add_action( 'after_setup_theme', 'ctfw_edd_license_updater', 99 ); // after any use of add_theme_support() at 10
 
 /*******************************************
- * OPTIONS DATA
+ * OPTIONS DATA (LOCAL)
  *******************************************/
 
 /**
@@ -220,6 +220,45 @@ function ctfw_edd_license_expired() {
 
 }
 
+/**
+ * Set license expiration date locally
+ *
+ * Removes seconds so stored value is YYYY-MM-DD.
+ *
+ * @since 1.3
+ * @param string $expiration Remove expiration date value
+ * @return string Expiration YYYY-MM-DD
+ */
+function ctfw_edd_license_update_expiration( $expiration ) {
+
+	// Only if have a value (old value better than no value)
+	if ( ! empty( $expiration ) ) {
+
+		// Remove seconds so stored value is YYYY-MM-DD
+		list( $expiration ) = explode( ' ', $expiration );
+		$expiration = trim( $expiration );
+
+		// Update local value
+		update_option( ctfw_edd_license_key_option( 'expiration' ), $expiration );
+
+	}
+
+}
+
+/**
+ * Get license expiration date (local value)
+ *
+ * @since 1.3
+ * @return string Expiration YYYY-MM-DD
+ */
+function ctfw_edd_license_expiration() {
+
+	$expiration = get_option( ctfw_edd_license_key_option( 'expiration' ) );
+
+	return apply_filters( 'ctfw_edd_license_expiration', $expiration );
+
+}
+
 /*******************************************
  * OPTIONS PAGE
  *******************************************/
@@ -305,7 +344,7 @@ function ctfw_edd_license_page() {
 
 			<?php if ( $license ) : ?>
 
-			<h3 class="title"><?php _e( 'License Activation', 'church-theme-framework' ); ?></h3>
+			<h3 class="title"><?php _e( 'License Status', 'church-theme-framework' ); ?></h3>
 
 			<table class="form-table">
 
@@ -431,6 +470,12 @@ function ctfw_edd_license_activation() {
 			// If deactivated remotely, set local status; or set local status if was already inactive remotely -- keep in sync
 			elseif ( 'deactivate_license' == $action && ( 'deactivated' == $license_data->license || 'inactive' == ctfw_edd_license_check() ) ) {
 				delete_option( ctfw_edd_license_key_option( 'status' ) );
+			}
+
+			// Set current expiration locally
+			// Local will be synced to remote daily in case changes
+			if ( isset( $license_data->expires ) ) {
+				ctfw_edd_license_update_expiration( $license_data->expires );
 			}
 
 		}
@@ -613,7 +658,7 @@ function ctfw_edd_license_check_data( $key = false ) {
 	$data = (array) $data;
 
 	// Get value for specific key?
-	if ( isset( $key ) ) { // key is given
+	if ( isset( $data[$key] ) ) { // key is given
 
 		// Value exists for key in object
 		if ( ! empty( $data[$key] ) ) {
@@ -655,6 +700,8 @@ function ctfw_edd_license_check() {
  * An expired license could have been renewed or a site URL addded remorely.
  * The license could have been expired, refunded or the URL no longer matches (whole site move).
  *
+ * This also updates the expiration date locally.
+ *
  * Otherwise, they may think they are up to date when they are not.
  *
  * @since 0.9
@@ -666,11 +713,14 @@ function ctfw_edd_license_sync() {
 		return;
 	}
 
-	// Check remote status
-	$status = ctfw_edd_license_check();
+	// Get remote license data
+	$license_data = ctfw_edd_license_check_data();
 
 	// Continue only if got a response
-	if ( ! empty( $status ) ) { // don't do anything if times out
+	if ( ! empty( $license_data ) ) { // don't do anything if times out
+
+		// Get remote status
+		$status = isset( $license_data['license'] ) ? $license_data['license'] : false;
 
 		// Active remotely
 		// This will activate locally if had been inactive or expired locally
@@ -695,6 +745,12 @@ function ctfw_edd_license_sync() {
 			// Set status expired locally
 			update_option( ctfw_edd_license_key_option( 'status' ), 'expired' );
 
+		}
+
+		// Update expiration data
+		// This helps the user know when to renew
+		if ( isset( $license_data['expires'] ) ) {
+			ctfw_edd_license_update_expiration( $license_data['expires'] );
 		}
 
 	}
