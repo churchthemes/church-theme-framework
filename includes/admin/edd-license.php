@@ -12,6 +12,7 @@
  *			'updates'				=> true,					// default true; enable automatic updates
  *			'options_page'			=> true,					// default true; provide options page for license entry/activaton
  *			'options_page_message'	=> '',						// optional message to show on options page
+ *			'renewal_url'			=> '',						// optional URL for showing renewal links
  *			'inactive_notice'		=> true,					// default true; show notice with link to license options page before license active
  *    	) );
  *
@@ -20,7 +21,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Admin
- * @copyright  Copyright (c) 2013, churchthemes.com
+ * @copyright  Copyright (c) 2013 -, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -64,6 +65,7 @@ function ctfw_edd_license_config( $arg = false ) {
 			'updates'				=> true,					// default true; enable automatic updates
 			'options_page'			=> true,					// default true; provide options page for license entry/activaton
 			'options_page_message'	=> '',						// optional message to show on options page
+			'renewal_url'			=> '',						// optional URL for showing renewal links
 			'inactive_notice'		=> true,					// default true; show notice with link to license options page before license active
 		) );
 
@@ -238,8 +240,13 @@ function ctfw_edd_license_update_expiration( $expiration ) {
 		list( $expiration ) = explode( ' ', $expiration );
 		$expiration = trim( $expiration );
 
-		// Update local value
-		update_option( ctfw_edd_license_key_option( 'expiration' ), $expiration );
+		// Not an invalid key?
+		if ( $expiration != '1970-01-01' ) {
+
+			// Update local value
+			update_option( ctfw_edd_license_key_option( 'expiration' ), $expiration );
+
+		}
 
 	}
 
@@ -305,7 +312,10 @@ function ctfw_edd_license_page() {
 
 		<h2><?php _ex( 'Theme License', 'page title', 'church-theme-framework' ); ?></h2>
 
-		<?php if ( $message = ctfw_edd_license_config( 'options_page_message' ) ) : ?>
+		<?php
+		$message = ctfw_edd_license_config( 'options_page_message' );
+		if ( $message ) :
+		?>
 		<p>
 			<?php echo $message; ?>
 		</p>
@@ -404,7 +414,9 @@ function ctfw_edd_license_page() {
 
 				<?php endif; ?>
 
-				<input type="submit" id="ctfw-license-renew-button" class="button button<?php if ( ctfw_edd_license_expired() ) : ?>-primary<?php endif; ?> ctfw-license-button ctfw-license-renew-button" name="ctfw_edd_license_renew" value="<?php _e( 'Renew License', 'church-theme-framework' ); ?>" />
+				<?php if ( ctfw_edd_license_config( 'renewal_url' ) ) : // only if URL provided ?>
+					<input type="submit" id="ctfw-license-renew-button" class="button button<?php if ( ctfw_edd_license_expired() ) : ?>-primary<?php endif; ?> ctfw-license-button ctfw-license-renew-button" name="ctfw_edd_license_renew" value="<?php _e( 'Renew License', 'church-theme-framework' ); ?>" />
+				<?php endif; ?>
 
 			</p>
 
@@ -438,7 +450,7 @@ add_action( 'admin_init', 'ctfw_edd_license_register_option' );
 /**
  * Sanitize license key
  *
- * Also unset local status if changing key,
+ * Also unset local status and expiration if changing key.
  *
  * @since 0.9
  * @param string $new Key being saved
@@ -448,9 +460,10 @@ function ctfw_edd_license_sanitize( $new ) {
 
 	$old = ctfw_edd_license_key();
 
-	// Unset local status as active when changing key -- need to activate new key
+	// Unset local status as active and expiration date when changing key -- need to activate new key
 	if ( $old && $old != $new ) {
 		delete_option( ctfw_edd_license_key_option( 'status' ) );
+		delete_option( ctfw_edd_license_key_option( 'expiration' ) );
 	}
 
 	$new = trim( $new );
@@ -607,6 +620,40 @@ function ctfw_edd_license_notice() {
 }
 
 add_action( 'admin_notices', 'ctfw_edd_license_notice', 7 ); // higher priority than functionality plugin notice
+
+/*******************************************
+ * LICENSE RENEWAL
+ *******************************************/
+
+/**
+ * Redirect to rewal URL when  "Renew License" clicked on Theme License page
+ *
+ * @since 1.3
+ */
+function ctfw_edd_license_process_renew_button() {
+
+	// Renewal button on Theme License page clicked
+	if ( isset( $_POST['ctfw_edd_license_renew'] ) ) {
+
+		// Get renewal URL
+		$renewal_url = ctfw_edd_license_config( 'renewal_url' );
+
+		// Renewal URL provided
+		if ( ! empty( $renewal_url ) ) {
+
+			// Redirect to renewal URL
+			wp_redirect( $renewal_url );
+
+			// Stop execution
+			exit;
+
+		}
+
+	}
+
+}
+
+add_action( 'admin_init', 'ctfw_edd_license_process_renew_button' );
 
 /*******************************************
  * EDD API
