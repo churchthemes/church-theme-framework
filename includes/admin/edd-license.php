@@ -150,6 +150,22 @@ function ctfw_edd_license_key( $append = '' ) {
 }
 
 /**
+ * Get local license status
+ *
+ * Note if inactive, value is empty
+ *
+ * @since 1.3
+ * @return string status active, expired or empty (inactive)
+ */
+function ctfw_edd_license_status() {
+
+	$status = get_option( ctfw_edd_license_key_option( 'status' ) );
+
+	return apply_filters( 'ctfw_edd_license_status', $status );
+
+}
+
+/**
  * License is locally active
  *
  * @since 0.9
@@ -159,11 +175,48 @@ function ctfw_edd_license_active() {
 
 	$active = false;
 
-	if ( get_option( ctfw_edd_license_key_option( 'status' ) ) == 'active' ) {
+	if ( 'active' == ctfw_edd_license_status() ) {
 		$active = true;
 	}
 
 	return apply_filters( 'ctfw_edd_license_active', $active );
+
+}
+
+
+/**
+ * License is locally inactive
+ *
+ * @since 1.3
+ * @return bool True if inactive
+ */
+function ctfw_edd_license_inactive() {
+
+	$inactive = false;
+
+	if ( ! ctfw_edd_license_status() ) {
+		$inactive = true;
+	}
+
+	return apply_filters( 'ctfw_edd_license_inactive', $inactive );
+
+}
+
+/**
+ * License is locally expired
+ *
+ * @since 1.3
+ * @return bool True if expired
+ */
+function ctfw_edd_license_expired() {
+
+	$expired = false;
+
+	if ( 'expired' == ctfw_edd_license_status() ) {
+		$expired = true;
+	}
+
+	return apply_filters( 'ctfw_edd_license_expired', $expired );
 
 }
 
@@ -342,7 +395,7 @@ function ctfw_edd_license_sanitize( $new ) {
  *
  * @since 0.9
  */
-function ctfw_edd_license_activation( ) {
+function ctfw_edd_license_activation() {
 
 	// Activate or Deactivate button clicked
 	if ( isset( $_POST['ctfw_edd_license_activate'] ) || isset( $_POST['ctfw_edd_license_deactivate'] ) ) {
@@ -549,7 +602,7 @@ function ctfw_edd_license_action( $action ) {
  * @param string Optional key to get value for
  * @return array License data array or single value for key
  */
-function ctfw_edd_license_data( $key = false ) {
+function ctfw_edd_license_check_data( $key = false ) {
 
 	// Get remote license data
 	$data = ctfw_edd_license_action( 'check_license' );
@@ -573,7 +626,7 @@ function ctfw_edd_license_data( $key = false ) {
 
 	}
 
-	return apply_filters( 'ctfw_edd_license_data', $data, $key );
+	return apply_filters( 'ctfw_edd_license_check_data', $data, $key );
 
 }
 
@@ -587,7 +640,7 @@ function ctfw_edd_license_data( $key = false ) {
  */
 function ctfw_edd_license_check() {
 
-	$status = ctfw_edd_license_data( 'license' );
+	$status = ctfw_edd_license_check_data( 'license' );
 
 	return apply_filters( 'ctfw_edd_license_check', $status );
 
@@ -597,6 +650,7 @@ function ctfw_edd_license_check() {
  * Check for remote deactivation and update local
  *
  * It's handy to run this periodically in case license has been remotely deactivated.
+ * The license could have been expired, refunded or the URL no longer matches (whole site move).
  * Otherwise, they may think they are up to date when they are not.
  *
  * @since 0.9
@@ -608,25 +662,25 @@ function ctfw_edd_license_check_deactivation() {
 		return;
 	}
 
-	// Only if locally active
-	// Update: Do run always, because might be expired now
-	//if ( ! ctfw_edd_license_active() ) { // already inactive locally
-	//	return;
-	//}
-
 	// Check remote status
 	$status = ctfw_edd_license_check();
-
-echo 'status: ' . $status;
 
 	// Continue only if got a response
 	if ( ! empty( $status ) ) { // don't do anything if times out
 
 		// Deactivated remotely
-		if ( in_array( $status, array( 'inactive', 'expired', 'site_inactive' ) ) ) { // status is not valid
+		if ( in_array( $status, array( 'inactive', 'site_inactive' ) ) ) { // status is not valid
 
 			// Deactivate locally
 			delete_option( ctfw_edd_license_key_option( 'status' ) );
+
+		}
+
+		// Expired remotely
+		elseif ( 'expired' == $status ) {
+
+			// Set status expired locally
+			update_option( ctfw_edd_license_key_option( 'status' ), 'expired' );
 
 		}
 
@@ -638,6 +692,7 @@ echo 'status: ' . $status;
  * Run remote deactivation check automatically
  *
  * Check for remote deactivation periodically on relevant pages: Dashboard, Theme License, Themes, Updates
+ * This could be expiration too.
  *
  * @since 0.9
  */
@@ -658,15 +713,15 @@ function ctfw_edd_license_auto_check_deactivation() {
 	if ( in_array( $screen->base, array( 'dashboard', 'appearance_page_theme-license', 'themes', 'update-core' ) ) ) {
 
 		// Has this been checked in last day?
-//		if ( ! get_transient( 'ctfw_edd_license_auto_check_deactivation' ) ) {
+		if ( ! get_transient( 'ctfw_edd_license_auto_check_deactivation' ) ) {
 
 			// Check remote status and deactivate locally if necessary
 			ctfw_edd_license_check_deactivation();
 
 			// Set transient to prevent check until next day
-//			set_transient( 'ctfw_edd_license_auto_check_deactivation', true, DAY_IN_SECONDS );
+			set_transient( 'ctfw_edd_license_auto_check_deactivation', true, DAY_IN_SECONDS );
 
-//		}
+		}
 
 	}
 
