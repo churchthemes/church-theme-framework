@@ -39,7 +39,7 @@ function ctfw_google_map( $options = false ) {
 
 		// Pass location of map icons to JS
 		wp_localize_script( 'ctfw-maps', 'ctfw_maps', array(
-			'icon'			=> ctfw_color_url( apply_filters( 'ctfw_maps_icon_color_file', 'images/map-icon.png' ) )
+			'icon' => ctfw_color_url( apply_filters( 'ctfw_maps_icon_color_file', 'images/map-icon.png' ) )
 		));
 
 		// Type and zoom are optional
