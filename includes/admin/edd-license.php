@@ -8,12 +8,13 @@
  * Add support for this framework feature like this:
  *
  *		add_theme_support( 'ctfw-edd-license', array(
- *  		'store_url'				=> 'yourstore.com',			// URL of store running EDD with Software Licensing extension
- *			'updates'				=> true,					// default true; enable automatic updates
- *			'options_page'			=> true,					// default true; provide options page for license entry/activaton
- *			'options_page_message'	=> '',						// optional message to show on options page
- *			'renewal_url'			=> '',						// optional URL for showing renewal links
- *			'inactive_notice'		=> true,					// default true; show notice with link to license options page before license active
+ *  		'store_url'					=> 'yourstore.com',					// URL of store running EDD with Software Licensing extension
+ *			'updates'					=> true,							// default true; enable automatic updates
+ *			'options_page'				=> true,							// default true; provide options page for license entry/activaton
+ *			'options_page_message'		=> '',								// optional message to show on options page
+ *			'activation_error_message'	=> __( 'Your message', 'theme' ),	// optional notice to override default with when activation fails
+ *			'inactive_notice'			=> true,							// default true; show notice with link to license options page before license active
+ *			'renewal_url'				=> '',								// optional URL for showing renewal links
  *    	) );
  *
  * This default configuration assumes download's name in EDD is same as theme name.
@@ -21,7 +22,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Admin
- * @copyright  Copyright (c) 2013 -, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2014, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -57,16 +58,17 @@ function ctfw_edd_license_config( $arg = false ) {
 
 		// Set defaults
 		$config = wp_parse_args( $config, array(
-			'store_url'				=> '',						// URL of store running EDD with Software Licensing extension
-			'version'				=> CTFW_THEME_VERSION,		// default is to auto-determine from theme
-			'license'				=> ctfw_edd_license_key(),	// default is to use '{theme}_license_key' option
-			'item_name'				=> CTFW_THEME_NAME,			// default is to use theme name; must match download name in EDD
-			'author'				=> CTFW_THEME_AUTHOR,		// default is to auto-determine from theme
-			'updates'				=> true,					// default true; enable automatic updates
-			'options_page'			=> true,					// default true; provide options page for license entry/activaton
-			'options_page_message'	=> '',						// optional message to show on options page
-			'renewal_url'			=> '',						// optional URL for showing renewal links
-			'inactive_notice'		=> true,					// default true; show notice with link to license options page before license active
+			'store_url'					=> '',						// URL of store running EDD with Software Licensing extension
+			'version'					=> CTFW_THEME_VERSION,		// default is to auto-determine from theme
+			'license'					=> ctfw_edd_license_key(),	// default is to use '{theme}_license_key' option
+			'item_name'					=> CTFW_THEME_NAME,			// default is to use theme name; must match download name in EDD
+			'author'					=> CTFW_THEME_AUTHOR,		// default is to auto-determine from theme
+			'updates'					=> true,					// default true; enable automatic updates
+			'options_page'				=> true,					// default true; provide options page for license entry/activaton
+			'options_page_message'		=> '',						// optional message to show on options page
+			'activation_error_message'	=> __( '<b>License key could not be activated.</b>', 'church-theme-framework' ),
+			'inactive_notice'			=> true,					// default true; show notice with link to license options page before license active
+			'renewal_url'				=> '',						// optional URL for showing renewal links
 		) );
 
 		// Get specific argument?
@@ -544,17 +546,12 @@ function ctfw_edd_license_activation_failure_notice() {
 	if ( $activation_result = get_transient( 'ctfw_edd_license_activation_result' ) ) {
 
 		// Failed
-		if ( 'fail' == $activation_result ) {
+		if ( 'fail' == $activation_result && ctfw_edd_license_config( 'activation_error_message' ) ) {
 
 			?>
 			<div id="ctfw-license-activation-error-notice" class="error">
 				<p>
-					<?php
-					printf(
-						__( '<b>License key could not be activated.</b> Read the <a href="%s" target="_blank">License Keys</a> guide for help.', 'church-theme-framework' ),
-						'http://churchthemes.com/go/license-keys'
-					);
-					?>
+					<?php echo ctfw_edd_license_config( 'activation_error_message' ); ?>
 				</p>
 			</div>
 			<?php
