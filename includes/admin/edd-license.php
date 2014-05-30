@@ -320,6 +320,8 @@ function ctfw_edd_license_page() {
 						<td>
 							<?php if ( ctfw_edd_license_active() ) : ?>
 								<span class="ctfw-license-active"><?php _ex( 'Active', 'license key', 'church-theme-framework' ); ?></span>
+							<?php elseif ( ctfw_edd_license_expired() ) : ?>
+								<span class="ctfw-license-expired"><?php _ex( 'Expired', 'license key', 'church-theme-framework' ); ?></span>
 							<?php else : ?>
 								<span class="ctfw-license-inactive"><?php _ex( 'Inactive', 'license key', 'church-theme-framework' ); ?></span>
 							<?php endif; ?>
@@ -647,15 +649,17 @@ function ctfw_edd_license_check() {
 }
 
 /**
- * Check for remote deactivation and update local
+ * Sync remote/local status
  *
- * It's handy to run this periodically in case license has been remotely deactivated.
+ * It's handy to run this periodically in case license has been remotely activated, renewed or deactivated.
+ * An expired license could have been renewed or a site URL addded remorely.
  * The license could have been expired, refunded or the URL no longer matches (whole site move).
+ *
  * Otherwise, they may think they are up to date when they are not.
  *
  * @since 0.9
  */
-function ctfw_edd_license_check_deactivation() {
+function ctfw_edd_license_sync() {
 
 	// Theme stores local option?
 	if ( ! ctfw_edd_license_config( 'options_page' ) ) {
@@ -668,8 +672,17 @@ function ctfw_edd_license_check_deactivation() {
 	// Continue only if got a response
 	if ( ! empty( $status ) ) { // don't do anything if times out
 
-		// Deactivated remotely
-		if ( in_array( $status, array( 'inactive', 'site_inactive' ) ) ) { // status is not valid
+		// Active remotely
+		// This will activate locally if had been inactive or expired locally
+		if ( 'valid' == $status ) {
+
+			// Activate locally
+			update_option( ctfw_edd_license_key_option( 'status' ), 'active' );
+
+		}
+
+		// Inactive remotely
+		elseif ( in_array( $status, array( 'inactive', 'site_inactive' ) ) ) { // status is not valid
 
 			// Deactivate locally
 			delete_option( ctfw_edd_license_key_option( 'status' ) );
@@ -689,14 +702,13 @@ function ctfw_edd_license_check_deactivation() {
 }
 
 /**
- * Run remote deactivation check automatically
+ * Sync remote/local status automatically
  *
- * Check for remote deactivation periodically on relevant pages: Dashboard, Theme License, Themes, Updates
- * This could be expiration too.
+ * Check for remote status change periodically on relevant pages: Dashboard, Theme License, Themes, Updates
  *
  * @since 0.9
  */
-function ctfw_edd_license_auto_check_deactivation() {
+function ctfw_edd_license_auto_sync() {
 
 	// Admin only
 	if ( ! is_admin() ) {
@@ -713,13 +725,13 @@ function ctfw_edd_license_auto_check_deactivation() {
 	if ( in_array( $screen->base, array( 'dashboard', 'appearance_page_theme-license', 'themes', 'update-core' ) ) ) {
 
 		// Has this been checked in last day?
-		if ( ! get_transient( 'ctfw_edd_license_auto_check_deactivation' ) ) {
+		if ( ! get_transient( 'ctfw_edd_license_auto_sync' ) ) {
 
-			// Check remote status and deactivate locally if necessary
-			ctfw_edd_license_check_deactivation();
+			// Check remote status and sync both ways if necessary
+			ctfw_edd_license_sync();
 
 			// Set transient to prevent check until next day
-			set_transient( 'ctfw_edd_license_auto_check_deactivation', true, DAY_IN_SECONDS );
+			set_transient( 'ctfw_edd_license_auto_sync', true, DAY_IN_SECONDS );
 
 		}
 
@@ -727,4 +739,4 @@ function ctfw_edd_license_auto_check_deactivation() {
 
 }
 
-add_action( 'current_screen', 'ctfw_edd_license_auto_check_deactivation' );
+add_action( 'current_screen', 'ctfw_edd_license_auto_sync' );

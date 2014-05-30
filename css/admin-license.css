@@ -7,7 +7,8 @@
 	font-weight: bold;
 }
 
-.ctfw-license-inactive {
+.ctfw-license-inactive,
+.ctfw-license-expired {
 	color: #d52121;
 	font-weight: bold;
 }
