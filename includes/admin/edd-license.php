@@ -623,7 +623,28 @@ add_action( 'admin_notices', 'ctfw_edd_license_notice', 7 ); // higher priority 
  *******************************************/
 
 /**
- * Redirect to rewal URL when  "Renew License" clicked on Theme License page
+ * Construct license renewal URL
+ *
+ * Replace {license_key}
+ *
+ * @since 1.3
+ * @return string Renewal URl with license key replaced
+ */
+function ctfw_edd_license_renewal_url() {
+
+	// Get raw renewal URL
+	$renewal_url = ctfw_edd_license_config( 'renewal_url' );
+
+	// Replace {license_key}
+	$renewal_url = str_replace( '{license_key}', ctfw_edd_license_key(), $renewal_url );
+
+	// Return filtered
+	return apply_filters( 'ctfw_edd_license_renewal_url', $renewal_url );
+
+}
+
+/**
+ * Redirect to rewal URL when "Renew License" clicked on Theme License page
  *
  * @since 1.3
  */
@@ -633,13 +654,10 @@ function ctfw_edd_license_process_renew_button() {
 	if ( isset( $_POST['ctfw_edd_license_renew'] ) ) {
 
 		// Get renewal URL
-		$renewal_url = ctfw_edd_license_config( 'renewal_url' );
+		$renewal_url = ctfw_edd_license_renewal_url();
 
 		// Renewal URL provided
 		if ( ! empty( $renewal_url ) ) {
-
-			// Replace {license_key}
-			$renewal_url = str_replace( '{license_key}', ctfw_edd_license_key(), $renewal_url );
 
 			// Redirect to renewal URL
 			wp_redirect( $renewal_url );
