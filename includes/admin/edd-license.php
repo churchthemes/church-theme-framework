@@ -368,16 +368,44 @@ function ctfw_edd_license_page() {
 
 					</tr>
 
+					<?php if ( ctfw_edd_license_expiration() ) : ?>
+
+						<tr valign="top">
+
+							<th scope="row" valign="top">
+								<?php _e( 'License Expiration', 'church-theme-framework' ); ?>
+							</th>
+
+							<td>
+								<?php echo esc_html( date_i18n( get_option( 'date_format' ), strtotime( ctfw_edd_license_expiration() ) ) ); ?>
+							</td>
+
+						</tr>
+
+					<?php endif; ?>
+
 				</tbody>
 
 			</table>
 
 			<p class="submit">
-				<?php if ( ctfw_edd_license_active() ) : ?>
-					<input type="submit" class="button button-primary" name="ctfw_edd_license_deactivate" value="<?php _e( 'Deactivate License', 'church-theme-framework' ); ?>" />
-				<?php else : ?>
-					<input type="submit" class="button button-primary" name="ctfw_edd_license_activate" value="<?php _e( 'Activate License', 'church-theme-framework' ); ?>" />
+
+				<?php if ( ! ctfw_edd_license_expired() ) : // only show renew button if expired ?>
+
+					<?php if ( ctfw_edd_license_active() ) : ?>
+
+						<input type="submit" class="button button-primary ctfw-license-button ctfw-license-deactivate-button" name="ctfw_edd_license_deactivate" value="<?php _e( 'Deactivate License', 'church-theme-framework' ); ?>" />
+
+					<?php else : ?>
+
+						<input type="submit" class="button button-primary ctfw-license-button ctfw-license-activate-button" name="ctfw_edd_license_activate" value="<?php _e( 'Activate License', 'church-theme-framework' ); ?>" />
+
+					<?php endif; ?>
+
 				<?php endif; ?>
+
+				<input type="submit" id="ctfw-license-renew-button" class="button button<?php if ( ctfw_edd_license_expired() ) : ?>-primary<?php endif; ?> ctfw-license-button ctfw-license-renew-button" name="ctfw_edd_license_renew" value="<?php _e( 'Renew License', 'church-theme-framework' ); ?>" />
+
 			</p>
 
 			<?php endif; ?>

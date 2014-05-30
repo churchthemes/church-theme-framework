@@ -2,6 +2,8 @@
  * Theme License
  */
 
+/* Status */
+
 .ctfw-license-active {
 	color: #1ba31b;
 	font-weight: bold;
@@ -11,4 +13,10 @@
 .ctfw-license-expired {
 	color: #d52121;
 	font-weight: bold;
+}
+
+/* Buttons */
+
+.ctfw-license-button {
+	margin-right: 10px !important;
 }
