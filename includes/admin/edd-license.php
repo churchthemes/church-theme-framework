@@ -668,7 +668,7 @@ function ctfw_edd_license_sync() {
 
 	// Check remote status
 	$status = ctfw_edd_license_check();
-echo 'status: ' . $status;
+
 	// Continue only if got a response
 	if ( ! empty( $status ) ) { // don't do anything if times out
 
