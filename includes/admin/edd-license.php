@@ -594,7 +594,15 @@ function ctfw_edd_license_activation() {
 			}
 
 			// If deactivated remotely, set local status; or set local status if was already inactive remotely -- keep in sync
-			elseif ( 'deactivate_license' == $action && ( 'deactivated' == $license_data->license || 'inactive' == ctfw_edd_license_check() ) ) {
+			elseif (
+				'deactivate_license' == $action
+				&& (
+					'deactivated' == $license_data->license
+					|| 'disabled' == $license_data->license // if disabled would return failed... (leaving this just in case)
+					|| 'failed' == $license_data->license // likely means deactivastion failed because it's disabled
+					|| 'inactive' == ctfw_edd_license_check()
+				)
+			) {
 				delete_option( ctfw_edd_license_key_option( 'status' ) );
 			}
 
@@ -939,7 +947,7 @@ function ctfw_edd_license_sync() {
 		}
 
 		// Inactive remotely
-		elseif ( in_array( $status, array( 'inactive', 'site_inactive' ) ) ) { // status is not valid
+		elseif ( in_array( $status, array( 'inactive', 'site_inactive', 'disabled' ) ) ) { // status is not valid
 
 			// Deactivate locally
 			delete_option( ctfw_edd_license_key_option( 'status' ) );
