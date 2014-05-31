@@ -71,7 +71,7 @@ function ctfw_edd_license_config( $arg = false ) {
 			'options_page'				=> true,					// default true; provide options page for license entry/activaton
 			'options_page_message'		=> '',						// optional message to show on options page
 			'activation_error_notice'	=> __( '<strong>License key could not be activated.</strong>', 'church-theme-framework' ),
-			'inactive_notice'			=> __( '<strong>License Activation:</strong> Please activate your <a href="%1$s">License Key</a> to enable updates for the <strong>%2$s</strong> theme.', 'church-theme-framework' ),	// optional notice to override default with license is inactive
+			'inactive_notice'			=> __( '<strong>License Inactive:</strong> Please activate your <a href="%1$s">License Key</a> to enable updates for the <strong>%2$s</strong> theme.', 'church-theme-framework' ),	// optional notice to override default with license is inactive
 			'expired_notice'			=> __( '<strong>License Expired:</strong> Renew your <a href="%1$s">License Key</a> to re-enable updates for the <strong>%2$s</strong> theme (expired on <strong>%3$s</strong>).', 'church-theme-framework' ),	// optional notice to override default with when license is expired
 			'expiring_soon_notice'		=> __( '<strong>License Expiring Soon:</strong> Renew your <a href="%1$s">License Key</a> to continue receiving updates for the <strong>%2$s</strong> theme (expires on <strong>%3$s</strong>).', 'church-theme-framework' ),	// optional notice to override default with when license expires soon
 			'expiring_soon_days'		=> 30,						// days before expiration to consider a license "expiring soon"
@@ -694,7 +694,7 @@ function ctfw_edd_license_notice() {
 	// Inactive
 	// Don't show on Theme License page which would be redundant
 	elseif ( ! ctfw_edd_license_active() && 'appearance_page_theme-license' != $screen->base ) {
-		$class = "updated";
+		$class = "error";
 		$notice = 'inactive_notice';
 	}
 
