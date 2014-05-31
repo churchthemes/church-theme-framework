@@ -16,6 +16,7 @@
  *			'inactive_notice'			=> __( 'Your message', 'theme' ),	// optional notice to override default with license is inactive
  *			'expired_notice'			=> __( 'Your message', 'theme' ),	// optional notice to override default with when license is expired
  *			'expiring_soon_notice'		=> __( 'Your message', 'theme' ),	// optional notice to override default with when license expires soon
+ *			'expiring_soon_days'		=> 30,								// days before expiration to consider a license "expiring soon"
  *			'renewal_url'				=> '',								// optional URL renewal linksl %1$s will be replaced with key
  *    	) );
  *
@@ -72,6 +73,7 @@ function ctfw_edd_license_config( $arg = false ) {
 			'inactive_notice'			=> __( '<strong>License Activation:</strong> Please activate your <a href="%1$s">License Key</a> to enable updates for the <strong>%2$s</strong> theme.', 'church-theme-framework' ),	// optional notice to override default with license is inactive
 			'expired_notice'			=> __( '<strong>License Expired:</strong> Renew your <a href="%1$s">License Key</a> to re-enable updates for the <strong>%2$s</strong> theme (expired on <strong>%3$s</strong>).', 'church-theme-framework' ),	// optional notice to override default with when license is expired
 			'expiring_soon_notice'		=> __( '<strong>License Expiring Soon:</strong> Renew your <a href="%1$s">License Key</a> to continue receiving updates for the <strong>%2$s</strong> theme (expires on <strong>%3$s</strong>).', 'church-theme-framework' ),	// optional notice to override default with when license expires soon
+			'expiring_soon_days'		=> 30,						// days before expiration to consider a license "expiring soon"
 			'renewal_url'				=> '',						// optional URL renewal linksl %1$s will be replaced with key
 		) );
 
@@ -307,7 +309,8 @@ function ctfw_edd_license_expiration_data() {
 	$data['expiration'] = get_option( ctfw_edd_license_key_option( 'expiration' ) );
 	$data['expiration_date'] = ctfw_edd_license_expiration_formatted( _x( 'unknown date', 'license expiration', 'church-theme-framework' ) );
 	$data['expiration_ts'] = ! empty( $data['expiration'] ) ? strtotime( $data['expiration'] ) : '';
-	$data['expiring_soon_ts'] = time() + ( DAY_IN_SECONDS * apply_filters( 'ctfw_edd_license_expiring_soon_days', 30 ) );
+	$data['expiring_soon_days'] = ctfw_edd_license_config( 'expiring_soon_days' );
+	$data['expiring_soon_ts'] = time() + ( DAY_IN_SECONDS * $data['expiring_soon_days'] );
 	$data['expiring_soon'] = ( ! ctfw_edd_license_expired() && ! empty( $data['expiration_ts'] ) && $data['expiration_ts'] < $data['expiring_soon_ts'] ) ? true : false;
 
 	return apply_filters( 'ctfw_edd_license_expiration_data', $data );
