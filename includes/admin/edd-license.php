@@ -17,7 +17,8 @@
  *			'expired_notice'			=> __( 'Your message', 'theme' ),	// optional notice to override default with when license is expired
  *			'expiring_soon_notice'		=> __( 'Your message', 'theme' ),	// optional notice to override default with when license expires soon
  *			'expiring_soon_days'		=> 30,								// days before expiration to consider a license "expiring soon"
- *			'renewal_url'				=> '',								// optional URL renewal linksl %1$s will be replaced with key
+ *			'renewal_url'				=> '',								// optional URL for renewal links (ie. EDD checkout); {license_key} will be replaced with key
+ *			'renewal_info_url'			=> '',								// optional URL for renewal information
  *    	) );
  *
  * This default configuration assumes download's name in EDD is same as theme name.
@@ -74,7 +75,8 @@ function ctfw_edd_license_config( $arg = false ) {
 			'expired_notice'			=> __( '<strong>License Expired:</strong> Renew your <a href="%1$s">License Key</a> to re-enable updates for the <strong>%2$s</strong> theme (expired on <strong>%3$s</strong>).', 'church-theme-framework' ),	// optional notice to override default with when license is expired
 			'expiring_soon_notice'		=> __( '<strong>License Expiring Soon:</strong> Renew your <a href="%1$s">License Key</a> to continue receiving updates for the <strong>%2$s</strong> theme (expires on <strong>%3$s</strong>).', 'church-theme-framework' ),	// optional notice to override default with when license expires soon
 			'expiring_soon_days'		=> 30,						// days before expiration to consider a license "expiring soon"
-			'renewal_url'				=> '',						// optional URL renewal linksl %1$s will be replaced with key
+			'renewal_url'				=> '',						// optional URL for renewal links (ie. EDD checkout); {license_key} will be replaced with key
+			'renewal_info_url'			=> '',						// optional URL for renewal information
 		) );
 
 		// Get specific argument?
@@ -679,7 +681,9 @@ function ctfw_edd_license_notice() {
 						ctfw_edd_license_config( $notice ),
 						admin_url( 'themes.php?page=theme-license' ),
 						CTFW_THEME_NAME,
-						$expiration_data['expiration_date']
+						$expiration_data['expiration_date'],
+						ctfw_edd_license_renewal_url(),
+						ctfw_edd_license_config( 'renewal_info_url' )
 					);
 
 					?>
@@ -703,7 +707,7 @@ add_action( 'admin_notices', 'ctfw_edd_license_notice', 7 ); // higher priority 
 /**
  * Construct license renewal URL
  *
- * Replace %1$s with license key
+ * Replace {license_key} with license key
  *
  * @since 1.3
  * @return string Renewal URl with license key replaced
@@ -713,8 +717,8 @@ function ctfw_edd_license_renewal_url() {
 	// Get raw renewal URL
 	$renewal_url = ctfw_edd_license_config( 'renewal_url' );
 
-	// Replace %1$s with license key
-	$renewal_url = sprintf( $renewal_url, ctfw_edd_license_key() );
+	// Replace {license_key} with license key
+	$renewal_url = str_replace( '{license_key}', ctfw_edd_license_key(), $renewal_url );
 
 	// Return filtered
 	return apply_filters( 'ctfw_edd_license_renewal_url', $renewal_url );
