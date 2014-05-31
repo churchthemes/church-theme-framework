@@ -232,6 +232,26 @@ function ctfw_edd_license_expired() {
 }
 
 /**
+ * License is expiring soon
+ *
+ * @since 1.3
+ * @return bool True if expiring within X days
+ */
+function ctfw_edd_license_expiring_soon() {
+
+	$expiring_soon = false;
+
+	$expiration_data = ctfw_edd_license_expiration_data();
+
+	if ( ! empty( $expiration_data['expiring_soon'] ) ) {
+		$expiring_soon = true;
+	}
+
+	return apply_filters( 'ctfw_edd_license_expiring_soon', $expiring_soon );
+
+}
+
+/**
  * Set license expiration date locally
  *
  * Removes seconds so stored value is YYYY-MM-DD.
@@ -420,13 +440,25 @@ function ctfw_edd_license_page() {
 						</th>
 
 						<td>
+
 							<?php if ( ctfw_edd_license_active() ) : ?>
+
 								<span class="ctfw-license-active"><?php _ex( 'Active', 'license key', 'church-theme-framework' ); ?></span>
+
+								<?php if ( ctfw_edd_license_expiring_soon() ) : ?>
+									/ <span class="ctfw-license-expiring-soon"><?php _e( 'Expiring Soon', 'license status', 'church-theme-framework' ); ?></span>
+								<?php endif; ?>
+
 							<?php elseif ( ctfw_edd_license_expired() ) : ?>
+
 								<span class="ctfw-license-expired"><?php _ex( 'Expired', 'license key', 'church-theme-framework' ); ?></span>
+
 							<?php else : ?>
+
 								<span class="ctfw-license-inactive"><?php _ex( 'Inactive', 'license key', 'church-theme-framework' ); ?></span>
+
 							<?php endif; ?>
+
 						</td>
 
 					</tr>

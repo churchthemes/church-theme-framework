@@ -10,7 +10,8 @@
 }
 
 .ctfw-license-inactive,
-.ctfw-license-expired {
+.ctfw-license-expired,
+.ctfw-license-expiring-soon {
 	color: #d52121;
 	font-weight: bold;
 }
