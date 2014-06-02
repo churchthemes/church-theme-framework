@@ -232,7 +232,7 @@ function ctfw_ctc_plugin_notice() {
 	if (  isset( $notice ) ) {
 
 		?>
-		<div class="updated">
+		<div class="error">
 			<p>
 				<?php echo $notice; ?>
 			</p>
