@@ -557,30 +557,6 @@ function ctfw_edd_license_sanitize( $new ) {
 }
 
 /**
- * Auto-activate after saving license key
- *
- * @since 1.3
- */
-function ctfw_edd_license_activate_after_save() {
-
-	// Key was saved
-	if ( ctfw_edd_license_key() && isset( $_POST['submit'] ) && 'Save Key' == $_POST['submit'] ) {
-
-		// Security check
-	 	if( ! check_admin_referer( 'ctfw_edd_license_nonce', 'ctfw_edd_license_nonce' ) ) {
-			return;
-		}
-
-		// Try to activate license automatically upon saving
-		ctfw_edd_license_activation( 'activate_license' );
-
-	}
-
-}
-
-add_action( 'admin_init', 'ctfw_edd_license_activate_after_save' );
-
-/**
  * Activate or deactivate license key
  *
  * @since 0.9
