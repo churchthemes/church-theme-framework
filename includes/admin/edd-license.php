@@ -424,7 +424,6 @@ function ctfw_edd_license_page() {
 
 			<?php submit_button( __( 'Save Key', 'church-theme-framework' ) ); ?>
 
-
 			<?php if ( $license ) : ?>
 
 			<h3 class="title"><?php _e( 'License Status', 'church-theme-framework' ); ?></h3>
@@ -558,25 +557,59 @@ function ctfw_edd_license_sanitize( $new ) {
 }
 
 /**
- * Activate or deactivate license key
+ * Auto-activate after saving license key
  *
- * @since 0.9
+ * @since 1.3
  */
-function ctfw_edd_license_activation() {
+function ctfw_edd_license_activate_after_save() {
 
-	// Activate or Deactivate button clicked
-	if ( isset( $_POST['ctfw_edd_license_activate'] ) || isset( $_POST['ctfw_edd_license_deactivate'] ) ) {
+	// Key was saved
+	if ( ctfw_edd_license_key() && isset( $_POST['submit'] ) && 'Save Key' == $_POST['submit'] ) {
 
 		// Security check
 	 	if( ! check_admin_referer( 'ctfw_edd_license_nonce', 'ctfw_edd_license_nonce' ) ) {
 			return;
 		}
 
-		// Activate or deactivate?
-		$action = isset( $_POST['ctfw_edd_license_activate'] ) ? 'activate_license' : 'deactivate_license';
+		// Try to activate license automatically upon saving
+		ctfw_edd_license_activation( 'activate_license' );
+
+	}
+
+}
+
+add_action( 'admin_init', 'ctfw_edd_license_activate_after_save' );
+
+/**
+ * Activate or deactivate license key
+ *
+ * @since 0.9
+ * @param string $action Action when not executing via post
+ */
+function ctfw_edd_license_activation( $action = false ) {
+
+	// Activate or Deactivate button clicked
+	// Or, action manually passed
+	if ( $action || isset( $_POST['ctfw_edd_license_activate'] ) || isset( $_POST['ctfw_edd_license_deactivate'] ) ) {
+
+		// Check post if action not passed
+		if ( ! $action ) {
+
+			// Security check
+		 	if( ! check_admin_referer( 'ctfw_edd_license_nonce', 'ctfw_edd_license_nonce' ) ) {
+				return;
+			}
+
+			// Activate or deactivate?
+			$action = isset( $_POST['ctfw_edd_license_activate'] ) ? 'activate_license' : 'deactivate_license';
+
+		}
+
+		// Get license data
+		$license_data = ctfw_edd_license_action( $action );
 
 		// Call action via API
-		if ( $license_data = ctfw_edd_license_action( $action ) ) {
+		if ( $license_data ) {
 
 			// If activated remotely, set local status; or set local status if was already active remotely -- keep in sync
 			if ( 'activate_license' == $action ) {
