@@ -557,6 +557,29 @@ function ctfw_edd_license_sanitize( $new ) {
 }
 
 /**
+ * Auto-activate after saving license key
+ *
+ * @since 1.3
+ * @param string $old_value
+ * @param string $value
+ */
+/* This is unreliable, doesn't work on first save on a fresh install.
+function ctfw_edd_license_activate_after_save( $old_value, $value ) {
+
+	// Different key was saved on Theme License page
+	if ( $value && $old_value != $value && isset( $_POST['submit'] ) && 'Save Key' == $_POST['submit'] ) {
+
+		// Try to activate license automatically upon saving
+		ctfw_edd_license_activation( 'activate_license' );
+
+	}
+
+}
+
+add_action( 'update_option_' . CTFW_THEME_SLUG . '_license_key', 'ctfw_edd_license_activate_after_save', 10, 2 );
+*/
+
+/**
  * Activate or deactivate license key
  *
  * @since 0.9
