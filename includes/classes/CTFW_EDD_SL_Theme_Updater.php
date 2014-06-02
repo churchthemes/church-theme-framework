@@ -28,11 +28,7 @@ class CTFW_EDD_SL_Theme_Updater {
 		$args = wp_parse_args( $args, array(
 			'remote_api_url' => 'http://easydigitaldownloads.com',
 			'request_data'   => array(),
-
-			// https://easydigitaldownloads.com/support/topic/updating-theme-deletes-child-theme-and-actives-parent-theme-instead/#post-71936
-			//'theme_slug'     => get_stylesheet(),
 			'theme_slug'     => get_template(),
-
 			'item_name'      => '',
 			'license'        => '',
 			'version'        => '',
@@ -126,12 +122,16 @@ class CTFW_EDD_SL_Theme_Updater {
 		if ( false === $update_data ) {
 			$failed = false;
 
+			if( empty( $this->license ) )
+				return false;
+
 			$api_params = array(
 				'edd_action' 	=> 'get_version',
 				'license' 		=> $this->license,
 				'name' 			=> $this->item_name,
 				'slug' 			=> $this->theme_slug,
-				'author'		=> $this->author
+				'author'		=> $this->author,
+				'url'           => home_url()
 			);
 
 			$response = wp_remote_post( $this->remote_api_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
