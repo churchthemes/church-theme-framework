@@ -462,7 +462,7 @@ function ctfw_edd_license_page() {
 
 					</tr>
 
-					<?php if ( ctfw_edd_license_expiration() ) : ?>
+					<?php if ( ctfw_edd_license_expiration() && ( ctfw_edd_license_active() || ctfw_edd_license_expired() ) ) : // show only if active or expired, not just if have the data ?>
 
 						<tr valign="top">
 
@@ -498,7 +498,7 @@ function ctfw_edd_license_page() {
 
 				<?php endif; ?>
 
-				<?php if ( ctfw_edd_license_config( 'renewal_url' ) ) : // only if URL provided ?>
+				<?php if ( ctfw_edd_license_config( 'renewal_url' ) && ( ctfw_edd_license_active() || ctfw_edd_license_expired() ) ) : // only if URL provided ?>
 					<input type="submit" id="ctfw-license-renew-button" class="button button<?php if ( ctfw_edd_license_expired() ) : ?>-primary<?php endif; ?> ctfw-license-button ctfw-license-renew-button" name="ctfw_edd_license_renew" value="<?php _e( 'Renew License', 'church-theme-framework' ); ?>" />
 				<?php endif; ?>
 
