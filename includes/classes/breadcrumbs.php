@@ -119,7 +119,7 @@ class CTFW_Breadcrumbs {
 		if ( $post = get_post( $post_id ) ) {
 
 			// Current post
-			$title = ctfw_shorten( get_the_title(), $options['shorten'] );
+			$title = get_the_title();
 			if ( empty( $title ) ) { // no title? use post type or post format name?
 				if ( $post_format = get_post_format() ) { // show post format if have it
 					$title = get_post_format_string( $post_format );
@@ -127,6 +127,9 @@ class CTFW_Breadcrumbs {
 					$title = $post_type_obj->labels->singular_name;
 				}
 			}
+
+				// Tidy the title
+				$title = $this->tidy_title( $title, $options );
 
 				// Add breadcrumb
 				$this->add_breadcrumb( $post_breadcrumbs, array(
@@ -147,7 +150,7 @@ class CTFW_Breadcrumbs {
 					$parent_post_id  = $parent_post->post_parent; // if this parent has a parent, while loop will continue
 
 					$parent_post_breadcrumbs[] = array(
-						ctfw_shorten( get_the_title( $parent_post->ID ), $options['shorten'] ),
+						$this->tidy_title( get_the_title( $parent_post->ID ), $options ),
 						get_permalink( $parent_post->ID )
 					);
 
@@ -292,6 +295,35 @@ class CTFW_Breadcrumbs {
 		$date_breadcrumbs = array_reverse( $date_breadcrumbs );
 
 		return apply_filters( 'ctfw_date_breadcrumbs', $date_breadcrumbs, $base_url );
+
+	}
+
+	/**
+	 * Tidy title
+	 *
+	 * Tidy the post/page title by shortening and removing Protected: / Private:
+	 *
+	 * To Do: Improve this so consider all languages and actual post status.
+	 *
+	 * @since 1.3
+	 * @access public
+	 * @param string $title Post/page title
+	 * @param array $options Options affecting tidying
+	 * @return string Tidied title
+	 */
+	public function tidy_title( $title, $options = array() ) {
+
+		$tidy_title = $title;
+
+		// Remove "Protected: " and "Private: "
+		$tidy_title = preg_replace( '/^(Protected|Private): (.+)$/', '$2', $tidy_title );
+
+		// Shorten
+		if ( isset( $options['shorten'] ) ) {
+			$tidy_title = ctfw_shorten( $tidy_title, $options['shorten'] );
+		}
+
+		return apply_filters( 'ctfw_post_breadcrumbs', $tidy_title, $title );
 
 	}
 
@@ -533,6 +565,8 @@ class CTFW_Breadcrumbs {
 
 				if ( ! empty( $breadcrumb[0] ) ) {
 
+					$text = $breadcrumb[0];
+
 					// Separator
 					if ( $i > 1 ) {
 						$string .= $this->options['separator'];
@@ -540,12 +574,12 @@ class CTFW_Breadcrumbs {
 
 					// If no link given (just in case)
 					if ( empty( $breadcrumb[1] ) ) { // add  || $i == $count if don't wany any last item linked, but it's more helpful and reable with it linked
-						$string .= '<span>' . esc_html( $breadcrumb[0] ) . '</span>';
+						$string .= '<span>' . esc_html( $text ) . '</span>';
 					}
 
 					// Linked
 					else {
-						$string .= '<a href="' . esc_url( $breadcrumb[1] ) . '">' . esc_html( $breadcrumb[0] ) . '</a>';
+						$string .= '<a href="' . esc_url( $breadcrumb[1] ) . '">' . esc_html( $text ) . '</a>';
 					}
 
 				}
