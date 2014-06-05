@@ -55,32 +55,43 @@ function ctfw_edd_license_config( $arg = false ) {
 
 	// Get theme support
 	$support = get_theme_support( 'ctfw-edd-license' );
+
+	// Get arguments passed in via theme support
 	if ( $support ) {
-
-		// Get arguments
 		$config = ! empty( $support[0] ) ? $support[0] : array();
+	}
 
-		// Set defaults
-		$config = wp_parse_args( $config, array(
-			'store_url'					=> '',						// URL of store running EDD with Software Licensing extension
-			'version'					=> CTFW_THEME_VERSION,		// default is to auto-determine from theme
-			'license'					=> ctfw_edd_license_key(),	// default is to use '{theme}_license_key' option
-			'item_name'					=> CTFW_THEME_NAME,			// default is to use theme name; must match download name in EDD
-			'author'					=> CTFW_THEME_AUTHOR,		// default is to auto-determine from theme
-			'updates'					=> true,					// default true; enable automatic updates
-			'options_page'				=> true,					// default true; provide options page for license entry/activaton
-			'options_page_message'		=> '',						// optional message to show on options page
-			'activation_error_notice'	=> __( '<strong>License key could not be activated.</strong>', 'church-theme-framework' ),
-			'inactive_notice'			=> __( '<strong>License Inactive:</strong> <a href="%1$s">Activate Your License Key</a> to enable updates for the <strong>%2$s</strong> theme.', 'church-theme-framework' ),	// optional notice to override default with license is inactive
-			'expired_notice'			=> __( '<strong>License Expired:</strong> Renew your <a href="%1$s">License Key</a> to re-enable updates for the <strong>%2$s</strong> theme (expired on <strong>%3$s</strong>).', 'church-theme-framework' ),	// optional notice to override default with when license is expired
-			'expiring_soon_notice'		=> __( '<strong>License Expiring Soon:</strong> Renew your <a href="%1$s">License Key</a> to continue receiving updates for the <strong>%2$s</strong> theme (expires on <strong>%3$s</strong>).', 'church-theme-framework' ),	// optional notice to override default with when license expires soon
-			'expiring_soon_days'		=> 30,						// days before expiration to consider a license "expiring soon"
-			'renewal_url'				=> '',						// optional URL for renewal links (ie. EDD checkout); {license_key} will be replaced with key
-			'renewal_info_url'			=> '',						// optional URL for renewal information
-		) );
+	// Use defaults or values passed in via theme supprt
+	$config = wp_parse_args( $config, array(
+		'store_url'					=> '',						// URL of store running EDD with Software Licensing extension
+		'version'					=> CTFW_THEME_VERSION,		// default is to auto-determine from theme
+		'license'					=> ctfw_edd_license_key(),	// default is to use '{theme}_license_key' option
+		'item_name'					=> CTFW_THEME_NAME,			// default is to use theme name; must match download name in EDD
+		'author'					=> CTFW_THEME_AUTHOR,		// default is to auto-determine from theme
+		'updates'					=> true,					// default true; enable automatic updates
+		'options_page'				=> true,					// default true; provide options page for license entry/activaton
+		'options_page_message'		=> '',						// optional message to show on options page
+		'activation_error_notice'	=> __( '<strong>License key could not be activated.</strong>', 'church-theme-framework' ),
+		'inactive_notice'			=> __( '<strong>License Inactive:</strong> <a href="%1$s">Activate Your License Key</a> to enable updates for the <strong>%2$s</strong> theme.', 'church-theme-framework' ),	// optional notice to override default with license is inactive
+		'expired_notice'			=> __( '<strong>License Expired:</strong> Renew your <a href="%1$s">License Key</a> to re-enable updates for the <strong>%2$s</strong> theme (expired on <strong>%3$s</strong>).', 'church-theme-framework' ),	// optional notice to override default with when license is expired
+		'expiring_soon_notice'		=> __( '<strong>License Expiring Soon:</strong> Renew your <a href="%1$s">License Key</a> to continue receiving updates for the <strong>%2$s</strong> theme (expires on <strong>%3$s</strong>).', 'church-theme-framework' ),	// optional notice to override default with when license expires soon
+		'expiring_soon_days'		=> 30,						// days before expiration to consider a license "expiring soon"
+		'renewal_url'				=> '',						// optional URL for renewal links (ie. EDD checkout); {license_key} will be replaced with key
+		'renewal_info_url'			=> '',						// optional URL for renewal information
+	) );
 
-		// Get specific argument?
-		$config = isset( $config[$arg] ) ? $config[$arg] : $config;
+	// Get specific argument?
+	if ( ! empty( $arg ) ) {
+
+		// Is argument valid? Use value
+		if ( isset( $config[$arg] ) ) {
+			$config = $config[$arg];
+		}
+
+		// If invalid, return empty (not array)
+		else {
+			$config = '';
+		}
 
 	}
 
