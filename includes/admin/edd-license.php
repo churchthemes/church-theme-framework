@@ -57,8 +57,8 @@ function ctfw_edd_license_config( $arg = false ) {
 	$support = get_theme_support( 'ctfw-edd-license' );
 
 	// Get arguments passed in via theme support
-	if ( $support ) {
-		$config = ! empty( $support[0] ) ? $support[0] : array();
+	if ( ! empty( $support[0] ) ) {
+		$config = $support[0];
 	}
 
 	// Use defaults or values passed in via theme supprt
@@ -112,7 +112,7 @@ function ctfw_edd_license_config( $arg = false ) {
 function ctfw_edd_license_updater() {
 
 	// Theme supports updates?
-	if ( ctfw_edd_license_config( 'updates' ) ) {
+	if ( current_theme_supports( 'ctfw-edd-license' ) && ctfw_edd_license_config( 'updates' ) ) {
 
 		// Include updater class
 		locate_template( CTFW_CLASS_DIR . '/CTFW_EDD_SL_Theme_Updater.php', true );
@@ -362,7 +362,7 @@ function ctfw_edd_license_expiration_data() {
 function ctfw_edd_license_menu() {
 
 	// Theme supports license options page?
-	if ( ctfw_edd_license_config( 'options_page' ) ) {
+	if ( current_theme_supports( 'ctfw-edd-license' ) && ctfw_edd_license_config( 'options_page' ) ) {
 
 		// Add menu item and page
 		add_theme_page(
@@ -534,7 +534,7 @@ function ctfw_edd_license_page() {
 function ctfw_edd_license_register_option() {
 
 	// If theme supports it
-	if ( ctfw_edd_license_config( 'options_page' ) ) {
+	if ( current_theme_supports( 'ctfw-edd-license' ) && ctfw_edd_license_config( 'options_page' ) ) {
 		register_setting( 'ctfw_edd_license', ctfw_edd_license_key_option(), 'ctfw_edd_license_sanitize' );
 	}
 
@@ -577,6 +577,11 @@ function ctfw_edd_license_sanitize( $new ) {
 /* This is unreliable, doesn't work on first save on a fresh install.
 function ctfw_edd_license_activate_after_save( $old_value, $value ) {
 
+	// Theme supports this?
+	if ( ! current_theme_supports( 'ctfw-edd-license' ) ) {
+		return;
+	}
+
 	// Different key was saved on Theme License page
 	if ( $value && $old_value != $value && isset( $_POST['submit'] ) && 'Save Key' == $_POST['submit'] ) {
 
@@ -597,6 +602,11 @@ add_action( 'update_option_' . CTFW_THEME_SLUG . '_license_key', 'ctfw_edd_licen
  * @param string $action Action when not executing via post
  */
 function ctfw_edd_license_activation( $action = false ) {
+
+	// Theme supports this?
+	if ( ! current_theme_supports( 'ctfw-edd-license' ) ) {
+		return;
+	}
 
 	// Activate or Deactivate button clicked
 	// Or, action manually passed
@@ -670,6 +680,11 @@ add_action( 'admin_init', 'ctfw_edd_license_activation' );
  */
 function ctfw_edd_license_activation_failure_notice() {
 
+	// Theme supports this?
+	if ( ! current_theme_supports( 'ctfw-edd-license' ) ) {
+		return;
+	}
+
 	// Only on Theme License page
 	$screen = get_current_screen();
 	if ( 'appearance_page_theme-license' != $screen->base ) {
@@ -711,6 +726,11 @@ add_action( 'admin_notices', 'ctfw_edd_license_activation_failure_notice' );
  * @since 0.9
  */
 function ctfw_edd_license_notice() {
+
+	// Theme supports this?
+	if ( ! current_theme_supports( 'ctfw-edd-license' ) ) {
+		return;
+	}
 
 	// User can edit theme options?
 	// kKeeps notices from showing to non-admin users
@@ -814,6 +834,11 @@ function ctfw_edd_license_renewal_url() {
  * @since 1.3
  */
 function ctfw_edd_license_process_renew_button() {
+
+	// Theme supports this?
+	if ( ! current_theme_supports( 'ctfw-edd-license' ) ) {
+		return;
+	}
 
 	// Renewal button on Theme License page clicked
 	if ( isset( $_POST['ctfw_edd_license_renew'] ) ) {
@@ -1026,6 +1051,11 @@ function ctfw_edd_license_sync() {
  * @since 0.9
  */
 function ctfw_edd_license_auto_sync() {
+
+	// Theme supports this?
+	if ( ! current_theme_supports( 'ctfw-edd-license' ) ) {
+		return;
+	}
 
 	// Admin only
 	if ( ! is_admin() ) {
