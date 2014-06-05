@@ -863,7 +863,7 @@ function ctfw_edd_license_action( $action ) {
 					'edd_action'	=> $action,
 					'license' 		=> $license,
 					'item_name'		=> urlencode( ctfw_edd_license_config( 'item_name' ) ), // name of download in EDD
-					'url'			=> urlencode( trailingslashit( site_url() ) ) // URL of this site activated for license
+					'url'			=> urlencode( home_url() ) // URL of this site activated for license
 				);
 
 				// Call the API
