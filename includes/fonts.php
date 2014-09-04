@@ -186,7 +186,8 @@ function ctfw_google_fonts_style_url( $fonts, $font_subsets = false ) {
 	if ( ! empty( $font_array ) ) {
 
 		// Build list from array
-		$font_list = implode( '|', $font_array );
+		//$font_list = implode( '|', $font_array );
+		$font_list = implode( '%7C', $font_array ); // HTML5-valid: http://bit.ly/1xfv8yA
 
 		// Subset passed in? Format it
 		$subset_attr = '';
