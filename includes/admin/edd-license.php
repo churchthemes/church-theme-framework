@@ -392,8 +392,6 @@ function ctfw_edd_license_page() {
 	?>
 	<div class="wrap">
 
-		<?php screen_icon(); ?>
-
 		<h2><?php _ex( 'Theme License', 'page title', 'church-theme-framework' ); ?></h2>
 
 		<?php
