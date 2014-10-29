@@ -82,7 +82,9 @@ function ctfw_event_data( $post_id = null ) {
 	$meta = ctfw_get_meta_data( array(
 		'start_date',
 		'end_date',
-		'time',
+		'time', // Time Description
+		'start_time',
+		'end_time',
 		'venue',
 		'address',
 		'show_directions_link',
