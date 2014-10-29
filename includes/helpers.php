@@ -219,6 +219,27 @@ function ctfw_array_merge_after_key( $original_array, $insert_array, $after_key 
 
 }
 
+/**
+ * Show array as HTML
+ *
+ * This is helpful for development / debugging
+ *
+ * @since 1.4
+ * @param array $array Array to format
+ * @param bool $return Return or echo output
+ */
+function ctfw_print_array( $array, $return = false ) {
+
+	$result = '<pre>' . print_r( $array, true ) . '</pre>';
+
+	if ( empty($return) ) {
+		echo $result;
+	} else {
+		return $result;
+	}
+
+}
+
 /*************************************************
  * STRINGS
  *************************************************/
