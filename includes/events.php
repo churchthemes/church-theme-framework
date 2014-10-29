@@ -85,6 +85,7 @@ function ctfw_event_data( $post_id = null ) {
 		'time', // Time Description
 		'start_time',
 		'end_time',
+		'hide_time_range',
 		'venue',
 		'address',
 		'show_directions_link',
@@ -118,13 +119,71 @@ function ctfw_event_data( $post_id = null ) {
 		// Build range
 		/* translators: date range */
 		$meta['date'] = sprintf(
-			__( '%s &ndash; %s', 'church-theme-framework' ),
+			_x( '%1$s &ndash; %2$s', 'dates', 'church-theme-framework' ),
 			$start_date_formatted,
 			$end_date_formatted
 		);
 
 	} else { // start date only
 		$meta['date'] = date_i18n( $date_format, $start_date_timestamp );
+	}
+
+	// Format Start and End Time
+	$time_format = 'g:i a';
+	$meta['start_time_formatted'] = $meta['start_time'] ? date( $time_format, strtotime( $meta['start_time'] ) ) : '';
+	$meta['end_time_formatted'] = $meta['end_time'] ? date( $time_format, strtotime( $meta['end_time'] ) ) : '';
+
+	// Time Range
+	// Show Start/End Time range (or only Start Time)
+	$meta['time_range'] = '';
+	if ( $meta['start_time_formatted'] ) {
+
+		// Start Time Only
+		$meta['time_range'] = $meta['start_time_formatted'];
+
+		// Start and End Time (Range)
+		if ( $meta['end_time_formatted'] ) {
+
+			// Time Range
+			/* translators: time range */
+			$meta['time_range'] = sprintf(
+				__( '%1$s &ndash; %2$s', 'times', 'church-theme-framework' ),
+				$meta['start_time_formatted'],
+				$meta['end_time_formatted']
+			);
+
+		}
+
+	}
+
+	// Time and/or Description
+	// Show Start/End Time (if given) and maybe Time Description (if given) in parenthesis
+	// If no Start/End Time (or it is set to hide), show Time Description by itself
+	// This is useful for event post header
+	$meta['time_range_and_description'] = '';
+	$meta['time_range_or_description'] = '';
+	if ( $meta['time_range'] && ! $meta['hide_time_range'] ) { // Show Time Range and maybe Description after it
+
+		// Definitely show time range
+		$meta['time_range_and_description'] = $meta['time_range'];
+		$meta['time_range_or_description'] = $meta['time_range'];
+
+		// Maybe show description after time range
+		if ( $meta['time'] ) {
+
+			// Time and Description
+			/* translators: time range and description */
+			$meta['time_range_and_description'] = sprintf(
+				__( '%1$s <span>(%2$s)</span>', 'church-theme-framework' ),
+				$meta['time_range'],
+				$meta['time']
+			);
+
+		}
+
+	} else { // Show description only
+		$meta['time_range_and_description'] = $meta['time'];
+		$meta['time_range_or_description'] = $meta['time'];
 	}
 
 	// Add directions URL (empty if show_directions_link not set)
