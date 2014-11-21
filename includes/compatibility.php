@@ -202,6 +202,13 @@ function ctfw_ctc_plugin_installed() {
  */
 function ctfw_ctc_plugin_notice() {
 
+	// Prevent other plugins and themes from showing similar notice
+	if ( ! empty( $GLOBALS['ctc_install_notice_sent'] ) ) {
+		return;
+	} else {
+		$GLOBALS['ctc_install_notice_sent'] = true;
+	}
+
 	// Show only on relevant pages as not to overwhelm the admin
 	$screen = get_current_screen();
 	if ( ! in_array( $screen->base, array( 'dashboard', 'themes', 'plugins' ) ) ) {
@@ -243,7 +250,7 @@ function ctfw_ctc_plugin_notice() {
 
 }
 
-add_action( 'admin_notices', 'ctfw_ctc_plugin_notice' );
+add_action( 'admin_notices', 'ctfw_ctc_plugin_notice', 9 ); // higher priority than notices coming from plugin (theme notice before plugin addon notices)
 
 /*******************************************
  * BROWSERS
