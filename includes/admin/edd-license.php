@@ -737,8 +737,9 @@ function ctfw_edd_license_notice() {
 	}
 
 	// Show only on relevant pages as not to overwhelm the admin
+	// Don't show on Theme License page -- redundant
 	$screen = get_current_screen();
-	if ( ! in_array( $screen->base, array( 'dashboard', 'appearance_page_theme-license', 'themes', 'update-core' ) ) ) {
+	if ( ! in_array( $screen->base, array( 'dashboard', 'themes', 'update-core' ) ) ) {
 		return;
 	}
 
@@ -754,15 +755,13 @@ function ctfw_edd_license_notice() {
 	}
 
 	// Expired
-	// This shows as error not notice, since it has come to pass
 	elseif ( ctfw_edd_license_expired() ) {
 		$class = "error";
 		$notice = 'expired_notice';
 	}
 
 	// Inactive
-	// Don't show on Theme License page which would be redundant
-	elseif ( ! ctfw_edd_license_active() && 'appearance_page_theme-license' != $screen->base ) {
+	elseif ( ! ctfw_edd_license_active() ) {
 		$class = "error";
 		$notice = 'inactive_notice';
 	}
