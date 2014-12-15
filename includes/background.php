@@ -25,6 +25,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Use add_theme_support( 'ctfw-force-customizer-background' ) to force users to edit
  * the custom background via the Customizer.
  *
+ * This only has effect on WordPRess 4.0 and earlier because 4.1 removed background image screen
+ *
  * @since 0.9
  */
 function ctfw_admin_remove_menu_pages() {
@@ -32,7 +34,7 @@ function ctfw_admin_remove_menu_pages() {
 	global $menu;
 
 	// If theme supports this
-	if ( current_theme_supports( 'ctfw-force-customizer-background' ) ) {
+	if ( current_theme_supports( 'ctfw-force-customizer-background' ) && version_compare( get_bloginfo( 'version' ), '4.1', '<' ) ) {
 
 		// Remove Background
 		// Encourage access by Theme Customizer since it has Fullscreen and Preset enhancements
@@ -48,7 +50,9 @@ add_action( 'admin_menu', 'ctfw_admin_remove_menu_pages', 11 ); // after add the
  * Redirect Custom Background to Theme Customizer
  *
  * Use add_theme_support( 'ctfw-force-customizer-background' ) to force users to edit
- * the custom background via the Customiser.
+ * the custom background via the Customizer.
+ *
+ * This only has effect on WordPRess 4.0 and earlier because 4.1 removed background image screen
  *
  * @since 0.9
  */
