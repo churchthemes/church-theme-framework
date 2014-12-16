@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2014, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -33,20 +33,41 @@ function ctfw_get_events( $args = array() ) {
 	$args['timeframe'] = ! empty( $args['timeframe'] ) ? $args['timeframe'] : 'upcoming';
 	$args['limit'] = isset( $args['limit'] ) ? absint( $args['limit'] ) : -1; // default no limit
 
-	// Show upcoming events
+	// Upcoming or past
+	$meta_type = 'DATETIME'; // 0000-00-00 00:00:00
+
+	// Upcoming events
 	$compare = '>=';  // all events with start OR end date today or later
-	$meta_key = '_ctc_event_start_date'; // order by this; want earliest starting date first
+	$meta_key = '_ctc_event_start_date_start_time'; // order by this; want earliest starting date/time first
 	$order = 'ASC'; // sort from soonest to latest
 
-	// Show past events
+	// Past events
 	if ( 'past' == $args['timeframe'] ) {
 		$compare = '<'; // all events with start AND end date BEFORE today
-		$meta_key = '_ctc_event_end_date'; // order by this; want finish date first
+		$meta_key = '_ctc_event_end_date_start_time'; // order by this; want finish date first (not end time because may be empty)
 		$order = 'DESC'; // sort from most recently past to oldest
 	}
 
-	// Get events
-	$posts = get_posts( array(
+	// Backwards compatibility
+	// Church Theme Content added rigid time fields in version 1.2
+	// Continue ordering by old field for old versions of plugin
+	if ( defined( 'CTC_VERSION' ) && version_compare( CTC_VERSION, '1.2', '<' ) ) { // CTC plugin is active and old
+
+		// Upcoming or past
+		$meta_type = 'DATE'; // 0000-00-00
+
+		// Upcoming events
+		$meta_key = '_ctc_event_start_date'; // order by this; want earliest starting date/time first
+
+		// Past events
+		if ( 'past' == $args['timeframe'] ) {
+			$meta_key = '_ctc_event_end_date'; // order by this; want finish date first (not end time because may be empty)
+		}
+
+	}
+
+	// Arguments
+	$args = array(
 		'post_type'			=> 'ctc_event',
 		'numberposts'		=> $args['limit'],
 		'meta_query' => array(
@@ -58,10 +79,14 @@ function ctfw_get_events( $args = array() ) {
 			),
 		),
 		'meta_key' 			=> $meta_key,
+		'meta_type' 		=> $meta_type,
 		'orderby'			=> 'meta_value',
 		'order'				=> $order,
 		'suppress_filters'	=> false // keep WPML from showing posts from all languages: http://bit.ly/I1JIlV + http://bit.ly/1f9GZ7D
-	) );
+	);
+
+	// Get events
+	$posts = get_posts( $args );
 
 	// Return filtered
 	return apply_filters( 'ctfw_get_events', $posts, $args );
@@ -81,7 +106,10 @@ function ctfw_event_data( $post_id = null ) {
 	$meta = ctfw_get_meta_data( array(
 		'start_date',
 		'end_date',
-		'time',
+		'time', // Time Description
+		'start_time',
+		'end_time',
+		'hide_time_range',
 		'venue',
 		'address',
 		'show_directions_link',
@@ -115,13 +143,71 @@ function ctfw_event_data( $post_id = null ) {
 		// Build range
 		/* translators: date range */
 		$meta['date'] = sprintf(
-			__( '%s &ndash; %s', 'church-theme-framework' ),
+			_x( '%1$s &ndash; %2$s', 'dates', 'church-theme-framework' ),
 			$start_date_formatted,
 			$end_date_formatted
 		);
 
 	} else { // start date only
 		$meta['date'] = date_i18n( $date_format, $start_date_timestamp );
+	}
+
+	// Format Start and End Time
+	$time_format = 'g:i a';
+	$meta['start_time_formatted'] = $meta['start_time'] ? date( $time_format, strtotime( $meta['start_time'] ) ) : '';
+	$meta['end_time_formatted'] = $meta['end_time'] ? date( $time_format, strtotime( $meta['end_time'] ) ) : '';
+
+	// Time Range
+	// Show Start/End Time range (or only Start Time)
+	$meta['time_range'] = '';
+	if ( $meta['start_time_formatted'] ) {
+
+		// Start Time Only
+		$meta['time_range'] = $meta['start_time_formatted'];
+
+		// Start and End Time (Range)
+		if ( $meta['end_time_formatted'] ) {
+
+			// Time Range
+			/* translators: time range */
+			$meta['time_range'] = sprintf(
+				__( '%1$s &ndash; %2$s', 'times', 'church-theme-framework' ),
+				$meta['start_time_formatted'],
+				$meta['end_time_formatted']
+			);
+
+		}
+
+	}
+
+	// Time and/or Description
+	// Show Start/End Time (if given) and maybe Time Description (if given) in parenthesis
+	// If no Start/End Time (or it is set to hide), show Time Description by itself
+	// This is useful for event post header
+	$meta['time_range_and_description'] = '';
+	$meta['time_range_or_description'] = '';
+	if ( $meta['time_range'] && ! $meta['hide_time_range'] ) { // Show Time Range and maybe Description after it
+
+		// Definitely show time range
+		$meta['time_range_and_description'] = $meta['time_range'];
+		$meta['time_range_or_description'] = $meta['time_range'];
+
+		// Maybe show description after time range
+		if ( $meta['time'] ) {
+
+			// Time and Description
+			/* translators: time range and description */
+			$meta['time_range_and_description'] = sprintf(
+				__( '%1$s <span>(%2$s)</span>', 'church-theme-framework' ),
+				$meta['time_range'],
+				$meta['time']
+			);
+
+		}
+
+	} else { // Show description only
+		$meta['time_range_and_description'] = $meta['time'];
+		$meta['time_range_or_description'] = $meta['time'];
 	}
 
 	// Add directions URL (empty if show_directions_link not set)

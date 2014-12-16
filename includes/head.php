@@ -6,7 +6,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2014, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *******************************************/
 
 /**
- * Automatic <title>
+ * Filter <title> tag to be friendly
  *
  * An SEO plugin can be used to fine-tune the <title> for various areas of the site.
  *

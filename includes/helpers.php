@@ -87,7 +87,7 @@ function ctfw_is_local_url( $url ) {
 function ctfw_site_path() {
 
 	// Just get everything after the domain in the site URL
-	list( , $path ) = explode( $_SERVER['HTTP_HOST'], home_url( '/' ) );
+	list( $domain, $path ) = explode( $_SERVER['HTTP_HOST'], home_url( '/' ) );
 
 	return apply_filters( 'ctfw_site_path', $path );
 
@@ -216,6 +216,27 @@ function ctfw_array_merge_after_key( $original_array, $insert_array, $after_key 
 	}
 
 	return apply_filters( 'ctfw_array_merge_after_key', $modified_array, $original_array, $insert_array, $after_key );
+
+}
+
+/**
+ * Show array as HTML
+ *
+ * This is helpful for development / debugging
+ *
+ * @since 1.4
+ * @param array $array Array to format
+ * @param bool $return Return or echo output
+ */
+function ctfw_print_array( $array, $return = false ) {
+
+	$result = '<pre>' . print_r( $array, true ) . '</pre>';
+
+	if ( empty($return) ) {
+		echo $result;
+	} else {
+		return $result;
+	}
 
 }
 

@@ -72,9 +72,9 @@ function ctfw_edd_license_config( $arg = false ) {
 		'options_page'				=> true,					// default true; provide options page for license entry/activaton
 		'options_page_message'		=> '',						// optional message to show on options page
 		'activation_error_notice'	=> __( '<strong>License key could not be activated.</strong>', 'church-theme-framework' ),
-		'inactive_notice'			=> __( '<strong>License Inactive:</strong> <a href="%1$s">Activate Your License Key</a> to enable updates for the <strong>%2$s</strong> theme.', 'church-theme-framework' ),	// optional notice to override default with license is inactive
-		'expired_notice'			=> __( '<strong>License Expired:</strong> Renew your <a href="%1$s">License Key</a> to re-enable updates for the <strong>%2$s</strong> theme (expired on <strong>%3$s</strong>).', 'church-theme-framework' ),	// optional notice to override default with when license is expired
-		'expiring_soon_notice'		=> __( '<strong>License Expiring Soon:</strong> Renew your <a href="%1$s">License Key</a> to continue receiving updates for the <strong>%2$s</strong> theme (expires on <strong>%3$s</strong>).', 'church-theme-framework' ),	// optional notice to override default with when license expires soon
+		'inactive_notice'			=> __( '<strong>Theme License Inactive:</strong> <a href="%1$s">Activate Your Theme License</a> to enable updates for the <strong>%2$s</strong> theme.', 'church-theme-framework' ),	// optional notice to override default with license is inactive
+		'expired_notice'			=> __( '<strong>Theme License Expired:</strong> <a href="%1$s">Renew Your Theme License</a> to re-enable updates for the <strong>%2$s</strong> theme (expired on <strong>%3$s</strong>).', 'church-theme-framework' ),	// optional notice to override default with when license is expired
+		'expiring_soon_notice'		=> __( '<strong>Theme License Expiring Soon:</strong> <a href="%1$s">Renew Your Theme License</a> to continue receiving updates for the <strong>%2$s</strong> theme (expires on <strong>%3$s</strong>).', 'church-theme-framework' ),	// optional notice to override default with when license expires soon
 		'expiring_soon_days'		=> 30,						// days before expiration to consider a license "expiring soon"
 		'renewal_url'				=> '',						// optional URL for renewal links (ie. EDD checkout); {license_key} will be replaced with key
 		'renewal_info_url'			=> '',						// optional URL for renewal information
@@ -737,8 +737,9 @@ function ctfw_edd_license_notice() {
 	}
 
 	// Show only on relevant pages as not to overwhelm the admin
+	// Don't show on Theme License page -- redundant
 	$screen = get_current_screen();
-	if ( ! in_array( $screen->base, array( 'dashboard', 'appearance_page_theme-license', 'themes', 'update-core' ) ) ) {
+	if ( ! in_array( $screen->base, array( 'dashboard', 'themes', 'update-core' ) ) ) {
 		return;
 	}
 
@@ -754,15 +755,13 @@ function ctfw_edd_license_notice() {
 	}
 
 	// Expired
-	// This shows as error not notice, since it has come to pass
 	elseif ( ctfw_edd_license_expired() ) {
 		$class = "error";
 		$notice = 'expired_notice';
 	}
 
 	// Inactive
-	// Don't show on Theme License page which would be redundant
-	elseif ( ! ctfw_edd_license_active() && 'appearance_page_theme-license' != $screen->base ) {
+	elseif ( ! ctfw_edd_license_active() ) {
 		$class = "error";
 		$notice = 'inactive_notice';
 	}

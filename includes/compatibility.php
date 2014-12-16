@@ -208,6 +208,14 @@ function ctfw_ctc_plugin_notice() {
 		return;
 	}
 
+	// Prevent plugins (CTC add-ons) from showing similar notice
+	// Make sure this is always after last return above, meaning a notice is being shown
+	if ( ! empty( $GLOBALS['ctc_install_notice_sent'] ) ) {
+		return;
+	} else {
+		$GLOBALS['ctc_install_notice_sent'] = true;
+	}
+
 	// Plugin not installed
 	if ( ! ctfw_ctc_plugin_installed() && current_user_can( 'install_plugins' ) ) {
 
@@ -243,7 +251,7 @@ function ctfw_ctc_plugin_notice() {
 
 }
 
-add_action( 'admin_notices', 'ctfw_ctc_plugin_notice' );
+add_action( 'admin_notices', 'ctfw_ctc_plugin_notice', 9 ); // higher priority than notices coming from plugin (theme notice before plugin addon notices)
 
 /*******************************************
  * BROWSERS
