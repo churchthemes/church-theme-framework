@@ -49,23 +49,19 @@ function ctfw_get_events( $args = array() ) {
 	}
 
 	// Backwards compatibility
-	if ( defined( 'CTC_VERSION' ) ) { // CTC plugin is active
+	// Church Theme Content added rigid time fields in version 1.2
+	// Continue ordering by old field for old versions of plugin
+	if ( defined( 'CTC_VERSION' ) && version_compare( CTC_VERSION, '1.2', '<' ) ) { // CTC plugin is active and old
 
-		// Church Theme Content added rigid time fields in version 1.2
-		// Continue ordering by old field for old versions of plugin
-		if ( version_compare( CTC_VERSION, '1.2', '<' ) ) {
+		// Upcoming or past
+		$meta_type = 'DATE'; // 0000-00-00
 
-			// Upcoming or past
-			$meta_type = 'DATE'; // 0000-00-00
+		// Upcoming events
+		$meta_key = '_ctc_event_start_date'; // order by this; want earliest starting date/time first
 
-			// Upcoming events
-			$meta_key = '_ctc_event_start_date'; // order by this; want earliest starting date/time first
-
-			// Past events
-			if ( 'past' == $args['timeframe'] ) {
-				$meta_key = '_ctc_event_end_date'; // order by this; want finish date first (not end time because may be empty)
-			}
-
+		// Past events
+		if ( 'past' == $args['timeframe'] ) {
+			$meta_key = '_ctc_event_end_date'; // order by this; want finish date first (not end time because may be empty)
 		}
 
 	}
