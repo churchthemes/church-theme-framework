@@ -33,20 +33,45 @@ function ctfw_get_events( $args = array() ) {
 	$args['timeframe'] = ! empty( $args['timeframe'] ) ? $args['timeframe'] : 'upcoming';
 	$args['limit'] = isset( $args['limit'] ) ? absint( $args['limit'] ) : -1; // default no limit
 
-	// Show upcoming events
+	// Upcoming or past
+	$meta_type = 'DATETIME'; // 0000-00-00 00:00:00
+
+	// Upcoming events
 	$compare = '>=';  // all events with start OR end date today or later
 	$meta_key = '_ctc_event_start_date_start_time'; // order by this; want earliest starting date/time first
 	$order = 'ASC'; // sort from soonest to latest
 
-	// Show past events
+	// Past events
 	if ( 'past' == $args['timeframe'] ) {
 		$compare = '<'; // all events with start AND end date BEFORE today
 		$meta_key = '_ctc_event_end_date_start_time'; // order by this; want finish date first (not end time because may be empty)
 		$order = 'DESC'; // sort from most recently past to oldest
 	}
 
-	// Get events
-	$posts = get_posts( array(
+	// Backwards compatibility
+	if ( defined( 'CTC_VERSION' ) ) { // CTC plugin is active
+
+		// Church Theme Content added rigid time fields in version 1.2
+		// Continue ordering by old field for old versions of plugin
+		if ( version_compare( CTC_VERSION, '1.2', '<' ) ) {
+
+			// Upcoming or past
+			$meta_type = 'DATE'; // 0000-00-00
+
+			// Upcoming events
+			$meta_key = '_ctc_event_start_date'; // order by this; want earliest starting date/time first
+
+			// Past events
+			if ( 'past' == $args['timeframe'] ) {
+				$meta_key = '_ctc_event_end_date'; // order by this; want finish date first (not end time because may be empty)
+			}
+
+		}
+
+	}
+
+	// Arguments
+	$args = array(
 		'post_type'			=> 'ctc_event',
 		'numberposts'		=> $args['limit'],
 		'meta_query' => array(
@@ -58,11 +83,14 @@ function ctfw_get_events( $args = array() ) {
 			),
 		),
 		'meta_key' 			=> $meta_key,
-		'meta_type' 		=> 'DATETIME', // 0000-00-00 00:00:00
+		'meta_type' 		=> $meta_type,
 		'orderby'			=> 'meta_value',
 		'order'				=> $order,
 		'suppress_filters'	=> false // keep WPML from showing posts from all languages: http://bit.ly/I1JIlV + http://bit.ly/1f9GZ7D
-	) );
+	);
+
+	// Get events
+	$posts = get_posts( $args );
 
 	// Return filtered
 	return apply_filters( 'ctfw_get_events', $posts, $args );
