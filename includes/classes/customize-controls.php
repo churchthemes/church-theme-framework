@@ -149,6 +149,10 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 
 			</ul>
 
+			<p class="ctfw-customize-background-image-preset-colorable" class="description" style="display: none">
+				<?php _e( 'The selected image is <strong>colorable</strong>.', 'church-theme-framework' ); ?>
+			</p>
+
 			<?php
 
 		}
