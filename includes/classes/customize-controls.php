@@ -65,7 +65,102 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 	}
 
 	/**
-	 * Extended background image class
+	 * Background image presets control class
+	 *
+	 * @since 1.4.1
+	 */
+	class CTFW_Customize_Background_Image_Presets_Control extends WP_Customize_Control {
+
+		public $type = 'background_image_presets';
+
+		public function render_content() {
+
+			// Get presets
+			$presets = ctfw_background_image_presets();
+			$preset_urls = ctfw_background_image_preset_urls() ;
+
+			// Set default if no value
+			if ( empty( $this->value ) ) {
+
+				// Is the URL stored in core background_image a preset?
+				// It could be, because before WordPress 4.1 / Framework 1.4
+				// the preset URL was always and only stored there
+				// This makes for backward compatibility with separate preset field
+				$background_image = get_background_image();
+				if ( $background_image && in_array( $background_image, $preset_urls ) ) {
+					$this->value = $background_image;
+				}
+
+				// Otherwise, first image preset is default
+				else {
+					$this->value = ctfw_background_image_first_preset_url();
+				}
+
+			}
+
+			?>
+
+			<input type="hidden" <?php $this->link(); ?> value="<?php echo esc_attr( $this->value() ); ?>" />
+
+			<label>
+				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+			</label>
+
+			<ul class="ctfw-customize-image-presets">
+
+				<?php
+
+				// Output presets thumbnails
+				foreach ( $presets as $file => $data ) {
+
+					$url = set_url_scheme( $data['url'] );
+					$thumbnail_url = set_url_scheme( $data['thumb_url'] );
+
+					$classes = array();
+
+					// Selected?
+					if ( $this->value == $url ) {
+						$classes[] = 'ctfw-customize-image-preset-selected';
+					}
+
+					// Class(es)
+					$class_attr = '';
+					if ( $classes ) {
+						$class_attr = 'class="' . esc_attr( implode( ' ', $classes ) ) . '" ';
+					}
+
+					?>
+
+						<li href="#" <?php echo $class_attr; ?><?php if ( $data['colorable'] ) : ?>data-customize-image-title="<?php _e( 'Colorable', 'church-theme-framework' ); ?>"<?php endif; ?>
+							data-customize-image-value="<?php echo esc_url( $url ); ?>"
+							data-customize-image-preset-fullscreen="<?php echo esc_attr( $data['fullscreen'] ); ?>"
+							data-customize-image-preset-repeat="<?php echo esc_attr( $data['repeat'] ); ?>"
+							data-customize-image-preset-position="<?php echo esc_attr( $data['position'] ); ?>"
+							data-customize-image-preset-attachment="<?php echo esc_attr( $data['attachment'] ); ?>"
+							data-customize-image-preset-colorable="<?php echo esc_attr( $data['colorable'] ); ?>">
+							<div class="ctfw-customize-thumbnail-wrapper"><img src="<?php echo esc_url( $thumbnail_url ); ?>" /></div>
+						</li>
+
+					<?php
+
+				}
+
+				?>
+
+			</ul>
+
+			<?php
+
+		}
+
+	}
+
+	/**
+	 * Deprecated: Extended background image class
+	 *
+	 * IMPORTANT: This has no effect as of WordPress 4.1.
+	 * The background image control was rewritten.
+	 * Use CTFW_Customize_Background_Image_Presets_Control instead, as a separate control.
 	 *
 	 * This adds a Presets tab (multiple) in place of the Default tab (single)
 	 *
