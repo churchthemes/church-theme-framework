@@ -190,10 +190,25 @@ function ctfw_background_image_preset_url( $filename ) {
  */
 function ctfw_background_image_first_preset_url() {
 
-	$first_preset = key( ctfw_background_image_presets() );
+	$first_preset_filename = ctfw_background_image_first_preset_filename();
 
-	$url = ctfw_background_image_preset_url( $first_preset );
+	$url = ctfw_background_image_preset_url( $first_preset_filename );
 
 	return apply_filters( 'ctfw_background_image_first_preset_url', $url );
 
 }
+
+/**
+ * First preset background's filename
+ *
+ * @since 1.4.1
+ * @return string URL of firest preset background
+ */
+function ctfw_background_image_first_preset_filename() {
+
+	$filename = key( ctfw_background_image_presets() );
+
+	return apply_filters( 'ctfw_background_image_first_preset_url', $filename );
+
+}
+

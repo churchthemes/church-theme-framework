@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Classes
- * @copyright  Copyright (c) 2013, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2014, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -77,30 +77,31 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 
 			// Get presets
 			$presets = ctfw_background_image_presets();
-			$preset_urls = ctfw_background_image_preset_urls() ;
+
+			// Value saved
+			$value = $this->value();
 
 			// Set default if no value
-			if ( empty( $this->value ) ) {
+			if ( empty( $value ) ) {
 
 				// Is the URL stored in core background_image a preset?
-				// It could be, because before WordPress 4.1 / Framework 1.4
-				// the preset URL was always and only stored there
+				// It could be, because before WordPress 4.1 / Framework 1.4 the preset URL was always and only stored there
 				// This makes for backward compatibility with separate preset field
-				$background_image = get_background_image();
-				if ( $background_image && in_array( $background_image, $preset_urls ) ) {
-					$this->value = $background_image;
+				$background_image_url = get_background_image();
+				if ( in_array( $background_image_url, ctfw_background_image_preset_urls() ) ) {
+					$value = $background_image_url;
 				}
 
 				// Otherwise, first image preset is default
 				else {
-					$this->value = ctfw_background_image_first_preset_url();
+					$value = ctfw_background_image_first_preset_url();
 				}
 
 			}
 
 			?>
 
-			<input type="hidden" <?php $this->link(); ?> value="<?php echo esc_attr( $this->value() ); ?>" />
+			<input type="hidden" <?php $this->link(); ?> value="<?php echo esc_attr( $value ); ?>" />
 
 			<label>
 				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
@@ -111,7 +112,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 				<?php
 
 				// Output presets thumbnails
-				foreach ( $presets as $file => $data ) {
+				foreach ( $presets as $filename => $data ) {
 
 					$url = set_url_scheme( $data['url'] );
 					$thumbnail_url = set_url_scheme( $data['thumb_url'] );
@@ -119,7 +120,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 					$classes = array();
 
 					// Selected?
-					if ( $this->value == $url ) {
+					if ( $value == $data['url'] ) { // without scheme
 						$classes[] = 'ctfw-customize-image-preset-selected';
 					}
 
@@ -132,7 +133,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 					?>
 
 						<li href="#" <?php echo $class_attr; ?><?php if ( $data['colorable'] ) : ?>data-customize-image-title="<?php _e( 'Colorable', 'church-theme-framework' ); ?>"<?php endif; ?>
-							data-customize-image-value="<?php echo esc_url( $url ); ?>"
+							data-customize-image-value="<?php echo esc_attr( $url ); ?>"
 							data-customize-image-preset-fullscreen="<?php echo esc_attr( $data['fullscreen'] ); ?>"
 							data-customize-image-preset-repeat="<?php echo esc_attr( $data['repeat'] ); ?>"
 							data-customize-image-preset-position="<?php echo esc_attr( $data['position'] ); ?>"
