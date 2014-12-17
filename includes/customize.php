@@ -41,6 +41,7 @@ function ctfw_customize_option_id() {
  * Get customization value
  *
  * This gets a customization value for convenient use in templates, etc.
+ * It automatically fills in default
  *
  * @since 0.9
  * @param string $option Customization option
@@ -79,6 +80,35 @@ function ctfw_customization( $option ) {
 
 	// Return filtered
 	return apply_filters( 'ctfw_customization', $value, $option );
+
+}
+
+
+/**
+ * Get raw customization value
+ *
+ * Get raw customization value without filling in of defaults
+ *
+ * @since 1.4.1
+ * @param string $option Customization option
+ * @return string Option value
+ */
+function ctfw_customization_raw( $option ) {
+
+	$value = '';
+
+	// Get options array to pull value from
+	$options = get_option( ctfw_customize_option_id() );
+
+	// Get value if set
+	if ( isset( $options[$option] ) ) {
+		$value = $options[$option];
+	} else { // empty if not set
+		$value = '';
+	}
+
+	// Return filtered
+	return apply_filters( 'ctfw_customization_raw', $value, $option );
 
 }
 
