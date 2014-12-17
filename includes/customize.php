@@ -135,6 +135,27 @@ function ctfw_update_customization( $option, $value ) {
 }
 
 /**
+ * Unset customization
+ *
+ * This removes a customization from array of settings
+ *
+ * @since 1.4.1
+ * @param string $option Customization option to remove from array
+ */
+function ctfw_unset_customization( $option, $value ) {
+
+	// Get array of options
+	$options = get_option( ctfw_customize_option_id() );
+
+	// Update the value
+	unset( $options[$option] );
+
+	// Save modified array back to option
+	update_option( ctfw_customize_option_id(), $options );
+
+}
+
+/**
  * Get Defaults
  *
  * Theme can make array of defaults available to framework via ctfw_customize_defaults filter.

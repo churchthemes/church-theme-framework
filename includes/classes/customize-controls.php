@@ -97,7 +97,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 
 			?>
 
-			<input type="text" <?php $this->link(); ?> value="<?php echo esc_attr( $value ); ?>" />
+			<input type="hidden" <?php $this->link(); ?> value="<?php echo esc_attr( $value ); ?>" />
 
 			<label>
 				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
