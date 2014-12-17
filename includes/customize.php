@@ -83,6 +83,28 @@ function ctfw_customization( $option ) {
 }
 
 /**
+ * Update customization value
+ *
+ * This updates a customization value in the option's array of settings
+ *
+ * @since 1.4.1
+ * @param string $option Customization option to update
+ * @param mixed $value Value to update with
+ */
+function ctfw_update_customization( $option, $value ) {
+
+	// Get array of options
+	$options = get_option( ctfw_customize_option_id() );
+
+	// Update the value
+	$options[$option] = $value;
+
+	// Save modified array back to option
+	update_option( ctfw_customize_option_id(), $options );
+
+}
+
+/**
  * Get Defaults
  *
  * Theme can make array of defaults available to framework via ctfw_customize_defaults filter.
