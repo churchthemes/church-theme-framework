@@ -69,7 +69,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 	 *
 	 * @since 1.4.1
 	 */
-	class CTFW_Customize_Background_Image_Presets_Control extends WP_Customize_Control {
+	class CTFW_Customize_Background_Image_Preset_Control extends WP_Customize_Control {
 
 		public $type = 'background_image_presets';
 
@@ -147,7 +147,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 	 *
 	 * IMPORTANT: This has no effect as of WordPress 4.1.
 	 * The background image control was rewritten.
-	 * Use CTFW_Customize_Background_Image_Presets_Control instead, as a separate control.
+	 * Use CTFW_Customize_Background_Image_Preset_Control instead, as a separate control.
 	 *
 	 * This adds a Presets tab (multiple) in place of the Default tab (single)
 	 *
