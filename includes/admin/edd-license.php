@@ -454,7 +454,7 @@ function ctfw_edd_license_page() {
 								<span class="ctfw-license-active"><?php _ex( 'Active', 'license key', 'church-theme-framework' ); ?></span>
 
 								<?php if ( ctfw_edd_license_expiring_soon() ) : ?>
-									/ <span class="ctfw-license-expiring-soon"><?php _e( 'Expiring Soon', 'license status', 'church-theme-framework' ); ?></span>
+									/ <span class="ctfw-license-expiring-soon"><?php _ex( 'Expiring Soon', 'license status', 'church-theme-framework' ); ?></span>
 								<?php endif; ?>
 
 							<?php elseif ( ctfw_edd_license_expired() ) : ?>

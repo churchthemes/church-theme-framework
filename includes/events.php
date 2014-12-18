@@ -171,7 +171,7 @@ function ctfw_event_data( $post_id = null ) {
 			// Time Range
 			/* translators: time range */
 			$meta['time_range'] = sprintf(
-				__( '%1$s &ndash; %2$s', 'times', 'church-theme-framework' ),
+				_x( '%1$s &ndash; %2$s', 'times', 'church-theme-framework' ),
 				$meta['start_time_formatted'],
 				$meta['end_time_formatted']
 			);
