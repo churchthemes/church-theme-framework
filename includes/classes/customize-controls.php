@@ -65,7 +65,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 	}
 
 	/**
-	 * Background image presets control class
+	 * Background image preset control class
 	 *
 	 * @since 1.4.1
 	 */
@@ -96,17 +96,19 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 				// Output presets thumbnails
 				foreach ( $presets as $filename => $data ) {
 
-					$url = set_url_scheme( $data['url'] );
+					// URLs
+					$url = $data['url']; // no SSL, save the same always
 					$thumbnail_url = set_url_scheme( $data['thumb_url'] );
 
+					// Classes array
 					$classes = array();
 
-					// Selected?
-					if ( $value == $data['url'] ) { // without scheme
+					// Selected class
+					if ( $value == $url ) {
 						$classes[] = 'ctfw-customize-image-preset-selected';
 					}
 
-					// Class(es)
+					// Build class attribute
 					$class_attr = '';
 					if ( $classes ) {
 						$class_attr = 'class="' . esc_attr( implode( ' ', $classes ) ) . '" ';
@@ -143,13 +145,14 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 	}
 
 	/**
-	 * Deprecated: Extended background image class
+	 * Extended background image class
 	 *
-	 * IMPORTANT: This has no effect as of WordPress 4.1.
-	 * The background image control was rewritten.
-	 * Use CTFW_Customize_Background_Image_Preset_Control instead, as a separate control.
+	 * IMPORTANT: This has no effect as of WordPress 4.1 because the background image control was rewritten.
+	 * Use CTFW_Customize_Background_Image_Preset_Control above instead, as a separate control.
 	 *
 	 * This adds a Presets tab (multiple) in place of the Default tab (single)
+	 *
+	 * This is deprecated.
 	 *
 	 * @since 0.9
 	 */
