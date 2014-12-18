@@ -116,7 +116,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 
 					?>
 
-						<li href="#" <?php echo $class_attr; ?><?php if ( $data['colorable'] ) : ?>data-customize-image-title="<?php _e( 'Colorable', 'church-theme-framework' ); ?>"<?php endif; ?>
+						<li <?php echo $class_attr; ?><?php if ( $data['colorable'] ) : ?>data-customize-image-title="<?php _e( 'Colorable', 'church-theme-framework' ); ?>"<?php endif; ?>
 							data-customize-image-value="<?php echo esc_attr( $url ); ?>"
 							data-customize-image-preset-fullscreen="<?php echo esc_attr( $data['fullscreen'] ); ?>"
 							data-customize-image-preset-repeat="<?php echo esc_attr( $data['repeat'] ); ?>"
