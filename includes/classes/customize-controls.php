@@ -81,20 +81,6 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 			// Value saved
 			$value = $this->value();
 
-			// Backwards compatibility
-			if ( empty( $value ) ) {
-
-				// URL of background_image field (not preset but core WordPress theme feature)
-				$background_image_url = get_background_image();
-
-				// Is the URL stored in core background_image a preset?
-				// It could be, because before WordPress 4.1 / Framework 1.4 the preset URL was always and only stored there
-				if ( in_array( $background_image_url, ctfw_background_image_preset_urls() ) ) {
-					$value = $background_image_url;
-				}
-
-			}
-
 			?>
 
 			<input type="hidden" <?php $this->link(); ?> value="<?php echo esc_attr( $value ); ?>" />
