@@ -153,7 +153,7 @@ function ctfw_event_data( $post_id = null ) {
 	}
 
 	// Format Start and End Time
-	$time_format = 'g:i a';
+	$time_format = get_option( 'time_format' );
 	$meta['start_time_formatted'] = $meta['start_time'] ? date( $time_format, strtotime( $meta['start_time'] ) ) : '';
 	$meta['end_time_formatted'] = $meta['end_time'] ? date( $time_format, strtotime( $meta['end_time'] ) ) : '';
 
