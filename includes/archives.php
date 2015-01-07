@@ -157,7 +157,25 @@ function ctfw_post_type_get_month_link( $year, $month, $post_type = false ) {
 		$monthlink = str_replace( '%year%', $year, $monthlink );
 		$monthlink = str_replace( '%monthnum%', zeroise( intval( $month ), 2 ), $monthlink );
 
-		return apply_filters( 'ctfw_post_type_month_link', home_url( $slug . user_trailingslashit( $monthlink, 'month' ) ), $year, $month );
+		// Path with custom post type slug
+		$path = $slug . user_trailingslashit( $monthlink, 'month' );
+
+		// PATHINFO fix
+		// "Almost Pretty Permalinks" will make sermons/index.php/2015/01/
+		// Move index.php/ to front in that case
+		if ( preg_match( '/index\.php/', $path ) ) {
+
+			$index_string = 'index.php/';
+
+			$path = str_replace( $index_string, '', $path );
+			$path = $index_string . $path;
+
+		}
+
+		// Make URL
+		$url = home_url( $path );
+
+		return apply_filters( 'ctfw_post_type_month_link', $url, $year, $month );
 
 	} else { // default with query string
 
