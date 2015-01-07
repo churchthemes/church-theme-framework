@@ -145,30 +145,41 @@ function ctfw_post_type_get_month_link( $year, $month, $post_type = false ) {
 
 	if ( ! empty( $monthlink ) ) { // using pretty permalinks
 
-		// Get rewrite slug for post type
-		$slug = '';
-		if ( ! empty( $post_type ) ) {
-			$post_type_object = get_post_type_object( $post_type );
-			if ( isset( $post_type_object->rewrite['slug'] ) ) {
-				$slug = $post_type_object->rewrite['slug'];
-			}
-		}
-
 		$monthlink = str_replace( '%year%', $year, $monthlink );
 		$monthlink = str_replace( '%monthnum%', zeroise( intval( $month ), 2 ), $monthlink );
 
-		// Path with custom post type slug
-		$path = $slug . user_trailingslashit( $monthlink, 'month' );
+		// Get rewrite slug for post type
+		$slug = '';
+		if ( ! empty( $post_type ) ) {
 
-		// PATHINFO fix
-		// "Almost Pretty Permalinks" will make sermons/index.php/2015/01/
-		// Move index.php/ to front in that case
-		if ( preg_match( '/index\.php/', $path ) ) {
+			$post_type_object = get_post_type_object( $post_type );
 
-			$index_string = 'index.php/';
+			if ( isset( $post_type_object->rewrite['slug'] ) ) {
+				$slug = $post_type_object->rewrite['slug'];
+			}
 
-			$path = str_replace( $index_string, '', $path );
-			$path = $index_string . $path;
+		}
+
+		// Path
+		$path = user_trailingslashit( $monthlink, 'month' );
+
+		// Have a custom post type slug?
+		if ( $slug ) {
+
+			// Path with custom post type slug
+			$path = $slug . $path;
+
+			// PATHINFO fix
+			// "Almost Pretty Permalinks" will make sermons/index.php/2015/01/
+			// Move index.php/ to front in that case
+			if ( preg_match( '/index\.php/', $path ) ) {
+
+				$index_string = 'index.php/';
+
+				$path = str_replace( $index_string, '', $path );
+				$path = $index_string . $path;
+
+			}
 
 		}
 
