@@ -31,6 +31,7 @@ function ctfw_get_events( $args = array() ) {
 
 	// Defaults
 	$args['timeframe'] = ! empty( $args['timeframe'] ) ? $args['timeframe'] : 'upcoming';
+	$args['category'] = ! empty( $args['category'] ) ? $args['category'] : 'all';
 	$args['limit'] = isset( $args['limit'] ) ? absint( $args['limit'] ) : -1; // default no limit
 
 	// Upcoming or past
@@ -67,15 +68,15 @@ function ctfw_get_events( $args = array() ) {
 	}
 
 	// Arguments
-	$args = array(
+	$query_args = array(
 		'post_type'			=> 'ctc_event',
 		'numberposts'		=> $args['limit'],
-		'meta_query' => array(
+		'meta_query' 		=> array(
 			array(
-				'key' => '_ctc_event_end_date', // the latest date that the event goes to (could be start date)
-				'value' => date_i18n( 'Y-m-d' ), // today's date, localized
-				'compare' => $compare,
-				'type' => 'DATE'
+				'key'			=> '_ctc_event_end_date', // the latest date that the event goes to (could be start date)
+				'value' 		=> date_i18n( 'Y-m-d' ), // today's date, localized
+				'compare' 		=> $compare,
+				'type' 			=> 'DATE'
 			),
 		),
 		'meta_key' 			=> $meta_key,
@@ -85,11 +86,25 @@ function ctfw_get_events( $args = array() ) {
 		'suppress_filters'	=> false // keep WPML from showing posts from all languages: http://bit.ly/I1JIlV + http://bit.ly/1f9GZ7D
 	);
 
+	// Filter by category
+	if ( 'all' != $args['category'] ) {
+
+		$category_term = get_term( $args['category'], 'ctc_event_category' );
+
+		if ( $category_term ) {
+			$query_args['ctc_event_category'] = $category_term->slug;
+		}
+
+	}
+
+	// Filter get post arguments
+	$query_args = apply_filters( '', $query_args );
+
 	// Get events
-	$posts = get_posts( $args );
+	$posts = get_posts( $query_args );
 
 	// Return filtered
-	return apply_filters( 'ctfw_get_events', $posts, $args );
+	return apply_filters( 'ctfw_get_events_query_args', $posts, $args );
 
 }
 
