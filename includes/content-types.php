@@ -42,7 +42,7 @@ function ctfw_content_types() {
 
 		'event' => array(
 			'post_types'		=> array( 'ctc_event' ),
-			'taxonomies'		=> array(),
+			'taxonomies'		=> array( 'ctc_event_category' ),
 			'page_templates'	=> array(), // should be populated via ctfw_content_types filter in theme
 			'conditions'		=> array(),
 		),
