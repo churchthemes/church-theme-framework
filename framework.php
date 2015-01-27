@@ -124,6 +124,7 @@ $ctfw_includes = array(
 		CTFW_INC_DIR . '/widgets.php',
 
 		// Classes
+		CTFW_CLASS_DIR . '/ct-recurrence.php',
 		CTFW_CLASS_DIR . '/customize-controls.php',
 		CTFW_CLASS_DIR . '/widget.php',
 
