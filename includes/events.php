@@ -234,7 +234,7 @@ function ctfw_event_data( $post_id = null ) {
 }
 
 /**********************************
- * EVENT ARCHIVES
+ * EVENT CATEGORIES
  **********************************/
 
 /**
