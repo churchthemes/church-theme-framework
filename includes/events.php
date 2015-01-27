@@ -234,6 +234,58 @@ function ctfw_event_data( $post_id = null ) {
 }
 
 /**********************************
+ * EVENT ARCHIVES
+ **********************************/
+
+/**
+ * Modify category archive query
+ *
+ * Order by event date, not publish date
+ *
+ * Use add_theme_support( 'ctfw-event-category-query' ) to enable.
+ * Must have support for Church Theme Content event category taxonomy
+ *
+ * @param  [type] $query [description]
+ * @return [type]        [description]
+ */
+function ctfw_event_category_query( $query ) {
+
+	// Theme supports this?
+	if ( ! current_theme_supports( 'ctfw-event-category-query' ) ) {
+		return;
+	}
+
+	// Don't manipulate feed
+	if ( $query->is_feed ) {
+		return;
+	}
+
+	// Only manipulate event category taxonomy archive query
+	if ( ! $query->is_archive || ! $query->is_tax || empty( $query->query_vars['ctc_event_category'] ) ) {
+		return;
+	}
+
+	// Modify query to show upcoming events soonest to latest
+	$query->query_vars['meta_query'] 	= array(
+			array( // only get upcoming events (ending today or in future)
+				'key'		=> '_ctc_event_end_date', // the latest date that the event goes to (could be same as start date)
+				'value' 	=> date_i18n( 'Y-m-d' ), // today's date, localized
+				'compare' 	=> '>=', // all events with start OR end date today or later
+				'type' 		=> 'DATE'
+			),
+		);
+	$query->query_vars['meta_key'] 		= '_ctc_event_start_date_start_time'; // want earliest start date/time first
+	$query->query_vars['meta_type'] 	= 'DATETIME'; // 0000-00-00 00:00:00
+	$query->query_vars['orderby']		= 'meta_value';
+	$query->query_vars['order']			= 'ASC'; // sort from soonest to latest
+
+	// Backwards compatibility not needed for time fields because category taxonomy introduced after new time fields
+
+}
+
+add_action( 'pre_get_posts', 'ctfw_event_category_query' );
+
+/**********************************
  * EVENT NAVIGATION
  **********************************/
 
