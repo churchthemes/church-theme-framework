@@ -245,8 +245,8 @@ function ctfw_event_data( $post_id = null ) {
  * Use add_theme_support( 'ctfw-event-category-query' ) to enable.
  * Must have support for Church Theme Content event category taxonomy
  *
- * @param  [type] $query [description]
- * @return [type]        [description]
+ * @since 1.5
+ * @param object $query WP_Query
  */
 function ctfw_event_category_query( $query ) {
 
