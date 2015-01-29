@@ -521,6 +521,153 @@ function ctfw_event_calendar_data( $args ) {
 
 	}
 
+	// Get events for days in calendar array
+
+		// Get date of beginning of last week in prior month
+		// This lets us show part of first week from last month if there is space in first row
+		$first_date_ts = $month_ts - ( WEEK_IN_SECONDS ); // one week before first day of month
+		$first_date = date_i18n( 'Y-m-d', $first_date_ts );
+
+		// Backwards compatibility
+		// Church Theme Content added rigid time fields in version 1.2
+		// Continue ordering by old field for old versions of plugin
+		$meta_type = 'DATETIME'; // 0000-00-00 00:00:00
+		$meta_key = '_ctc_event_start_date_start_time'; // order by this
+		if ( defined( 'CTC_VERSION' ) && version_compare( CTC_VERSION, '1.2', '<' ) ) { // CTC plugin is active and old
+			$meta_type = 'DATE'; // 0000-00-00
+			$meta_key = '_ctc_event_start_date'; // order by this; want earliest starting date/time first
+		}
+
+		// Arguments
+		$query_args = array(
+			'post_type'			=> 'ctc_event',
+			'numberposts'		=> -1, // no limit
+			'meta_query' 		=> array(
+				array(
+					'key'			=> '_ctc_event_end_date', // the latest date that the event goes to (could be start date)
+					'value' 		=> $first_date,
+					'compare' 		=> '>=', // all events with start OR end date later than last week of prior month
+					'type' 			=> 'DATE'
+				),
+			),
+			'meta_key' 			=> $meta_key,
+			'meta_type' 		=> $meta_type,
+			'orderby'			=> 'meta_value',
+			'order'				=> 'ASC',
+			'suppress_filters'	=> false // keep WPML from getting posts from all languages: http://bit.ly/I1JIlV + http://bit.ly/1f9GZ7D
+		);
+
+		// Filter by category if not all
+		if ( ! empty( $args['category'] ) ) {
+			$query_args['ctc_event_category'] = $args['category'];
+		}
+
+		// Get events
+		$events = get_posts( $query_args );
+
+		// Prepare for recurrence calculations
+		$ctfw_recurrence = new CT_Recurrence();
+
+		// Loop events
+		foreach ( $events as $event ) {
+
+			// Get meta data
+			$event_data = ctfw_event_data( $event->ID ); // friendly data
+
+			// Prepare to capture every day event occurs on
+			$event_dates = array();
+
+			// Add all days from Start Date to End Date
+			$date = $event_data['start_date'];
+			$DateTime = new DateTime( $date );
+			while ( $date <= $event_data['end_date'] ) {
+				$event_dates[] = $date; // add date to array
+				$date = $DateTime->modify( '+1 day' )->format( 'Y-m-d' ); // move to next day
+			}
+
+			// Recurring event?
+			if ( $event_data['recurrence'] && $event_data['recurrence'] != 'none' ) {
+
+				// Recurrence interval
+				$interval = 1;
+				if ( 'weekly' == $event_data['recurrence'] ) {
+					$interval = $event_data['recurrence_weekly_interval'];
+				} elseif ( 'monthly' == $event_data['recurrence'] ) {
+					$interval = $event_data['recurrence_monthly_interval'];
+				}
+
+				// Until date
+				// This is either 45 days from last week of prior month (31 days in month + 7 for last week of prior and first week of next)
+				// Or, the recurrence end date if earlier
+				$DateTime = new DateTime( $first_date );
+				$until_date = $DateTime->modify( '+45 days' )->format( 'Y-m-d' ); // move to next day
+				if ( ! empty( $event_data['recurrence_end_date'] ) && $event_data['recurrence_end_date'] < $until_date ) {
+					$until_date = $event_data['recurrence_end_date'];
+				}
+
+				// Calculate future occurences for each date in Start Date to End Date range
+				foreach ( $event_dates as $date ) {
+
+					// Calculate future occurences
+					$recurrence_args = array(
+						'start_date'	=> $date, 									// first day of event, YYYY-mm-dd (ie. 2015-07-20 for July 15, 2015)
+						'until_date'	=> $until_date,						 		// date recurrence should not extend beyond (has no effect on calc_* functions)
+						'frequency'		=> $event_data['recurrence'], 				// weekly, monthly, yearly
+						'interval'		=> $interval, 								// every 1, 2 or 3, etc. weeks, months or years
+						'monthly_type'	=> $event_data['recurrence_monthly_type'], 	// day (same day of month) or week (on a specific week); if recurrence is monthly (day is default)
+						'monthly_week'	=> $event_data['recurrence_monthly_week'], 	// 1 - 4 or 'last'; if recurrence is monthly and monthly_type is 'week'
+						'limit'			=> 45, 										// maximum dates to return (if no until_date, default is 100 to prevent infinite loop)
+					);
+					$calculated_dates = $ctfw_recurrence->get_dates( $recurrence_args );
+
+/*
+echo "CALC DATES";
+ctfw_print_array( $calculated_dates );
+ctfw_print_array( $recurrence_args );
+*/
+					// Add calculated dates to array
+					$event_dates = array_merge( $event_dates, $calculated_dates );
+
+				}
+
+
+				// Do similar for calculating dates in the past
+				// If modify CT Recurrence class, copy new version back to CTC and test there
+
+
+
+				// Remove duplicate dates
+				$event_dates = array_unique( $event_dates );
+
+
+				// 1. Store event ID's for each day so can reference event
+				// $calendar['weeks'][$week]['days'][$day_of_week][event_ids][] = 'ID'; // ORDERED BY TIME EARLY TO LATEST IN DAY
+
+				// 2. Store event data under new events key
+				// This way events not added multiples times for multiple days, making huge array
+				// $calendar['events'][$ID]['post'] = $event; // post object
+				// $calendar['events'][$ID]['data'] = $event_data; // meta data
+
+				// See other notes in text file
+
+			}
+
+/*
+echo "<h3>" . $event->post_title . "</h3>";
+//ctfw_print_array( $event );
+echo '<p>EVENT DATES - CALCULATED</p>';
+ctfw_print_array( $event_dates );
+echo '<p>EVENT DATA</p>';
+ctfw_print_array( $event_data );
+echo '<hr>';
+*/
+
+		}
+
+//exit;
+
+
+
 	// Filter
 	$calendar = apply_filters( 'ctfw_event_calendar_data', $calendar, $args );
 
