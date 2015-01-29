@@ -175,4 +175,5 @@ class CTFW_EDD_SL_Theme_Updater {
 
 		return (array) $update_data;
 	}
+
 }

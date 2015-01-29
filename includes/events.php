@@ -286,6 +286,243 @@ function ctfw_event_category_query( $query ) {
 add_action( 'pre_get_posts', 'ctfw_event_category_query' );
 
 /**********************************
+ * EVENT CALENDAR
+ **********************************/
+
+/**
+ * Event calendar month data
+ *
+ * Take in YYYY-MM and convert it to a valid year, month and month timestamp.
+ * If missing or invalid, use current year/month.
+ *
+ * @param string $year_month YYYY-MM such as 2015-01 for January, 2015
+ * @return array Year, month (no leading 0) and month timestamp
+ */
+function ctfw_event_calendar_month_data( $year_month ) {
+
+	$data = array();
+
+	// Year/month given and valid
+	if ( ! empty( $year_month ) && preg_match( '/^[0-9]{4}-[0-9]{2}$/', $year_month ) ) {
+
+		// Get year and month
+		list( $year, $month ) = explode( '-', $year_month );
+
+		// Remove preceding 0 from month
+		$month = ltrim( $month, '0' );
+
+		// Invalid month and year?
+		// Unset to use default
+		if ( ! checkdate( $month, 1, $year ) ) {
+			unset( $year );
+			unset( $month );
+		}
+
+	}
+
+	// Set defaults
+	if ( ! isset( $year ) || ! isset( $month ) ) {
+		$year = date( 'Y' );
+		$month = date( 'n' );
+	}
+
+	// Make timestamp for year/month
+	$month_ts = mktime( 0, 0, 0, $month, 1, $year );
+
+	// Set $year_month in case was empty or invalid
+	$year_month = date( 'Y-m', $month_ts );
+
+	// Combine data in array
+	$data['year_month'] = $year_month;
+	$data['year'] = $year;
+	$data['month'] = $month;
+	$data['month_ts'] = $month_ts;
+
+	// Filter the data
+	$data = apply_filters( 'ctfw_event_calendar_month_data', $data, $year_month );
+
+	return $data;
+
+}
+
+/**
+ * Event calendar data
+ *
+ * Returns a month's headings, weeks, days and events for use in rendering an HTML calendar.
+ * Considers start day of week in Settings > General and localization.
+ *
+ * @param array $args Arguments for year, month, etc.
+ * @return array Array with days of weeks, weeks with days and days with events
+ */
+function ctfw_event_calendar_data( $args ) {
+
+	// Arguments
+	$args = wp_parse_args( $args, array(
+		'year_month' => '', // YYYY-MM (e.g. 2015-01 for January, 2015)
+	) );
+
+	// Extract arguments for easy use
+	extract( $args );
+
+	// Start calendar data array
+	$calendar = array();
+
+	// Get $year, $month and $month_ts, validated
+	// If invalud date passed, current month/year used
+	// This also removed preceding 0 from month
+	$calendar['month_data'] = ctfw_event_calendar_month_data( $year_month );
+	extract( $calendar['month_data'] );
+
+	// Days in the month
+	$days_in_month = date( 't', $month_ts );
+
+	// Get day of week for first day of month (0 - 6 representing Sunday - Saturday)
+	// This is useful for determining where to start the calendar
+	$first_day_in_month_ts = mktime( 0, 0, 0, $month, 1, $year );
+	$first_day_in_month_info = getdate( $first_day_in_month_ts );
+	$first_day_in_month_day_of_week = $first_day_in_month_info['wday'];
+
+	// Build days of week array
+	// Make start of week first in array
+	$days_of_week = array();
+
+		// Place days of week in array
+		// Using first week of month specifically so can determine localized day of week names
+		for ( $day_in_month = 1; $day_in_month <= 7; $day_in_month++ ) {
+
+			// This day's info
+			$day_in_month_ts = mktime( 0, 0, 0, $month, $day_in_month, $year );
+			$day_in_month_info = getdate( $day_in_month_ts );
+			$day_in_month_day_of_week = $day_in_month_info['wday'];
+
+			// Numeric day of week
+			$days_of_week[$day_in_month_day_of_week]['numeric'] = $day_in_month_day_of_week; // on 0 - 6 scake
+			$days_of_week[$day_in_month_day_of_week]['numeric_friendly'] = $day_in_month_day_of_week + 1; // on 1 - 7 scale
+
+			// Localized names
+			$days_of_week[$day_in_month_day_of_week]['name'] = date_i18n( 'l', $day_in_month_ts );
+			$days_of_week[$day_in_month_day_of_week]['name_short'] = date_i18n( 'D', $day_in_month_ts );
+
+		}
+
+		// Sort by day of week 0 - 6
+		ksort( $days_of_week );
+
+		// Change start of week (e.g. Monday instead of Sunday)
+		// Settings > General controls this
+		$start_of_week = get_option( 'start_of_week' ); // Day week starts on; numeric (0 - 6 representing Sunday - Saturday)
+		$removed_days = array_splice( $days_of_week, $start_of_week ); // remove days before new first day from front
+		$days_of_week = array_merge( $removed_days, $days_of_week ); // move them to end to effect new first day of week
+
+		// Add to calendar array
+		$calendar['days_of_week'] = $days_of_week;
+
+	// Loop days of month to build rows
+	$day = 1;
+	$week = 0;
+	$day_of_week = $first_day_in_month_day_of_week;
+
+	$day_of_week = $day_of_week - $start_of_week;
+	if ( $day_of_week < 0 ) {
+		$day_of_week = 7 + $day_of_week;
+	}
+
+	while ( $day <= $days_in_month ) {
+
+		// Add day to array
+		$calendar['weeks'][$week]['days'][$day_of_week] = array(
+			'day'			=> $day,
+			'month'			=> $month,
+			'year'			=> $year,
+			'date'			=> date( 'Y-m-d', mktime( 0, 0, 0, $month, $day, $year ) ),
+			'other_month'	=> false,
+		);
+
+		// Increment day, day of week and week
+		$day++;
+		if ( $day_of_week == 6 ) {
+			$week++; // next week/row
+			$day_of_week = 0; // start week over on first day
+		} else {
+			$day_of_week++; // increment day
+
+		}
+
+	}
+
+	// Fill in days from last month for first row
+	$last_month_ts = $month_ts - DAY_IN_SECONDS; // timestamp is first of month so subtract one day
+	$last_month_ts = strtotime( date( 'Y-m-d', $last_month_ts ) ); // make it first second of first day of month for consistency
+	$last_month = date( 'n', $last_month_ts );
+	$last_month_year = date( 'Y', $last_month_ts );
+	$first_row_missing_days = 7 - count( $calendar['weeks'][0]['days'] );
+	$day_of_week = 0;
+	if ( $first_row_missing_days ) {
+
+		// Days in last month
+		$days_in_last_month = date( 't', $last_month_ts );
+
+		// Add last days of last month to first row (week) in calendar
+		$last_month_start_day = $days_in_last_month - $first_row_missing_days + 1;
+		for ( $day = $last_month_start_day; $day <= $days_in_last_month; $day++ ) {
+
+			// Add day to array
+			$calendar['weeks'][0]['days'][$day_of_week] = array(
+				'day'			=> $day,
+				'month'			=> $last_month,
+				'year'			=> $last_month_year,
+				'date'			=> date( 'Y-m-d', mktime( 0, 0, 0, $last_month, $day, $last_month_year ) ),
+				'other_month'	=> true,
+			);
+
+			$day_of_week++;
+
+		}
+
+		// Sort by day of week 0 - 6
+		ksort( $calendar['weeks'][0]['days'] );
+
+	}
+
+	// Fill in days from next month for last row
+	$next_month_ts = $month_ts + ( DAY_IN_SECONDS * 32 ); // this will always push into the next month
+	$next_month_ts = strtotime( date( 'Y-m-d', $next_month_ts ) ); // make it first second of first day of month for consistency
+	$next_month = date( 'n', $next_month_ts );
+	$next_month_year = date( 'Y', $next_month_ts );
+	$last_row = count( $calendar['weeks'] ) - 1;
+	$next_month_last_day_of_week = count( $calendar['weeks'][$last_row]['days'] ) - 1;
+	$last_row_missing_days = 6 - $next_month_last_day_of_week;
+	$day_of_week = $next_month_last_day_of_week; // start incrementing from last day's day of week
+	if ( $last_row_missing_days ) {
+
+		// Add first days of next month to last row (week) in calendar
+		$next_month_stop_day = $last_row_missing_days;
+		for ( $day = 1; $day <= $next_month_stop_day; $day++ ) {
+
+			// Increment day of week (picks up off of last day of week)
+			$day_of_week++;
+
+			// Add day to array
+			$calendar['weeks'][$last_row]['days'][$day_of_week] = array(
+				'day'			=> $day,
+				'month'			=> $next_month,
+				'year'			=> $next_month_year,
+				'date'			=> date( 'Y-m-d', mktime( 0, 0, 0, $next_month, $day, $next_month_year ) ),
+				'other_month'	=> true,
+			);
+
+		}
+
+	}
+
+	// Filter
+	$calendar = apply_filters( 'ctfw_event_calendar_data', $calendar, $args );
+
+	return $calendar;
+
+}
+
+/**********************************
  * EVENT NAVIGATION
  **********************************/
 
