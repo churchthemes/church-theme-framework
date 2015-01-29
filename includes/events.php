@@ -125,6 +125,12 @@ function ctfw_event_data( $post_id = null ) {
 		'start_time',
 		'end_time',
 		'hide_time_range',
+		'recurrence',
+		'recurrence_end_date',
+		'recurrence_weekly_interval',
+		'recurrence_monthly_interval',
+		'recurrence_monthly_type',
+		'recurrence_monthly_week',
 		'venue',
 		'address',
 		'show_directions_link',
@@ -358,7 +364,9 @@ function ctfw_event_calendar_data( $args ) {
 
 	// Arguments
 	$args = wp_parse_args( $args, array(
-		'year_month' => '', // YYYY-MM (e.g. 2015-01 for January, 2015)
+		'year_month' 	=> '', // YYYY-MM (e.g. 2015-01 for January, 2015)
+		'get_events'	=> true, // get events for each day in array
+		'category'		=> '', // category term slug or empty for all
 	) );
 
 	// Extract arguments for easy use
@@ -421,12 +429,10 @@ function ctfw_event_calendar_data( $args ) {
 	$day = 1;
 	$week = 0;
 	$day_of_week = $first_day_in_month_day_of_week;
-
 	$day_of_week = $day_of_week - $start_of_week;
 	if ( $day_of_week < 0 ) {
 		$day_of_week = 7 + $day_of_week;
 	}
-
 	while ( $day <= $days_in_month ) {
 
 		// Add day to array
