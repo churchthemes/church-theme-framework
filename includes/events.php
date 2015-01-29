@@ -98,13 +98,13 @@ function ctfw_get_events( $args = array() ) {
 	}
 
 	// Filter get post arguments
-	$query_args = apply_filters( '', $query_args );
+	$query_args = apply_filters( 'ctfw_get_events_query_args', $query_args );
 
 	// Get events
 	$posts = get_posts( $query_args );
 
 	// Return filtered
-	return apply_filters( 'ctfw_get_events_query_args', $posts, $args );
+	return apply_filters( 'ctfw_get_events', $posts, $args );
 
 }
 
