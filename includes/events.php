@@ -381,6 +381,10 @@ function ctfw_event_calendar_data( $args ) {
 	$calendar['month_data'] = ctfw_event_calendar_month_data( $year_month );
 	extract( $calendar['month_data'] );
 
+	// Get today
+	$today = date( 'Y-m-d' );
+	$today_ts = strtotime( $today );
+
 	// Days in the month
 	$days_in_month = date( 't', $month_ts );
 
@@ -523,10 +527,18 @@ function ctfw_event_calendar_data( $args ) {
 
 	// Get events for days in calendar array
 
-		// Get date of beginning of last week in prior month
-		// This lets us show part of first week from last month if there is space in first row
+		// Get today or date of beginning of last week in prior month, whichever is earlier
+		// Today is useful for months in future, because recurrence is caught up and can project into future
+		// Last week in prior month is useful when month is current month, so can show whole month
 		$first_date_ts = $month_ts - ( WEEK_IN_SECONDS ); // one week before first day of month
+		if ( $today_ts < $first_date_ts ) {
+			$first_date_ts = $today_ts;
+		}
 		$first_date = date_i18n( 'Y-m-d', $first_date_ts );
+
+		// No $last_date because far-future events may be needed to project backwards
+		// For example, if today is January 30, 2015 and a yearly event recurs next on January 15, 2016
+		// We need next year's instance to calculate backwards to January 15, 2015 or it will be missing
 
 		// Backwards compatibility
 		// Church Theme Content added rigid time fields in version 1.2
@@ -620,11 +632,6 @@ function ctfw_event_calendar_data( $args ) {
 					);
 					$calculated_dates = $ctfw_recurrence->get_dates( $recurrence_args );
 
-/*
-echo "CALC DATES";
-ctfw_print_array( $calculated_dates );
-ctfw_print_array( $recurrence_args );
-*/
 					// Add calculated dates to array
 					$event_dates = array_merge( $event_dates, $calculated_dates );
 
@@ -652,21 +659,7 @@ ctfw_print_array( $recurrence_args );
 
 			}
 
-/*
-echo "<h3>" . $event->post_title . "</h3>";
-//ctfw_print_array( $event );
-echo '<p>EVENT DATES - CALCULATED</p>';
-ctfw_print_array( $event_dates );
-echo '<p>EVENT DATA</p>';
-ctfw_print_array( $event_data );
-echo '<hr>';
-*/
-
 		}
-
-//exit;
-
-
 
 	// Filter
 	$calendar = apply_filters( 'ctfw_event_calendar_data', $calendar, $args );
