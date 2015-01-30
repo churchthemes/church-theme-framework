@@ -338,11 +338,15 @@ function ctfw_event_calendar_month_data( $year_month ) {
 	// Set $year_month in case was empty or invalid
 	$year_month = date( 'Y-m', $month_ts );
 
+	// Get first of month
+	$first_of_month = date( 'Y-m-d', $month_ts );
+
 	// Combine data in array
 	$data['year_month'] = $year_month;
 	$data['year'] = $year;
 	$data['month'] = $month;
 	$data['month_ts'] = $month_ts;
+	$data['first_of_month'] = $first_of_month;
 
 	// Filter the data
 	$data = apply_filters( 'ctfw_event_calendar_month_data', $data, $year_month );
@@ -376,7 +380,7 @@ function ctfw_event_calendar_data( $args ) {
 	$calendar = array();
 
 	// Get $year, $month and $month_ts, validated
-	// If invalud date passed, current month/year used
+	// If invalid date passed, current month/year used
 	// This also removed preceding 0 from month
 	$calendar['month_data'] = ctfw_event_calendar_month_data( $year_month );
 	extract( $calendar['month_data'] );
@@ -614,10 +618,10 @@ function ctfw_event_calendar_data( $args ) {
 				}
 
 				// Until date
-				// This is either 45 days from last week of prior month (31 days in month + 7 for last week of prior and first week of next)
+				// This is either 38 days from first of month (+ 7 for first week of next, which may show)
 				// Or, the recurrence end date if earlier
-				$DateTime = new DateTime( $first_date );
-				$until_date = $DateTime->modify( '+45 days' )->format( 'Y-m-d' ); // move to next day
+				$DateTime = new DateTime( $first_of_month );
+				$until_date = $DateTime->modify( '+38 days' )->format( 'Y-m-d' );
 				if ( ! empty( $event_data['recurrence_end_date'] ) && $event_data['recurrence_end_date'] < $until_date ) {
 					$until_date = $event_data['recurrence_end_date'];
 				}
