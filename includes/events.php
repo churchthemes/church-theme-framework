@@ -446,6 +446,7 @@ function ctfw_event_calendar_data( $args ) {
 			'year'			=> $year,
 			'date'			=> date( 'Y-m-d', mktime( 0, 0, 0, $month, $day, $year ) ),
 			'other_month'	=> false,
+			'event_ids'		=> array(),
 		);
 
 		// Increment day, day of week and week
@@ -483,6 +484,7 @@ function ctfw_event_calendar_data( $args ) {
 				'year'			=> $last_month_year,
 				'date'			=> date( 'Y-m-d', mktime( 0, 0, 0, $last_month, $day, $last_month_year ) ),
 				'other_month'	=> true,
+				'event_ids'		=> array(),
 			);
 
 			$day_of_week++;
@@ -519,6 +521,7 @@ function ctfw_event_calendar_data( $args ) {
 				'year'			=> $next_month_year,
 				'date'			=> date( 'Y-m-d', mktime( 0, 0, 0, $next_month, $day, $next_month_year ) ),
 				'other_month'	=> true,
+				'event_ids'		=> array(),
 			);
 
 		}
@@ -526,6 +529,8 @@ function ctfw_event_calendar_data( $args ) {
 	}
 
 	// Get events for days in calendar array
+	$calendar['events'] = array();
+	if ( $args['get_events'] ) {
 
 		// Get today or date of beginning of last week in prior month, whichever is earlier
 		// Today is useful for months in future, because recurrence is caught up and can project into future
@@ -642,24 +647,43 @@ function ctfw_event_calendar_data( $args ) {
 				// If modify CT Recurrence class, copy new version back to CTC and test there
 
 
+			}
 
-				// Remove duplicate dates
-				$event_dates = array_unique( $event_dates );
+			// Remove duplicate dates
+			$event_dates = array_unique( $event_dates );
 
+			// Store event ID in days for which it occurs
+			// This is so can reference event from other array
+			foreach ( $calendar['weeks'] as $week_key => $week ) {
 
-				// 1. Store event ID's for each day so can reference event
-				// $calendar['weeks'][$week]['days'][$day_of_week][event_ids][] = 'ID'; // ORDERED BY TIME EARLY TO LATEST IN DAY
+				// Loop days in week
+				foreach ( $week['days'] as $day_key => $day ) {
 
-				// 2. Store event data under new events key
-				// This way events not added multiples times for multiple days, making huge array
-				// $calendar['events'][$ID]['post'] = $event; // post object
-				// $calendar['events'][$ID]['data'] = $event_data; // meta data
+					// Event occurs on this day
+					if ( in_array( $day['date'], $event_dates ) ) {
 
-				// See other notes in text file
+						// Add event ID to day
+						$calendar['weeks'][$week_key]['days'][$day_key]['event_ids'][] = $event->ID;
+
+						// Add event to separate array, if doesn't already exist
+						// This array can be referenced so multiple events not added per month, just IDs
+						if ( ! isset( $calendar['events'][$event->ID] ) ) {
+							$calendar['events'][$event->ID]['post'] = (array) $event;
+							$calendar['events'][$event->ID]['data'] = $event_data;
+						}
+
+					}
+
+				}
 
 			}
 
 		}
+
+	}
+
+	// DEBUG
+	//ctfw_print_array( $calendar );
 
 	// Filter
 	$calendar = apply_filters( 'ctfw_event_calendar_data', $calendar, $args );
