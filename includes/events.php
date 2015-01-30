@@ -536,18 +536,14 @@ function ctfw_event_calendar_data( $args ) {
 	$calendar['events'] = array();
 	if ( $args['get_events'] ) {
 
-		// Get today or date of beginning of last week in prior month, whichever is earlier
+		// First date is today
 		// Today is useful for months in future, because recurrence is caught up and can project into future
-		// Last week in prior month is useful when month is current month, so can show whole month
-		$first_date_ts = $month_ts - ( WEEK_IN_SECONDS ); // one week before first day of month
-		if ( $today_ts < $first_date_ts ) {
-			$first_date_ts = $today_ts;
-		}
+		// We also do not get events that are in past for current month
+		$first_date_ts = $today_ts;
 		$first_date = date_i18n( 'Y-m-d', $first_date_ts );
 
-		// No $last_date because far-future events may be needed to project backwards
-		// For example, if today is January 30, 2015 and a yearly event recurs next on January 15, 2016
-		// We need next year's instance to calculate backwards to January 15, 2015 or it will be missing
+		// SET A LAST DATE?
+		// ONE WEEK INTO NEXT MONTH?
 
 		// Backwards compatibility
 		// Church Theme Content added rigid time fields in version 1.2
@@ -645,11 +641,6 @@ function ctfw_event_calendar_data( $args ) {
 					$event_dates = array_merge( $event_dates, $calculated_dates );
 
 				}
-
-
-				// Do similar for calculating dates in the past
-				// If modify CT Recurrence class, copy new version back to CTC and test there
-
 
 			}
 
