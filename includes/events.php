@@ -668,7 +668,7 @@ function ctfw_event_calendar_data( $args ) {
 						// Add event to separate array, if doesn't already exist
 						// This array can be referenced so multiple events not added per month, just IDs
 						if ( ! isset( $calendar['events'][$event->ID] ) ) {
-							$calendar['events'][$event->ID]['post'] = (array) $event;
+							$calendar['events'][$event->ID]['post'] = $event;
 							$calendar['events'][$event->ID]['data'] = $event_data;
 						}
 
