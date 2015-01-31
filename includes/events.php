@@ -599,8 +599,15 @@ function ctfw_event_calendar_data( $args ) {
 			$date = $event_data['start_date'];
 			$DateTime = new DateTime( $date );
 			while ( $date <= $event_data['end_date'] ) {
-				$event_dates[] = $date; // add date to array
-				$date = $DateTime->modify( '+1 day' )->format( 'Y-m-d' ); // move to next day
+
+				// Add date to array if today or future
+				if ( strtotime( $date ) >= $today_ts ) {
+					$event_dates[] = $date;
+				}
+
+				// Move to next day
+				$date = $DateTime->modify( '+1 day' )->format( 'Y-m-d' );
+
 			}
 
 			// Recurring event?
