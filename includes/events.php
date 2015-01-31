@@ -398,6 +398,9 @@ function ctfw_event_calendar_data( $args ) {
 	$first_day_in_month_info = getdate( $first_day_in_month_ts );
 	$first_day_in_month_day_of_week = $first_day_in_month_info['wday'];
 
+	// Previous month
+	$previous_month_days = date_i18n( 't', ( $first_day_in_month_ts - DAY_IN_SECONDS ) );
+
 	// Build days of week array
 	// Make start of week first in array
 	$days_of_week = array();
@@ -448,9 +451,7 @@ function ctfw_event_calendar_data( $args ) {
 			'day'			=> $day,
 			'month'			=> $month,
 			'year'			=> $year,
-			'date'			=> date_i18n( 'Y-m-d', mktime( 0, 0, 0, $month, $day, $year ) ),
 			'other_month'	=> false,
-			'event_ids'		=> array(),
 		);
 
 		// Increment day, day of week and week
@@ -486,9 +487,7 @@ function ctfw_event_calendar_data( $args ) {
 				'day'			=> $day,
 				'month'			=> $last_month,
 				'year'			=> $last_month_year,
-				'date'			=> date_i18n( 'Y-m-d', mktime( 0, 0, 0, $last_month, $day, $last_month_year ) ),
 				'other_month'	=> true,
-				'event_ids'		=> array(),
 			);
 
 			$day_of_week++;
@@ -523,18 +522,47 @@ function ctfw_event_calendar_data( $args ) {
 				'day'			=> $day,
 				'month'			=> $next_month,
 				'year'			=> $next_month_year,
-				'date'			=> date_i18n( 'Y-m-d', mktime( 0, 0, 0, $next_month, $day, $next_month_year ) ),
 				'other_month'	=> true,
-				'event_ids'		=> array(),
 			);
 
 		}
 
 	}
 
+	// Add additional data to each day
+	foreach ( $calendar['weeks'] as $week_key => $week ) {
+
+		foreach ( $week['days'] as $day_key => $day ) {
+
+			$date = date_i18n( 'Y-m-d', mktime( 0, 0, 0, $day['month'], $day['day'], $day['year'] ) );
+
+			$calendar['weeks'][$week_key]['days'][$day_key]['date'] = $date;
+			$calendar['weeks'][$week_key]['days'][$day_key]['date_ts'] = strtotime( $date );
+
+			$last_of_previous_month = false;
+			if ( $day['other_month'] && $previous_month_days == $day['day'] ) {
+				$last_of_previous_month = true;
+			}
+			$calendar['weeks'][$week_key]['days'][$day_key]['last_of_previous_month'] = $last_of_previous_month;
+
+			$first_of_next_month = false;
+			if ( $day['other_month'] && 1 == $day['day'] ) {
+				$first_of_next_month = true;
+			}
+			$calendar['weeks'][$week_key]['days'][$day_key]['first_of_next_month'] = $first_of_next_month;
+
+			if ( $args['get_events'] ) {
+				$calendar['weeks'][$week_key]['days'][$day_key]['event_ids'] = array();
+			}
+
+		}
+
+	}
+
 	// Get events for days in calendar array
-	$calendar['events'] = array();
 	if ( $args['get_events'] ) {
+
+		$calendar['events'] = array();
 
 		// First date is today
 		// Today is useful for months in future, because recurrence is caught up and can project into future
