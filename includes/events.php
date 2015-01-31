@@ -341,18 +341,12 @@ function ctfw_event_calendar_month_data( $year_month ) {
 	// First day of month
 	$first_of_month = date_i18n( 'Y-m-d', $month_ts );
 
-	// Today
-	$today = date_i18n( 'Y-m-d' );
-	$today_ts = strtotime( $today );
-
 	// Data in array
 	$data['year_month'] = $year_month;
 	$data['year'] = $year;
 	$data['month'] = $month;
 	$data['month_ts'] = $month_ts;
 	$data['first_of_month'] = $first_of_month;
-	$data['today'] = $today;
-	$data['today_ts'] = $today_ts;
 
 	// Filter the data
 	$data = apply_filters( 'ctfw_event_calendar_month_data', $data, $year_month );
