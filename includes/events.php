@@ -175,8 +175,8 @@ function ctfw_event_data( $post_id = null ) {
 
 	// Format Start and End Time
 	$time_format = get_option( 'time_format' );
-	$meta['start_time_formatted'] = $meta['start_time'] ? date( $time_format, strtotime( $meta['start_time'] ) ) : '';
-	$meta['end_time_formatted'] = $meta['end_time'] ? date( $time_format, strtotime( $meta['end_time'] ) ) : '';
+	$meta['start_time_formatted'] = $meta['start_time'] ? date_i18n( $time_format, strtotime( $meta['start_time'] ) ) : '';
+	$meta['end_time_formatted'] = $meta['end_time'] ? date_i18n( $time_format, strtotime( $meta['end_time'] ) ) : '';
 
 	// Time Range
 	// Show Start/End Time range (or only Start Time)
@@ -328,18 +328,18 @@ function ctfw_event_calendar_month_data( $year_month ) {
 
 	// Set defaults
 	if ( ! isset( $year ) || ! isset( $month ) ) {
-		$year = date( 'Y' );
-		$month = date( 'n' );
+		$year = date_i18n( 'Y' );
+		$month = date_i18n( 'n' );
 	}
 
 	// Make timestamp for year/month
 	$month_ts = mktime( 0, 0, 0, $month, 1, $year );
 
 	// Set $year_month in case was empty or invalid
-	$year_month = date( 'Y-m', $month_ts );
+	$year_month = date_i18n( 'Y-m', $month_ts );
 
 	// Get first of month
-	$first_of_month = date( 'Y-m-d', $month_ts );
+	$first_of_month = date_i18n( 'Y-m-d', $month_ts );
 
 	// Combine data in array
 	$data['year_month'] = $year_month;
@@ -386,11 +386,11 @@ function ctfw_event_calendar_data( $args ) {
 	extract( $calendar['month_data'] );
 
 	// Get today
-	$today = date( 'Y-m-d' );
+	$today = date_i18n( 'Y-m-d' );
 	$today_ts = strtotime( $today );
 
 	// Days in the month
-	$days_in_month = date( 't', $month_ts );
+	$days_in_month = date_i18n( 't', $month_ts );
 
 	// Get day of week for first day of month (0 - 6 representing Sunday - Saturday)
 	// This is useful for determining where to start the calendar
@@ -448,7 +448,7 @@ function ctfw_event_calendar_data( $args ) {
 			'day'			=> $day,
 			'month'			=> $month,
 			'year'			=> $year,
-			'date'			=> date( 'Y-m-d', mktime( 0, 0, 0, $month, $day, $year ) ),
+			'date'			=> date_i18n( 'Y-m-d', mktime( 0, 0, 0, $month, $day, $year ) ),
 			'other_month'	=> false,
 			'event_ids'		=> array(),
 		);
@@ -467,15 +467,15 @@ function ctfw_event_calendar_data( $args ) {
 
 	// Fill in days from last month for first row
 	$last_month_ts = $month_ts - DAY_IN_SECONDS; // timestamp is first of month so subtract one day
-	$last_month_ts = strtotime( date( 'Y-m-d', $last_month_ts ) ); // make it first second of first day of month for consistency
-	$last_month = date( 'n', $last_month_ts );
-	$last_month_year = date( 'Y', $last_month_ts );
+	$last_month_ts = strtotime( date_i18n( 'Y-m-d', $last_month_ts ) ); // make it first second of first day of month for consistency
+	$last_month = date_i18n( 'n', $last_month_ts );
+	$last_month_year = date_i18n( 'Y', $last_month_ts );
 	$first_row_missing_days = 7 - count( $calendar['weeks'][0]['days'] );
 	$day_of_week = 0;
 	if ( $first_row_missing_days ) {
 
 		// Days in last month
-		$days_in_last_month = date( 't', $last_month_ts );
+		$days_in_last_month = date_i18n( 't', $last_month_ts );
 
 		// Add last days of last month to first row (week) in calendar
 		$last_month_start_day = $days_in_last_month - $first_row_missing_days + 1;
@@ -486,7 +486,7 @@ function ctfw_event_calendar_data( $args ) {
 				'day'			=> $day,
 				'month'			=> $last_month,
 				'year'			=> $last_month_year,
-				'date'			=> date( 'Y-m-d', mktime( 0, 0, 0, $last_month, $day, $last_month_year ) ),
+				'date'			=> date_i18n( 'Y-m-d', mktime( 0, 0, 0, $last_month, $day, $last_month_year ) ),
 				'other_month'	=> true,
 				'event_ids'		=> array(),
 			);
@@ -502,9 +502,9 @@ function ctfw_event_calendar_data( $args ) {
 
 	// Fill in days from next month for last row
 	$next_month_ts = $month_ts + ( DAY_IN_SECONDS * 32 ); // this will always push into the next month
-	$next_month_ts = strtotime( date( 'Y-m-d', $next_month_ts ) ); // make it first second of first day of month for consistency
-	$next_month = date( 'n', $next_month_ts );
-	$next_month_year = date( 'Y', $next_month_ts );
+	$next_month_ts = strtotime( date_i18n( 'Y-m-d', $next_month_ts ) ); // make it first second of first day of month for consistency
+	$next_month = date_i18n( 'n', $next_month_ts );
+	$next_month_year = date_i18n( 'Y', $next_month_ts );
 	$last_row = count( $calendar['weeks'] ) - 1;
 	$next_month_last_day_of_week = count( $calendar['weeks'][$last_row]['days'] ) - 1;
 	$last_row_missing_days = 6 - $next_month_last_day_of_week;
@@ -523,7 +523,7 @@ function ctfw_event_calendar_data( $args ) {
 				'day'			=> $day,
 				'month'			=> $next_month,
 				'year'			=> $next_month_year,
-				'date'			=> date( 'Y-m-d', mktime( 0, 0, 0, $next_month, $day, $next_month_year ) ),
+				'date'			=> date_i18n( 'Y-m-d', mktime( 0, 0, 0, $next_month, $day, $next_month_year ) ),
 				'other_month'	=> true,
 				'event_ids'		=> array(),
 			);
@@ -542,8 +542,9 @@ function ctfw_event_calendar_data( $args ) {
 		$first_date_ts = $today_ts;
 		$first_date = date_i18n( 'Y-m-d', $first_date_ts );
 
-		// SET A LAST DATE?
-		// ONE WEEK INTO NEXT MONTH?
+		// Last date is one week into next month
+		// Some months will show the first days of the next month in calendar
+		// We don't need events beyond that because nothing is calculated backwards
 
 		// Backwards compatibility
 		// Church Theme Content added rigid time fields in version 1.2
