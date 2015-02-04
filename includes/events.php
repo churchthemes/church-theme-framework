@@ -342,9 +342,9 @@ function ctfw_event_calendar_month_data( $year_month ) {
 	$first_of_month = date_i18n( 'Y-m-d', $month_ts );
 
 	// Prev and next months
-	$prev_month = date_i18n( 'Y-m-d', ( $month_ts - 1 ) );
+	$prev_month = date_i18n( 'Y-m', ( $month_ts - 1 ) );
 	$prev_month_ts = strtotime( $prev_month );
-	$next_month = date_i18n( 'Y-m-d', ( $month_ts + ( DAY_IN_SECONDS * 32 ) ) );
+	$next_month = date_i18n( 'Y-m', ( $month_ts + ( DAY_IN_SECONDS * 32 ) ) );
 	$next_month_ts = strtotime( $next_month );
 
 	// Data in array
