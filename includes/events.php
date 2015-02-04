@@ -733,6 +733,87 @@ function ctfw_event_calendar_data( $args ) {
 
 }
 
+/**
+ * Event calendar redirection
+ *
+ * Redirect's event calendar URLs in certain situations:
+ *
+ * - Month is invalid (must be YYYY-MM-DD)
+ * - Month is in past
+ * - Month is beyond next year
+ *
+ * This assumes a page template is showing calendar with URL having query ?month=YYYY-MM
+ *
+ * Use add_theme_support( 'ctfw-event-calendar-redirection' );
+ *
+ * Arguments can be supplied. Defaults are as follows.
+ *
+ * add_theme_support( 'ctfw-event-calendar-redirection', array(
+ *		'page_template'	=> 'events-calendar.php', // in CTFW_THEME_PAGE_TPL_DIR directory
+ *  	'years_future'	=> 1,
+ * ) );
+ */
+function ctfw_event_calendar_redirection() {
+
+	// Theme supports this?
+	$support = get_theme_support( 'ctfw-event-calendar-redirection' );
+	if ( empty( $support ) ) {
+		return;
+	}
+
+	// Arguments from theme support or default
+	$args = isset( $support[0] ) ? $support[0] : array();
+	$args = wp_parse_args( $args, array(
+		'page_template'	=> 'events-calendar.php',
+		'years_future'	=> 1,
+	) );
+
+	// Only on event calendar page template
+	if ( ! is_page_template( CTFW_THEME_PAGE_TPL_DIR . '/' . $args['page_template'] ) ) {
+		return;
+	}
+
+	// Month/year from URL
+	$year_month_query = isset( $_GET['month'] ) ? $_GET['month'] : ''; // default will be this month
+
+	// No month in query
+	if ( ! $year_month_query ) {
+		return;
+	}
+
+	// Month data
+	// $year_month (validated), $year, $month (without leading 0), $month_ts (first day of month), $prev_month, $next_month
+	extract( ctfw_event_calendar_month_data( $year_month_query ) );
+
+	// Today
+	$today = date_i18n( 'Y-m-d' );
+	$today_ts = strtotime( $today );
+
+	// This month
+	$this_month = date_i18n( 'Y-m', $today_ts );
+	$this_month_ts = strtotime( $this_month );
+
+	// This and next year
+	$this_year = date_i18n( 'Y' );
+	$next_year = $this_year + $args['years_future'];
+
+	// If month in URL parameter has passed or is beyond next year...
+	// Or, is invalid (doesn't match validated $year_month, which defaults to current month)
+	// Then, redirect to the permalink to show current month
+	if ( ! ( ( ( $year == $this_year && $month_ts >= $this_month_ts ) || $year == $next_year ) && $year_month_query == $year_month ) ) {
+
+		// Redirect to permalink (current month)
+		wp_redirect( get_permalink() );
+
+		// Stop execution
+		exit;
+
+	}
+
+}
+
+add_action( 'template_redirect', 'ctfw_event_calendar_redirection' );
+
 /**********************************
  * EVENT NAVIGATION
  **********************************/
