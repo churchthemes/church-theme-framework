@@ -341,12 +341,22 @@ function ctfw_event_calendar_month_data( $year_month ) {
 	// First day of month
 	$first_of_month = date_i18n( 'Y-m-d', $month_ts );
 
+	// Prev and next months
+	$prev_month = date_i18n( 'Y-m-d', ( $month_ts - 1 ) );
+	$prev_month_ts = strtotime( $prev_month );
+	$next_month = date_i18n( 'Y-m-d', ( $month_ts + ( DAY_IN_SECONDS * 32 ) ) );
+	$next_month_ts = strtotime( $next_month );
+
 	// Data in array
 	$data['year_month'] = $year_month;
 	$data['year'] = $year;
 	$data['month'] = $month;
 	$data['month_ts'] = $month_ts;
 	$data['first_of_month'] = $first_of_month;
+	$data['prev_month'] = $prev_month;
+	$data['prev_month_ts'] = $prev_month_ts;
+	$data['next_month'] = $next_month;
+	$data['next_month_ts'] = $next_month_ts;
 
 	// Filter the data
 	$data = apply_filters( 'ctfw_event_calendar_month_data', $data, $year_month );
