@@ -386,6 +386,9 @@ function ctfw_event_calendar_data( $args ) {
 	// Extract arguments for easy use
 	extract( $args );
 
+	// Date format
+	$date_format = get_option( 'date_format' );
+
 	// Start calendar data array
 	$calendar = array();
 
@@ -545,9 +548,13 @@ function ctfw_event_calendar_data( $args ) {
 		foreach ( $week['days'] as $day_key => $day ) {
 
 			$date = date_i18n( 'Y-m-d', mktime( 0, 0, 0, $day['month'], $day['day'], $day['year'] ) );
+			$date_ts = strtotime( $date );
+			$date_formatted = date_i18n( $date_format, $date_ts );
 
 			$calendar['weeks'][$week_key]['days'][$day_key]['date'] = $date;
-			$calendar['weeks'][$week_key]['days'][$day_key]['date_ts'] = strtotime( $date );
+			$calendar['weeks'][$week_key]['days'][$day_key]['date_ts'] = $date_ts;
+			$calendar['weeks'][$week_key]['days'][$day_key]['date_formatted'] = $date_formatted;
+
 
 			$last_of_previous_month = false;
 			if ( $day['other_month'] && $previous_month_days == $day['day'] ) {
