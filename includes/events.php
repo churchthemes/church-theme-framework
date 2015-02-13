@@ -1011,6 +1011,9 @@ function ctfw_event_recurrence_note( $post ) {
 
 	}
 
+	// Filter
+	$note = apply_filters( 'ctfw_event_recurrence_note', $note, $post );
+
 	return $note;
 
 }
