@@ -132,6 +132,7 @@ function ctfw_event_data( $post_id = null ) {
 		'recurrence_monthly_type',
 		'recurrence_monthly_week',
 		'recurrence_note',
+		'recurrence_note_short',
 		'venue',
 		'address',
 		'show_directions_link',
@@ -236,7 +237,9 @@ function ctfw_event_data( $post_id = null ) {
 	$meta['directions_url'] = $meta['show_directions_link'] ? ctfw_directions_url( $meta['address'] ) : '';
 
 	// Recurrence note
-	$meta['recurrence_note'] = ctfw_event_recurrence_note( $post_id );
+	$recurrence_note = ctfw_event_recurrence_note( $post_id );
+	$meta['recurrence_note'] = $recurrence_note['full']; // sentence such as "Every 3 months on the second Wednesday until January 24, 2018"
+	$meta['recurrence_note_short'] = $recurrence_note['short']; // short version such as "Every 3 Months" (can show this with full on tooltip)
 
 	// Return filtered
 	return apply_filters( 'ctfw_event_data', $meta, $post_id );
@@ -835,13 +838,19 @@ add_action( 'template_redirect', 'ctfw_event_calendar_redirection' );
  * This describes the recurrence pattern.
  * It considers the Custom Recurring Events add-on.
  *
+ * Returns array with short and full keys.
+ * short - "Every 3 Months"
+ * full - "Every 3 months on second Tuesday until January 14, 2018"
+ *
+ * Tip: Show the short version with full in tooltip
+ *
  * @since 1.5
  * @param object|int $post Post object or post ID for event
- * @return string Recurrence note
+ * @return array Keys are full and short
  */
 function ctfw_event_recurrence_note( $post = false ) {
 
-	$note = '';
+	$note = array();
 
 	// Get post
 	if ( is_numeric( $post ) || ! $post ) { // $post may be null or empty, get current post
@@ -854,6 +863,9 @@ function ctfw_event_recurrence_note( $post = false ) {
 		// Is this a recurring event?
 		$recurrence = get_post_meta( $post->ID, '_ctc_event_recurrence', true );
 		if ( $recurrence && $recurrence != 'none' ) {
+
+			$note['full'] = '';
+			$note['short'] = '';
 
 			// Get recurrence data
 			$recurrence_end_date = get_post_meta( $post->ID, '_ctc_event_recurrence_end_date', true );
@@ -895,10 +907,11 @@ function ctfw_event_recurrence_note( $post = false ) {
 
 				case 'weekly' :
 
+					// Full
 					if ( $recurrence_end_date ) {
 
 						/* translators: %1$s is interval, %2$s is recurrence end date */
-						$note = sprintf(
+						$note['full'] = sprintf(
 							_n(
 								'Every week until %2$s',
 								'Every %1$s weeks until %2$s',
@@ -912,7 +925,7 @@ function ctfw_event_recurrence_note( $post = false ) {
 					} else {
 
 						/* translators: %1$s is interval */
-						$note = sprintf(
+						$note['full'] = sprintf(
 							_n(
 								'Every week',
 								'Every %1$s weeks',
@@ -923,6 +936,18 @@ function ctfw_event_recurrence_note( $post = false ) {
 						);
 
 					}
+
+					// Short
+					/* translators: %1$s is interval */
+					$note['short'] = sprintf(
+						_n(
+							'Every Week',
+							'Every %1$s Weeks',
+							$weekly_interval,
+							'church-theme-framework'
+						),
+						$weekly_interval
+					);
 
 					break;
 
@@ -935,7 +960,7 @@ function ctfw_event_recurrence_note( $post = false ) {
 						if ( $recurrence_end_date ) {
 
 							/* translators: %1$s is interval, %2$s is week of month, %3$s is day of week, %4$s is recurrence end date */
-							$note = sprintf(
+							$note['full'] = sprintf(
 								_n(
 									'Every month (%2$s %3$s) until %4$s',
 									'Every %1$s months (%2$s %3$s) until %4$s',
@@ -954,7 +979,7 @@ function ctfw_event_recurrence_note( $post = false ) {
 						else {
 
 							/* translators: %1$s is interval, %2$s is week of month, %3$s is day of week */
-							$note = sprintf(
+							$note['full'] = sprintf(
 								_n(
 									'Every month (%2$s %3$s)',
 									'Every %1$s months (%2$s %3$s)',
@@ -975,7 +1000,7 @@ function ctfw_event_recurrence_note( $post = false ) {
 						if ( $recurrence_end_date ) {
 
 							/* translators: %1$s is interval, %2$s is recurrence end date */
-							$note = sprintf(
+							$note['full'] = sprintf(
 								_n(
 									'Every month until %2$s',
 									'Every %1$s months until %2$s',
@@ -992,7 +1017,7 @@ function ctfw_event_recurrence_note( $post = false ) {
 						else {
 
 							/* translators: %1$s is interval */
-							$note = sprintf(
+							$note['full'] = sprintf(
 								_n(
 									'Every month',
 									'Every %1$s months',
@@ -1006,21 +1031,36 @@ function ctfw_event_recurrence_note( $post = false ) {
 
 					}
 
+					/* translators: %1$s is interval */
+					$note['short'] = sprintf(
+						_n(
+							'Every Month',
+							'Every %1$s Months',
+							$monthly_interval,
+							'church-theme-framework'
+						),
+						$monthly_interval
+					);
+
 					break;
 
 				case 'yearly' :
 
+					// Full
 					if ( $recurrence_end_date ) {
 
 						/* translators: %1$s is recurrence end date */
-						$note = sprintf(
+						$note['full'] = sprintf(
 							__( 'Every year until %1$s', 'church-theme-framework' ),
 							$recurrence_end_date_localized
 						);
 
 					} else {
-						$note = __( 'Every year', 'church-theme-framework' );
+						$note['full'] = __( 'Every year', 'church-theme-framework' );
 					}
+
+					// Short
+					$note['short'] = __( 'Every Year', 'church-theme-framework' );
 
 					break;
 
