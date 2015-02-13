@@ -275,8 +275,7 @@ function ctfw_redirect_archives_to_pages() {
 											$page_url = get_permalink( $redirect_page->ID );
 
 											// Go!
-											//wp_redirect( $page_url, 301 );
-											wp_redirect( $page_url );
+											wp_redirect( $page_url, 301 );
 											exit;
 
 										}
