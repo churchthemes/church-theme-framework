@@ -238,8 +238,8 @@ function ctfw_event_data( $post_id = null ) {
 
 	// Recurrence note
 	$recurrence_note = ctfw_event_recurrence_note( $post_id );
-	$meta['recurrence_note'] = $recurrence_note['full']; // sentence such as "Every 3 months on the second Wednesday until January 24, 2018"
-	$meta['recurrence_note_short'] = $recurrence_note['short']; // short version such as "Every 3 Months" (can show this with full on tooltip)
+	$meta['recurrence_note'] = isset( $recurrence_note['full'] ) ? $recurrence_note['full'] : ''; // sentence such as "Every 3 months on the second Wednesday until January 24, 2018"
+	$meta['recurrence_note_short'] = isset( $recurrence_note['short'] ) ? $recurrence_note['short'] : ''; // short version such as "Every 3 Months" (can show this with full on tooltip)
 
 	// Return filtered
 	return apply_filters( 'ctfw_event_data', $meta, $post_id );
