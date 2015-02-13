@@ -962,8 +962,8 @@ function ctfw_event_recurrence_note( $post = false ) {
 							/* translators: %1$s is interval, %2$s is week of month, %3$s is day of week, %4$s is recurrence end date */
 							$note['full'] = sprintf(
 								_n(
-									'Every month (%2$s %3$s) until %4$s',
-									'Every %1$s months (%2$s %3$s) until %4$s',
+									'Every month on the %2$s %3$s until %4$s',
+									'Every %1$s months on the %2$s %3$s until %4$s',
 									$monthly_interval,
 									'church-theme-framework'
 								),
@@ -981,8 +981,8 @@ function ctfw_event_recurrence_note( $post = false ) {
 							/* translators: %1$s is interval, %2$s is week of month, %3$s is day of week */
 							$note['full'] = sprintf(
 								_n(
-									'Every month (%2$s %3$s)',
-									'Every %1$s months (%2$s %3$s)',
+									'Every month on the %2$s %3$s',
+									'Every %1$s months on the %2$s %3$s',
 									$monthly_interval,
 									'church-theme-framework'
 								),
