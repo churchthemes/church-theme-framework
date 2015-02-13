@@ -234,11 +234,12 @@ function ctfw_redirect_archives_to_pages() {
 	// Loop content types
 	foreach ( $content_types as $content_type => $content_type_data ) {
 
-		// Get primary template for content type (first in array)
-		$page_template = ! empty( $content_type_data['page_templates'][0] ) ? $content_type_data['page_templates'][0] : false;
+		// Get templates for content type
+		// The first will be used if a page exists; otherwise the second, etc.
+		$page_templates = ! empty( $content_type_data['page_templates'] ) ? $content_type_data['page_templates'] : array();
 
-		// Have page template
-		if ( $page_template ) {
+		// Have at least one page template
+		if ( $page_templates ) {
 
 			// Get post type(s) for content type (probably just one)
 			$post_types = $content_type_data['post_types'];
@@ -255,24 +256,30 @@ function ctfw_redirect_archives_to_pages() {
 						// Only if archive is for specific post type
 						if ( is_post_type_archive( $post_type ) ) {
 
-							// Check if a page is using primary template
-							if ( $redirect_page = ctfw_get_page_by_template( $page_template ) ) {
+							// Loop each template in order of priority and redirect to first one that has page
+							foreach ( $page_templates as $page_template ) {
 
-								// Found a page?
-								if ( ! empty( $redirect_page->ID ) ) {
+								// Check if a page is the template
+								if ( $redirect_page = ctfw_get_page_by_template( $page_template ) ) {
 
-									// Get page data
-									$post_type_obj = get_post_type_object( $post_type );
+									// Found a page?
+									if ( ! empty( $redirect_page->ID ) ) {
 
-									// Don't redirect if URL is the same (post type and page have same slug); prevent infinite loop
-									if ( $redirect_page->post_name != $post_type_obj->rewrite['slug'] ) {
+										// Get page data
+										$post_type_obj = get_post_type_object( $post_type );
 
-										// Get URL
-										$page_url = get_permalink( $redirect_page->ID );
+										// Don't redirect if URL is the same (post type and page have same slug); prevent infinite loop
+										if ( $redirect_page->post_name != $post_type_obj->rewrite['slug'] ) {
 
-										// Go!
-										wp_redirect( $page_url, 301 );
-										exit;
+											// Get URL
+											$page_url = get_permalink( $redirect_page->ID );
+
+											// Go!
+											//wp_redirect( $page_url, 301 );
+											wp_redirect( $page_url );
+											exit;
+
+										}
 
 									}
 
