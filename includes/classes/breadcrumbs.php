@@ -424,7 +424,7 @@ class CTFW_Breadcrumbs {
 						$options = array();
 
 							// Show parents only if not showing taxonomy
-							if ( ! empty( $taxonomy ) ) {
+							if ( ! empty( $taxonomy_term ) ) {
 								$options['show_parents'] = false; // default true
 							}
 
