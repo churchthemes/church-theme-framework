@@ -751,41 +751,41 @@ function ctfw_event_calendar_data( $args ) {
 
 			}
 
-			// Re-order events on each day earliest to latest and events with no time first (likely means all day / major event)
-			// This considers that future occurences may have been injected so times are not in same order as original query
-			foreach ( $calendar['weeks'] as $week_key => $week ) {
+		}
 
-				// Loop days in week
-				foreach ( $week['days'] as $day_key => $day ) {
+		// Re-order events on each day earliest to latest and events with no time first (likely means all day / major event)
+		// This considers that future occurences may have been injected so times are not in same order as original query
+		foreach ( $calendar['weeks'] as $week_key => $week ) {
 
-					// Make new ID's array with keys to order by
-					$event_ids = array();
-					foreach ( $day['event_ids'] as $event_id ) {
+			// Loop days in week
+			foreach ( $week['days'] as $day_key => $day ) {
 
-						// Get event
-						$event = $calendar['events'][$event_id];
+				// Make new ID's array with keys to order by re-order events in
+				$event_ids = array();
+				foreach ( $day['event_ids'] as $event_id ) {
 
-						// Make key to order by
-						// In effect this sorts ascending primarily by start time then secondarily by ID (date of entry)
-						$order_key = $event['data']['start_time'];
-						if ( empty( $order_key ) ) {
-							$order_key = '00:00'; // if has no time value; backwards compatibility (CTC < 1.2)
-						}
-						$order_key .= ' ' . str_pad( $event_id, 12, '0', STR_PAD_LEFT ); // for uniqueness and secondary ordering
+					// Get event
+					$event = $calendar['events'][$event_id];
 
-						// Add to array to be re-ordered
-						$event_ids[$order_key] = $event_id;
-
+					// Make key to order by
+					// In effect this sorts ascending primarily by start time then secondarily by ID (date of entry)
+					$order_key = $event['data']['start_time'];
+					if ( empty( $order_key ) ) {
+						$order_key = '00:00'; // if has no time value; backwards compatibility (CTC < 1.2)
 					}
+					$order_key .= ' ' . str_pad( $event_id, 12, '0', STR_PAD_LEFT ); // for uniqueness and secondary ordering
 
-					// Re-order events and remove ordering keys from array
-					ksort( $event_ids );
-					$event_ids = array_values( $event_ids );
-
-					// Replace ID's array with array in new order
-					$calendar['weeks'][$week_key]['days'][$day_key]['event_ids'] = $event_ids;
+					// Add to array to be re-ordered
+					$event_ids[$order_key] = $event_id;
 
 				}
+
+				// Re-order events and remove ordering keys from array
+				ksort( $event_ids );
+				$event_ids = array_values( $event_ids );
+
+				// Replace ID's array with array in new order
+				$calendar['weeks'][$week_key]['days'][$day_key]['event_ids'] = $event_ids;
 
 			}
 
