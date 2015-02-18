@@ -700,7 +700,8 @@ function ctfw_event_calendar_data( $args ) {
 					while ( $while_date <= $event_data['end_date'] ) { // loop dates in original range
 
 						// Add date to array if today or future
-						if ( strtotime( $date ) >= $today_ts ) {
+						// And is not beyond event's recur until date
+						if ( strtotime( $date ) >= $today_ts && ( ! $event_data['recurrence_end_date'] || strtotime( $date ) <= strtotime( $event_data['recurrence_end_date'] ) ) ) {
 							$event_dates[] = $date;
 						}
 
