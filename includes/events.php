@@ -811,8 +811,9 @@ function ctfw_event_calendar_data( $args ) {
  * - Month is invalid (must be YYYY-MM-DD)
  * - Month is in past
  * - Month is beyond next year
+ * - Category slug is invalid
  *
- * This assumes a page template is showing calendar with URL having query ?month=YYYY-MM
+ * This assumes a page template is showing calendar with URL having query ?month=YYYY-MM&category=slug
  *
  * Use add_theme_support( 'ctfw-event-calendar-redirection' );
  *
@@ -843,37 +844,74 @@ function ctfw_event_calendar_redirection() {
 		return;
 	}
 
-	// Month/year from URL
-	$year_month_query = isset( $_GET['month'] ) ? $_GET['month'] : ''; // default will be this month
+	// No redirect by default
+	$redirect = false;
 
-	// No month in query
-	if ( ! $year_month_query ) {
-		return;
+	// URL
+	$url = home_url( $_SERVER['REQUEST_URI'] ); // current URL with query string
+	$redirect_url = $url;
+
+	// Month in query
+	$year_month_query = isset( $_GET['month'] ) ? $_GET['month'] : ''; // default will be this month
+	if ( $year_month_query ) {
+
+		// Month data
+		// $year_month (validated), $year, $month (without leading 0), $month_ts (first day of month), $prev_month, $next_month
+		extract( ctfw_event_calendar_month_data( $year_month_query ) );
+
+		// Today
+		$today = date_i18n( 'Y-m-d' );
+		$today_ts = strtotime( $today );
+
+		// This month
+		$this_month = date_i18n( 'Y-m', $today_ts );
+		$this_month_ts = strtotime( $this_month );
+
+		// This and next year
+		$this_year = date_i18n( 'Y' );
+		$next_year = $this_year + $args['years_future'];
+
+		// If month in URL parameter has passed or is beyond next year...
+		// Or, is invalid (doesn't match validated $year_month, which defaults to current month)
+		// Then, redirect to the permalink to show current month
+		if ( ! ( ( ( $year == $this_year && $month_ts >= $this_month_ts ) || $year == $next_year ) && $year_month_query == $year_month ) ) {
+
+			// Do redirect
+			$redirect = true;
+
+			// Remove month from URL
+			$redirect_url = remove_query_arg( 'month', $redirect_url );
+
+		}
+
 	}
 
-	// Month data
-	// $year_month (validated), $year, $month (without leading 0), $month_ts (first day of month), $prev_month, $next_month
-	extract( ctfw_event_calendar_month_data( $year_month_query ) );
+	// Month in query
+	$category_query = isset( $_GET['category'] ) ? $_GET['category'] : '';
+	if ( $category_query ) {
 
-	// Today
-	$today = date_i18n( 'Y-m-d' );
-	$today_ts = strtotime( $today );
+		// Get category by slug
+		$category = get_term_by( 'slug', $category_query, 'ctc_event_category' );
 
-	// This month
-	$this_month = date_i18n( 'Y-m', $today_ts );
-	$this_month_ts = strtotime( $this_month );
+		// Redirect if doesn't exist
+		if ( empty( $category ) ) {
 
-	// This and next year
-	$this_year = date_i18n( 'Y' );
-	$next_year = $this_year + $args['years_future'];
+			// Do redirect
+			$redirect = true;
 
-	// If month in URL parameter has passed or is beyond next year...
-	// Or, is invalid (doesn't match validated $year_month, which defaults to current month)
-	// Then, redirect to the permalink to show current month
-	if ( ! ( ( ( $year == $this_year && $month_ts >= $this_month_ts ) || $year == $next_year ) && $year_month_query == $year_month ) ) {
+			// Remove month from URL
+			$redirect_url = remove_query_arg( 'category', $redirect_url );
 
-		// Redirect to permalink (current month)
-		wp_redirect( get_permalink() );
+		}
+
+	}
+
+	// Redirect?
+	// Avoid infinite redirect if new URL is same as current
+	if ( $redirect && $redirect_url != $url ) {
+
+		// Redirect to corrected URL
+		wp_redirect( $redirect_url );
 
 		// Stop execution
 		exit;
