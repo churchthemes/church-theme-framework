@@ -647,20 +647,8 @@ function ctfw_event_calendar_data( $args ) {
 			// Prepare to capture every day event occurs on
 			$event_dates = array();
 
-			// Add all days from Start Date to End Date
-			$date = $event_data['start_date'];
-			$DateTime = new DateTime( $date );
-			while ( $date <= $event_data['end_date'] ) {
-
-				// Add date to array if today or future
-				if ( strtotime( $date ) >= $today_ts ) {
-					$event_dates[] = $date;
-				}
-
-				// Move to next day
-				$date = $DateTime->modify( '+1 day' )->format( 'Y-m-d' );
-
-			}
+			// Add Start Date to array
+			$event_dates[] = $event_data['start_date'];
 
 			// Recurring event?
 			if ( $event_data['recurrence'] && $event_data['recurrence'] != 'none' ) {
@@ -682,23 +670,45 @@ function ctfw_event_calendar_data( $args ) {
 					$until_date = $event_data['recurrence_end_date'];
 				}
 
-				// Calculate future occurences for each date in Start Date to End Date range
+				// Calculate future occurences of Start Date
+				$recurrence_args = array(
+					'start_date'	=> $event_data['start_date'],				// first day of event, YYYY-mm-dd (ie. 2015-07-20 for July 15, 2015)
+					'until_date'	=> $until_date,						 		// date recurrence should not extend beyond (has no effect on calc_* functions)
+					'frequency'		=> $event_data['recurrence'], 				// weekly, monthly, yearly
+					'interval'		=> $interval, 								// every 1, 2 or 3, etc. weeks, months or years
+					'monthly_type'	=> $event_data['recurrence_monthly_type'], 	// day (same day of month) or week (on a specific week); if recurrence is monthly (day is default)
+					'monthly_week'	=> $event_data['recurrence_monthly_week'], 	// 1 - 4 or 'last'; if recurrence is monthly and monthly_type is 'week'
+					'limit'			=> 45, 										// maximum dates to return (if no until_date, default is 100 to prevent infinite loop)
+				);
+				$calculated_dates = $ctfw_recurrence->get_dates( $recurrence_args );
+
+				// Add calculated dates to array
+				$event_dates = array_merge( $event_dates, $calculated_dates );
+
+			}
+
+			// Event is on multiple days
+			if ( $event_data['start_date'] != $event_data['end_date'] ) {
+
+				// Loop all occurences of Start Date
 				foreach ( $event_dates as $date ) {
 
-					// Calculate future occurences
-					$recurrence_args = array(
-						'start_date'	=> $date, 									// first day of event, YYYY-mm-dd (ie. 2015-07-20 for July 15, 2015)
-						'until_date'	=> $until_date,						 		// date recurrence should not extend beyond (has no effect on calc_* functions)
-						'frequency'		=> $event_data['recurrence'], 				// weekly, monthly, yearly
-						'interval'		=> $interval, 								// every 1, 2 or 3, etc. weeks, months or years
-						'monthly_type'	=> $event_data['recurrence_monthly_type'], 	// day (same day of month) or week (on a specific week); if recurrence is monthly (day is default)
-						'monthly_week'	=> $event_data['recurrence_monthly_week'], 	// 1 - 4 or 'last'; if recurrence is monthly and monthly_type is 'week'
-						'limit'			=> 45, 										// maximum dates to return (if no until_date, default is 100 to prevent infinite loop)
-					);
-					$calculated_dates = $ctfw_recurrence->get_dates( $recurrence_args );
+					// Add X days to Start Date to complete the range for all occurences
+					$while_date = $event_data['start_date'];
+					$WhileDateTime = new DateTime( $while_date );
+					$DateTime = new DateTime( $date );
+					while ( $while_date <= $event_data['end_date'] ) { // loop dates in original range
 
-					// Add calculated dates to array
-					$event_dates = array_merge( $event_dates, $calculated_dates );
+						// Add date to array if today or future
+						if ( strtotime( $date ) >= $today_ts ) {
+							$event_dates[] = $date;
+						}
+
+						// Move to next day
+						$while_date = $WhileDateTime->modify( '+1 day' )->format( 'Y-m-d' );
+						$date = $DateTime->modify( '+1 day' )->format( 'Y-m-d' );
+
+					}
 
 				}
 
