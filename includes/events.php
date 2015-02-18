@@ -127,12 +127,10 @@ function ctfw_event_data( $post_id = null ) {
 		'hide_time_range',
 		'recurrence',
 		'recurrence_end_date',
-		'recurrence_weekly_interval',
-		'recurrence_monthly_interval',
-		'recurrence_monthly_type',
-		'recurrence_monthly_week',
-		'recurrence_note',
-		'recurrence_note_short',
+		'recurrence_weekly_interval',	// Custom Recurring Events add-on
+		'recurrence_monthly_interval',	// Custom Recurring Events add-on
+		'recurrence_monthly_type',		// Custom Recurring Events add-on
+		'recurrence_monthly_week',		// Custom Recurring Events add-on
 		'venue',
 		'address',
 		'show_directions_link',
@@ -141,6 +139,15 @@ function ctfw_event_data( $post_id = null ) {
 		'map_type',
 		'map_zoom'
 	), $post_id );
+
+	// Empty Custom Recurring Events add-on values if plugin not active
+	// This keeps theme from displaying recurrence data that may be stored but is not effective
+	if ( ! defined( 'CTC_CRE_VERSION' ) ) {
+		$meta['recurrence_weekly_interval'] = 1;
+		$meta['recurrence_monthly_interval'] = 1;
+		$meta['recurrence_monthly_type'] = 'day';
+		$meta['recurrence_monthly_week'] = '';
+	}
 
 	// Timestamps
 	$start_date_timestamp = strtotime( $meta['start_date'] );
@@ -237,7 +244,7 @@ function ctfw_event_data( $post_id = null ) {
 	$meta['directions_url'] = $meta['show_directions_link'] ? ctfw_directions_url( $meta['address'] ) : '';
 
 	// Recurrence note
-	$recurrence_note = ctfw_event_recurrence_note( $post_id );
+	$recurrence_note = ctfw_event_recurrence_note( false, $meta );
 	$meta['recurrence_note'] = isset( $recurrence_note['full'] ) ? $recurrence_note['full'] : ''; // sentence such as "Every 3 months on the second Wednesday until January 24, 2018"
 	$meta['recurrence_note_short'] = isset( $recurrence_note['short'] ) ? $recurrence_note['short'] : ''; // short version such as "Every 3 Months" (can show this with full on tooltip)
 
@@ -859,230 +866,225 @@ add_action( 'template_redirect', 'ctfw_event_calendar_redirection' );
  * @param object|int $post Post object or post ID for event
  * @return array Keys are full and short
  */
-function ctfw_event_recurrence_note( $post = false ) {
+function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 
 	$note = array();
 
-	// Get post
-	if ( is_numeric( $post ) || ! $post ) { // $post may be null or empty, get current post
-		$post = get_post( $post );
+	// Get event data if not provided
+	if ( empty( $data ) ) {
+		$data = ctfw_event_data( $post_id );
 	}
 
-	// Have post?
-	if ( $post ) {
+	// Is this a recurring event?
+	$recurrence = $data['recurrence'];
+	if ( $recurrence && $recurrence != 'none' ) {
 
-		// Is this a recurring event?
-		$recurrence = get_post_meta( $post->ID, '_ctc_event_recurrence', true );
-		if ( $recurrence && $recurrence != 'none' ) {
+		$note['full'] = '';
+		$note['short'] = '';
 
-			$note['full'] = '';
-			$note['short'] = '';
+		// Get recurrence data
+		$recurrence_end_date = $data['recurrence_end_date'];
+		$weekly_interval = $data['recurrence_weekly_interval'];
+		$monthly_interval = $data['recurrence_monthly_interval'];
+		$monthly_type = $data['recurrence_monthly_type'];
+		$monthly_week = $data['recurrence_monthly_week'];
 
-			// Get recurrence data
-			$recurrence_end_date = get_post_meta( $post->ID, '_ctc_event_recurrence_end_date', true );
-			$weekly_interval = get_post_meta( $post->ID , '_ctc_event_recurrence_weekly_interval' , true );
-			$monthly_interval = get_post_meta( $post->ID , '_ctc_event_recurrence_monthly_interval' , true );
-			$monthly_type = get_post_meta( $post->ID , '_ctc_event_recurrence_monthly_type' , true );
-			$monthly_week = get_post_meta( $post->ID , '_ctc_event_recurrence_monthly_week' , true );
+		// Localized end date
+		$recurrence_end_date_localized = '';
+		if ( $recurrence_end_date ) {
+			$date_format = get_option( 'date_format' );
+			$end_date_ts = strtotime( $recurrence_end_date );
+			$recurrence_end_date_localized = date_i18n( $date_format, $end_date_ts );
+		}
 
-			// Localized end date
-			$recurrence_end_date_localized = '';
-			if ( $recurrence_end_date ) {
-				$date_format = get_option( 'date_format' );
-				$end_date_ts = strtotime( $recurrence_end_date );
-				$recurrence_end_date_localized = date_i18n( $date_format, $end_date_ts );
-			}
+		// Get day of week for start date
+		$start_date = $data['start_date'];
+		$start_day_of_week = ! empty( $start_date ) ? date_i18n( 'l', strtotime( $start_date ) ) : '';
 
-			// Get day of week for start date
-			$start_date = get_post_meta( $post->ID , '_ctc_event_start_date' , true );
-			$start_day_of_week = ! empty( $start_date ) ? date_i18n( 'l', strtotime( $start_date ) ) : '';
+		// Words for week of month
+		$monthly_week_word = '';
+		if ( $monthly_week ) {
 
-			// Words for week of month
-			$monthly_week_word = '';
-			if ( $monthly_week ) {
+			$monthly_week_words = array(
+				'1'		=> _x( 'first', 'week of month', 'church-theme-framework' ),
+				'2'		=> _x( 'second', 'week of month', 'church-theme-framework' ),
+				'3'		=> _x( 'third', 'week of month', 'church-theme-framework' ),
+				'4'		=> _x( 'fourth', 'week of month', 'church-theme-framework' ),
+				'last'	=> _x( 'last', 'week of month', 'church-theme-framework' ),
+			);
 
-				$monthly_week_words = array(
-					'1'		=> _x( 'first', 'week of month', 'church-theme-framework' ),
-					'2'		=> _x( 'second', 'week of month', 'church-theme-framework' ),
-					'3'		=> _x( 'third', 'week of month', 'church-theme-framework' ),
-					'4'		=> _x( 'fourth', 'week of month', 'church-theme-framework' ),
-					'last'	=> _x( 'last', 'week of month', 'church-theme-framework' ),
-				);
+			$monthly_week_word = $monthly_week_words[$monthly_week];
 
-				$monthly_week_word = $monthly_week_words[$monthly_week];
+		}
 
-			}
+		// Frequency
+		switch ( $recurrence ) {
 
-			// Frequency
-			switch ( $recurrence ) {
+			case 'weekly' :
 
-				case 'weekly' :
+				// Full
+				if ( $recurrence_end_date ) {
 
-					// Full
-					if ( $recurrence_end_date ) {
-
-						/* translators: %1$s is interval, %2$s is recurrence end date */
-						$note['full'] = sprintf(
-							_n(
-								'Every week until %2$s',
-								'Every %1$s weeks until %2$s',
-								$weekly_interval,
-								'church-theme-framework'
-							),
-							$weekly_interval,
-							$recurrence_end_date_localized
-						);
-
-					} else {
-
-						/* translators: %1$s is interval */
-						$note['full'] = sprintf(
-							_n(
-								'Every week',
-								'Every %1$s weeks',
-								$weekly_interval,
-								'church-theme-framework'
-							),
-							$weekly_interval
-						);
-
-					}
-
-					// Short
-					/* translators: %1$s is interval */
-					$note['short'] = sprintf(
+					/* translators: %1$s is interval, %2$s is recurrence end date */
+					$note['full'] = sprintf(
 						_n(
-							'Every Week',
-							'Every %1$s Weeks',
+							'Every week until %2$s',
+							'Every %1$s weeks until %2$s',
+							$weekly_interval,
+							'church-theme-framework'
+						),
+						$weekly_interval,
+						$recurrence_end_date_localized
+					);
+
+				} else {
+
+					/* translators: %1$s is interval */
+					$note['full'] = sprintf(
+						_n(
+							'Every week',
+							'Every %1$s weeks',
 							$weekly_interval,
 							'church-theme-framework'
 						),
 						$weekly_interval
 					);
 
-					break;
+				}
 
-				case 'monthly' :
+				// Short
+				/* translators: %1$s is interval */
+				$note['short'] = sprintf(
+					_n(
+						'Every Week',
+						'Every %1$s Weeks',
+						$weekly_interval,
+						'church-theme-framework'
+					),
+					$weekly_interval
+				);
 
-					// On specific week
-					if ( 'week' == $monthly_type && $start_day_of_week ) { // only if start date is present
+				break;
 
-						// Has recurrence end date
-						if ( $recurrence_end_date ) {
+			case 'monthly' :
 
-							/* translators: %1$s is interval, %2$s is week of month, %3$s is day of week, %4$s is recurrence end date */
-							$note['full'] = sprintf(
-								_n(
-									'Every month on the %2$s %3$s until %4$s',
-									'Every %1$s months on the %2$s %3$s until %4$s',
-									$monthly_interval,
-									'church-theme-framework'
-								),
-								$monthly_interval,
-								$monthly_week_word,
-								$start_day_of_week,
-								$recurrence_end_date_localized
-							);
+				// On specific week
+				if ( 'week' == $monthly_type && $start_day_of_week ) { // only if start date is present
 
-						}
-
-						// No recurrence end date
-						else {
-
-							/* translators: %1$s is interval, %2$s is week of month, %3$s is day of week */
-							$note['full'] = sprintf(
-								_n(
-									'Every month on the %2$s %3$s',
-									'Every %1$s months on the %2$s %3$s',
-									$monthly_interval,
-									'church-theme-framework'
-								),
-								$monthly_interval,
-								$monthly_week_word,
-								$start_day_of_week
-							);
-
-						}
-
-					// On same day of month
-					} else {
-
-						// Has recurrence end date
-						if ( $recurrence_end_date ) {
-
-							/* translators: %1$s is interval, %2$s is recurrence end date */
-							$note['full'] = sprintf(
-								_n(
-									'Every month until %2$s',
-									'Every %1$s months until %2$s',
-									$monthly_interval,
-									'church-theme-framework'
-								),
-								$monthly_interval,
-								$recurrence_end_date_localized
-							);
-
-						}
-
-						// No recurrence end date
-						else {
-
-							/* translators: %1$s is interval */
-							$note['full'] = sprintf(
-								_n(
-									'Every month',
-									'Every %1$s months',
-									$monthly_interval,
-									'church-theme-framework'
-								),
-								$monthly_interval
-							);
-
-						}
-
-					}
-
-					/* translators: %1$s is interval */
-					$note['short'] = sprintf(
-						_n(
-							'Every Month',
-							'Every %1$s Months',
-							$monthly_interval,
-							'church-theme-framework'
-						),
-						$monthly_interval
-					);
-
-					break;
-
-				case 'yearly' :
-
-					// Full
+					// Has recurrence end date
 					if ( $recurrence_end_date ) {
 
-						/* translators: %1$s is recurrence end date */
+						/* translators: %1$s is interval, %2$s is week of month, %3$s is day of week, %4$s is recurrence end date */
 						$note['full'] = sprintf(
-							__( 'Every year until %1$s', 'church-theme-framework' ),
+							_n(
+								'Every month on the %2$s %3$s until %4$s',
+								'Every %1$s months on the %2$s %3$s until %4$s',
+								$monthly_interval,
+								'church-theme-framework'
+							),
+							$monthly_interval,
+							$monthly_week_word,
+							$start_day_of_week,
 							$recurrence_end_date_localized
 						);
 
-					} else {
-						$note['full'] = __( 'Every year', 'church-theme-framework' );
 					}
 
-					// Short
-					$note['short'] = __( 'Every Year', 'church-theme-framework' );
+					// No recurrence end date
+					else {
 
-					break;
+						/* translators: %1$s is interval, %2$s is week of month, %3$s is day of week */
+						$note['full'] = sprintf(
+							_n(
+								'Every month on the %2$s %3$s',
+								'Every %1$s months on the %2$s %3$s',
+								$monthly_interval,
+								'church-theme-framework'
+							),
+							$monthly_interval,
+							$monthly_week_word,
+							$start_day_of_week
+						);
 
-			}
+					}
+
+				// On same day of month
+				} else {
+
+					// Has recurrence end date
+					if ( $recurrence_end_date ) {
+
+						/* translators: %1$s is interval, %2$s is recurrence end date */
+						$note['full'] = sprintf(
+							_n(
+								'Every month until %2$s',
+								'Every %1$s months until %2$s',
+								$monthly_interval,
+								'church-theme-framework'
+							),
+							$monthly_interval,
+							$recurrence_end_date_localized
+						);
+
+					}
+
+					// No recurrence end date
+					else {
+
+						/* translators: %1$s is interval */
+						$note['full'] = sprintf(
+							_n(
+								'Every month',
+								'Every %1$s months',
+								$monthly_interval,
+								'church-theme-framework'
+							),
+							$monthly_interval
+						);
+
+					}
+
+				}
+
+				/* translators: %1$s is interval */
+				$note['short'] = sprintf(
+					_n(
+						'Every Month',
+						'Every %1$s Months',
+						$monthly_interval,
+						'church-theme-framework'
+					),
+					$monthly_interval
+				);
+
+				break;
+
+			case 'yearly' :
+
+				// Full
+				if ( $recurrence_end_date ) {
+
+					/* translators: %1$s is recurrence end date */
+					$note['full'] = sprintf(
+						__( 'Every year until %1$s', 'church-theme-framework' ),
+						$recurrence_end_date_localized
+					);
+
+				} else {
+					$note['full'] = __( 'Every year', 'church-theme-framework' );
+				}
+
+				// Short
+				$note['short'] = __( 'Every Year', 'church-theme-framework' );
+
+				break;
 
 		}
 
 	}
 
 	// Filter
-	$note = apply_filters( 'ctfw_event_recurrence_note', $note, $post );
+	$note = apply_filters( 'ctfw_event_recurrence_note', $note, $post_id, $data );
 
 	return $note;
 
