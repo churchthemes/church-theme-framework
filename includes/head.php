@@ -124,7 +124,7 @@ function ctfw_event_calendar_head_title( $title, $sep, $seplocation ) {
 			if ( ! empty( $_GET['month'] ) ) {
 
 				/* translators: this is the PHP date format used for <title> on event calendar months */
-				$parts[] = date_i18n( __( 'F Y', 'event calendar', 'church-theme-framework' ), strtotime( $_GET['month'] ) );
+				$parts[] = date_i18n( _x( 'F Y', 'event calendar', 'church-theme-framework' ), strtotime( $_GET['month'] ) );
 
 			}
 
