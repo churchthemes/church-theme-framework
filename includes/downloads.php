@@ -138,7 +138,7 @@ function ctfw_force_download_url( $url ) {
 			$relative_url = ltrim( $relative_url ); // remove preceding slash
 
 			// Add ?download=file to site URL
-			$download_url = home_url( '/' ) . '?download=' . urlencode( $relative_url );
+			$download_url = home_url( '/' ) . '?download=' . urlencode( $relative_url ) . '&nocache';
 
 		}
 
