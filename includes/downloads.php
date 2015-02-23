@@ -74,16 +74,20 @@ function ctfw_force_download() {
 					flush();
 
 					// Prepare to use WP_Filesystem
+					/* See comments below
 					if ( ! class_exists( 'WP_Filesystem_Base') ) {
 						require_once ABSPATH . 'wp-admin/includes/file.php';
 					}
 					WP_Filesystem();
+					*/
 
 					// Output file contents using Direct method
 					// This is like using echo file_get_contents()
-					// readfile() should be more efficient but generates Theme Check warning RE: WP Filesystem
-					//@readfile( $upload_file_path ); // suppress errors
-					echo $wp_filesystem->get_contents( $upload_file_path );
+					// readfile() is more efficient but generates Theme Check warning RE: WP Filesystem
+					// 2015-02-23: Switched back to @readfile though it fails Theme Check, because download issues w/manys ervers when using wp_filesystem
+					// validation happening before this makes this secure
+					//echo $wp_filesystem->get_contents( $upload_file_path );
+					@readfile( $upload_file_path ); // suppress errors
 
 					// we're done, stop further execution
 					exit;
