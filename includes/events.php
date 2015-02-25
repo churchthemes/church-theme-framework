@@ -392,9 +392,10 @@ function ctfw_event_calendar_data( $args ) {
 
 	// Arguments
 	$args = wp_parse_args( $args, array(
-		'year_month' 	=> '', // YYYY-MM (e.g. 2015-01 for January, 2015)
-		'get_events'	=> true, // get events for each day in array
-		'category'		=> '', // category term slug or empty for all
+		'year_month' 		=> '', // YYYY-MM (e.g. 2015-01 for January, 2015)
+		'get_events'		=> true, // get events for each day in array
+		'category'			=> '', // category term slug or empty for all
+		'recurrence_limit'	=> 160, // max number of future event occurences to calculate (160 will cover 3 years of weekly recurrence)
 	) );
 
 	// Extract arguments for easy use
@@ -685,7 +686,7 @@ function ctfw_event_calendar_data( $args ) {
 					'interval'		=> $interval, 								// every 1, 2 or 3, etc. weeks, months or years
 					'monthly_type'	=> $event_data['recurrence_monthly_type'], 	// day (same day of month) or week (on a specific week); if recurrence is monthly (day is default)
 					'monthly_week'	=> $event_data['recurrence_monthly_week'], 	// 1 - 4 or 'last'; if recurrence is monthly and monthly_type is 'week'
-					'limit'			=> 45, 										// maximum dates to return (if no until_date, default is 100 to prevent infinite loop)
+					'limit'			=> $recurrence_limit, 						// maximum dates to return (if no until_date, default is 100 to prevent infinite loop)
 				);
 				$calculated_dates = $ctfw_recurrence->get_dates( $recurrence_args );
 
