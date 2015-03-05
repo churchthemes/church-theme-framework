@@ -673,7 +673,8 @@ function ctfw_event_calendar_data( $args ) {
 				// This is either 38 days from first of month (+ 7 for first week of next, which may show)
 				// Or, the recurrence end date if earlier
 				$DateTime = new DateTime( $first_of_month );
-				$until_date = $DateTime->modify( '+38 days' )->format( 'Y-m-d' );
+				$DateTime->modify( '+38 days' );
+				$until_date = $DateTime->format( 'Y-m-d' ); // PHP 5.2 cannot chain methods
 				if ( ! empty( $event_data['recurrence_end_date'] ) && $event_data['recurrence_end_date'] < $until_date ) {
 					$until_date = $event_data['recurrence_end_date'];
 				}
@@ -714,8 +715,10 @@ function ctfw_event_calendar_data( $args ) {
 						}
 
 						// Move to next day
-						$while_date = $WhileDateTime->modify( '+1 day' )->format( 'Y-m-d' );
-						$date = $DateTime->modify( '+1 day' )->format( 'Y-m-d' );
+						$WhileDateTime->modify( '+1 day' );
+						$while_date = $WhileDateTime->format( 'Y-m-d' ); // PHP 5.2 cannot chain methods
+						$DateTime->modify( '+1 day' );
+						$date = $DateTime->format( 'Y-m-d' ); // PHP 5.2 cannot chain methods
 
 					}
 
