@@ -122,7 +122,7 @@ function ctfw_generic_embeds( $html ) {
 
 			// Modify URL
 			$args = apply_filters( 'ctfw_generic_embeds_add_args', $args, $source );
-			$new_url = add_query_arg( $args, $url );
+			$new_url = esc_url( add_query_arg( $args, $url ) );
 
 			// Replace source with modified URL
 			if ( $new_url != $url ) {
