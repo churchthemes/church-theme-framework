@@ -17,6 +17,8 @@ jQuery( document ).ready( function( $ ) {
 		zoom = $( this ).data( 'ctfw-map-zoom' );
 		marker = $( this ).data( 'ctfw-map-marker' );
 		center_resize = $( this ).data( 'ctfw-map-center-resize' );
+		callback_loaded = $( this ).data( 'ctfw-map-callback-loaded' );
+		callback_resize = $( this ).data( 'ctfw-map-callback-resize' );
 
 		// Map being used? Have coordinates?
 		if ( $( '#' + id ).length && lat && lng ) {
@@ -83,18 +85,36 @@ jQuery( document ).ready( function( $ ) {
 
 			}
 
-			// Centered latitude/longitude on window resize
-			if ( center_resize ) {
-				google.maps.event.addDomListener( window, 'resize', function() {
-					map.setCenter( latlng );
-				} );
-			}
-
 			// Store map object in data attribute so can manipulate the instance later
 			// Useful for adding custom styles, panning, etc.
 			// var map = $( 'element' ).data( 'ctfw-map' );
 			$( this ).data( 'ctfw-map', map );
 			$( this ).data( 'ctfw-map-latlng', latlng );
+
+			// After load callback
+			if ( callback_loaded ) {
+				window[callback_loaded](); // run function
+			}
+
+			// On window resize
+			if ( center_resize || callback_resize ) {
+
+				//google.maps.event.addDomListener( window, 'resize', function() {
+				$( window ).resize( function() {
+
+					// Centered latitude/longitude on window resize
+					if ( center_resize ) {
+						map.setCenter( latlng );
+					}
+
+					// On resize callback
+					if ( callback_resize ) {
+						window[callback_resize](); // run function
+					}
+
+				} );
+
+			}
 
 		}
 
