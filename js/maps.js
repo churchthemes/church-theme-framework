@@ -67,9 +67,15 @@ jQuery( document ).ready( function( $ ) {
 			} );
 
 			// Keep marker centered on window resize
+			// var map = $( 'element' ).data( 'ctfw-map' );
 			google.maps.event.addDomListener( window, 'resize', function() {
 				map.setCenter( latlng );
 			} );
+
+			// Store map object in data attribute so can manipulate the instance later
+			// Useful for adding custom styles, panning, etc.
+			$( this ).data( 'ctfw-map', map );
+			$( this ).data( 'ctfw-map-latlng', latlng );
 
 		}
 
