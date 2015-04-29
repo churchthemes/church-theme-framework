@@ -68,9 +68,11 @@ function ctfw_google_map( $options = false ) {
 			$map_style = ' style="padding-bottom: ' . $options['height_percent'] . '%;"';
 		}
 
-		// Defaults
+		// Additional defaults
 		$options['marker'] = isset( $options['marker'] ) ? $options['marker'] : true; // default true
 		$options['center_resize'] = isset( $options['center_resize'] ) ? $options['center_resize'] : true; // default true
+		$options['callback_loaded'] = isset( $options['callback_loaded'] ) ? $options['callback_loaded'] : '';
+		$options['callback_resize'] = isset( $options['callback_resize'] ) ? $options['callback_resize'] : '';
 
 		// Data Attributes
 		$data_latitude = esc_attr( $options['latitude'] );
