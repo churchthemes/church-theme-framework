@@ -68,9 +68,9 @@ function ctfw_google_map( $options = false ) {
 			$map_style = ' style="padding-bottom: ' . $options['height_percent'] . '%;"';
 		}
 
-		// Using marker?
-		// Default is yes, automatic
+		// Defaults
 		$options['marker'] = isset( $options['marker'] ) ? $options['marker'] : true; // default true
+		$options['center_resize'] = isset( $options['center_resize'] ) ? $options['center_resize'] : true; // default true
 
 		// Data Attributes
 		$data_latitude = esc_attr( $options['latitude'] );
@@ -78,9 +78,10 @@ function ctfw_google_map( $options = false ) {
 		$data_type = esc_attr( $options['type'] );
 		$data_zoom = esc_attr( $options['zoom'] );
 		$data_marker = esc_attr( $options['marker'] );
+		$data_center_resize = esc_attr( $options['center_resize'] );
 
 		// Map canvas tag with attributes
-		$html = '<div id="' . esc_attr( $google_map_id ) . '" class="' . $canvas_classes . '" data-ctfw-map-lat="' . esc_attr( $data_latitude ) . '" data-ctfw-map-lng="' . esc_attr( $data_longitude ) . '" data-ctfw-map-type="' . esc_attr( $data_type ) . '" data-ctfw-map-zoom="' . esc_attr( $data_zoom ) . '" data-ctfw-map-marker="' . esc_attr( $data_marker ) . '"' . $map_style . '></div>';
+		$html = '<div id="' . esc_attr( $google_map_id ) . '" class="' . $canvas_classes . '" data-ctfw-map-lat="' . esc_attr( $data_latitude ) . '" data-ctfw-map-lng="' . esc_attr( $data_longitude ) . '" data-ctfw-map-type="' . esc_attr( $data_type ) . '" data-ctfw-map-zoom="' . esc_attr( $data_zoom ) . '" data-ctfw-map-marker="' . esc_attr( $data_marker ) . '" data-ctfw-map-center-resize="' . esc_attr( $data_center_resize ) . '"' . $map_style . '></div>';
 
 		// Use container?
 		if ( $options['container'] ) {

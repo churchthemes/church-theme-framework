@@ -11,11 +11,12 @@ jQuery( document ).ready( function( $ ) {
 
 		// Get map data from element attributes
 		id = $( this ).attr( 'id' );
-		lat = $( this ).attr( 'data-ctfw-map-lat' );
-		lng = $( this ).attr( 'data-ctfw-map-lng' );
-		type = $( this ).attr( 'data-ctfw-map-type' );
-		zoom = $( this ).attr( 'data-ctfw-map-zoom' );
-		marker = $( this ).attr( 'data-ctfw-map-marker' );
+		lat = $( this ).data( 'ctfw-map-lat' );
+		lng = $( this ).data( 'ctfw-map-lng' );
+		type = $( this ).data( 'ctfw-map-type' );
+		zoom = $( this ).data( 'ctfw-map-zoom' );
+		marker = $( this ).data( 'ctfw-map-marker' );
+		center_resize = $( this ).data( 'ctfw-map-center-resize' );
 
 		// Map being used? Have coordinates?
 		if ( $( '#' + id ).length && lat && lng ) {
@@ -82,10 +83,12 @@ jQuery( document ).ready( function( $ ) {
 
 			}
 
-			// Keep marker centered on window resize
-			google.maps.event.addDomListener( window, 'resize', function() {
-				map.setCenter( latlng );
-			} );
+			// Centered latitude/longitude on window resize
+			if ( center_resize ) {
+				google.maps.event.addDomListener( window, 'resize', function() {
+					map.setCenter( latlng );
+				} );
+			}
 
 			// Store map object in data attribute so can manipulate the instance later
 			// Useful for adding custom styles, panning, etc.
