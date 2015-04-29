@@ -37,6 +37,21 @@ jQuery( document ).ready( function( $ ) {
 				zoom = 14;
 			}
 
+			// Default Styles
+			// Hide business name labels
+			styles = [{
+				featureType: "poi",
+				stylers: [{
+					visibility: "off"
+				}]
+			}]
+
+			// Custom Styles
+			// Apply globally if ctfw_map_styles is defined
+			if ( typeof ctfw_map_styles !== 'undefined' ) {
+				styles = ctfw_map_styles;
+			}
+
 			// Load Map
 			map = new google.maps.Map( document.getElementById( id ), {
 				zoom: parseInt( zoom ),
@@ -46,13 +61,9 @@ jQuery( document ).ready( function( $ ) {
 				draggable: false, // this can catch on mobile page touch-scrolling
 				disableDoubleClickZoom: true,
 				center: latlng,
-				styles: [{ // hide business name labels
-					featureType: "poi",
-					stylers: [{
-						visibility: "off"
-					}]
-				}]
+				styles: styles,
 			} );
+
 
 			// Custom Marker
 			image = new google.maps.MarkerImage( ctfw_maps.icon,
