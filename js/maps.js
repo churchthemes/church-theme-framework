@@ -15,6 +15,7 @@ jQuery( document ).ready( function( $ ) {
 		lng = $( this ).attr( 'data-ctfw-map-lng' );
 		type = $( this ).attr( 'data-ctfw-map-type' );
 		zoom = $( this ).attr( 'data-ctfw-map-zoom' );
+		marker = $( this ).attr( 'data-ctfw-map-marker' );
 
 		// Map being used? Have coordinates?
 		if ( $( '#' + id ).length && lat && lng ) {
@@ -64,27 +65,31 @@ jQuery( document ).ready( function( $ ) {
 				styles: styles,
 			} );
 
+			// Using marker?
+			if ( marker ) {
 
-			// Custom Marker
-			image = new google.maps.MarkerImage( ctfw_maps.icon,
-				new google.maps.Size( 26, 26 ),
-				new google.maps.Point( 0,0 ),
-				new google.maps.Point( 13, 26 ) );
-			marker = new google.maps.Marker( {
-				position: latlng,
-				map: map,
-				clickable: false,
-				icon: image
-			} );
+				// Custom Marker
+				image = new google.maps.MarkerImage( ctfw_maps.icon,
+					new google.maps.Size( 26, 26 ),
+					new google.maps.Point( 0,0 ),
+					new google.maps.Point( 13, 26 ) );
+				marker = new google.maps.Marker( {
+					position: latlng,
+					map: map,
+					clickable: false,
+					icon: image
+				} );
+
+			}
 
 			// Keep marker centered on window resize
-			// var map = $( 'element' ).data( 'ctfw-map' );
 			google.maps.event.addDomListener( window, 'resize', function() {
 				map.setCenter( latlng );
 			} );
 
 			// Store map object in data attribute so can manipulate the instance later
 			// Useful for adding custom styles, panning, etc.
+			// var map = $( 'element' ).data( 'ctfw-map' );
 			$( this ).data( 'ctfw-map', map );
 			$( this ).data( 'ctfw-map-latlng', latlng );
 

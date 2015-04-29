@@ -42,7 +42,6 @@ function ctfw_google_map( $options = false ) {
 			'icon' => ctfw_color_url( apply_filters( 'ctfw_maps_icon_color_file', 'images/map-icon.png' ) )
 		));
 
-
 		// Use container?
 		$options['container'] = isset( $options['container'] ) ? $options['container'] : true; // default true
 
@@ -69,21 +68,38 @@ function ctfw_google_map( $options = false ) {
 			$map_style = ' style="padding-bottom: ' . $options['height_percent'] . '%;"';
 		}
 
+		// Using marker?
+		// Default is yes, automatic
+		$options['marker'] = isset( $options['marker'] ) ? $options['marker'] : true; // default true
+
 		// Data Attributes
 		$data_latitude = esc_attr( $options['latitude'] );
 		$data_longitude = esc_attr( $options['longitude'] );
 		$data_type = esc_attr( $options['type'] );
 		$data_zoom = esc_attr( $options['zoom'] );
+		$data_marker = esc_attr( $options['marker'] );
 
-	// Map canvas tag with attributes
-	$html = '<div id="' . esc_attr( $google_map_id ) . '" class="' . $canvas_classes . '" data-ctfw-map-lat="' . esc_attr( $data_latitude ) . '" data-ctfw-map-lng="' . esc_attr( $data_longitude ) . '" data-ctfw-map-type="' . esc_attr( $data_type ) . '" data-ctfw-map-zoom="' . esc_attr( $data_zoom ) . '"' . $map_style . '></div>';
+		// Map canvas tag with attributes
+		$html = '<div id="' . esc_attr( $google_map_id ) . '" class="' . $canvas_classes . '" data-ctfw-map-lat="' . esc_attr( $data_latitude ) . '" data-ctfw-map-lng="' . esc_attr( $data_longitude ) . '" data-ctfw-map-type="' . esc_attr( $data_type ) . '" data-ctfw-map-zoom="' . esc_attr( $data_zoom ) . '" data-ctfw-map-marker="' . esc_attr( $data_marker ) . '"' . $map_style . '></div>';
 
-	// Use container?
-	if ( $options['container'] ) {
-		$html = '<div class="ctfw-google-map-container">' . $html . '</div>';
-	}
+		// Use container?
+		if ( $options['container'] ) {
+			$html = '<div class="ctfw-google-map-container">' . $html . '</div>';
+		}
 
-	} else if ( ! empty( $options['show_error'] ) ) {
+		// Enqueue map scripts to handle Google Maps init
+		// this way the scripts are loaded only when feature is used, not on every page
+		wp_enqueue_script( 'google-maps', '//maps.googleapis.com/maps/api/js?sensor=false', false, null ); // no version, generic name to share w/plugins
+		wp_enqueue_script( 'ctfw-maps', ctfw_theme_url( CTFW_JS_DIR . '/maps.js' ), array( 'jquery', 'google-maps' ), CTFW_VERSION ); // bust cache on theme update
+
+		// Pass location of map icons to JS
+		if ( $options['marker'] ) {
+			wp_localize_script( 'ctfw-maps', 'ctfw_maps', array(
+				'icon' => ctfw_color_url( apply_filters( 'ctfw_maps_icon_color_file', 'images/map-icon.png' ) )
+			));
+		}
+
+	} elseif ( ! empty( $options['show_error'] ) ) {
 		$html = __( '<p><b>Google Map Error:</b> <i>latitude</i> and <i>longitude</i> attributes are required. See documentation for help.</p>', 'church-theme-framework' );
 	}
 
