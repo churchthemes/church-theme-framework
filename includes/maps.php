@@ -32,18 +32,15 @@ function ctfw_google_map( $options = false ) {
 
 	if ( ! empty( $options['latitude'] ) && ! empty( $options['longitude'] ) ) {
 
-		// Enqueue map scripts to handle Google Maps init
-		// this way the scripts are loaded only when feature is used, not on every page
-		wp_enqueue_script( 'google-maps', '//maps.googleapis.com/maps/api/js?sensor=false', false, null ); // no version, generic name to share w/plugins
-		wp_enqueue_script( 'ctfw-maps', ctfw_theme_url( CTFW_JS_DIR . '/maps.js' ), array( 'jquery', 'google-maps' ), CTFW_VERSION ); // bust cache on theme update
-
-		// Pass location of map icons to JS
-		wp_localize_script( 'ctfw-maps', 'ctfw_maps', array(
-			'icon' => ctfw_color_url( apply_filters( 'ctfw_maps_icon_color_file', 'images/map-icon.png' ) )
-		));
-
-		// Use container?
+		// Defaults
+		$options['type'] = isset( $options['type'] ) ? strtoupper( $options['type'] ) : '';
+		$options['zoom'] = isset( $options['zoom'] ) ? (int) $options['zoom'] : '';
 		$options['container'] = isset( $options['container'] ) ? $options['container'] : true; // default true
+		$options['responsive'] = isset( $options['responsive'] ) ? $options['responsive'] : true; // default true
+		$options['marker'] = isset( $options['marker'] ) ? $options['marker'] : true; // default true
+		$options['center_resize'] = isset( $options['center_resize'] ) ? $options['center_resize'] : true; // default true
+		$options['callback_loaded'] = isset( $options['callback_loaded'] ) ? $options['callback_loaded'] : '';
+		$options['callback_resize'] = isset( $options['callback_resize'] ) ? $options['callback_resize'] : '';
 
 		// Unique ID for this map so can have multiple maps on a page
 		// Can pass map_id as option for custom ID
@@ -52,14 +49,16 @@ function ctfw_google_map( $options = false ) {
 
 		// Classes for map canvas element
 		$canvas_classes = array( 'ctfw-google-map' );
-		if ( ! empty( $options['canvas_class'] ) ) {
-			$canvas_classes[] = $options['canvas_class'];
-		}
-		$canvas_classes = implode( ' ', $canvas_classes );
 
-		// Type and zoom are optional
-		$options['type'] = isset( $options['type'] ) ? strtoupper( $options['type'] ) : '';
-		$options['zoom'] = isset( $options['zoom'] ) ? (int) $options['zoom'] : '';
+			if ( ! empty( $options['canvas_class'] ) ) {
+				$canvas_classes[] = $options['canvas_class'];
+			}
+
+			if ( $options['responsive'] ) {
+				$canvas_classes[] = 'ctfw-google-map-responsive';
+			}
+
+			$canvas_classes = implode( ' ', $canvas_classes );
 
 		// Height percentage of width?
 		$map_style = '';
@@ -67,12 +66,6 @@ function ctfw_google_map( $options = false ) {
 			$options['height_percent'] = str_replace( '%', '', $options['height_percent'] );
 			$map_style = ' style="padding-bottom: ' . $options['height_percent'] . '%;"';
 		}
-
-		// Additional defaults
-		$options['marker'] = isset( $options['marker'] ) ? $options['marker'] : true; // default true
-		$options['center_resize'] = isset( $options['center_resize'] ) ? $options['center_resize'] : true; // default true
-		$options['callback_loaded'] = isset( $options['callback_loaded'] ) ? $options['callback_loaded'] : '';
-		$options['callback_resize'] = isset( $options['callback_resize'] ) ? $options['callback_resize'] : '';
 
 		// Data Attributes
 		$data_latitude = esc_attr( $options['latitude'] );
