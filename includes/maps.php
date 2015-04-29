@@ -32,6 +32,9 @@ function ctfw_google_map( $options = false ) {
 
 	if ( ! empty( $options['latitude'] ) && ! empty( $options['longitude'] ) ) {
 
+		// Use container?
+		$options['container'] = isset( $options['container'] ) ? $options['container'] : true; // default true
+
 		// Enqueue map scripts to handle Google Maps init
 		// this way the scripts are loaded only when feature is used, not on every page
 		wp_enqueue_script( 'google-maps', '//maps.googleapis.com/maps/api/js?sensor=false', false, null ); // no version, generic name to share w/plugins
@@ -63,11 +66,16 @@ function ctfw_google_map( $options = false ) {
 		$data_type = esc_attr( $options['type'] );
 		$data_zoom = esc_attr( $options['zoom'] );
 
+
+	// Map canvas tag with attributes
 $html = <<< HTML
-<div class="ctfw-google-map-container">
 	<div id="$google_map_id" class="ctfw-google-map" data-ctfw-map-lat="$data_latitude" data-ctfw-map-lng="$data_longitude" data-ctfw-map-type="$data_type" data-ctfw-map-zoom="$data_zoom"$map_style></div>
-</div>
 HTML;
+
+	// Use container?
+	if ( $options['container'] ) {
+		$html = '<div class="ctfw-google-map-container">' . $html . '</div>';
+	}
 
 	} else if ( ! empty( $options['show_error'] ) ) {
 		$html = __( '<p><b>Google Map Error:</b> <i>latitude</i> and <i>longitude</i> attributes are required. See documentation for help.</p>', 'church-theme-framework' );
