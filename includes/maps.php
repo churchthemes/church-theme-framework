@@ -32,14 +32,6 @@ function ctfw_google_map( $options = false ) {
 
 	if ( ! empty( $options['latitude'] ) && ! empty( $options['longitude'] ) ) {
 
-		// Use container?
-		$options['container'] = isset( $options['container'] ) ? $options['container'] : true; // default true
-
-		// Unique ID for this map so can have multiple maps on a page
-		// Can pass map_id as option for custom ID
-		$google_map_id_default = 'ctfw-google-map-' . rand( 1000000, 9999999 );
-		$google_map_id = isset( $options['map_id'] ) ? $options['map_id'] : $google_map_id_default;
-
 		// Enqueue map scripts to handle Google Maps init
 		// this way the scripts are loaded only when feature is used, not on every page
 		wp_enqueue_script( 'google-maps', '//maps.googleapis.com/maps/api/js?sensor=false', false, null ); // no version, generic name to share w/plugins
@@ -49,6 +41,22 @@ function ctfw_google_map( $options = false ) {
 		wp_localize_script( 'ctfw-maps', 'ctfw_maps', array(
 			'icon' => ctfw_color_url( apply_filters( 'ctfw_maps_icon_color_file', 'images/map-icon.png' ) )
 		));
+
+
+		// Use container?
+		$options['container'] = isset( $options['container'] ) ? $options['container'] : true; // default true
+
+		// Unique ID for this map so can have multiple maps on a page
+		// Can pass map_id as option for custom ID
+		$google_map_id_default = 'ctfw-google-map-' . rand( 1000000, 9999999 );
+		$google_map_id = isset( $options['canvas_id'] ) ? $options['canvas_id'] : $google_map_id_default;
+
+		// Classes for map canvas element
+		$canvas_classes = array( 'ctfw-google-map' );
+		if ( ! empty( $options['canvas_class'] ) ) {
+			$canvas_classes[] = $options['canvas_class'];
+		}
+		$canvas_classes = implode( ' ', $canvas_classes );
 
 		// Type and zoom are optional
 		$options['type'] = isset( $options['type'] ) ? strtoupper( $options['type'] ) : '';
@@ -68,7 +76,7 @@ function ctfw_google_map( $options = false ) {
 		$data_zoom = esc_attr( $options['zoom'] );
 
 	// Map canvas tag with attributes
-	$html = '<div id="' . esc_attr( $google_map_id ) . '" class="ctfw-google-map" data-ctfw-map-lat="' . esc_attr( $data_latitude ) . '" data-ctfw-map-lng="' . esc_attr( $data_longitude ) . '" data-ctfw-map-type="' . esc_attr( $data_type ) . '" data-ctfw-map-zoom="' . esc_attr( $data_zoom ) . '"' . $map_style . '></div>';
+	$html = '<div id="' . esc_attr( $google_map_id ) . '" class="' . $canvas_classes . '" data-ctfw-map-lat="' . esc_attr( $data_latitude ) . '" data-ctfw-map-lng="' . esc_attr( $data_longitude ) . '" data-ctfw-map-type="' . esc_attr( $data_type ) . '" data-ctfw-map-zoom="' . esc_attr( $data_zoom ) . '"' . $map_style . '></div>';
 
 	// Use container?
 	if ( $options['container'] ) {
