@@ -92,9 +92,19 @@ function ctfw_google_map( $options = false ) {
 
 		// Pass location of map icons to JS
 		if ( $options['marker'] ) {
-			wp_localize_script( 'ctfw-maps', 'ctfw_maps', array(
-				'icon' => ctfw_color_url( apply_filters( 'ctfw_maps_icon_color_file', 'images/map-icon.png' ) )
-			));
+
+			if ( ! empty( $options['marker'] ) && ! is_bool( $options['marker'] ) ) {
+				$icon_url = $options['marker'];
+			} else {
+				$icon_url = ctfw_color_url( apply_filters( 'ctfw_maps_icon_color_file', 'images/map-icon.png' ) );
+			}
+
+			if ( $icon_url ) {
+				wp_localize_script( 'ctfw-maps', 'ctfw_maps', array(
+					'icon' => $icon_url,
+				));
+			}
+
 		}
 
 	} elseif ( ! empty( $options['show_error'] ) ) {
