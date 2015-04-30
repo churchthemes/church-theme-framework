@@ -38,6 +38,7 @@ function ctfw_google_map( $options = false ) {
 		$options['container'] = isset( $options['container'] ) ? $options['container'] : true; // default true
 		$options['responsive'] = isset( $options['responsive'] ) ? $options['responsive'] : true; // default true
 		$options['marker'] = isset( $options['marker'] ) ? $options['marker'] : true; // default true
+		$options['marker_image'] = isset( $options['marker_image'] ) ? $options['marker_image'] : '';
 		$options['center_resize'] = isset( $options['center_resize'] ) ? $options['center_resize'] : true; // default true
 		$options['callback_loaded'] = isset( $options['callback_loaded'] ) ? $options['callback_loaded'] : '';
 		$options['callback_resize'] = isset( $options['callback_resize'] ) ? $options['callback_resize'] : '';
@@ -73,12 +74,13 @@ function ctfw_google_map( $options = false ) {
 		$data_type = esc_attr( $options['type'] );
 		$data_zoom = esc_attr( $options['zoom'] );
 		$data_marker = esc_attr( $options['marker'] );
+		$data_marker_image = esc_attr( $options['marker_image'] );
 		$data_center_resize = esc_attr( $options['center_resize'] );
 		$data_callback_loaded = esc_attr( $options['callback_loaded'] );
 		$data_callback_resize = esc_attr( $options['callback_resize'] );
 
 		// Map canvas tag with attributes
-		$html = '<div id="' . esc_attr( $google_map_id ) . '" class="' . $canvas_classes . '" data-ctfw-map-lat="' . esc_attr( $data_latitude ) . '" data-ctfw-map-lng="' . esc_attr( $data_longitude ) . '" data-ctfw-map-type="' . esc_attr( $data_type ) . '" data-ctfw-map-zoom="' . esc_attr( $data_zoom ) . '" data-ctfw-map-marker="' . esc_attr( $data_marker ) . '" data-ctfw-map-center-resize="' . esc_attr( $data_center_resize ) . '" data-ctfw-map-callback-loaded="' . esc_attr( $data_callback_loaded ) . '" data-ctfw-map-callback-resize="' . esc_attr( $data_callback_resize ) . '"' . $map_style . '></div>';
+		$html = '<div id="' . esc_attr( $google_map_id ) . '" class="' . $canvas_classes . '" data-ctfw-map-lat="' . esc_attr( $data_latitude ) . '" data-ctfw-map-lng="' . esc_attr( $data_longitude ) . '" data-ctfw-map-type="' . esc_attr( $data_type ) . '" data-ctfw-map-zoom="' . esc_attr( $data_zoom ) . '" data-ctfw-map-marker="' . esc_attr( $data_marker ) . '" data-ctfw-map-marker-image="' . esc_attr( $data_marker_image ) . '" data-ctfw-map-center-resize="' . esc_attr( $data_center_resize ) . '" data-ctfw-map-callback-loaded="' . esc_attr( $data_callback_loaded ) . '" data-ctfw-map-callback-resize="' . esc_attr( $data_callback_resize ) . '"' . $map_style . '></div>';
 
 		// Use container?
 		if ( $options['container'] ) {
@@ -90,18 +92,18 @@ function ctfw_google_map( $options = false ) {
 		wp_enqueue_script( 'google-maps', '//maps.googleapis.com/maps/api/js?sensor=false', false, null ); // no version, generic name to share w/plugins
 		wp_enqueue_script( 'ctfw-maps', ctfw_theme_url( CTFW_JS_DIR . '/maps.js' ), array( 'jquery', 'google-maps' ), CTFW_VERSION ); // bust cache on theme update
 
-		// Pass location of map icons to JS
-		if ( $options['marker'] ) {
+		// Pass location of map marker image to JS
+		if ( $options['marker'] && $options['marker_image'] ) {
 
-			if ( ! empty( $options['marker'] ) && ! is_bool( $options['marker'] ) ) {
-				$icon_url = $options['marker'];
+			if ( $options['marker_image'] ) {
+				$marker_image = $options['marker_image'];
 			} else {
-				$icon_url = ctfw_color_url( apply_filters( 'ctfw_maps_icon_color_file', 'images/map-icon.png' ) );
+				$marker_image = ctfw_color_url( apply_filters( 'ctfw_maps_icon_color_file', 'images/map-icon.png' ) );
 			}
 
-			if ( $icon_url ) {
+			if ( $marker_image ) {
 				wp_localize_script( 'ctfw-maps', 'ctfw_maps', array(
-					'icon' => $icon_url,
+					'marker_image' => $marker_image,
 				));
 			}
 

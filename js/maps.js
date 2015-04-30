@@ -7,7 +7,7 @@ jQuery( document ).ready( function( $ ) {
 	// Loop map elements
 	$( '.ctfw-google-map' ).each( function() {
 
-		var id, lat, lng, type, zoom, latlng, map_type, map, image, marker;
+		var id, lat, lng, type, zoom, latlng, map_type, map, marker, marker_image;
 
 		// Get map data from element attributes
 		id = $( this ).attr( 'id' );
@@ -71,17 +71,30 @@ jQuery( document ).ready( function( $ ) {
 			// Using marker?
 			if ( marker ) {
 
+				// Using global marker image
+				if ( typeof ctfw_map_marker_image !== 'undefined' ) {
+					marker_image = ctfw_map_marker_image;
+				}
+
+				// Using URL passed in or default image in color scheme
+				else if ( typeof ctfw_maps !== 'undefined' && ctfw_maps.marker_image.length ) {
+
+					// Custom Marker
+					marker_image = ctfw_maps.marker_image;
+
+				}
+
 				// Custom Marker
-				image = new google.maps.MarkerImage( ctfw_maps.icon,
-					new google.maps.Size( 26, 26 ),
-					new google.maps.Point( 0,0 ),
-					new google.maps.Point( 13, 26 ) );
-				marker = new google.maps.Marker( {
-					position: latlng,
-					map: map,
-					clickable: false,
-					icon: image
-				} );
+				if ( marker_image.length ) {
+
+					marker = new google.maps.Marker( {
+						position: latlng,
+						map: map,
+						clickable: false,
+						icon: marker_image,
+					} );
+
+				}
 
 			}
 
