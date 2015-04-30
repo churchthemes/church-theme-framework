@@ -7,7 +7,7 @@ jQuery( document ).ready( function( $ ) {
 	// Loop map elements
 	$( '.ctfw-google-map' ).each( function() {
 
-		var id, lat, lng, type, zoom, latlng, map_type, map, marker, marker_image;
+		var id, lat, lng, type, zoom, latlng, map_type, map, marker, marker_image, marker_image_size;
 
 		// Get map data from element attributes
 		id = $( this ).attr( 'id' );
@@ -68,33 +68,32 @@ jQuery( document ).ready( function( $ ) {
 				styles: styles,
 			} );
 
-			// Using marker?
-			if ( marker ) {
+			// Custom Marker
+			if ( marker && typeof ctfw_map_marker_image !== 'undefined' && ctfw_map_marker_image.length ) {
 
-				// Using global marker image
-				if ( typeof ctfw_map_marker_image !== 'undefined' ) {
-					marker_image = ctfw_map_marker_image;
-				}
+				// Global marker image
+				marker_icon = ctfw_map_marker_image;
 
-				// Using URL passed in or default image in color scheme
-				else if ( typeof ctfw_maps !== 'undefined' && ctfw_maps.marker_image.length ) {
+				// HiDPI/Retina?
+				if ( window.devicePixelRatio > 1.5 && typeof ctfw_map_marker_image_hidpi !== 'undefined' && typeof ctfw_map_marker_image_width !== 'undefined' && typeof ctfw_map_marker_image_height !== 'undefined' ) {
 
-					// Custom Marker
-					marker_image = ctfw_maps.marker_image;
+				    marker_image_size = new google.maps.Size( ctfw_map_marker_image_width, ctfw_map_marker_image_height );
 
-				}
-
-				// Custom Marker
-				if ( marker_image.length ) {
-
-					marker = new google.maps.Marker( {
-						position: latlng,
-						map: map,
-						clickable: false,
-						icon: marker_image,
-					} );
+					marker_icon = {
+						url: ctfw_map_marker_image_hidpi,
+						size: marker_image_size,
+						scaledSize: marker_image_size,
+					}
 
 				}
+
+				// Add marker
+				marker = new google.maps.Marker( {
+					position: latlng,
+					map: map,
+					clickable: false,
+					icon: marker_icon
+				} );
 
 			}
 

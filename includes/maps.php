@@ -39,6 +39,8 @@ function ctfw_google_map( $options = false ) {
 		$options['responsive'] = isset( $options['responsive'] ) ? $options['responsive'] : true; // default true
 		$options['marker'] = isset( $options['marker'] ) ? $options['marker'] : true; // default true
 		$options['marker_image'] = isset( $options['marker_image'] ) ? $options['marker_image'] : '';
+		$options['marker_hidpi_width'] = isset( $options['marker_hidpi_width'] ) ? $options['marker_hidpi_width'] : '';
+		$options['marker_hidpi_height'] = isset( $options['marker_hidpi_height'] ) ? $options['marker_hidpi_height'] : '';
 		$options['center_resize'] = isset( $options['center_resize'] ) ? $options['center_resize'] : true; // default true
 		$options['callback_loaded'] = isset( $options['callback_loaded'] ) ? $options['callback_loaded'] : '';
 		$options['callback_resize'] = isset( $options['callback_resize'] ) ? $options['callback_resize'] : '';
@@ -75,12 +77,14 @@ function ctfw_google_map( $options = false ) {
 		$data_zoom = esc_attr( $options['zoom'] );
 		$data_marker = esc_attr( $options['marker'] );
 		$data_marker_image = esc_attr( $options['marker_image'] );
+		$data_marker_hidpi_width = esc_attr( $options['marker_hidpi_width'] );
+		$data_marker_hidpi_height = esc_attr( $options['marker_hidpi_height'] );
 		$data_center_resize = esc_attr( $options['center_resize'] );
 		$data_callback_loaded = esc_attr( $options['callback_loaded'] );
 		$data_callback_resize = esc_attr( $options['callback_resize'] );
 
 		// Map canvas tag with attributes
-		$html = '<div id="' . esc_attr( $google_map_id ) . '" class="' . $canvas_classes . '" data-ctfw-map-lat="' . esc_attr( $data_latitude ) . '" data-ctfw-map-lng="' . esc_attr( $data_longitude ) . '" data-ctfw-map-type="' . esc_attr( $data_type ) . '" data-ctfw-map-zoom="' . esc_attr( $data_zoom ) . '" data-ctfw-map-marker="' . esc_attr( $data_marker ) . '" data-ctfw-map-marker-image="' . esc_attr( $data_marker_image ) . '" data-ctfw-map-center-resize="' . esc_attr( $data_center_resize ) . '" data-ctfw-map-callback-loaded="' . esc_attr( $data_callback_loaded ) . '" data-ctfw-map-callback-resize="' . esc_attr( $data_callback_resize ) . '"' . $map_style . '></div>';
+		$html = '<div id="' . esc_attr( $google_map_id ) . '" class="' . $canvas_classes . '" data-ctfw-map-lat="' . esc_attr( $data_latitude ) . '" data-ctfw-map-lng="' . esc_attr( $data_longitude ) . '" data-ctfw-map-type="' . esc_attr( $data_type ) . '" data-ctfw-map-zoom="' . esc_attr( $data_zoom ) . '" data-ctfw-map-marker="' . esc_attr( $data_marker ) . '" data-ctfw-map-marker-image="' . esc_attr( $data_marker_image ) . '" data-ctfw-map-marker-hidpi-width="' . esc_attr( $data_marker_hidpi_width ) . '" data-ctfw-map-marker-hidpi-height="' . esc_attr( $data_marker_hidpi_height ) . '" data-ctfw-map-center-resize="' . esc_attr( $data_center_resize ) . '" data-ctfw-map-callback-loaded="' . esc_attr( $data_callback_loaded ) . '" data-ctfw-map-callback-resize="' . esc_attr( $data_callback_resize ) . '"' . $map_style . '></div>';
 
 		// Use container?
 		if ( $options['container'] ) {
