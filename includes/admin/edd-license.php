@@ -900,7 +900,7 @@ function ctfw_edd_license_action( $action ) {
 				);
 
 				// Call the API
-				$response = wp_remote_get( add_query_arg( $api_params, ctfw_edd_license_config( 'store_url' ) ), array( 'timeout' => 15, 'sslverify' => false ) );
+				$response = wp_remote_get( esc_url_raw( add_query_arg( $api_params, ctfw_edd_license_config( 'store_url' ) ) ), array( 'timeout' => 15, 'sslverify' => false ) );
 
 				// Got a valid response?
 				if ( ! is_wp_error( $response ) ) {
