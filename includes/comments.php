@@ -31,8 +31,15 @@ function ctfw_comment( $comment, $args, $depth ) {
 	$template = isset( $args['ctfw_template'] ) ? $args['ctfw_template'] : 'comment.php'; // default template when ctfw_template argument not passed
 	$template = apply_filters( 'ctfw_comment_template', $template, $comment, $args, $depth );
 
+	// Try partials directory then root
+	$templates = array(
+		CTFW_THEME_PARTIAL_DIR . '/' . $template,
+		$template
+	);
+	$templates = apply_filters( 'ctfw_comment_templates', $templates, $template, $comment, $args, $depth );
+
 	// Load comment template
-	if ( $template_path = locate_template( $template ) ) {
+	if ( $template_path = locate_template( $templates ) ) {
 		include $template_path; // do manual include so variables get passed (versus using load with locate_template)
 	}
 
