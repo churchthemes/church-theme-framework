@@ -53,6 +53,7 @@ if ( ! defined( 'CTFW_THEME_ADMIN_DIR' ) )		define( 'CTFW_THEME_ADMIN_DIR',		CTF
 if ( ! defined( 'CTFW_THEME_CLASS_DIR' ) )		define( 'CTFW_THEME_CLASS_DIR',		CTFW_THEME_INC_DIR . '/classes' );			// classes directory
 if ( ! defined( 'CTFW_THEME_LIB_DIR' ) )		define( 'CTFW_THEME_LIB_DIR',		CTFW_THEME_INC_DIR . '/libraries' );		// libraries directory
 if ( ! defined( 'CTFW_THEME_PAGE_TPL_DIR' ) )	define( 'CTFW_THEME_PAGE_TPL_DIR',	'page-templates' );							// page templates directory
+if ( ! defined( 'CTFW_THEME_PARTIAL_DIR' ) )	define( 'CTFW_THEME_PARTIAL_DIR',	'partials' );								// partials directory (re-usable template parts)
 if ( ! defined( 'CTFW_THEME_WIDGET_DIR' ) )		define( 'CTFW_THEME_WIDGET_DIR',	'widget-templates' );						// widget templates directory
 if ( ! defined( 'CTFW_THEME_CSS_DIR' ) )		define( 'CTFW_THEME_CSS_DIR',		'css' );									// stylesheets directory
 if ( ! defined( 'CTFW_THEME_JS_DIR' ) )			define( 'CTFW_THEME_JS_DIR',		'js' );										// JavaScript directory
