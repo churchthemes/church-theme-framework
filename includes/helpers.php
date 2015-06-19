@@ -343,7 +343,7 @@ function ctfw_address_one_line( $address ) {
 /**
  * Make a Church Theme Content post type or taxonomy name friendly
  *
- * This is handy for get_template_part( 'content', ctfw_make_friendly( get_post_type() ) );
+ * This is handy for get_template_part( CTFW_THEME_PARTIAL_DIR . '/content', ctfw_make_friendly( get_post_type() ) );
  * which produces content-post-type.php instead of content-ctc_post_type.php
  *
  * @since 0.9

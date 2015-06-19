@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Get content template
  *
  * Loads content-*.php according to post type and post format. Some examples:
+ * Templates will be loaded from partials directory first (if exist); otherwise from root
  *
  * content-post.php 			Standard blog post
  * content-post-audio.php		Blog post using audio post format
@@ -64,6 +65,13 @@ function ctfw_get_content_template() {
 
 	// If all else fails, use the plain vanilla template
 	$templates[] = 'content.php';
+
+	// Check in partials directory first
+	$templates_partials = array();
+	foreach ( $templates as $template ) {
+		$templates_partials[] = CTFW_THEME_PARTIAL_DIR . '/' . $template;
+	}
+	$templates = array_merge( $templates_partials, $templates );
 
 	// Load template and return filename if succeeded
 	return locate_template( $templates, true, false );
