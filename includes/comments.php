@@ -32,14 +32,14 @@ function ctfw_comment( $comment, $args, $depth ) {
 	$template = apply_filters( 'ctfw_comment_template', $template, $comment, $args, $depth );
 
 	// Try partials directory then root
-	$templates = array(
+	$template_locations = array(
 		CTFW_THEME_PARTIAL_DIR . '/' . $template,
 		$template
 	);
-	$templates = apply_filters( 'ctfw_comment_templates', $templates, $template, $comment, $args, $depth );
+	$template_locations = apply_filters( 'ctfw_comment_template_locations', $template_locations, $template, $comment, $args, $depth );
 
 	// Load comment template
-	if ( $template_path = locate_template( $templates ) ) {
+	if ( $template_path = locate_template( $template_locations ) ) {
 		include $template_path; // do manual include so variables get passed (versus using load with locate_template)
 	}
 
