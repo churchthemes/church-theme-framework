@@ -159,6 +159,15 @@ function ctfw_widgets() {
 			'theme_support_required'	=> array(),
 			'unregister'				=> array(),
 		),
+		'ctfw-section' => array(
+			'class'						=> 'CTFW_Widget_Section',
+			'class_file'				=> 'widget-section.php',
+			'template_file'				=> 'widget-section.php',
+			'ctc_required'				=> false,
+			'theme_support'				=> 'ctfw-widget-section',
+			'theme_support_required'	=> array(),
+			'unregister'				=> array(),
+		),
 	);
 
 	// Return filterable
