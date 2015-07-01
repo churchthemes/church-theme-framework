@@ -35,6 +35,14 @@
 		height: 56px;
 	}
 
+	.ctfw-widget-value textarea.ctfw-widget-medium {
+		height: 100px;
+	}
+
+	.ctfw-widget-value textarea.ctfw-widget-large {
+		height: 200px;
+	}
+
 	.ctfw-widget-value select {
 		max-width: 99%;
 	}

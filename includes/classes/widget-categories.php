@@ -76,7 +76,6 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 				'field_class'		=> '', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
 				'custom_field'		=> '', // function for custom display of field input
-				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			);
 			*/
@@ -101,7 +100,6 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 				'field_class'		=> '', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
 				'custom_field'		=> '', // function for custom display of field input
-				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 
@@ -125,7 +123,6 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 				'field_class'		=> '', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
 				'custom_field'		=> '', // function for custom display of field input
-				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 
@@ -153,7 +150,6 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 				'field_class'		=> 'ctfw-widget-no-bottom-margin', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
 				'custom_field'		=> '', // function for custom display of field input
-				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 
@@ -180,7 +176,6 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 				'field_class'		=> '', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
 				'custom_field'		=> '', // function for custom display of field input
-				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 
@@ -204,7 +199,6 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 				'field_class'		=> '', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
 				'custom_field'		=> '', // function for custom display of field input
-				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 
@@ -228,7 +222,6 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 				'field_class'		=> 'ctfw-widget-no-bottom-margin', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
 				'custom_field'		=> '', // function for custom display of field input
-				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 
@@ -252,7 +245,6 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 				'field_class'		=> 'ctfw-widget-no-bottom-margin', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
 				'custom_field'		=> '', // function for custom display of field input
-				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 
@@ -276,7 +268,6 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 				'field_class'		=> '', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
 				'custom_field'		=> '', // function for custom display of field input
-				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 

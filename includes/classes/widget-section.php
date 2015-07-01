@@ -73,7 +73,6 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'field_class'		=> '', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
 				'custom_field'		=> '', // function for custom display of field input
-				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			);
 			*/
@@ -98,16 +97,15 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'field_class'		=> '', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
 				'custom_field'		=> '', // function for custom display of field input
-				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 
-			// Description
-			'description' => array(
-				'name'				=> _x( 'Description', 'section widget', 'church-theme-framework' ),
+			// Content
+			'content' => array(
+				'name'				=> _x( 'Content', 'section widget', 'church-theme-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'textarea', // text, textarea, checkbox, radio, select, number, url, image
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
@@ -115,14 +113,13 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'options'			=> array(), // array of keys/values for radio or select
 				'default'			=> '', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
-				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
+				'allow_html'		=> true, // allow HTML to be used in the value (text, textarea)
 				'attributes'		=> array(), // attributes to add to input element
-				'class'				=> '', // class(es) to add to input
+				'class'				=> 'ctfw-widget-medium', // class(es) to add to input
 				'field_attributes'	=> array(), // attr => value array for field container
 				'field_class'		=> '', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
 				'custom_field'		=> '', // function for custom display of field input
-				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 
@@ -146,7 +143,6 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'field_class'		=> 'ctfw-widget-no-bottom-margin', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
 				'custom_field'		=> '', // function for custom display of field input
-				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 
@@ -170,7 +166,6 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'field_class'		=> 'ctfw-widget-no-top-margin', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
 				'custom_field'		=> '', // function for custom display of field input
-				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 
@@ -194,7 +189,6 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'field_class'		=> '', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
 				'custom_field'		=> '', // function for custom display of field input
-				'page_templates'	=> array(), // field will not appear or save if one of these page templates are not selected (or array( &$this, 'method' ))
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 
