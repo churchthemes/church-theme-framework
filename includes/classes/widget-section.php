@@ -123,51 +123,34 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 
-			// Click URL
-			'click_url' => array(
-				'name'				=> _x( 'Click URL', 'section widget', 'church-theme-framework' ),
+			// Color Type
+			'color_type' => array(
+				'name'				=> _x( 'Color', 'section widget', 'church-theme-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'url', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'radio', // text, textarea, checkbox, radio, select, number, url, image
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
-				'options'			=> array(), // array of keys/values for radio or select
-				'default'			=> '', // value to pre-populate option with (before first save or on reset)
-				'no_empty'			=> false, // if user empties value, force default to be saved instead
+				'options'			=> array(
+										'none'		=> _x( 'None', 'section widget', 'church-theme-framework' ),
+										'custom'	=> _x( 'Custom', 'section widget', 'church-theme-framework' ),
+									), // array of keys/values for radio or select
+				'default'			=> 'none', // value to pre-populate option with (before first save or on reset)
+				'no_empty'			=> true, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
 				'attributes'		=> array(), // attributes to add to input element
 				'class'				=> '', // class(es) to add to input
 				'field_attributes'	=> array(), // attr => value array for field container
-				'field_class'		=> 'ctfw-widget-no-bottom-margin', // class(es) to add to field container
+				'field_class'		=> '', // class(es) to add to field container
 				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
 				'custom_field'		=> '', // function for custom display of field input
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 
-			// New Window
-			'click_new' => array(
-				'name'				=> '',
-				'after_name'		=> '', // (Optional), (Required), etc.
-				'desc'				=> '',
-				'type'				=> 'checkbox', // text, textarea, checkbox, radio, select, number, url, image
-				'checkbox_label'	=> _x( 'Open in new tab', 'section widget', 'church-theme-framework' ), //show text after checkbox
-				'radio_inline'		=> false, // show radio inputs inline or on top of each other
-				'number_min'		=> '', // lowest possible value for number type
-				'number_max'		=> '', // highest possible value for number type
-				'options'			=> array(), // array of keys/values for radio or select
-				'default'			=> false, // value to pre-populate option with (before first save or on reset)
-				'no_empty'			=> false, // if user empties value, force default to be saved instead
-				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
-				'attributes'		=> array(), // attributes to add to input element
-				'class'				=> '', // class(es) to add to input
-				'field_attributes'	=> array(), // attr => value array for field container
-				'field_class'		=> 'ctfw-widget-no-top-margin', // class(es) to add to field container
-				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
-				'custom_field'		=> '', // function for custom display of field input
-				'taxonomies'		=> array(), // hide field if taxonomies are not supported
-			),
+			// Note: There is no Custom Color field yet; it would be a colorpicker returning hex
+			// This may be added if there is a need
 
 			// Image
 			'image_id' => array(
@@ -184,6 +167,229 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
 				'attributes'		=> array(), // attributes to add to input element
+				'class'				=> '', // class(es) to add to input
+				'field_attributes'	=> array(), // attr => value array for field container
+				'field_class'		=> '', // class(es) to add to field container
+				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
+				'custom_field'		=> '', // function for custom display of field input
+				'taxonomies'		=> array(), // hide field if taxonomies are not supported
+			),
+
+			// Image Opacity
+			'image_opacity' => array(
+				'name'				=> _x( 'Image Opacity', 'section widget', 'church-theme-framework' ),
+				'after_name'		=> _x( '(Percentage)', 'section widget', 'church-theme-framework' ), // (Optional), (Required), etc.
+				'desc'				=> '',
+				'type'				=> 'number', // text, textarea, checkbox, radio, select, number, url, image
+				'checkbox_label'	=> '', //show text after checkbox
+				'radio_inline'		=> false, // show radio inputs inline or on top of each other
+				'number_min'		=> '1', // lowest possible value for number type
+				'number_max'		=> '100', // highest possible value for number type
+				'options'			=> array(), // array of keys/values for radio or select
+				'default'			=> '10', // value to pre-populate option with (before first save or on reset)
+				'no_empty'			=> true, // if user empties value, force default to be saved instead
+				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
+				'attributes'		=> array(), // attributes to add to input element
+				'class'				=> '', // class(es) to add to input
+				'field_attributes'	=> array(), // attr => value array for field container
+				'field_class'		=> '', // class(es) to add to field container
+				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
+				'custom_field'		=> '', // function for custom display of field input
+				'taxonomies'		=> array(), // hide field if taxonomies are not supported
+			),
+
+			// Link 1 Text
+			'link1_text' => array(
+				'name'				=> _x( 'Link 1', 'section widget', 'church-theme-framework' ),
+				'after_name'		=> '', // (Optional), (Required), etc.
+				'desc'				=> '',
+				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image
+				'checkbox_label'	=> '', //show text after checkbox
+				'radio_inline'		=> false, // show radio inputs inline or on top of each other
+				'number_min'		=> '', // lowest possible value for number type
+				'number_max'		=> '', // highest possible value for number type
+				'options'			=> array(), // array of keys/values for radio or select
+				'default'			=> '', // value to pre-populate option with (before first save or on reset)
+				'no_empty'			=> false, // if user empties value, force default to be saved instead
+				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
+				'attributes'		=> array(
+										'placeholder' => _x( 'Text', 'section widget', 'church-theme-framework' )
+									), // attributes to add to input element
+				'class'				=> '', // class(es) to add to input
+				'field_attributes'	=> array(), // attr => value array for field container
+				'field_class'		=> 'ctfw-widget-no-bottom-margin', // class(es) to add to field container
+				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
+				'custom_field'		=> '', // function for custom display of field input
+				'taxonomies'		=> array(), // hide field if taxonomies are not supported
+			),
+
+			// Link 1 URL
+			'link1_url' => array(
+				'name'				=> '',
+				'after_name'		=> '', // (Optional), (Required), etc.
+				'desc'				=> __( 'Enter text for link then URL.', 'church-theme-framework' ),
+				'type'				=> 'url', // text, textarea, checkbox, radio, select, number, url, image
+				'checkbox_label'	=> '', //show text after checkbox
+				'radio_inline'		=> false, // show radio inputs inline or on top of each other
+				'number_min'		=> '', // lowest possible value for number type
+				'number_max'		=> '', // highest possible value for number type
+				'options'			=> array(), // array of keys/values for radio or select
+				'default'			=> '', // value to pre-populate option with (before first save or on reset)
+				'no_empty'			=> false, // if user empties value, force default to be saved instead
+				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
+				'attributes'		=> array(
+										'placeholder' => _x( 'URL', 'section widget', 'church-theme-framework' )
+									), // attributes to add to input element
+				'class'				=> '', // class(es) to add to input
+				'field_attributes'	=> array(), // attr => value array for field container
+				'field_class'		=> '', // class(es) to add to field container
+				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
+				'custom_field'		=> '', // function for custom display of field input
+				'taxonomies'		=> array(), // hide field if taxonomies are not supported
+			),
+
+			// Link 2 Text
+			'link2_text' => array(
+				'name'				=> _x( 'Link 2', 'section widget', 'church-theme-framework' ),
+				'after_name'		=> '', // (Optional), (Required), etc.
+				'desc'				=> '',
+				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image
+				'checkbox_label'	=> '', //show text after checkbox
+				'radio_inline'		=> false, // show radio inputs inline or on top of each other
+				'number_min'		=> '', // lowest possible value for number type
+				'number_max'		=> '', // highest possible value for number type
+				'options'			=> array(), // array of keys/values for radio or select
+				'default'			=> '', // value to pre-populate option with (before first save or on reset)
+				'no_empty'			=> false, // if user empties value, force default to be saved instead
+				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
+				'attributes'		=> array(
+										'placeholder' => _x( 'Text', 'section widget', 'church-theme-framework' )
+									), // attributes to add to input element
+				'class'				=> '', // class(es) to add to input
+				'field_attributes'	=> array(), // attr => value array for field container
+				'field_class'		=> 'ctfw-widget-no-bottom-margin', // class(es) to add to field container
+				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
+				'custom_field'		=> '', // function for custom display of field input
+				'taxonomies'		=> array(), // hide field if taxonomies are not supported
+			),
+
+			// Link 2 URL
+			'link2_url' => array(
+				'name'				=> '',
+				'after_name'		=> '', // (Optional), (Required), etc.
+				'desc'				=> '',
+				'type'				=> 'url', // text, textarea, checkbox, radio, select, number, url, image
+				'checkbox_label'	=> '', //show text after checkbox
+				'radio_inline'		=> false, // show radio inputs inline or on top of each other
+				'number_min'		=> '', // lowest possible value for number type
+				'number_max'		=> '', // highest possible value for number type
+				'options'			=> array(), // array of keys/values for radio or select
+				'default'			=> '', // value to pre-populate option with (before first save or on reset)
+				'no_empty'			=> false, // if user empties value, force default to be saved instead
+				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
+				'attributes'		=> array(
+										'placeholder' => _x( 'URL', 'section widget', 'church-theme-framework' )
+									), // attributes to add to input element
+				'class'				=> '', // class(es) to add to input
+				'field_attributes'	=> array(), // attr => value array for field container
+				'field_class'		=> '', // class(es) to add to field container
+				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
+				'custom_field'		=> '', // function for custom display of field input
+				'taxonomies'		=> array(), // hide field if taxonomies are not supported
+			),
+
+			// Link 3 Text
+			'link3_text' => array(
+				'name'				=> _x( 'Link 3', 'section widget', 'church-theme-framework' ),
+				'after_name'		=> '', // (Optional), (Required), etc.
+				'desc'				=> '',
+				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image
+				'checkbox_label'	=> '', //show text after checkbox
+				'radio_inline'		=> false, // show radio inputs inline or on top of each other
+				'number_min'		=> '', // lowest possible value for number type
+				'number_max'		=> '', // highest possible value for number type
+				'options'			=> array(), // array of keys/values for radio or select
+				'default'			=> '', // value to pre-populate option with (before first save or on reset)
+				'no_empty'			=> false, // if user empties value, force default to be saved instead
+				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
+				'attributes'		=> array(
+										'placeholder' => _x( 'Text', 'section widget', 'church-theme-framework' )
+									), // attributes to add to input element
+				'class'				=> '', // class(es) to add to input
+				'field_attributes'	=> array(), // attr => value array for field container
+				'field_class'		=> 'ctfw-widget-no-bottom-margin', // class(es) to add to field container
+				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
+				'custom_field'		=> '', // function for custom display of field input
+				'taxonomies'		=> array(), // hide field if taxonomies are not supported
+			),
+
+			// Link 3 URL
+			'link3_url' => array(
+				'name'				=> '',
+				'after_name'		=> '', // (Optional), (Required), etc.
+				'desc'				=> '',
+				'type'				=> 'url', // text, textarea, checkbox, radio, select, number, url, image
+				'checkbox_label'	=> '', //show text after checkbox
+				'radio_inline'		=> false, // show radio inputs inline or on top of each other
+				'number_min'		=> '', // lowest possible value for number type
+				'number_max'		=> '', // highest possible value for number type
+				'options'			=> array(), // array of keys/values for radio or select
+				'default'			=> '', // value to pre-populate option with (before first save or on reset)
+				'no_empty'			=> false, // if user empties value, force default to be saved instead
+				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
+				'attributes'		=> array(
+										'placeholder' => _x( 'URL', 'section widget', 'church-theme-framework' )
+									), // attributes to add to input element
+				'class'				=> '', // class(es) to add to input
+				'field_attributes'	=> array(), // attr => value array for field container
+				'field_class'		=> '', // class(es) to add to field container
+				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
+				'custom_field'		=> '', // function for custom display of field input
+				'taxonomies'		=> array(), // hide field if taxonomies are not supported
+			),
+
+			// Link 4 Text
+			'link4_text' => array(
+				'name'				=> _x( 'Link 4', 'section widget', 'church-theme-framework' ),
+				'after_name'		=> '', // (Optional), (Required), etc.
+				'desc'				=> '',
+				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image
+				'checkbox_label'	=> '', //show text after checkbox
+				'radio_inline'		=> false, // show radio inputs inline or on top of each other
+				'number_min'		=> '', // lowest possible value for number type
+				'number_max'		=> '', // highest possible value for number type
+				'options'			=> array(), // array of keys/values for radio or select
+				'default'			=> '', // value to pre-populate option with (before first save or on reset)
+				'no_empty'			=> false, // if user empties value, force default to be saved instead
+				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
+				'attributes'		=> array(
+										'placeholder' => _x( 'Text', 'section widget', 'church-theme-framework' )
+									), // attributes to add to input element
+				'class'				=> '', // class(es) to add to input
+				'field_attributes'	=> array(), // attr => value array for field container
+				'field_class'		=> 'ctfw-widget-no-bottom-margin', // class(es) to add to field container
+				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
+				'custom_field'		=> '', // function for custom display of field input
+				'taxonomies'		=> array(), // hide field if taxonomies are not supported
+			),
+
+			// Link 4 URL
+			'link4_url' => array(
+				'name'				=> '',
+				'after_name'		=> '', // (Optional), (Required), etc.
+				'desc'				=> '',
+				'type'				=> 'url', // text, textarea, checkbox, radio, select, number, url, image
+				'checkbox_label'	=> '', //show text after checkbox
+				'radio_inline'		=> false, // show radio inputs inline or on top of each other
+				'number_min'		=> '', // lowest possible value for number type
+				'number_max'		=> '', // highest possible value for number type
+				'options'			=> array(), // array of keys/values for radio or select
+				'default'			=> '', // value to pre-populate option with (before first save or on reset)
+				'no_empty'			=> false, // if user empties value, force default to be saved instead
+				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
+				'attributes'		=> array(
+										'placeholder' => _x( 'URL', 'section widget', 'church-theme-framework' )
+									), // attributes to add to input element
 				'class'				=> '', // class(es) to add to input
 				'field_attributes'	=> array(), // attr => value array for field container
 				'field_class'		=> '', // class(es) to add to field container
