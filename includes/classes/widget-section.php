@@ -408,6 +408,8 @@ class CTFW_Widget_Section extends CTFW_Widget {
 	/**
 	 * Links array
 	 *
+	 * Return data from multiple link fields as array for easy looping in widget's template.
+	 *
 	 * @since 1.7
 	 * @return array Links with text and URL, if they were both provided
 	 */
