@@ -405,4 +405,41 @@ class CTFW_Widget_Section extends CTFW_Widget {
 
 	}
 
+	/**
+	 * Links array
+	 *
+	 * @since 1.7
+	 * @return array Links with text and URL, if they were both provided
+	 */
+	function ctfw_links() {
+
+		$instance = $this->ctfw_instance;
+
+		$links = array();
+
+		$max_links = 4;
+
+		// Check each set of link fields for data
+		for ( $i = 1; $i <= $max_links; $i++ ) {
+
+			$text = $instance['link' . $i . '_text'];
+			$url = $instance['link' . $i . '_url'];
+
+			// Add to array if text and URL exist
+			if ( $text && $url ) {
+
+				$links[] = array(
+					'text'	=> $text,
+					'url'	=> $url,
+				);
+
+			}
+
+		}
+
+		// Return filtered
+		return apply_filters( 'ctfw_section_widget_links', $links );
+
+	}
+
 }
