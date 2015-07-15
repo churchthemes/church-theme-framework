@@ -133,7 +133,7 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
-				'options'			=> array(); // array of keys/values for radio or select
+				'options'			=> array(), // array of keys/values for radio or select
 										// Theme developer and pass in their color options (e.g. automatic, dark, light, none, etc.) via framework theme support
 										// Custom may be added to options in future with colorpicker
 				'default'			=> 'none', // value to pre-populate option with (before first save or on reset)
