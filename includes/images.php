@@ -123,6 +123,13 @@ add_filter( 'admin_post_thumbnail_html', 'ctfw_featured_image_notes' );
  *
  * Note: This framework feature must be enabled using add_theme_support( 'ctfw-image-upscaling' )
  *
+ * Second argument is array of arguments. You can exclude upscaling for certain image size names.
+ * This is helpful for make sure a large background image version is not generated for every image uploaded.
+ *
+ * add_theme_support( 'ctfw-image-upscaling', array(
+ *    'excluded_sizes' => array( 'themename-sizename' ),
+ * ) );
+ *
  * @since 0.9
  * @param array $output Current output
  * @param int $orig_w Original width
@@ -131,28 +138,59 @@ add_filter( 'admin_post_thumbnail_html', 'ctfw_featured_image_notes' );
  * @param int $dest_h New height
  * @param bool $crop Whether or not to crop
  * @return array Modified $output
+ * @global array $_wp_additional_image_sizes
  */
 function ctfw_image_resize_dimensions_upscale( $output, $orig_w, $orig_h, $dest_w, $dest_h, $crop ) {
 
+	global $_wp_additional_image_sizes;
+
+	$support = get_theme_support( 'ctfw-image-upscaling' );
+
 	// force upscaling if theme supports it and crop is being done
 	// otherwise $output = null causes regular behavior
-	if ( current_theme_supports( 'ctfw-image-upscaling' ) && $crop ) {
+	if ( $support && $crop ) {
 
-		// resize to target dimensions, upscaling if necessary
-		$new_w = $dest_w;
-		$new_h = $dest_h;
+		// check if size is excluded
+		$exclude = false;
+		if ( ! empty( $support[0]['excluded_sizes'] ) ) {
 
-		$size_ratio = max( $new_w / $orig_w, $new_h / $orig_h );
+			$excluded_sizes = (array) $support[0]['excluded_sizes'];
 
-		$crop_w = round( $new_w / $size_ratio );
-		$crop_h = round( $new_h / $size_ratio );
+			foreach ( $excluded_sizes as $excluded_size ) {
 
-		$s_x = floor( ( $orig_w - $crop_w ) / 2 );
-		$s_y = floor( ( $orig_h - $crop_h ) / 2 );
+				// Stop upscaling if excluded image size matches destination size
+				if ( $_wp_additional_image_sizes[$excluded_size]['width'] == $dest_w && $_wp_additional_image_sizes[$excluded_size]['height'] == $dest_h ) {
 
-		// the return array matches the parameters to imagecopyresampled()
-		// int dst_x, int dst_y, int src_x, int src_y, int dst_w, int dst_h, int src_w, int src_h
-		$output = array( 0, 0, (int) $s_x, (int) $s_y, (int) $new_w, (int) $new_h, (int) $crop_w, (int) $crop_h );
+					$exclude = true;
+
+					break;
+
+				}
+
+			}
+
+		}
+
+		// force upscaling
+		if ( ! $exclude ) {
+
+			// resize to target dimensions, upscaling if necessary
+			$new_w = $dest_w;
+			$new_h = $dest_h;
+
+			$size_ratio = max( $new_w / $orig_w, $new_h / $orig_h );
+
+			$crop_w = round( $new_w / $size_ratio );
+			$crop_h = round( $new_h / $size_ratio );
+
+			$s_x = floor( ( $orig_w - $crop_w ) / 2 );
+			$s_y = floor( ( $orig_h - $crop_h ) / 2 );
+
+			// the return array matches the parameters to imagecopyresampled()
+			// int dst_x, int dst_y, int src_x, int src_y, int dst_w, int dst_h, int src_w, int src_h
+			$output = array( 0, 0, (int) $s_x, (int) $s_y, (int) $new_w, (int) $new_h, (int) $crop_w, (int) $crop_h );
+
+		}
 
 	}
 
