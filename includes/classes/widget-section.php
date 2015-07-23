@@ -123,34 +123,6 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 
-			// Color Type
-			'color_type' => array(
-				'name'				=> _x( 'Color', 'section widget', 'church-theme-framework' ),
-				'after_name'		=> '', // (Optional), (Required), etc.
-				'desc'				=> '',
-				'type'				=> 'radio', // text, textarea, checkbox, radio, select, number, url, image
-				'checkbox_label'	=> '', //show text after checkbox
-				'radio_inline'		=> false, // show radio inputs inline or on top of each other
-				'number_min'		=> '', // lowest possible value for number type
-				'number_max'		=> '', // highest possible value for number type
-				'options'			=> array(), // array of keys/values for radio or select
-										// Theme developer and pass in their color options (e.g. automatic, dark, light, none, etc.) via framework theme support
-										// Custom may be added to options in future with colorpicker
-				'default'			=> 'none', // value to pre-populate option with (before first save or on reset)
-				'no_empty'			=> true, // if user empties value, force default to be saved instead
-				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
-				'attributes'		=> array(), // attributes to add to input element
-				'class'				=> '', // class(es) to add to input
-				'field_attributes'	=> array(), // attr => value array for field container
-				'field_class'		=> '', // class(es) to add to field container
-				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
-				'custom_field'		=> '', // function for custom display of field input
-				'taxonomies'		=> array(), // hide field if taxonomies are not supported
-			),
-
-			// Note: There is no Custom Color field yet; it would be a colorpicker returning hex
-			// This may be added if there is a need
-
 			// Image
 			'image_id' => array(
 				'name'				=> _x( 'Image', 'section widget', 'church-theme-framework' ),
