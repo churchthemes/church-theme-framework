@@ -22,9 +22,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * @since 0.9
  * @param array $options Options for display
+ * @param object $post Post object, optional
  * @return string Post date
  */
-function ctfw_post_date( $options = array() ) {
+function ctfw_post_date( $options = array(), $post = null ) {
 
 	$date_formatted = '';
 
@@ -41,7 +42,7 @@ function ctfw_post_date( $options = array() ) {
 	$yesterday_ymd = date_i18n( 'Y-m-d', strtotime( $today_ymd ) - DAY_IN_SECONDS );
 
 	// Post date
-	$date_timestamp = get_the_time( 'U' );
+	$date_timestamp = get_the_time( 'U', $post );
 	$date_ymd = date_i18n( 'Y-m-d', $date_timestamp );
 
 	// Show "Today"
