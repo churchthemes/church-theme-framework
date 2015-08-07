@@ -78,21 +78,6 @@ function ctfw_sermon_data( $post_id = null ) {
 	$data['video_player'] = ctfw_embed_code( $data['video'] );
 	$data['audio_player'] = ctfw_embed_code( $data['audio'] );
 
-	// Get download URL's
-	// Only local files can have "Save As" forced
-	// Only local files can are always actual files, not pages (ie. YouTube, SoundCloud, etc.)
-	// Video and Audio URL's may be pages on other site (YouTube, SoundCloud, etc.), so provide download URL only for local files
-	// PDF is likely always to be actual file, so provide download URL no matter what (although cannot force "Save As" on external sites)
-	$data['video_download_url'] = ctfw_is_local_url( $data['video'] ) ? ctfw_force_download_url( $data['video'] ) : ''; // provide URL only if local so know it is actual file (not page) and can force "Save As"
-	$data['audio_download_url'] = ctfw_is_local_url( $data['audio'] ) ? ctfw_force_download_url( $data['audio'] ) : ''; // provide URL only if local so know it is actual file (not page) and can force "Save As"
-	$data['pdf_download_url'] = ctfw_force_download_url( $data['pdf'] ); // provide URL only if local so know it is actual file (not page) and can force "Save As"
-
-	// Has at least one download?
-	$data['has_download'] = false;
-	if ( $data['video_download_url'] || $data['audio_download_url'] || $data['pdf_download_url'] ) {
-		$data['has_download'] = true;
-	}
-
 	// Get file data for media
 	// This will be populated for local files only
 	$media_types = array( 'audio', 'video', 'pdf' );
@@ -103,20 +88,45 @@ function ctfw_sermon_data( $post_id = null ) {
 		$data[$media_type . '_size_bytes'] = '';
 		$data[$media_type . '_size'] = '';
 
-		// Local only
-		if ( ctfw_is_local_url( $data[$media_type] ) ) { // only if it is local and downloadable
+		// Local URL only, if file actually exists
+		if ( $data[$media_type] && ctfw_is_local_url( $data[$media_type] ) ) { // only if it is local and downloadable
 
-			// File type
-			$filetype = wp_check_filetype( $data[$media_type] );
-			$data[$media_type . '_extension'] = $filetype['ext'];
-
-			// File size
+			// Local path
 			$data[$media_type . '_path'] = $upload_dir['basedir'] . str_replace( $upload_dir_url, '', $data[$media_type] );
-			$data[$media_type . '_size_bytes'] = filesize( $data[$media_type . '_path'] );
-			$data[$media_type . '_size'] = size_format( $data[$media_type . '_size_bytes'] ); // 30 MB, 2 GB, 220 kB, etc.
+
+			// Exists?
+			if ( ! file_exists( $data[$media_type . '_path'] ) ) {
+				$data[$media_type . '_path'] = ''; // clear it
+			} else {
+
+				// File type
+				$filetype = wp_check_filetype( $data[$media_type] );
+				$data[$media_type . '_extension'] = $filetype['ext'];
+
+				// File size
+				$data[$media_type . '_size_bytes'] = filesize( $data[$media_type . '_path'] );
+				$data[$media_type . '_size'] = size_format( $data[$media_type . '_size_bytes'] ); // 30 MB, 2 GB, 220 kB, etc.
+
+			}
 
 		}
 
+	}
+
+	// Get download URL's
+	// Only local files can have "Save As" forced
+	// Only local files can are always actual files, not pages (ie. YouTube, SoundCloud, etc.)
+	// Video and Audio URL's may be pages on other site (YouTube, SoundCloud, etc.), so provide download URL only for local files
+	// PDF is likely always to be actual file, so provide download URL no matter what (although cannot force "Save As" on external sites)
+	// $data['video_path'] and $data['audio_path'] are empty if not local or if local but file does not exist
+	$data['video_download_url'] = $data['video_path'] ? ctfw_force_download_url( $data['video'] ) : ''; // provide URL only if local so know it is actual file (not page) and can force "Save As"
+	$data['audio_download_url'] = $data['audio_path'] ? ctfw_force_download_url( $data['audio'] ) : ''; // provide URL only if local so know it is actual file (not page) and can force "Save As"
+	$data['pdf_download_url'] = ctfw_force_download_url( $data['pdf'] ); // PDF is likely always to be actual file, so provide download URL no matter what (although cannot force "Save As" on external sites)
+
+	// Has at least one download that exists locally?
+	$data['has_download'] = false;
+	if ( $data['video_path'] || $data['audio_path'] || $data['pdf_path'] ) { // path empty if doesn't exist
+		$data['has_download'] = true;
 	}
 
 	// Return filtered
