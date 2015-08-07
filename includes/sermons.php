@@ -61,6 +61,10 @@ add_action( 'generate_rewrite_rules', 'ctfw_sermon_date_archive' ); // enable da
  */
 function ctfw_sermon_data( $post_id = null ) {
 
+	// Get URL to upload directory
+	$upload_dir = wp_upload_dir();
+	$upload_dir_url = $upload_dir['baseurl'];
+
 	// Get meta values
 	$data = ctfw_get_meta_data( array( // without _ctc_sermon_ prefix
 		'video',		// URL to uploaded file, external file, external site with oEmbed support, or manual embed code (HTML or shortcode)
@@ -87,6 +91,32 @@ function ctfw_sermon_data( $post_id = null ) {
 	$data['has_download'] = false;
 	if ( $data['video_download_url'] || $data['audio_download_url'] || $data['pdf_download_url'] ) {
 		$data['has_download'] = true;
+	}
+
+	// Get file data for media
+	// This will be populated for local files only
+	$media_types = array( 'audio', 'video', 'pdf' );
+	foreach ( $media_types as $media_type ) {
+
+		$data[$media_type . '_extension'] = '';
+		$data[$media_type . '_path'] = '';
+		$data[$media_type . '_size_bytes'] = '';
+		$data[$media_type . '_size'] = '';
+
+		// Local only
+		if ( ctfw_is_local_url( $data[$media_type] ) ) { // only if it is local and downloadable
+
+			// File type
+			$filetype = wp_check_filetype( $data[$media_type] );
+			$data[$media_type . '_extension'] = $filetype['ext'];
+
+			// File size
+			$data[$media_type . '_path'] = $upload_dir['basedir'] . str_replace( $upload_dir_url, '', $data[$media_type] );
+			$data[$media_type . '_size_bytes'] = filesize( $data[$media_type . '_path'] );
+			$data[$media_type . '_size'] = size_format( $data[$media_type . '_size_bytes'] ); // 30 MB, 2 GB, 220 kB, etc.
+
+		}
+
 	}
 
 	// Return filtered
