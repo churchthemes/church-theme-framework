@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Enable date archives for sermon posts
- * 
+ *
  * At time of making, WordPress (3.6 and possibly later) does not support dated archives for custom post types as it does for standard posts
  * This injects rules so that URL's like /cpt/2012/05 can be used with the custom post type archive template.
  * Refer to ctfw_cpt_date_archive_setup() for full details.
@@ -82,6 +82,12 @@ function ctfw_sermon_data( $post_id = null ) {
 	$data['video_download_url'] = ctfw_is_local_url( $data['video'] ) ? ctfw_force_download_url( $data['video'] ) : ''; // provide URL only if local so know it is actual file (not page) and can force "Save As"
 	$data['audio_download_url'] = ctfw_is_local_url( $data['audio'] ) ? ctfw_force_download_url( $data['audio'] ) : ''; // provide URL only if local so know it is actual file (not page) and can force "Save As"
 	$data['pdf_download_url'] = ctfw_force_download_url( $data['pdf'] ); // provide URL only if local so know it is actual file (not page) and can force "Save As"
+
+	// Has at least one download?
+	$data['has_download'] = false;
+	if ( $data['video_download_url'] || $data['audio_download_url'] || $data['pdf_download_url'] ) {
+		$data['has_download'] = true;
+	}
 
 	// Return filtered
 	return apply_filters( 'ctfw_sermon_data', $data );
