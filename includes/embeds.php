@@ -138,3 +138,28 @@ function ctfw_generic_embeds( $html ) {
 }
 
 add_filter( 'embed_oembed_html', 'ctfw_generic_embeds' );
+
+/**
+ * HTML5 valid embeds
+ *
+ * This will correct YouTube embed code that is not HTML5 valid.
+ * Other sources may be added later.
+ *
+ * Enable with add_theme_support( 'ctfw-valid-embeds' );
+ *
+ * @since 1.7
+ * @param string $html Embed HTML code
+ * @return string Modified embed HTML code
+ */
+function ctfw_valid_embeds( $html ) {
+
+	// Does theme support this?
+	if ( current_theme_supports( 'ctfw-valid-embeds' ) ) {
+	 	$html = str_replace( 'frameborder="0" allowfullscreen', 'style="border: none;"', $html );
+	}
+
+	return $html;
+
+}
+
+add_filter( 'embed_oembed_html', 'ctfw_valid_embeds' );
