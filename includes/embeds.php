@@ -155,7 +155,13 @@ function ctfw_valid_embeds( $html ) {
 
 	// Does theme support this?
 	if ( current_theme_supports( 'ctfw-valid-embeds' ) ) {
-	 	$html = str_replace( 'frameborder="0" allowfullscreen', 'style="border: none;"', $html );
+
+		// YouTube, Vimeo, etc.
+	 	$html = str_replace( 'frameborder="0"', 'style="border: none;"', $html );
+
+		// Vimeo
+	 	$html = preg_replace( '( webkitallowfullscreen| mozallowfullscreen)', '$1', $html );
+
 	}
 
 	return $html;
