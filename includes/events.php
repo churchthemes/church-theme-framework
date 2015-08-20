@@ -248,6 +248,9 @@ function ctfw_event_data( $post_id = null ) {
 	$meta['recurrence_note'] = isset( $recurrence_note['full'] ) ? $recurrence_note['full'] : ''; // sentence such as "Every 3 months on the second Wednesday until January 24, 2018"
 	$meta['recurrence_note_short'] = isset( $recurrence_note['short'] ) ? $recurrence_note['short'] : ''; // short version such as "Every 3 Months" (can show this with full on tooltip)
 
+	// Map has coordinates?
+	$meta['map_has_coordinates'] = ( $meta['map_lat'] && $meta['map_lng'] ) ? true : false;
+
 	// Return filtered
 	return apply_filters( 'ctfw_event_data', $meta, $post_id );
 

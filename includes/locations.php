@@ -41,6 +41,9 @@ function ctfw_location_data( $post_id = null ) {
 	// Add directions URL (empty if show_directions_link not set)
 	$data['directions_url'] = $data['show_directions_link'] ? ctfw_directions_url( $data['address'] ) : '';
 
+	// Map has coordinates?
+	$data['map_has_coordinates'] = ( $data['map_lat'] && $data['map_lng'] ) ? true : false;
+
 	// Return filtered
 	return apply_filters( 'ctfw_location_data', $data, $post_id );
 
