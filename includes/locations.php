@@ -31,6 +31,7 @@ function ctfw_location_data( $post_id = null ) {
 		'address',
 		'show_directions_link',
 		'phone',
+		'email',
 		'times',
 		'map_lat',
 		'map_lng',
