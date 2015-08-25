@@ -208,18 +208,18 @@ function ctfw_post_type_get_month_link( $year, $month, $post_type = false ) {
  *
  * @since 1.7.1
  * @global object $wpdb
+ * @global object $wp_locale
  * @param string $post_type Post type slug
  * @param array $args Arguments
  * @return array Archives for use in templates
  */
 function ctfw_get_month_archives( $post_type, $args = array() ) {
 
-	global $wpdb;
+	global $wpdb, $wp_locale;
 
 	// Default arguments
 	$args = wp_parse_args ( $args, array(
 		'limit'	=> 0, // no limit
-		'url'	=> true, // add URL key/value
 	) );
 
 	// Get limit
@@ -256,12 +256,18 @@ function ctfw_get_month_archives( $post_type, $args = array() ) {
 		)
 	) );
 
-	// Add URLs
-	if ( $args['url'] ) {
+	// Add extra data
+	foreach( $archives as $archive_key => $archive ) {
 
-		foreach( $archives as $archive_key => $archive ) {
-			$archives[$archive_key]->url = ctfw_post_type_get_month_link( $archive->year, $archive->month, $post_type );
-		}
+		// 'name' that is automatically localized (key matches taxonomy term object)
+		/* translators: 1: month name, 2: 4-digit year */
+		$archives[$archive_key]->name = sprintf( _x('%1$s %2$d', 'month archive', 'church-theme-framework' ), $wp_locale->get_month( $archives[$archive_key]->month ), $archives[$archive_key]->year );
+
+		// 'count' instead of 'posts', for more uniform use in themes (matched taxonomy term object)
+		$archives[$archive_key]->count = $archives[$archive_key]->posts;
+
+		// URL
+		$archives[$archive_key]->url = ctfw_post_type_get_month_link( $archive->year, $archive->month, $post_type );
 
 	}
 
