@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2015, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -198,6 +198,75 @@ function ctfw_post_type_get_month_link( $year, $month, $post_type = false ) {
 		return apply_filters( 'ctfw_post_type_month_link', home_url( '?m=' . $year . zeroise( $month, 2 ) . $post_type_param ), $year, $month );
 
 	}
+
+}
+
+/**
+ * Get month archives
+ *
+ * Return month/year of archives for a post type
+ *
+ * @since 1.7.1
+ * @global object $wpdb
+ * @param string $post_type Post type slug
+ * @param array $args Arguments
+ * @return array Archives for use in templates
+ */
+function ctfw_get_month_archives( $post_type, $args = array() ) {
+
+	global $wpdb;
+
+	// Default arguments
+	$args = wp_parse_args ( $args, array(
+		'limit'	=> 0, // no limit
+		'url'	=> true, // add URL key/value
+	) );
+
+	// Get limit
+	$limit = absint( $args['limit'] );
+	$sql_limit = '';
+	if ( $limit > 0 ) {
+		$sql_limit = $wpdb->prepare(
+			"LIMIT %d",
+			array(
+				$limit
+			)
+		);
+	}
+
+	// Get archive months
+	$archives = (array) $wpdb->get_results( $wpdb->prepare(
+		"
+			SELECT
+				YEAR(post_date) AS `year`,
+				MONTH(post_date) AS `month`,
+				count(ID) as posts
+			FROM $wpdb->posts
+			WHERE
+				post_type = %s
+				AND post_status = 'publish'
+			GROUP BY
+				YEAR(post_date),
+				MONTH(post_date)
+			ORDER BY post_date DESC
+			$sql_limit
+		",
+		array(
+			$post_type
+		)
+	) );
+
+	// Add URLs
+	if ( $args['url'] ) {
+
+		foreach( $archives as $archive_key => $archive ) {
+			$archives[$archive_key]->url = ctfw_post_type_get_month_link( $archive->year, $archive->month, $post_type );
+		}
+
+	}
+
+	// Return filtered
+	return apply_filters( 'ctfw_get_month_archives', $archives, $post_type );
 
 }
 
