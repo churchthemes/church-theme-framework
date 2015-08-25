@@ -249,43 +249,9 @@ class CTFW_Widget_Archives extends CTFW_Widget {
 	 */
 	function ctfw_get_archives() {
 
-		global $wpdb;
-
-		// Get post type
-		$post_type = $this->ctfw_instance['post_type'];
-
-		// Get limit
-		$limit = absint( $this->ctfw_instance['limit'] );
-		$sql_limit = '';
-		if ( $limit > 0 ) {
-			$sql_limit = $wpdb->prepare(
-				"LIMIT %d",
-				array(
-					$limit
-				)
-			);
-		}
-
 		// Get archive months
-		$archives = (array) $wpdb->get_results( $wpdb->prepare(
-			"
-				SELECT
-					YEAR(post_date) AS `year`,
-					MONTH(post_date) AS `month`,
-					count(ID) as posts
-				FROM $wpdb->posts
-				WHERE
-					post_type = %s
-					AND post_status = 'publish'
-				GROUP BY
-					YEAR(post_date),
-					MONTH(post_date)
-				ORDER BY post_date DESC
-				$sql_limit
-			",
-			array(
-				$post_type
-			)
+		$archives = ctfw_get_month_archives( $this->ctfw_instance['post_type'], array(
+			'limit'	=> $this->ctfw_instance['limit'],
 		) );
 
 		// Return filtered
