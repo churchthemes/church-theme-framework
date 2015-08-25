@@ -145,7 +145,7 @@ function ctfw_sermon_data( $post_id = null ) {
  * This can assist with ordering the Book taxonomy terms and creating a Scripture archive template.
  *
  * @since 1.7
- * @return Array Multidimentionall array with keys for old_testament, new_testament and all
+ * @return Array Multidimentional array with keys for old_testament, new_testament and all
  */
 function ctfw_bible_books() {
 
