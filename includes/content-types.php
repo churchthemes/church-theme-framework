@@ -187,6 +187,67 @@ function ctfw_current_content_type() {
 }
 
 /**
+ * Get content type based on page template
+ *
+ * @since 0.9
+ * @param string $page_template Page template to get content type for
+ * @return string Content type
+ */
+function ctfw_content_type_by_page_template( $page_template ) {
+
+	$page_template_content_type = '';
+
+	// Prepare page template
+	$page_template = basename( $page_template ); // remove dir if has
+
+	// Get types
+	$content_types = ctfw_content_types();
+
+	// Loop conent types
+	foreach ( $content_types as $content_type => $content_type_data ) {
+
+		// Check for page template
+		if ( in_array( $page_template, $content_type_data['page_templates'] ) ) {
+			$page_template_content_type = $content_type;
+			break;
+		}
+
+	}
+
+	// Return filtered
+	return apply_filters( 'ctfw_content_type_by_page_template', $page_template_content_type, $page_template );
+
+}
+
+/**
+ * Get primary page template based on content type
+ *
+ * @since 0.9.3
+ * @param string $content_type Content type to get page template for
+ * @return string Page template
+ */
+function ctfw_page_template_by_content_type( $content_type ) {
+
+	$page_template = '';
+
+	// Page templates
+	$page_templates = ctfw_content_type_data( $content_type, 'page_templates' );
+
+	// Get first page template
+	if ( ! empty( $page_templates[0] ) ) {
+		$page_template = $page_templates[0];
+	}
+
+	// Return filtered
+	return apply_filters( 'ctfw_page_template_by_content_type', $page_template, $content_type );
+
+}
+
+/*********************************
+ * DATA
+ *********************************/
+
+/**
  * Get data for a specific content type
  *
  * Specify a key, such as "page_templates"; otherwise, all data is retrieved.
@@ -244,59 +305,140 @@ function ctfw_current_content_type_data( $key = false ) {
 
 }
 
+
 /**
- * Get content type based on page template
+ * Get archives for content type
  *
- * @since 0.9
- * @param string $page_template Page template to get content type for
- * @return string Content type
+ * Specify content type to get taxonomy and month archives.
+ * This can be useful for creating taxonomy page templates, navigation, etc.
+ *
+ * @since 1.7.1
+ * @param string $content_type Content type to get archives for
+ * @return array Archive data
  */
-function ctfw_content_type_by_page_template( $page_template ) {
+function ctfw_content_type_archives( $content_type ) {
 
-	$page_template_content_type = '';
+	$archives = array();
 
-	// Prepare page template
-	$page_template = basename( $page_template ); // remove dir if has
+	// Sermon
+	if ( 'sermon' == $content_type ) {
 
-	// Get types
-	$content_types = ctfw_content_types();
+		// Topics (alphabetical)
+		// Get similar to the widget in CT Categories
+		$archives['topic'] = get_terms(
+			'ctc_sermon_topic',
+			array(
+				'pad_counts'	=> true, // count children in parent since they do show in archive
+			)
+		);
 
-	// Loop conent types
-	foreach ( $content_types as $content_type => $content_type_data ) {
+		// Series (newest first)
+		$archives['series'] = get_terms(
+			'ctc_sermon_series',
+			array(
+				'orderby'		=> 'id',
+				'order'			=> 'DESC',
+				'pad_counts'	=> true, // count children in parent since they do show in archive
+			)
+		);
 
-		// Check for page template
-		if ( in_array( $page_template, $content_type_data['page_templates'] ) ) {
-			$page_template_content_type = $content_type;
-			break;
+		// Book (in order of books in Bible)
+		$archives['book'] = get_terms(
+			'ctc_sermon_book',
+			array(
+				'pad_counts'	=> true, // count children in parent since they do show in archive
+			)
+		);
+
+			// Re-order according to books in Bible
+			if ( $archives['book'] ) {
+
+				$reordered_books = array();
+				$unmatched_books = array();
+				$bible_books = ctfw_bible_books();
+
+				// Loop books in Bible
+				foreach ( $bible_books['all'] as $bible_book_key => $bible_book ) {
+
+					// Include this book if found in terms
+					foreach ( $archives['book'] as $book_term ) {
+
+						if ( trim( strtolower( $book_term->name ) ) == strtolower( $bible_book['name'] ) ) {
+
+							// Add it
+							$reordered_books[] = $book_term;
+
+							// Stop looking
+							break;
+
+						}
+
+					}
+
+				}
+
+				// Add those not found to end
+				foreach ( $archives['book'] as $book_term ) {
+
+					// Not added to new array?
+					foreach ( $bible_books['all'] as $bible_book_key => $bible_book ) {
+
+						$found = false;
+
+						// Found it?
+						if ( $bible_book['name'] == $book_term->name ) {
+							$found = true;
+							break;
+						}
+
+					}
+
+					// Not found, append to end
+					if ( ! $found ) {
+						$reordered_books[] = $book_term;
+					}
+
+				}
+
+				// Replace books with reordered array
+				$archives['book'] = $reordered_books;
+
+			}
+
+		// Speakers -- (alphabetical)
+		$archives['speaker'] = get_terms(
+			'ctc_sermon_speaker',
+			array(
+				'pad_counts'	=> true, // count children in parent since they do show in archive
+			)
+		);
+
+		// Dates (see EN for ideas)
+		$archives['months'] = ctfw_get_month_archives( 'ctc_sermon' );
+
+	}
+
+	// Event
+	elseif ( 'event' == $content_type ) {
+
+
+	}
+
+	// Add archive URL to terms
+	foreach ( $archives as $archive_key => $archive_terms ) {
+
+		// It's a taxonomy archive if not a date archive
+		if ( $archive_key == 'months' ) {
+			continue;
+		}
+
+		// Loop terms
+		foreach ( $archive_terms as $archive_term_key => $archive_term ) {
+			$archives[$archive_key][$archive_term_key]->url = get_term_link( $archive_term );
 		}
 
 	}
 
-	// Return filtered
-	return apply_filters( 'ctfw_content_type_by_page_template', $page_template_content_type, $page_template );
-
-}
-
-/**
- * Get primary page template based on content type
- *
- * @since 0.9.3
- * @param string $content_type Content type to get page template for
- * @return string Page template
- */
-function ctfw_page_template_by_content_type( $content_type ) {
-
-	$page_template = '';
-
-	// Page templates
-	$page_templates = ctfw_content_type_data( $content_type, 'page_templates' );
-
-	// Get first page template
-	if ( ! empty( $page_templates[0] ) ) {
-		$page_template = $page_templates[0];
-	}
-
-	// Return filtered
-	return apply_filters( 'ctfw_page_template_by_content_type', $page_template, $content_type );
+	return apply_filters( 'ctfw_content_type_archives', $archives, $content_type );
 
 }
