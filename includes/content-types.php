@@ -313,10 +313,13 @@ function ctfw_current_content_type_data( $key = false ) {
  * This can be useful for creating taxonomy page templates, navigation, etc.
  *
  * @since 1.7.1
+ * @global object $wp_locale
  * @param string $content_type Content type to get archives for
  * @return array Archive data
  */
 function ctfw_content_type_archives( $content_type ) {
+
+	global $wp_locale;
 
 	$archives = array();
 
@@ -472,8 +475,89 @@ function ctfw_content_type_archives( $content_type ) {
 		}
 
 		// Months
-		// Every themes decides how to show months
-		// It is recommended to filter in links for months for this reason
+		/*
+
+		Each theme decides how to handle archives, if any (such as on a monthly calendar via page template)
+		Therefore, add_theme_support() must be used to enable this feature and pass on the proper URL format.
+
+		Example:
+
+		add_theme_support( 'ctfw-event-month-archives', array(
+			'url_format'	=> get_permalink( ctfw_get_page_by_template( 'events-calendar.php' ) )
+							   . '?month={year}-{month_padded}', // {year}, {month}, {month_padded}
+			'month_limit'	=> 12, // default is to get up to 12 months future
+		) );
+
+		*/
+		$support = get_theme_support( 'ctfw-event-month-archives' );
+		if ( ! empty( $support['0'] ) ) {
+
+			// Default args
+			$args = wp_parse_args( $support['0'], array(
+				'url_format'	=> '', // required via add_theme_support()
+				'month_limit'	=> 12, // default is to show up to 12 months future
+			) );
+
+			// Make args usable as variables
+			extract( $args );
+
+			// Is URL format valid?
+			// It's possible that the proper page doesn't exist yet, so stop here
+			if ( ctfw_is_url( $url_format ) ) {
+
+				// Date info
+				$year_month = date_i18n( 'Y-m' ); // start with current
+				$DateTime = new DateTime( $year_month );
+
+				// Loop next X months
+				$months_looped = 0;
+				while ( $months_looped < $month_limit ) {
+
+					// Get number of event occurences in month
+					$count = ctfw_month_events_count( $year_month );
+
+					// Add month to archives array if has events
+					if ( $count ) {
+
+						// Date
+						$month_ts = strtotime( $year_month );
+						$month = date( 'n', $month_ts ); // e.g. 1
+						$month_padded = date( 'm', $month_ts );// e.g. 01
+						$year = date( 'Y', $month_ts ); // e.g.  2015
+
+						// Name
+						// 'name' that is automatically localized (key matches taxonomy term object)
+						/* translators: 1: month name, 2: 4-digit year */
+			            $name = sprintf( _x('%1$s %2$d', 'month archive', 'church-theme-framework' ), $wp_locale->get_month( $month ), $year );
+
+						// URL
+						$url = $url_format;
+						$url = str_replace( '{year}', $year, $url );
+						$url = str_replace( '{month}', $month, $url );
+						$url = str_replace( '{month_padded}', $month_padded, $url );
+
+						// Add data
+						// Use same format as ctfw_get_month_archives()
+						$archives['months'][$months_looped] = new stdClass();
+				        $archives['months'][$months_looped]->year = $year;
+				        $archives['months'][$months_looped]->month = $month;
+				        $archives['months'][$months_looped]->count = $count;
+				        $archives['months'][$months_looped]->post = $count;
+				        $archives['months'][$months_looped]->name = $name;
+				        $archives['months'][$months_looped]->url = $url;
+
+					}
+
+					// Next month
+					$DateTime->modify( '+1 month' );
+					$year_month = $DateTime->format( 'Y-m' ); // PHP 5.2 cannot chain methods
+					$months_looped++;
+
+				}
+
+			}
+
+		}
 
 	}
 
