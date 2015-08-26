@@ -259,12 +259,12 @@ function ctfw_get_month_archives( $post_type, $args = array() ) {
 	// Add extra data
 	foreach( $archives as $archive_key => $archive ) {
 
+		// 'count' instead of 'posts', for more uniform use in themes (matches taxonomy term object)
+		$archives[$archive_key]->count = $archives[$archive_key]->posts;
+
 		// 'name' that is automatically localized (key matches taxonomy term object)
 		/* translators: 1: month name, 2: 4-digit year */
 		$archives[$archive_key]->name = sprintf( _x('%1$s %2$d', 'month archive', 'church-theme-framework' ), $wp_locale->get_month( $archives[$archive_key]->month ), $archives[$archive_key]->year );
-
-		// 'count' instead of 'posts', for more uniform use in themes (matched taxonomy term object)
-		$archives[$archive_key]->count = $archives[$archive_key]->posts;
 
 		// URL
 		$archives[$archive_key]->url = ctfw_post_type_get_month_link( $archive->year, $archive->month, $post_type );

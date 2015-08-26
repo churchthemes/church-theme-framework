@@ -1173,6 +1173,44 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 
 }
 
+/**
+ * Month events count
+ *
+ * The number of event occurences in a calendar month.
+ *
+ * Note: Will not be accurate for months more than 3 years beyond today (see $recurrence_limit)
+ *
+ * @param string $year_month YYYY-MM such as 2015-01 for January, 2015
+ * @return numeric Count of event occurences
+ */
+function ctfw_month_events_count( $year_month ) {
+
+	// Get calendar data for each
+	$calendar_data = ctfw_event_calendar_data( array(
+		'year_month' 		=> $year_month, // YYYY-MM (e.g. 2015-01 for January, 2015)
+		'get_events'		=> true, // get events for each day in array
+		'category'			=> '', // category term slug or empty for all
+		'recurrence_limit'	=> 160, // max number of future event occurences to calculate (160 will handle 3 years in future)
+	) );
+
+	// Count event occurences in the month
+	$count = 0;
+	foreach ( $calendar_data['weeks'] as $week ) {
+
+		foreach ( $week['days'] as $day ) {
+
+			if ( $day['month'] == $calendar_data['month_data']['month'] ) { // calendar shows prior month's last week and next month's first week
+				$count += count( $day['event_ids'] );
+			}
+
+		}
+
+	}
+
+	return apply_filters( 'ctfw_month_events_count', $count, $year_month );
+
+}
+
 /**********************************
  * EVENT NAVIGATION
  **********************************/
