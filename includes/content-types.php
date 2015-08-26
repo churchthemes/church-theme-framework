@@ -7,7 +7,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2015, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Content types
  *
  * Theme should filter ctfw_content_types to add page_templates since they are theme-specific.
- * The filter can also be used to add other content types.
+ * The filter can also be used to add other content types and data.
  *
  * @since 0.9
  * @return array Default content types configuration
@@ -41,10 +41,19 @@ function ctfw_content_types() {
 		),
 
 		'event' => array(
+
 			'post_types'		=> array( 'ctc_event' ),
 			'taxonomies'		=> array( 'ctc_event_category' ),
 			'page_templates'	=> array(), // should be populated via ctfw_content_types filter in theme
 			'conditions'		=> array(),
+
+			// If theme has month archives, framework will link to it with this format
+			// For example, theme may have a Monthly Calendar page template
+			// Replacement tags: {year}, {month}, {month_padded}
+			// Example: ctfw_get_page_url_by_template( 'events-calendar.php' ) . '?month={year}-{month_padded}
+			// See ctfw_content_type_archives() for example of where this is used
+			'month_archive_url_format' => '', // theme should filter this in if needed
+
 		),
 
 		'people' => array(
@@ -475,91 +484,66 @@ function ctfw_content_type_archives( $content_type ) {
 		}
 
 		// Months
-		/*
+		// Each theme decides how to handle event archives, if any (such as on a monthly calendar via page template)
+		// Therefore, ctfw_content_types must be filtered by theme to add correct URL format for month archives
+		$url_format = ctfw_content_type_data( 'event', 'month_archive_url_format' );
+		if ( ctfw_is_url( $url_format ) ) { // valid URL (e.g. page for a page template exists)
 
-		Each theme decides how to handle archives, if any (such as on a monthly calendar via page template)
-		Therefore, add_theme_support() must be used to enable this feature and pass on the proper URL format.
+			// Date info
+			$month_limit = apply_filters( 'ctfw_content_type_archives_event_month_limit', 12 ); // show up to X months into the future
+			$year_month = date_i18n( 'Y-m' ); // start with current
+			$DateTime = new DateTime( $year_month );
 
-		Example:
+			// Loop next X months
+			$months_looped = 0;
+			while ( $months_looped < $month_limit ) {
 
-		add_theme_support( 'ctfw-event-month-archives', array(
-			'url_format'	=> get_permalink( ctfw_get_page_by_template( 'events-calendar.php' ) )
-							   . '?month={year}-{month_padded}', // {year}, {month}, {month_padded}
-			'month_limit'	=> 12, // default is to get up to 12 months future
-		) );
+				// Get number of event occurences in month
+				$count = ctfw_month_events_count( $year_month );
 
-		*/
-		$support = get_theme_support( 'ctfw-event-month-archives' );
-		if ( ! empty( $support['0'] ) ) {
+				// Add month to archives array if has events
+				if ( $count ) {
 
-			// Default args
-			$args = wp_parse_args( $support['0'], array(
-				'url_format'	=> '', // required via add_theme_support()
-				'month_limit'	=> 12, // default is to show up to 12 months future
-			) );
+					// Date
+					$month_ts = strtotime( $year_month );
+					$month = date( 'n', $month_ts ); // e.g. 1
+					$month_padded = date( 'm', $month_ts );// e.g. 01
+					$year = date( 'Y', $month_ts ); // e.g.  2015
 
-			// Make args usable as variables
-			extract( $args );
+					// Name
+					// 'name' that is automatically localized (key matches taxonomy term object)
+					/* translators: 1: month name, 2: 4-digit year */
+		            $name = sprintf( _x('%1$s %2$d', 'month archive', 'church-theme-framework' ), $wp_locale->get_month( $month ), $year );
 
-			// Is URL format valid?
-			// It's possible that the proper page doesn't exist yet, so stop here
-			if ( ctfw_is_url( $url_format ) ) {
+					// URL
+					$url = $url_format;
+					$url = str_replace( '{year}', $year, $url );
+					$url = str_replace( '{month}', $month, $url );
+					$url = str_replace( '{month_padded}', $month_padded, $url );
 
-				// Date info
-				$year_month = date_i18n( 'Y-m' ); // start with current
-				$DateTime = new DateTime( $year_month );
-
-				// Loop next X months
-				$months_looped = 0;
-				while ( $months_looped < $month_limit ) {
-
-					// Get number of event occurences in month
-					$count = ctfw_month_events_count( $year_month );
-
-					// Add month to archives array if has events
-					if ( $count ) {
-
-						// Date
-						$month_ts = strtotime( $year_month );
-						$month = date( 'n', $month_ts ); // e.g. 1
-						$month_padded = date( 'm', $month_ts );// e.g. 01
-						$year = date( 'Y', $month_ts ); // e.g.  2015
-
-						// Name
-						// 'name' that is automatically localized (key matches taxonomy term object)
-						/* translators: 1: month name, 2: 4-digit year */
-			            $name = sprintf( _x('%1$s %2$d', 'month archive', 'church-theme-framework' ), $wp_locale->get_month( $month ), $year );
-
-						// URL
-						$url = $url_format;
-						$url = str_replace( '{year}', $year, $url );
-						$url = str_replace( '{month}', $month, $url );
-						$url = str_replace( '{month_padded}', $month_padded, $url );
-
-						// Add data
-						// Use same format as ctfw_get_month_archives()
-						$archives['months'][$months_looped] = new stdClass();
-				        $archives['months'][$months_looped]->year = $year;
-				        $archives['months'][$months_looped]->month = $month;
-				        $archives['months'][$months_looped]->count = $count;
-				        $archives['months'][$months_looped]->post = $count;
-				        $archives['months'][$months_looped]->name = $name;
-				        $archives['months'][$months_looped]->url = $url;
-
-					}
-
-					// Next month
-					$DateTime->modify( '+1 month' );
-					$year_month = $DateTime->format( 'Y-m' ); // PHP 5.2 cannot chain methods
-					$months_looped++;
+					// Add data
+					// Use same format as ctfw_get_month_archives()
+					$archives['months'][$months_looped] = new stdClass();
+			        $archives['months'][$months_looped]->year = $year;
+			        $archives['months'][$months_looped]->month = $month;
+			        $archives['months'][$months_looped]->count = $count;
+			        $archives['months'][$months_looped]->post = $count;
+			        $archives['months'][$months_looped]->name = $name;
+			        $archives['months'][$months_looped]->url = $url;
 
 				}
+
+				// Next month
+				$DateTime->modify( '+1 month' );
+				$year_month = $DateTime->format( 'Y-m' ); // PHP 5.2 cannot chain methods
+				$months_looped++;
 
 			}
 
 		}
 
 	}
+
 
 	// Add archive URL to terms
 	foreach ( $archives as $archive_key => $archive_terms ) {
