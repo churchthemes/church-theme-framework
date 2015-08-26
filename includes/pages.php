@@ -109,6 +109,28 @@ function ctfw_get_page_id_by_template( $templates ) {
 
 }
 
+
+/**
+ * Get page URL by template
+ *
+ * @since 1.7.1
+ * @param string|array $templates Template or array of templates (first match used)
+ * @return int Page URL, if page was found; otherwise empty
+ */
+function ctfw_get_page_url_by_template( $templates ) {
+
+	$url = '';
+
+	$page = ctfw_get_page_by_template( $templates );
+
+	if ( $page ) {
+		$url = get_permalink( $page );
+	}
+
+	return apply_filters( 'ctfw_get_page_url_by_template', $url, $templates );
+
+}
+
 /**
  * Page options
  *
