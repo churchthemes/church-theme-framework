@@ -320,35 +320,69 @@ function ctfw_content_type_archives( $content_type ) {
 
 	$archives = array();
 
-	// Sermon
-	if ( 'sermon' == $content_type ) {
+	// Blog
+	if ( 'blog' == $content_type ) {
 
-		// Topics (alphabetical)
-		// Get similar to the widget in CT Categories
-		$archives['topic'] = get_terms(
-			'ctc_sermon_topic',
+		// Categories (alphabetical)
+		$archives['category'] = get_terms(
+			'category',
 			array(
 				'pad_counts'	=> true, // count children in parent since they do show in archive
 			)
 		);
 
-		// Series (newest first)
-		$archives['series'] = get_terms(
-			'ctc_sermon_series',
+		// Tag (biggest first)
+		$archives['tag'] = get_terms(
+			'post_tag',
 			array(
-				'orderby'		=> 'id',
+				'orderby'		=> 'count',
 				'order'			=> 'DESC',
 				'pad_counts'	=> true, // count children in parent since they do show in archive
 			)
 		);
 
+		// Months
+		$archives['months'] = ctfw_get_month_archives( 'post' );
+
+	}
+
+	// Sermon
+	if ( 'sermon' == $content_type ) {
+
+		// Topics (alphabetical)
+		$taxonomy = 'ctc_sermon_topic';
+		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) ) {
+			$archives['topic'] = get_terms(
+				$taxonomy,
+				array(
+					'pad_counts'	=> true, // count children in parent since they do show in archive
+				)
+			);
+		}
+
+		// Series (newest first)
+		$taxonomy = 'ctc_sermon_series';
+		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) ) {
+			$archives['series'] = get_terms(
+				$taxonomy,
+				array(
+					'orderby'		=> 'id',
+					'order'			=> 'DESC',
+					'pad_counts'	=> true, // count children in parent since they do show in archive
+				)
+			);
+		}
+
 		// Book (in order of books in Bible)
-		$archives['book'] = get_terms(
-			'ctc_sermon_book',
-			array(
-				'pad_counts'	=> true, // count children in parent since they do show in archive
-			)
-		);
+		$taxonomy = 'ctc_sermon_book';
+		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) ) {
+
+			$archives['book'] = get_terms(
+				$taxonomy,
+				array(
+					'pad_counts'	=> true, // count children in parent since they do show in archive
+				)
+			);
 
 			// Re-order according to books in Bible
 			if ( $archives['book'] ) {
@@ -405,22 +439,41 @@ function ctfw_content_type_archives( $content_type ) {
 
 			}
 
-		// Speakers -- (alphabetical)
-		$archives['speaker'] = get_terms(
-			'ctc_sermon_speaker',
-			array(
-				'pad_counts'	=> true, // count children in parent since they do show in archive
-			)
-		);
+		}
 
-		// Dates (see EN for ideas)
+		// Speakers -- (alphabetical)
+		$taxonomy = 'ctc_sermon_speaker';
+		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) ) {
+			$archives['speaker'] = get_terms(
+				$taxonomy,
+				array(
+					'pad_counts'	=> true, // count children in parent since they do show in archive
+				)
+			);
+		}
+
+		// Months
 		$archives['months'] = ctfw_get_month_archives( 'ctc_sermon' );
 
 	}
 
 	// Event
-	elseif ( 'event' == $content_type ) {
+	if ( 'event' == $content_type ) {
 
+		// Category (alphabetical)
+		$taxonomy = 'ctc_event_category';
+		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) ) {
+			$archives['category'] = get_terms(
+				$taxonomy,
+				array(
+					'pad_counts'	=> true, // count children in parent since they do show in archive
+				)
+			);
+		}
+
+		// Months
+		// Every themes decides how to show months
+		// It is recommended to filter in links for months for this reason
 
 	}
 
@@ -439,6 +492,10 @@ function ctfw_content_type_archives( $content_type ) {
 
 	}
 
-	return apply_filters( 'ctfw_content_type_archives', $archives, $content_type );
+	// Make filterable
+	$archives = apply_filters( 'ctfw_content_type_archives', $archives, $content_type );
+	$archives = apply_filters( 'ctfw_content_type_archives-' . $content_type, $archives );
+
+	return $archives;
 
 }
