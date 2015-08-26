@@ -506,9 +506,9 @@ function ctfw_content_type_archives( $content_type ) {
 
 					// Date
 					$month_ts = strtotime( $year_month );
-					$month = date( 'n', $month_ts ); // e.g. 1
-					$month_padded = date( 'm', $month_ts );// e.g. 01
-					$year = date( 'Y', $month_ts ); // e.g.  2015
+					$month = date_i18n( 'n', $month_ts ); // e.g. 1
+					$month_padded = date_i18n( 'm', $month_ts );// e.g. 01
+					$year = date_i18n( 'Y', $month_ts ); // e.g.  2015
 
 					// Name
 					// 'name' that is automatically localized (key matches taxonomy term object)
@@ -516,10 +516,7 @@ function ctfw_content_type_archives( $content_type ) {
 		            $name = sprintf( _x('%1$s %2$d', 'month archive', 'church-theme-framework' ), $wp_locale->get_month( $month ), $year );
 
 					// URL
-					$url = $url_format;
-					$url = str_replace( '{year}', $year, $url );
-					$url = str_replace( '{month}', $month, $url );
-					$url = str_replace( '{month_padded}', $month_padded, $url );
+					$url = ctfw_events_month_archive_url( $year_month );
 
 					// Add data
 					// Use same format as ctfw_get_month_archives()

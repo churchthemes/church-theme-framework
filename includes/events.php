@@ -1173,6 +1173,10 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 
 }
 
+/**********************************
+ * MONTH ARCHIVES
+ **********************************/
+
 /**
  * Month events count
  *
@@ -1208,6 +1212,51 @@ function ctfw_month_events_count( $year_month ) {
 	}
 
 	return apply_filters( 'ctfw_month_events_count', $count, $year_month );
+
+}
+
+
+/**
+ * Events month archive URL
+ *
+ * Theme can filter ctfw_content_types to specify event month archive URL format.
+ * This makes replacements and returns working URL.
+ *
+ * For example, a theme may have a monthly calendar page template supporting months via query string.
+ * This URL helps the framework know what URL to use, such as in ctfw_content_type_archives(), which
+ * may be used to create section nav, page template, widget, etc.
+ *
+ * @since 1.7.1
+ * @param string $year_month Month as YYYY-MM (e.g. 2015-01 for January, 2015)
+ * @return string URL to events month archive for the theme
+ */
+function ctfw_events_month_archive_url( $year_month ) {
+
+	$url = '';
+
+	// Get URL format filered in by theme via ctfw_content_types
+	$url_format = ctfw_content_type_data( 'event', 'month_archive_url_format' );
+
+	// Is URL provided and valid?
+	// It may not be valid if, for example, page having a certain page template not yet setup
+	if ( ctfw_is_url( $url_format ) ) { // valid URL (e.g. page for a page template exists)
+
+		// Date
+		$ts = strtotime( $year_month );
+		$year = date_i18n( 'Y', $ts ); // e.g.  2015
+		$month = date_i18n( 'n', $ts ); // e.g. 1
+		$month_padded = date_i18n( 'm', $ts );// e.g. 01
+
+		// Make replacements
+		$url = $url_format;
+		$url = str_replace( '{year}', $year, $url );
+		$url = str_replace( '{month}', $month, $url );
+		$url = str_replace( '{month_padded}', $month_padded, $url );
+
+	}
+
+	// Return filtered
+	return apply_filters( 'ctfw_month_archive_url', $url, $year_month );
 
 }
 
