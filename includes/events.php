@@ -1215,7 +1215,6 @@ function ctfw_month_events_count( $year_month ) {
 
 }
 
-
 /**
  * Events month archive URL
  *

@@ -47,11 +47,10 @@ function ctfw_content_types() {
 			'page_templates'	=> array(), // should be populated via ctfw_content_types filter in theme
 			'conditions'		=> array(),
 
-			// If theme has month archives, framework will link to it with this format
-			// For example, theme may have a Monthly Calendar page template
+			// If theme has month archives, framework will link to it with this format via ctfw_events_month_archive_url()
+			// For example, theme may have a Monthly Calendar page template and use ctfw_content_type_archives() to generate links to it
 			// Replacement tags: {year}, {month}, {month_padded}
 			// Example: ctfw_get_page_url_by_template( 'events-calendar.php' ) . '?month={year}-{month_padded}
-			// See ctfw_content_type_archives() for example of where this is used
 			'month_archive_url_format' => '', // theme should filter this in if needed
 
 		),
@@ -314,7 +313,6 @@ function ctfw_current_content_type_data( $key = false ) {
 
 }
 
-
 /**
  * Get archives for content type
  *
@@ -498,16 +496,13 @@ function ctfw_content_type_archives( $content_type ) {
 			$months_looped = 0;
 			while ( $months_looped < $month_limit ) {
 
-				// Get number of event occurences in month
-				$count = ctfw_month_events_count( $year_month );
-
 				// Add month to archives array if has events
+				$count = ctfw_month_events_count( $year_month ); // get number of event occurences in month
 				if ( $count ) {
 
 					// Date
 					$month_ts = strtotime( $year_month );
 					$month = date_i18n( 'n', $month_ts ); // e.g. 1
-					$month_padded = date_i18n( 'm', $month_ts );// e.g. 01
 					$year = date_i18n( 'Y', $month_ts ); // e.g.  2015
 
 					// Name
