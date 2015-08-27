@@ -1223,7 +1223,7 @@ function ctfw_month_events_count( $year_month ) {
  *
  * For example, a theme may have a monthly calendar page template supporting months via query string.
  * This URL helps the framework know what URL to use, such as in ctfw_content_type_archives(), which
- * may be used to create section nav, page template, widget, etc.
+ * may be used to create archives nav, page template, widget, etc.
  *
  * @since 1.7.1
  * @param string $year_month Month as YYYY-MM (e.g. 2015-01 for January, 2015)
