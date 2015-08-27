@@ -334,16 +334,18 @@ function ctfw_content_type_archives( $content_type ) {
 	if ( 'blog' == $content_type ) {
 
 		// Categories (alphabetical)
-		$archives['category'] = get_terms(
-			'category',
+		$taxonomy = 'category';
+		$archives[$taxonomy] = get_terms(
+			$taxonomy,
 			array(
 				'pad_counts'	=> true, // count children in parent since they do show in archive
 			)
 		);
 
 		// Tag (biggest first)
-		$archives['tag'] = get_terms(
-			'post_tag',
+		$taxonomy = 'post_tag';
+		$archives[$taxonomy] = get_terms(
+			$taxonomy,
 			array(
 				'orderby'		=> 'count',
 				'order'			=> 'DESC',
@@ -362,7 +364,7 @@ function ctfw_content_type_archives( $content_type ) {
 		// Topics (alphabetical)
 		$taxonomy = 'ctc_sermon_topic';
 		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) ) {
-			$archives['topic'] = get_terms(
+			$archives[$taxonomy] = get_terms(
 				$taxonomy,
 				array(
 					'pad_counts'	=> true, // count children in parent since they do show in archive
@@ -373,7 +375,7 @@ function ctfw_content_type_archives( $content_type ) {
 		// Series (newest first)
 		$taxonomy = 'ctc_sermon_series';
 		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) ) {
-			$archives['series'] = get_terms(
+			$archives[$taxonomy] = get_terms(
 				$taxonomy,
 				array(
 					'orderby'		=> 'id',
@@ -387,7 +389,7 @@ function ctfw_content_type_archives( $content_type ) {
 		$taxonomy = 'ctc_sermon_book';
 		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) ) {
 
-			$archives['book'] = get_terms(
+			$archives[$taxonomy] = get_terms(
 				$taxonomy,
 				array(
 					'pad_counts'	=> true, // count children in parent since they do show in archive
@@ -395,7 +397,7 @@ function ctfw_content_type_archives( $content_type ) {
 			);
 
 			// Re-order according to books in Bible
-			if ( $archives['book'] ) {
+			if ( $archives[$taxonomy] ) {
 
 				$reordered_books = array();
 				$unmatched_books = array();
@@ -405,7 +407,7 @@ function ctfw_content_type_archives( $content_type ) {
 				foreach ( $bible_books['all'] as $bible_book_key => $bible_book ) {
 
 					// Include this book if found in terms
-					foreach ( $archives['book'] as $book_term ) {
+					foreach ( $archives[$taxonomy] as $book_term ) {
 
 						if ( trim( strtolower( $book_term->name ) ) == strtolower( $bible_book['name'] ) ) {
 
@@ -422,7 +424,7 @@ function ctfw_content_type_archives( $content_type ) {
 				}
 
 				// Add those not found to end
-				foreach ( $archives['book'] as $book_term ) {
+				foreach ( $archives[$taxonomy] as $book_term ) {
 
 					// Not added to new array?
 					foreach ( $bible_books['all'] as $bible_book_key => $bible_book ) {
@@ -445,7 +447,7 @@ function ctfw_content_type_archives( $content_type ) {
 				}
 
 				// Replace books with reordered array
-				$archives['book'] = $reordered_books;
+				$archives[$taxonomy] = $reordered_books;
 
 			}
 
@@ -454,7 +456,7 @@ function ctfw_content_type_archives( $content_type ) {
 		// Speakers -- (alphabetical)
 		$taxonomy = 'ctc_sermon_speaker';
 		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) ) {
-			$archives['speaker'] = get_terms(
+			$archives[$taxonomy] = get_terms(
 				$taxonomy,
 				array(
 					'pad_counts'	=> true, // count children in parent since they do show in archive
@@ -473,7 +475,7 @@ function ctfw_content_type_archives( $content_type ) {
 		// Category (alphabetical)
 		$taxonomy = 'ctc_event_category';
 		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) ) {
-			$archives['category'] = get_terms(
+			$archives[$taxonomy] = get_terms(
 				$taxonomy,
 				array(
 					'pad_counts'	=> true, // count children in parent since they do show in archive
@@ -536,6 +538,21 @@ function ctfw_content_type_archives( $content_type ) {
 
 	}
 
+	// People
+	if ( 'people' == $content_type ) {
+
+		// Groups (alphabetical)
+		$taxonomy = 'ctc_person_group';
+		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) ) {
+			$archives[$taxonomy] = get_terms(
+				$taxonomy,
+				array(
+					'pad_counts'	=> true, // count children in parent since they do show in archive
+				)
+			);
+		}
+
+	}
 
 	// Add archive URL to terms
 	foreach ( $archives as $archive_key => $archive_terms ) {
