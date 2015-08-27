@@ -335,7 +335,7 @@ function ctfw_content_type_archives( $content_type ) {
 
 		// Categories (alphabetical)
 		$taxonomy = 'category';
-		$archives[$taxonomy] = get_terms(
+		$archives[$taxonomy]['items'] = get_terms(
 			$taxonomy,
 			array(
 				'pad_counts'	=> true, // count children in parent since they do show in archive
@@ -344,7 +344,7 @@ function ctfw_content_type_archives( $content_type ) {
 
 		// Tag (biggest first)
 		$taxonomy = 'post_tag';
-		$archives[$taxonomy] = get_terms(
+		$archives[$taxonomy]['items'] = get_terms(
 			$taxonomy,
 			array(
 				'orderby'		=> 'count',
@@ -354,7 +354,7 @@ function ctfw_content_type_archives( $content_type ) {
 		);
 
 		// Months
-		$archives['months'] = ctfw_get_month_archives( 'post' );
+		$archives['months']['items'] = ctfw_get_month_archives( 'post' );
 
 	}
 
@@ -364,7 +364,7 @@ function ctfw_content_type_archives( $content_type ) {
 		// Topics (alphabetical)
 		$taxonomy = 'ctc_sermon_topic';
 		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) ) {
-			$archives[$taxonomy] = get_terms(
+			$archives[$taxonomy]['items'] = get_terms(
 				$taxonomy,
 				array(
 					'pad_counts'	=> true, // count children in parent since they do show in archive
@@ -375,7 +375,7 @@ function ctfw_content_type_archives( $content_type ) {
 		// Series (newest first)
 		$taxonomy = 'ctc_sermon_series';
 		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) ) {
-			$archives[$taxonomy] = get_terms(
+			$archives[$taxonomy]['items'] = get_terms(
 				$taxonomy,
 				array(
 					'orderby'		=> 'id',
@@ -389,7 +389,7 @@ function ctfw_content_type_archives( $content_type ) {
 		$taxonomy = 'ctc_sermon_book';
 		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) ) {
 
-			$archives[$taxonomy] = get_terms(
+			$archives[$taxonomy]['items'] = get_terms(
 				$taxonomy,
 				array(
 					'pad_counts'	=> true, // count children in parent since they do show in archive
@@ -397,7 +397,7 @@ function ctfw_content_type_archives( $content_type ) {
 			);
 
 			// Re-order according to books in Bible
-			if ( $archives[$taxonomy] ) {
+			if ( $archives[$taxonomy]['items'] ) {
 
 				$reordered_books = array();
 				$unmatched_books = array();
@@ -407,7 +407,7 @@ function ctfw_content_type_archives( $content_type ) {
 				foreach ( $bible_books['all'] as $bible_book_key => $bible_book ) {
 
 					// Include this book if found in terms
-					foreach ( $archives[$taxonomy] as $book_term ) {
+					foreach ( $archives[$taxonomy]['items'] as $book_term ) {
 
 						if ( trim( strtolower( $book_term->name ) ) == strtolower( $bible_book['name'] ) ) {
 
@@ -424,7 +424,7 @@ function ctfw_content_type_archives( $content_type ) {
 				}
 
 				// Add those not found to end
-				foreach ( $archives[$taxonomy] as $book_term ) {
+				foreach ( $archives[$taxonomy]['items'] as $book_term ) {
 
 					// Not added to new array?
 					foreach ( $bible_books['all'] as $bible_book_key => $bible_book ) {
@@ -447,7 +447,7 @@ function ctfw_content_type_archives( $content_type ) {
 				}
 
 				// Replace books with reordered array
-				$archives[$taxonomy] = $reordered_books;
+				$archives[$taxonomy]['items'] = $reordered_books;
 
 			}
 
@@ -456,7 +456,7 @@ function ctfw_content_type_archives( $content_type ) {
 		// Speakers -- (alphabetical)
 		$taxonomy = 'ctc_sermon_speaker';
 		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) ) {
-			$archives[$taxonomy] = get_terms(
+			$archives[$taxonomy]['items'] = get_terms(
 				$taxonomy,
 				array(
 					'pad_counts'	=> true, // count children in parent since they do show in archive
@@ -465,7 +465,7 @@ function ctfw_content_type_archives( $content_type ) {
 		}
 
 		// Months
-		$archives['months'] = ctfw_get_month_archives( 'ctc_sermon' );
+		$archives['months']['items'] = ctfw_get_month_archives( 'ctc_sermon' );
 
 	}
 
@@ -475,7 +475,7 @@ function ctfw_content_type_archives( $content_type ) {
 		// Category (alphabetical)
 		$taxonomy = 'ctc_event_category';
 		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) ) {
-			$archives[$taxonomy] = get_terms(
+			$archives[$taxonomy]['items'] = get_terms(
 				$taxonomy,
 				array(
 					'pad_counts'	=> true, // count children in parent since they do show in archive
@@ -517,13 +517,13 @@ function ctfw_content_type_archives( $content_type ) {
 
 					// Add data
 					// Use same format as ctfw_get_month_archives()
-					$archives['months'][$months_looped] = new stdClass();
-			        $archives['months'][$months_looped]->year = $year;
-			        $archives['months'][$months_looped]->month = $month;
-			        $archives['months'][$months_looped]->count = $count;
-			        $archives['months'][$months_looped]->post = $count;
-			        $archives['months'][$months_looped]->name = $name;
-			        $archives['months'][$months_looped]->url = $url;
+					$archives['months']['items'][$months_looped] = new stdClass();
+			        $archives['months']['items'][$months_looped]->year = $year;
+			        $archives['months']['items'][$months_looped]->month = $month;
+			        $archives['months']['items'][$months_looped]->count = $count;
+			        $archives['months']['items'][$months_looped]->post = $count;
+			        $archives['months']['items'][$months_looped]->name = $name;
+			        $archives['months']['items'][$months_looped]->url = $url;
 
 				}
 
@@ -544,7 +544,7 @@ function ctfw_content_type_archives( $content_type ) {
 		// Groups (alphabetical)
 		$taxonomy = 'ctc_person_group';
 		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) ) {
-			$archives[$taxonomy] = get_terms(
+			$archives[$taxonomy]['items'] = get_terms(
 				$taxonomy,
 				array(
 					'pad_counts'	=> true, // count children in parent since they do show in archive
@@ -554,18 +554,46 @@ function ctfw_content_type_archives( $content_type ) {
 
 	}
 
-	// Add archive URL to terms
-	foreach ( $archives as $archive_key => $archive_terms ) {
+	// Add archive name and URLs to terms
+	foreach ( $archives as $archive_key => $archive ) {
 
-		// It's a taxonomy archive if not a date archive
+		// Month archive
 		if ( $archive_key == 'months' ) {
-			continue;
+
+			// Type
+			$archives[$archive_key]['type'] = 'months';
+
+			// Name
+			$archives[$archive_key]['name'] = _x( 'Months', 'content type archives', 'church-theme-framework' );
+
 		}
 
-		// Loop terms
-		foreach ( $archive_terms as $archive_term_key => $archive_term ) {
-			$archives[$archive_key][$archive_term_key]->url = get_term_link( $archive_term );
+		// Taxonomy archive
+		else {
+
+			// Type
+			$archives[$archive_key]['type'] = 'taxonomy';
+
+			// Name
+			$taxonomy_data = get_taxonomy( $archive_key );
+			if ( ! empty( $taxonomy_data->labels->menu_name ) ) {
+				$archives[$archive_key]['name'] = $taxonomy_data->labels->menu_name; // e.g. "Topics" instead of "Sermon Topics"
+			} else { // should never happen, but just in case
+				$archives[$archive_key]['name'] = isset( $taxonomy_data->labels->name ) ? $taxonomy_data->labels->name : ctfw_make_friendly( $archive_key );
+			}
+
+			// Loop items
+			$archive_items = $archive['items'];
+			foreach ( $archive['items'] as $archive_item_key => $archive_item ) {
+				$archives[$archive_key]['items'][$archive_item_key]->url = get_term_link( $archive_item );
+			}
+
 		}
+
+		// Move items to end of array so name, etc. is first
+		$items = $archives[$archive_key]['items'];
+		unset( $archives[$archive_key]['items'] );
+		$archives[$archive_key]['items'] = $items;
 
 	}
 
