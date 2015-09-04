@@ -112,10 +112,27 @@ function ctfw_get_events( $args = array() ) {
  * Get event data
  *
  * @since 0.9
- * @param int $post_id Post ID to get data for; null for current post
+ * @param array|int $args post_id or array of arguments; If no post ID, current post used
  * @return array Event data
  */
-function ctfw_event_data( $post_id = null ) {
+function ctfw_event_data( $args = array() ) {
+
+	// Post ID given instead of args array?
+	if ( is_numeric( $args ) ) {
+		$args = array(
+			'post_id' => $args,
+		);
+	}
+
+	// Default arguments
+	$args = wp_parse_args( $args, array(
+		'post_id'				=> null, // use current
+		/* translators: time range (%1$s) and description (%2$s) for an event */
+		'time_and_desc_format'	=> __( '%1$s <span>(%2$s)</span>', 'church-theme-framework' ),
+	) );
+
+	// Extract arguments to variables
+	extract( $args );
 
 	// Get meta values
 	$meta = ctfw_get_meta_data( array(
@@ -226,9 +243,8 @@ function ctfw_event_data( $post_id = null ) {
 		if ( $meta['time'] ) {
 
 			// Time and Description
-			/* translators: time range and description */
 			$meta['time_range_and_description'] = sprintf(
-				__( '%1$s <span>(%2$s)</span>', 'church-theme-framework' ),
+				$time_and_desc_format,
 				$meta['time_range'],
 				$meta['time']
 			);
