@@ -134,6 +134,25 @@ function ctfw_has_manual_excerpt() {
 
 }
 
+/**
+ * Has excerpt or more tag
+ *
+ * @since 1.7.1
+ * @global object $post
+ * @return bool True if has manual excerpt
+ */
+function ctfw_has_excerpt_or_more() {
+
+	$bool = false;
+
+	if ( ctfw_has_excerpt() || ctfw_has_more_tag() ) {
+		$bool = true;
+	}
+
+	return apply_filters( 'ctfw_has_excerpt_or_more', $bool );
+
+}
+
 /*******************************************
  * USERS
  *******************************************/
