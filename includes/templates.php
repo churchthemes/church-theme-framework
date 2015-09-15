@@ -77,24 +77,29 @@ function ctfw_get_content_template() {
 	$post_type = get_post_type();
 	$post_type_friendly = ctfw_make_friendly( $post_type ); // "ctc_post_type" is made into "post-type" for friendlier template naming
 
-	// Get post format
-	$post_format = get_post_format();
-
 	// Singular post?
 	$singular = is_singular( $post_type ) ? true : false;
 
 	// Does post type support post formats?
 	if ( post_type_supports( $post_type, 'post-formats' ) ) {
 
-		// First check for something like content-post-audio.php (blog post using audio post format)
-		if ( $singular ) $templates[] = "content-{$post_type}-{$post_format}-full";
-		if ( ! $singular ) $templates[] = "content-{$post_type}-{$post_format}-short";
-		$templates[] = "content-{$post_type}-{$post_format}";
+		// Get post format
+		$post_format = get_post_format();
 
-		// If that doesn't exist, check simply for content-audio.php (shorter but may conflict with post type name)
-		if ( $singular ) $templates[] = "content-{$post_format}-full";
-		if ( ! $singular ) $templates[] = "content-{$post_format}-short";
-		$templates[] = "content-{$post_format}";
+		// Has post format
+		if ( $post_format ) {
+
+			// First check for something like content-post-audio.php (blog post using audio post format)
+			if ( $singular ) $templates[] = "content-{$post_type}-{$post_format}-full";
+			if ( ! $singular ) $templates[] = "content-{$post_type}-{$post_format}-short";
+			$templates[] = "content-{$post_type}-{$post_format}";
+
+			// If that doesn't exist, check simply for content-audio.php (shorter but may conflict with post type name)
+			if ( $singular ) $templates[] = "content-{$post_format}-full";
+			if ( ! $singular ) $templates[] = "content-{$post_format}-short";
+			$templates[] = "content-{$post_format}";
+
+		}
 
 	}
 
@@ -126,7 +131,7 @@ function ctfw_get_content_template() {
 		$templates_partials[] = CTFW_THEME_PARTIAL_DIR . '/' . $template;
 	}
 	$templates = array_merge( $templates_partials, $templates );
-
+ctfw_print_array( $templates );
 	// Load template and return filename if succeeded
 	return locate_template( $templates, true, false );
 
