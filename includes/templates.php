@@ -131,7 +131,7 @@ function ctfw_get_content_template() {
 		$templates_partials[] = CTFW_THEME_PARTIAL_DIR . '/' . $template;
 	}
 	$templates = array_merge( $templates_partials, $templates );
-ctfw_print_array( $templates );
+
 	// Load template and return filename if succeeded
 	return locate_template( $templates, true, false );
 
