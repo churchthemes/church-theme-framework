@@ -175,13 +175,22 @@ function ctfw_event_data( $args = array() ) {
 	if ( $meta['end_date'] != $meta['start_date'] ) { // date range
 
 		// Date formats
-		// Make compact range of "June 1 - June 5, 2013 if using "F j, Y" format (year removed from start date as not to be redundant)
-		if ( 'F j, Y' == $date_format && date_i18n( 'Y', $start_date_timestamp ) == date_i18n( 'Y', $end_date_timestamp ) ) { // Year on both dates must be same
-			$start_date_format = 'F j'; // remove year
-		} else {
-			$start_date_format = $date_format;
-		}
+		// Make compact range of "June 1 - 5, 2015 if using "F j, Y" format (month and year removed from start date as not to be redundant)
+		// If year is same but month different, becomes "June 30 - July 1, 2015"
+		$start_date_format = $date_format;
 		$end_date_format = $date_format;
+		if ( 'F j, Y' == $date_format && date_i18n( 'Y', $start_date_timestamp ) == date_i18n( 'Y', $end_date_timestamp ) ) { // Year on both dates must be same
+
+			// Remove year from start date
+			$start_date_format = 'F j';
+
+			// Months and year is same
+			// Remove month from end date
+			if ( date_i18n( 'F', $start_date_timestamp ) == date_i18n( 'F', $end_date_timestamp ) ) {
+				$end_date_format = 'j, Y';
+			}
+
+		}
 
 		// Format dates
 		$start_date_formatted = date_i18n( $start_date_format, $start_date_timestamp );
