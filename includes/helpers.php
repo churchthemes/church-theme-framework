@@ -326,15 +326,32 @@ function ctfw_shorten( $string, $max_chars ) {
  * @param string $address Multi-line address
  * @return string Single line address
  */
+function ctfw_one_line( $string ) {
+
+	$one_line = $string;
+
+	if ( $string ) {
+		$one_line = strip_tags( $string ); // remove HTML
+		$one_line = preg_replace( '/\r\n|\n|\r/', ', ', $one_line ); // replace line breaks with commas
+		$one_line = trim( $one_line ); // remove whitespace
+	}
+
+	return apply_filters( 'ctfw_one_line', $one_line, $string );
+
+}
+
+/**
+ * Convert address to one line
+ *
+ * It replaces line breaks with commas.
+ *
+ * @since 0.9
+ * @param string $address Multi-line address
+ * @return string Single line address
+ */
 function ctfw_address_one_line( $address ) {
 
-	$address_one_line = $address;
-
-	if ( $address ) {
-		$address_one_line = strip_tags( $address ); // remove HTML
-		$address_one_line = preg_replace( '/\r\n|\n|\r/', ', ', $address_one_line ); // replace line breaks with commas
-		$address_one_line = trim( $address_one_line ); // remove whitespace
-	}
+	$address_one_line = ctfw_one_line( $address );
 
 	return apply_filters( 'ctfw_address_one_line', $address_one_line, $address );
 
