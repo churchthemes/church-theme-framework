@@ -242,6 +242,29 @@ class CTFW_Widget_Locations extends CTFW_Widget {
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 
+			// Email
+			'show_email' => array(
+				'name'				=> '',
+				'after_name'		=> '', // (Optional), (Required), etc.
+				'desc'				=> '',
+				'type'				=> 'checkbox', // text, textarea, checkbox, radio, select, number, url, image
+				'radio_inline'		=> false, // show radio inputs inline or on top of each other
+				'number_min'		=> '', // lowest possible value for number type
+				'number_max'		=> '', // highest possible value for number type
+				'checkbox_label'	=> _x( 'Show email', 'locations widget', 'church-theme-framework' ), //show text after checkbox
+				'options'			=> array(), // array of keys/values for radio or select
+				'default'			=> false, // value to pre-populate option with (before first save or on reset)
+				'no_empty'			=> false, // if user empties value, force default to be saved instead
+				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
+				'attributes'		=> array(), // attributes to add to input element
+				'class'				=> '', // class(es) to add to input
+				'field_attributes'	=> array(), // attr => value array for field container
+				'field_class'		=> 'ctfw-widget-no-bottom-margin', // class(es) to add to field container
+				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
+				'custom_field'		=> '', // function for custom display of field input
+				'taxonomies'		=> array(), // hide field if taxonomies are not supported
+			),
+
 			// Times
 			'show_times' => array(
 				'name'				=> '',
