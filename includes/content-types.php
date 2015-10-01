@@ -322,39 +322,51 @@ function ctfw_current_content_type_data( $key = false ) {
  * @since 1.7.1
  * @global object $wp_locale
  * @param string $content_type Content type to get archives for
+ * @param string $specific_archive Retrieve only a specific archive for the content type
  * @return array Archive data
  */
-function ctfw_content_type_archives( $content_type ) {
+function ctfw_content_type_archives( $content_type = false, $specific_archive = false ) {
 
 	global $wp_locale;
 
 	$archives = array();
+
+	// Get current content type if not given
+	if ( ! $content_type ) {
+		$content_type = ctfw_current_content_type();
+	}
 
 	// Blog
 	if ( 'blog' == $content_type ) {
 
 		// Categories (alphabetical)
 		$taxonomy = 'category';
-		$archives[$taxonomy]['items'] = get_terms(
-			$taxonomy,
-			array(
-				'pad_counts'	=> true, // count children in parent since they do show in archive
-			)
-		);
+		if ( ! $specific_archive || $taxonomy == $specific_archive ) {
+			$archives[$taxonomy]['items'] = get_terms(
+				$taxonomy,
+				array(
+					'pad_counts'	=> true, // count children in parent since they do show in archive
+				)
+			);
+		}
 
 		// Tag (biggest first)
 		$taxonomy = 'post_tag';
-		$archives[$taxonomy]['items'] = get_terms(
-			$taxonomy,
-			array(
-				'orderby'		=> 'count',
-				'order'			=> 'DESC',
-				'pad_counts'	=> true, // count children in parent since they do show in archive
-			)
-		);
+		if ( ! $specific_archive || $taxonomy == $specific_archive ) {
+			$archives[$taxonomy]['items'] = get_terms(
+				$taxonomy,
+				array(
+					'orderby'		=> 'count',
+					'order'			=> 'DESC',
+					'pad_counts'	=> true, // count children in parent since they do show in archive
+				)
+			);
+		}
 
 		// Months
-		$archives['months']['items'] = ctfw_get_month_archives( 'post' );
+		if ( ! $specific_archive || 'months' == $specific_archive ) {
+			$archives['months']['items'] = ctfw_get_month_archives( 'post' );
+		}
 
 	}
 
@@ -363,7 +375,7 @@ function ctfw_content_type_archives( $content_type ) {
 
 		// Topics (alphabetical)
 		$taxonomy = 'ctc_sermon_topic';
-		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) ) {
+		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) && ( ! $specific_archive || $taxonomy == $specific_archive ) ) {
 			$archives[$taxonomy]['items'] = get_terms(
 				$taxonomy,
 				array(
@@ -374,7 +386,7 @@ function ctfw_content_type_archives( $content_type ) {
 
 		// Series (newest first)
 		$taxonomy = 'ctc_sermon_series';
-		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) ) {
+		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) && ( ! $specific_archive || $taxonomy == $specific_archive ) ) {
 			$archives[$taxonomy]['items'] = get_terms(
 				$taxonomy,
 				array(
@@ -387,7 +399,7 @@ function ctfw_content_type_archives( $content_type ) {
 
 		// Book (in order of books in Bible)
 		$taxonomy = 'ctc_sermon_book';
-		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) ) {
+		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) && ( ! $specific_archive || $taxonomy == $specific_archive ) ) {
 
 			$archives[$taxonomy]['items'] = get_terms(
 				$taxonomy,
@@ -455,7 +467,7 @@ function ctfw_content_type_archives( $content_type ) {
 
 		// Speakers -- (alphabetical)
 		$taxonomy = 'ctc_sermon_speaker';
-		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) ) {
+		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) && ( ! $specific_archive || $taxonomy == $specific_archive ) ) {
 			$archives[$taxonomy]['items'] = get_terms(
 				$taxonomy,
 				array(
@@ -465,7 +477,9 @@ function ctfw_content_type_archives( $content_type ) {
 		}
 
 		// Months
-		$archives['months']['items'] = ctfw_get_month_archives( 'ctc_sermon' );
+		if ( ! $specific_archive || 'months' == $specific_archive ) {
+			$archives['months']['items'] = ctfw_get_month_archives( 'ctc_sermon' );
+		}
 
 	}
 
@@ -474,7 +488,7 @@ function ctfw_content_type_archives( $content_type ) {
 
 		// Category (alphabetical)
 		$taxonomy = 'ctc_event_category';
-		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) ) {
+		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) && ( ! $specific_archive || $taxonomy == $specific_archive ) ) {
 			$archives[$taxonomy]['items'] = get_terms(
 				$taxonomy,
 				array(
@@ -486,51 +500,55 @@ function ctfw_content_type_archives( $content_type ) {
 		// Months
 		// Each theme decides how to handle event archives, if any (such as on a monthly calendar via page template)
 		// Therefore, ctfw_content_types must be filtered by theme to add correct URL format for month archives
-		$url_format = ctfw_content_type_data( 'event', 'month_archive_url_format' );
-		if ( ctfw_is_url( $url_format ) ) { // valid URL (e.g. page for a page template exists)
+		if ( ! $specific_archive || 'months' == $specific_archive ) {
 
-			// Date info
-			$month_limit = apply_filters( 'ctfw_content_type_archives_event_month_limit', 12 ); // show up to X months into the future
-			$year_month = date_i18n( 'Y-m' ); // start with current
-			$DateTime = new DateTime( $year_month );
+			$url_format = ctfw_content_type_data( 'event', 'month_archive_url_format' );
+			if ( ctfw_is_url( $url_format ) ) { // valid URL (e.g. page for a page template exists)
 
-			// Loop next X months
-			$months_looped = 0;
-			while ( $months_looped < $month_limit ) {
+				// Date info
+				$month_limit = apply_filters( 'ctfw_content_type_archives_event_month_limit', 12 ); // show up to X months into the future
+				$year_month = date_i18n( 'Y-m' ); // start with current
+				$DateTime = new DateTime( $year_month );
 
-				// Add month to archives array if has events
-				$count = ctfw_month_events_count( $year_month ); // get number of event occurences in month
-				if ( $count ) {
+				// Loop next X months
+				$months_looped = 0;
+				while ( $months_looped < $month_limit ) {
 
-					// Date
-					$month_ts = strtotime( $year_month );
-					$month = date_i18n( 'n', $month_ts ); // e.g. 1
-					$year = date_i18n( 'Y', $month_ts ); // e.g.  2015
+					// Add month to archives array if has events
+					$count = ctfw_month_events_count( $year_month ); // get number of event occurences in month
+					if ( $count ) {
 
-					// Name
-					// 'name' that is automatically localized (key matches taxonomy term object)
-					/* translators: 1: month name, 2: 4-digit year */
-		            $name = sprintf( _x('%1$s %2$d', 'month archive', 'church-theme-framework' ), $wp_locale->get_month( $month ), $year );
+						// Date
+						$month_ts = strtotime( $year_month );
+						$month = date_i18n( 'n', $month_ts ); // e.g. 1
+						$year = date_i18n( 'Y', $month_ts ); // e.g.  2015
 
-					// URL
-					$url = ctfw_events_month_archive_url( $year_month );
+						// Name
+						// 'name' that is automatically localized (key matches taxonomy term object)
+						/* translators: 1: month name, 2: 4-digit year */
+			            $name = sprintf( _x('%1$s %2$d', 'month archive', 'church-theme-framework' ), $wp_locale->get_month( $month ), $year );
 
-					// Add data
-					// Use same format as ctfw_get_month_archives()
-					$archives['months']['items'][$months_looped] = new stdClass();
-			        $archives['months']['items'][$months_looped]->year = $year;
-			        $archives['months']['items'][$months_looped]->month = $month;
-			        $archives['months']['items'][$months_looped]->count = $count;
-			        $archives['months']['items'][$months_looped]->post = $count;
-			        $archives['months']['items'][$months_looped]->name = $name;
-			        $archives['months']['items'][$months_looped]->url = $url;
+						// URL
+						$url = ctfw_events_month_archive_url( $year_month );
+
+						// Add data
+						// Use same format as ctfw_get_month_archives()
+						$archives['months']['items'][$months_looped] = new stdClass();
+				        $archives['months']['items'][$months_looped]->year = $year;
+				        $archives['months']['items'][$months_looped]->month = $month;
+				        $archives['months']['items'][$months_looped]->count = $count;
+				        $archives['months']['items'][$months_looped]->post = $count;
+				        $archives['months']['items'][$months_looped]->name = $name;
+				        $archives['months']['items'][$months_looped]->url = $url;
+
+					}
+
+					// Next month
+					$DateTime->modify( '+1 month' );
+					$year_month = $DateTime->format( 'Y-m' ); // PHP 5.2 cannot chain methods
+					$months_looped++;
 
 				}
-
-				// Next month
-				$DateTime->modify( '+1 month' );
-				$year_month = $DateTime->format( 'Y-m' ); // PHP 5.2 cannot chain methods
-				$months_looped++;
 
 			}
 
@@ -543,7 +561,7 @@ function ctfw_content_type_archives( $content_type ) {
 
 		// Groups (alphabetical)
 		$taxonomy = 'ctc_person_group';
-		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) ) {
+		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) && ( ! $specific_archive || $taxonomy == $specific_archive ) ) {
 			$archives[$taxonomy]['items'] = get_terms(
 				$taxonomy,
 				array(
@@ -597,9 +615,14 @@ function ctfw_content_type_archives( $content_type ) {
 
 	}
 
+	// Specific Archive
+	if ( $specific_archive ) {
+		$archives = isset( $archives[$specific_archive] ) ? $archives[$specific_archive] : array();
+	}
+
 	// Make filterable
-	$archives = apply_filters( 'ctfw_content_type_archives', $archives, $content_type );
-	$archives = apply_filters( 'ctfw_content_type_archives-' . $content_type, $archives );
+	$archives = apply_filters( 'ctfw_content_type_archives', $archives, $content_type, $specific_archive );
+	$archives = apply_filters( 'ctfw_content_type_archives-' . $content_type, $archives, $specific_archive );
 
 	return $archives;
 
