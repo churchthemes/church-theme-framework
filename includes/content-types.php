@@ -321,20 +321,23 @@ function ctfw_current_content_type_data( $key = false ) {
  *
  * @since 1.7.1
  * @global object $wp_locale
- * @param string $content_type Content type to get archives for
- * @param string $specific_archive Retrieve only a specific archive for the content type
+ * @param array $args Arguments, all optional (see defaults and comments below)
  * @return array Archive data
  */
-function ctfw_content_type_archives( $content_type = false, $specific_archive = false ) {
+function ctfw_content_type_archives( $args = array() ) {
 
 	global $wp_locale;
 
-	$archives = array();
+	// Default arguments
+	$args = wp_parse_args( $args, array(
+		'content_type' => ctfw_current_content_type(), // content type to get archives for (current if not specified)
+		'specific_archive' => false, // retrieve only a specific archive for the content type
+		'all_books'	=> false, // get all Bible books, even if no term added
+	) );
+	extract( $args ); // make available as variables
 
-	// Get current content type if not given
-	if ( ! $content_type ) {
-		$content_type = ctfw_current_content_type();
-	}
+	// Start array
+	$archives = array();
 
 	// Blog
 	if ( 'blog' == $content_type ) {
@@ -419,6 +422,7 @@ function ctfw_content_type_archives( $content_type = false, $specific_archive = 
 				foreach ( $bible_books['all'] as $bible_book_key => $bible_book ) {
 
 					// Include this book if found in terms
+					$found_book_term = false;
 					foreach ( $archives[$taxonomy]['items'] as $book_term ) {
 
 						if ( trim( strtolower( $book_term->name ) ) == strtolower( $bible_book['name'] ) ) {
@@ -430,9 +434,27 @@ function ctfw_content_type_archives( $content_type = false, $specific_archive = 
 							$reordered_books[] = $book_term;
 
 							// Stop looking
+							$found_book_term = true;
 							break;
 
 						}
+
+					}
+
+					// Add book if no term was found and argument for empty books is set
+					if ( ! $found_book_term && $all_books ) {
+
+						// Add name and count
+						$book_term = new stdClass();
+						$book_term->term_id = '';
+						$book_term->name = $bible_book['name'];
+						$book_term->count = 0;
+
+						// Add book data (testament, alternate names)
+						$book_term->book_data = $bible_book;
+
+						// Add it
+						$reordered_books[] = $book_term;
 
 					}
 
@@ -606,7 +628,7 @@ function ctfw_content_type_archives( $content_type = false, $specific_archive = 
 			// Loop items
 			$archive_items = $archive['items'];
 			foreach ( $archive['items'] as $archive_item_key => $archive_item ) {
-				$archives[$archive_key]['items'][$archive_item_key]->url = get_term_link( $archive_item );
+				$archives[$archive_key]['items'][$archive_item_key]->url = ! empty( $archive_item->term_id ) ? get_term_link( $archive_item ) : '';
 			}
 
 		}
@@ -624,8 +646,8 @@ function ctfw_content_type_archives( $content_type = false, $specific_archive = 
 	}
 
 	// Make filterable
-	$archives = apply_filters( 'ctfw_content_type_archives', $archives, $content_type, $specific_archive );
-	$archives = apply_filters( 'ctfw_content_type_archives-' . $content_type, $archives, $specific_archive );
+	$archives = apply_filters( 'ctfw_content_type_archives', $archives, $args );
+	$archives = apply_filters( 'ctfw_content_type_archives-' . $content_type, $archives, $args );
 
 	return $archives;
 

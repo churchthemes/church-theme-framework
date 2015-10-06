@@ -388,7 +388,9 @@ function ctfw_bible_books() {
 function ctfw_sermon_books_by_testament() {
 
 	// Get books, alphabetical
-	$books = ctfw_content_type_archives( false, 'ctc_sermon_book' );
+	$books = ctfw_content_type_archives( array(
+		'specific_archive' => 'ctc_sermon_book',
+	) );
 
 	// Old new and other testaments
 	$books_by_testament = array(
@@ -410,11 +412,11 @@ function ctfw_sermon_books_by_testament() {
 		$testament = isset( $book->book_data['testament'] ) ? $book->book_data['testament'] : '';
 
 		if ( 'old' == $testament ) {
-			$books_by_testament['old']['books'][$book->term_id] = $book;
+			$books_by_testament['old']['books'][] = $book;
 		} else if ( 'new' == $testament ) {
-			$books_by_testament['new']['books'][$book->term_id] = $book;
+			$books_by_testament['new']['books'][] = $book;
 		} else {
-			$books_by_testament['other']['books'][$book->term_id] = $book;
+			$books_by_testament['other']['books'][] = $book;
 		}
 
 	}
