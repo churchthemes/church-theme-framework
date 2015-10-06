@@ -361,6 +361,14 @@ function ctfw_bible_books() {
 	$books['old_testament'] = apply_filters( 'ctfw_bible_books_new_testament', $books['old_testament'] );
 	$books['new_testament'] = apply_filters( 'ctfw_bible_books_old_testament', $books['new_testament'] );
 
+	// Add testament to each book
+	foreach ( $books['old_testament'] as $book_key => $book ) {
+		$books['old_testament'][$book_key]['testament'] = 'old';
+	}
+	foreach ( $books['new_testament'] as $book_key => $book ) {
+		$books['new_testament'][$book_key]['testament'] = 'new';
+	}
+
 	// Combine arrays for convenience
 	$books['all'] = array_merge( $books['old_testament'], $books['new_testament'] );
 

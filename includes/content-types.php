@@ -317,7 +317,7 @@ function ctfw_current_content_type_data( $key = false ) {
  * Get archives for content type
  *
  * Specify content type to get taxonomy and month archives.
- * This can be useful for creating taxonomy page templates, navigation, etc.
+ * This can be useful for creating taxonomy page templates, dropdown navigation, etc.
  *
  * @since 1.7.1
  * @global object $wp_locale
