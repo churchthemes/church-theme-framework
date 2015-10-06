@@ -376,3 +376,49 @@ function ctfw_bible_books() {
 	return apply_filters( 'ctfw_bible_books', $books );
 
 }
+
+/**
+ * Sermon books by testament
+ *
+ * Return sermon books in order and organized by testament and with URL, number of sermons, etc.
+ *
+ * @since 1.7.2
+ * @return array Books by testament
+ */
+function ctfw_sermon_books_by_testament() {
+
+	// Get books, alphabetical
+	$books = ctfw_content_type_archives( false, 'ctc_sermon_book' );
+
+	// Old new and other testaments
+	$books_by_testament = array(
+		'old' => array(
+			'name' => __( 'Old Testament', 'maranatha' ),
+		),
+		'new' => array(
+			'name' => __( 'New Testament', 'maranatha' ),
+		),
+		'other' => array(
+			/* translators: Label for books not in the Old or New Testaments */
+			'name' => __( 'Other Books', 'maranatha' ),
+		),
+	);
+
+	// Loop books to add per testament
+	foreach ( $books['items'] as $book ) {
+
+		$testament = isset( $book->book_data['testament'] ) ? $book->book_data['testament'] : '';
+
+		if ( 'old' == $testament ) {
+			$books_by_testament['old']['books'][$book->term_id] = $book;
+		} else if ( 'new' == $testament ) {
+			$books_by_testament['new']['books'][$book->term_id] = $book;
+		} else {
+			$books_by_testament['other']['books'][$book->term_id] = $book;
+		}
+
+	}
+
+	return apply_filters( 'ctfw_sermon_books_by_testament', $books_by_testament );
+
+}
