@@ -423,6 +423,9 @@ function ctfw_content_type_archives( $content_type = false, $specific_archive = 
 
 						if ( trim( strtolower( $book_term->name ) ) == strtolower( $bible_book['name'] ) ) {
 
+							// Add book data (testament, alternate names)
+							$book_term->book_data = $bible_book;
+
 							// Add it
 							$reordered_books[] = $book_term;
 
