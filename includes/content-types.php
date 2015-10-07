@@ -391,78 +391,95 @@ function ctfw_content_type_archives( $args = array() ) {
 		$taxonomy = 'ctc_sermon_series';
 		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) && ( ! $specific_archive || $taxonomy == $specific_archive ) ) {
 
-			// Get series terms
-			$series_terms = get_terms(
-				$taxonomy,
-				array(
-					'orderby'		=> 'id',
-					'order'			=> 'DESC',
-					'pad_counts'	=> true, // count children in parent since they do show in archive
-				)
-			);
-
-			// Loop series
-			$series_ids = array();
-			$series = array();
-			foreach ( $series_terms as $series_term ) {
-
-				// Get series IDs
-				$series_ids[] = $series_term->term_id;
-
-				// Add term to series array with ID as key
-				$series[$series_term->term_id] = $series_term;
-
+			// Cache with transient because getting all series / sermons can be intensive
+			// It's possible this function is called more than once during a page load
+			// so let's cache it for a few seconds so the queries and loops are not repeated
+			$transient_name = 'ctfw_content_type_archives_sermon_series'; // 45 char max
+			$transient = get_transient( $transient_name );
+			if ( $transient ) { // we have it; let's use it
+				$series = $transient;
 			}
 
-			// Get sermons having a series
-			$series_sermons = get_posts( array(
-				'posts_per_page'	=> -1, // all
-				'post_type'       	=> 'ctc_sermon',
-				'tax_query' => array(
+			// Transient not set, run the function normally then cache the result at the end
+			else {
+
+				// Get series terms
+				$series_terms = get_terms(
+					$taxonomy,
 					array(
-						'taxonomy' => 'ctc_sermon_series',
-						'field'    => 'id',
-						'terms'    => $series_ids,
+						'orderby'		=> 'id',
+						'order'			=> 'DESC',
+						'pad_counts'	=> true, // count children in parent since they do show in archive
+					)
+				);
+
+				// Loop series
+				$series_ids = array();
+				$series = array();
+				foreach ( $series_terms as $series_term ) {
+
+					// Get series IDs
+					$series_ids[] = $series_term->term_id;
+
+					// Add term to series array with ID as key
+					$series[$series_term->term_id] = $series_term;
+
+				}
+
+				// Get sermons having a series
+				$series_sermons = get_posts( array(
+					'posts_per_page'	=> -1, // all
+					'post_type'       	=> 'ctc_sermon',
+					'tax_query' => array(
+						array(
+							'taxonomy' => 'ctc_sermon_series',
+							'field'    => 'id',
+							'terms'    => $series_ids,
+						),
 					),
-				),
-			) );
-
-			// Loop sermons
-			foreach ( $series_sermons as $sermon ) {
-
-				// Get series having this sermon
-				$series_with_sermon = wp_get_post_terms( $sermon->ID, 'ctc_sermon_series', array(
-					'fields' => 'ids',
 				) );
 
-				// Loop series to add sermon
-				foreach ( $series_with_sermon as $series_id ) {
+				// Loop sermons
+				foreach ( $series_sermons as $sermon ) {
 
-					if ( isset( $series[$series_id] ) ) {
-						$series[$series_id]->sermons[$sermon->ID] = $sermon;
+					// Get series having this sermon
+					$series_with_sermon = wp_get_post_terms( $sermon->ID, 'ctc_sermon_series', array(
+						'fields' => 'ids',
+					) );
+
+					// Loop series to add sermon
+					foreach ( $series_with_sermon as $series_id ) {
+
+						if ( isset( $series[$series_id] ) ) {
+							$series[$series_id]->sermons[$sermon->ID] = $sermon;
+						}
+
 					}
 
 				}
 
+				// Loop series to record latest and earliest sermon dates
+				foreach ( $series as $series_id => $series_data ) {
+
+					$sermons = $series_data->sermons;
+
+					// Latest sermon
+					$latest_sermon = array_shift( array_values( $sermons ) );
+					$series[$series_id]->sermon_latest_date = strtotime( $latest_sermon->post_date );
+
+					// Earliest sermon
+					$earliest_sermon = end( array_values( $sermons ) );
+					$series[$series_id]->sermon_earliest_date = strtotime( $earliest_sermon->post_date );
+
+				}
+
+				// Re-order series by latest sermon date
+				usort( $series, 'ctfw_sort_by_latest_sermon' );
+
+				// Cache with transient
+				set_transient( $transient_name, $series, 15 ); // 15 seconds is more than enough for a regular pageload
+
 			}
-
-			// Loop series to record latest and earliest sermon dates
-			foreach ( $series as $series_id => $series_data ) {
-
-				$sermons = $series_data->sermons;
-
-				// Latest sermon
-				$latest_sermon = array_shift( array_values( $sermons ) );
-				$series[$series_id]->sermon_latest_date = strtotime( $latest_sermon->post_date );
-
-				// Earliest sermon
-				$earliest_sermon = end( array_values( $sermons ) );
-				$series[$series_id]->sermon_earliest_date = strtotime( $earliest_sermon->post_date );
-
-			}
-
-			// Re-order series by latest sermon date
-			usort( $series, 'ctfw_sort_by_latest_sermon' );
 
 			// Add to archives array
 			$archives[$taxonomy]['items'] = $series;
