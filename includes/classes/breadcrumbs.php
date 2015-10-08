@@ -6,7 +6,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Classes
- * @copyright  Copyright (c) 2013 - 2014, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2015, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -303,6 +303,8 @@ class CTFW_Breadcrumbs {
 	 *
 	 * Tidy the post/page title by shortening and removing Protected: / Private:
 	 *
+	 * This also shortens other common titles.
+	 *
 	 * To Do: Improve this so consider all languages and actual post status.
 	 *
 	 * @since 1.3
@@ -317,6 +319,15 @@ class CTFW_Breadcrumbs {
 
 		// Remove "Protected: " and "Private: "
 		$tidy_title = preg_replace( '/^(Protected|Private): (.+)$/', '$2', $tidy_title );
+
+		// Shorten other common titles (short, concise, non-redundant breadcrumb is best)
+		// These are sample content page titles and likely to remain unchanged by user
+		$tidy_title = str_replace( 'Sermon Archive', _x( 'Sermons', 'sermon breadcrumb', 'church-theme-framework' ), $tidy_title );
+		$tidy_title = str_replace( 'Sermon Topics', _x( 'Topics', 'sermon breadcrumb', 'church-theme-framework' ), $tidy_title );
+		$tidy_title = str_replace( 'Sermon Series', _x( 'Series', 'sermon breadcrumb', 'church-theme-framework' ), $tidy_title );
+		$tidy_title = str_replace( 'Sermon Books', _x( 'Books', 'sermon breadcrumb', 'church-theme-framework' ), $tidy_title );
+		$tidy_title = str_replace( 'Sermon Speakers', _x( 'Speakers', 'sermon breadcrumb', 'church-theme-framework' ), $tidy_title );
+		$tidy_title = str_replace( 'Sermon Dates', _x( 'Dates', 'sermon breadcrumb', 'church-theme-framework' ), $tidy_title );
 
 		// Shorten
 		if ( isset( $options['shorten'] ) ) {
