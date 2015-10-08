@@ -54,6 +54,7 @@ class CTFW_Breadcrumbs {
 		$defaults = array(
 			'separator'	=> _x( ' > ', 'breadcrumb separator', 'church-theme-framework' ),
 			'classes'	=> '', // additional classes
+			'shorten'	=> 30, // shorten post titles
 		);
 
 		$this->options = wp_parse_args( $options, $defaults );
@@ -107,7 +108,7 @@ class CTFW_Breadcrumbs {
 
 		// Default options
 		$defaults = array(
-			'shorten'			=> 30,		// shorten post titles
+			'shorten'			=> $this->options['shorten'], // shorten post titles
 			'show_parents'		=> true,	// show parents posts
 		);
 		$options = wp_parse_args( $options, $defaults );
