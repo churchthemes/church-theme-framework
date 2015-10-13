@@ -17,54 +17,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 if ( class_exists( 'WP_Customize_Control' ) ) {
 
 	/**
-	 * Textarea control class
-	 *
-	 * @since 0.9
-	 */
-	class CTFW_Customize_Textarea_Control extends WP_Customize_Control {
-
-		public $type = 'textarea';
-
-		public function render_content() {
-
-			// allow description to be placed here
-			do_action( 'ctfw_customize_textarea_control_before' );
-			do_action( 'ctfw_customize_textarea_control_before-' . $this->id );
-
-			?>
-			<label>
-				<span class="customize-control-title"><?php esc_html_e( $this->label ); ?></span>
-				<textarea class="widefat" rows="5" <?php $this->link(); ?>><?php echo esc_textarea( $this->value() ); ?></textarea>
-			</label>
-			<?php
-
-		}
-
-	}
-
-	/**
-	 * Number control class
-	 *
-	 * @since 0.9
-	 */
-	class CTFW_Customize_Number_Control extends WP_Customize_Control {
-
-		public $type = 'number';
-
-		public function render_content() {
-
-			?>
-			<label>
-				<span class="customize-control-title"><?php esc_html_e( $this->label ); ?></span>
-				<input type="number" size="2" step="1" min="0" <?php $this->link(); ?> value="<?php echo esc_attr( $this->value() ); ?>" />
-			</label>
-			<?php
-
-		}
-
-	}
-
-	/**
 	 * Background image preset control class
 	 *
 	 * @since 1.4.1
@@ -211,5 +163,58 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 		}
 
 	}
+
+	/**
+	 * DEPRECATED: Textarea control class
+	 *
+	 * WordPress core supports 'textarea' now
+	 *
+	 * @since 0.9
+	 */
+	class CTFW_Customize_Textarea_Control extends WP_Customize_Control {
+
+		public $type = 'textarea';
+
+		public function render_content() {
+
+			// allow description to be placed here
+			do_action( 'ctfw_customize_textarea_control_before' );
+			do_action( 'ctfw_customize_textarea_control_before-' . $this->id );
+
+			?>
+			<label>
+				<span class="customize-control-title"><?php esc_html_e( $this->label ); ?></span>
+				<textarea class="widefat" rows="5" <?php $this->link(); ?>><?php echo esc_textarea( $this->value() ); ?></textarea>
+			</label>
+			<?php
+
+		}
+
+	}
+
+	/**
+	 * DEPRECATED: Number control class
+	 *
+	 * WordPress core supports 'number' now (any input type=*)
+	 *
+	 * @since 0.9
+	 */
+	class CTFW_Customize_Number_Control extends WP_Customize_Control {
+
+		public $type = 'number';
+
+		public function render_content() {
+
+			?>
+			<label>
+				<span class="customize-control-title"><?php esc_html_e( $this->label ); ?></span>
+				<input type="number" size="2" step="1" min="0" <?php $this->link(); ?> value="<?php echo esc_attr( $this->value() ); ?>" />
+			</label>
+			<?php
+
+		}
+
+	}
+
 
 }
