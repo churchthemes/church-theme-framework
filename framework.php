@@ -141,6 +141,7 @@ $ctfw_includes = array(
 		CTFW_ADMIN_DIR . '/admin-taxonomies.php',
 		CTFW_ADMIN_DIR . '/admin-widgets.php',
 		CTFW_ADMIN_DIR . '/edd-license.php',
+		CTFW_ADMIN_DIR . '/editor.php',
 		CTFW_ADMIN_DIR . '/import.php',
 		CTFW_ADMIN_DIR . '/meta-boxes.php',
 
