@@ -42,6 +42,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 function ctfw_editor_styles() {
 
+	// Not on admin
+	// add_editor_style() only runs on admin
+	if ( ! is_admin() ) {
+		return;
+	}
+
 	// Theme support?
 	if ( ! current_theme_supports( 'ctfw-editor-styles' ) ) {
 		return;
