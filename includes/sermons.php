@@ -114,16 +114,15 @@ function ctfw_sermon_data( $post_id = null ) {
 	}
 
 	// Get download URL's
-	// Only local files can have "Save As" forced
-	// Only local files are always actual files, not pages (ie. YouTube, SoundCloud, etc.)
-	// Video and Audio URL's may be pages on other site (YouTube, SoundCloud, etc.), so provide download URL only for local files
-	// PDF is likely always to be actual file, so provide download URL no matter what (although cannot force "Save As" on external sites)
-	// $data['video_path'] and $data['audio_path'] are empty if not local or if local but file does not exist
-	$data['video_download_url'] = $data['video_path'] ? ctfw_force_download_url( $data['video'] ) : ''; // provide URL only if local so know it is actual file (not page) and can force "Save As"
-	$data['audio_download_url'] = $data['audio_path'] ? ctfw_force_download_url( $data['audio'] ) : ''; // provide URL only if local so know it is actual file (not page) and can force "Save As"
-	$data['pdf_download_url'] = ctfw_force_download_url( $data['pdf'] ); // PDF is likely always to be actual file, so provide download URL no matter what (although cannot force "Save As" on external sites)
+	// URL is returned if is local or external and has an extension.
+	// Those without an extension (YouTube, SoundCloud, etc. page URL) return empty (nothing to download).
+	// If locally hosted, URL is changed to force "Save As" via headers.
+	// Use <a href="" download="download"> to attempt Save As via limited browser support for externally hosted files.
+	$data['video_download_url'] = ctfw_download_url( $data['video'] );
+	$data['audio_download_url'] = ctfw_download_url( $data['audio'] );
+	$data['pdf_download_url'] = ctfw_download_url( $data['pdf'] );
 
-	// Has at least one download that exists locally?
+	// Has at least one download URL that exists locally?
 	$data['has_download'] = false;
 	if ( $data['video_path'] || $data['audio_path'] || $data['pdf_path'] ) { // path empty if doesn't exist
 		$data['has_download'] = true;

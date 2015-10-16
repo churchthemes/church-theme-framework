@@ -153,18 +153,6 @@ function ctfw_download_url( $url ) {
 
 }
 
-function lala() {
-
-	$url = 'http://wp.dev/maranatha/wp-content/uploads/sites/101/2014/03/sample.mp3?dgdfg=dfg'; // local MP3
-	$url = 'http://demos-cdn.churchthemes.com/exodus/wp-content/uploads/sites/5/2014/03/sample.mp3'; // external MP3
-	$url = 'http://demos-cdn.churchthemes.com/exodus/wp-content/uploads/sites/5/2014/03/sample.mp3?_=1'; // external MP3 with query
-	$url = 'https://soundcloud.com/tenthavenuenorth/you-do-all-things-well'; // soundcloud URL
-	echo ctfw_download_url( $url );
-	exit;
-
-}
-add_action( 'init', 'lala' );
-
 /**
  * Convert regular URL to one that forces download ("Save As")
  *
