@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2015, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -108,11 +108,71 @@ function ctfw_force_download() {
 
 add_action( 'template_redirect', 'ctfw_force_download' );
 
+
+/**
+ * Get download URL
+ *
+ * If URL is local and theme supports 'ctfw-force-downloads', it will be piped through script to send "Save As" headers.
+ * Otherwise, original URL will be returned (local or external) but only if it has an extension (ie. not URL to YouTube, SoundCloud, etc.)
+ *
+ * On <a> tags use download="download" attribute to attempt "Save As" for externally hosted files.
+ * As of October, 2015, download attribute works on 60% browser use. When near 100%, will deprecate ctfw_force_download_url().
+ *
+ * Makes this:	http://yourname.com/?download=%2F2009%2F10%2Ffile.pdf
+ * Out of:		http://yourname.com/wp-content/uploads/2013/05/file.pdf
+ * 				http://yourname.com/wp-content/uploads/sites/6/2013/05/file.pdf (multisite)
+ *
+ * @since 1.7.2
+ * @param string $url URL for file
+ * @return string URL modified to force Save As if local or as is if external and has extension
+ */
+function ctfw_download_url( $url ) {
+
+	// May return original URL if is external and has extension
+	$download_url = $url;
+
+	// Remove query string
+	list( $download_url ) = explode( '?', $download_url );
+
+	// Has extension?
+	// If not, is not actual file (may be URL to SoundCloud, YouTube, etc.)
+	$filetype = wp_check_filetype( $download_url ); // remove any query string
+	if ( empty( $filetype['ext'] ) ) {
+
+		// Return nothing; there is no file to download
+		$download_url = '';
+
+	} else {
+
+		// If local and theme supports it, force "Save As" headers by piping via special URL
+		$download_url = ctfw_force_download_url( $download_url );
+
+	}
+
+	return apply_filters( 'ctfw_download_url', $download_url, $url );
+
+}
+
+function lala() {
+
+	$url = 'http://wp.dev/maranatha/wp-content/uploads/sites/101/2014/03/sample.mp3?dgdfg=dfg'; // local MP3
+	$url = 'http://demos-cdn.churchthemes.com/exodus/wp-content/uploads/sites/5/2014/03/sample.mp3'; // external MP3
+	$url = 'http://demos-cdn.churchthemes.com/exodus/wp-content/uploads/sites/5/2014/03/sample.mp3?_=1'; // external MP3 with query
+	$url = 'https://soundcloud.com/tenthavenuenorth/you-do-all-things-well'; // soundcloud URL
+	echo ctfw_download_url( $url );
+	exit;
+
+}
+add_action( 'init', 'lala' );
+
 /**
  * Convert regular URL to one that forces download ("Save As")
  *
  * This keeps the browser from doing what it wants with the file (such as play MP3 or show PDF).
  * Note that file must be in uploads folder and extension must be allowed by WordPress.
+ *
+ * See ctfw_download_url() which uses this. Use it with download="download" attribute as fallback.
+ * This function will be deprecated when near 100% browser support exists for the attribute.
  *
  * Makes this:	http://yourname.com/?download=%2F2009%2F10%2Ffile.pdf
  * Out of:		http://yourname.com/wp-content/uploads/2013/05/file.pdf

@@ -115,7 +115,7 @@ function ctfw_sermon_data( $post_id = null ) {
 
 	// Get download URL's
 	// Only local files can have "Save As" forced
-	// Only local files can are always actual files, not pages (ie. YouTube, SoundCloud, etc.)
+	// Only local files are always actual files, not pages (ie. YouTube, SoundCloud, etc.)
 	// Video and Audio URL's may be pages on other site (YouTube, SoundCloud, etc.), so provide download URL only for local files
 	// PDF is likely always to be actual file, so provide download URL no matter what (although cannot force "Save As" on external sites)
 	// $data['video_path'] and $data['audio_path'] are empty if not local or if local but file does not exist
