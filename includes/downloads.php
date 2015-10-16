@@ -108,7 +108,6 @@ function ctfw_force_download() {
 
 add_action( 'template_redirect', 'ctfw_force_download' );
 
-
 /**
  * Get download URL
  *
@@ -131,9 +130,6 @@ function ctfw_download_url( $url ) {
 	// May return original URL if is external and has extension
 	$download_url = $url;
 
-	// Remove query string
-	list( $download_url ) = explode( '?', $download_url );
-
 	// Has extension?
 	// If not, is not actual file (may be URL to SoundCloud, YouTube, etc.)
 	$filetype = wp_check_filetype( $download_url ); // remove any query string
@@ -154,7 +150,7 @@ function ctfw_download_url( $url ) {
 }
 
 /**
- * Convert regular URL to one that forces download ("Save As")
+ * Convert download URL to one that forces "Save As" via headers
  *
  * This keeps the browser from doing what it wants with the file (such as play MP3 or show PDF).
  * Note that file must be in uploads folder and extension must be allowed by WordPress.
