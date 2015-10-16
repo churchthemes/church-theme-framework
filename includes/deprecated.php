@@ -36,11 +36,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 function ctfw_head_title( $title, $sep, $seplocation ) {
 
-	_deprecated_function( __FUNCTION__, '1.7.3', "add_theme_support( 'title-tag' )" );
-
 	$new_title = $title;
 
 	if ( current_theme_supports( 'ctfw-auto-title' ) ) {
+
+		_deprecated_function( __FUNCTION__, '1.7.3', "add_theme_support( 'title-tag' )" );
 
 		// Feed
 		if ( is_feed() ) {
