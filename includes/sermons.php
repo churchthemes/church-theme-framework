@@ -79,7 +79,7 @@ function ctfw_sermon_data( $post_id = null ) {
 	$data['audio_player'] = ctfw_embed_code( $data['audio'] );
 
 	// Get file data for media
-	// This will be populated for local files only
+	// Path and size will be populated for local files only
 	$media_types = array( 'audio', 'video', 'pdf' );
 	foreach ( $media_types as $media_type ) {
 
@@ -88,8 +88,14 @@ function ctfw_sermon_data( $post_id = null ) {
 		$data[$media_type . '_size_bytes'] = '';
 		$data[$media_type . '_size'] = '';
 
-		// Local URL only, if file actually exists
-		if ( $data[$media_type] && ctfw_is_local_url( $data[$media_type] ) ) { // only if it is local and downloadable
+		// Get extension
+		// This can be determined for local and external files
+		// Empty for YouTube, SoundCloud, etc.
+		$filetype = wp_check_filetype( $data[$media_type] );
+		$data[$media_type . '_extension'] = $filetype['ext'];
+
+		// File is local, so can get path and size
+		if ( $data[$media_type] && ctfw_is_local_url( $data[$media_type] ) ) {
 
 			// Local path
 			$data[$media_type . '_path'] = $upload_dir['basedir'] . str_replace( $upload_dir_url, '', $data[$media_type] );
