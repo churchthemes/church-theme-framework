@@ -122,9 +122,9 @@ function ctfw_sermon_data( $post_id = null ) {
 	$data['audio_download_url'] = ctfw_download_url( $data['audio'] );
 	$data['pdf_download_url'] = ctfw_download_url( $data['pdf'] );
 
-	// Has at least one download URL that exists locally?
+	// Has at least one downloadable file URL?
 	$data['has_download'] = false;
-	if ( $data['video_path'] || $data['audio_path'] || $data['pdf_path'] ) { // path empty if doesn't exist
+	if ( $data['video_download_url'] || $data['audio_download_url'] || $data['pdf_download_url'] ) { // path empty if doesn't exist
 		$data['has_download'] = true;
 	}
 
