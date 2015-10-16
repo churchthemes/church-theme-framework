@@ -81,7 +81,7 @@ add_filter( 'wp_title', 'ctfw_head_title', 10, 3 );
 /**
  * Add event calendar month and category to <title> tag
  *
- * This compliments any existing title whether default, ctfw_head_title or a plugin like WordPress SEO.
+ * This compliments any existing title whether default or a plugin like Yoast SEO.
  * It runs at priority 99 which should be after other manipulations of <title>.
  * This is useful because SEO plugins will not know how to deal with calendar template queries.
  *
@@ -96,7 +96,7 @@ add_filter( 'wp_title', 'ctfw_head_title', 10, 3 );
  * @param string $seplocation Optional. Direction to display title, 'right'.
  * @return string Title with month and category inserted or appended
  */
-// This method compatible with SEO plugins like WordPress SEO by Yoast
+// This method compatible with SEO plugins like Yoast SEO by Yoast
 // It appends month and category to end of existing <title>
 // If site name is found at end of title, it is appended before that
 function ctfw_event_calendar_head_title( $title, $sep, $seplocation ) {
@@ -144,7 +144,7 @@ function ctfw_event_calendar_head_title( $title, $sep, $seplocation ) {
 			// Combine parts
 			if ( $parts ) {
 
-				// Is WordPress SEO plugin active?
+				// Is Yoast SEO plugin active?
 				$wpseo_separator = '';
 				if ( function_exists( 'wpseo_replace_vars' ) ) {
 
@@ -157,13 +157,11 @@ function ctfw_event_calendar_head_title( $title, $sep, $seplocation ) {
 				}
 
 				// Get separator
-				if ( $wpseo_separator ) { // use WordPress SEO plugin's separator if available
+				if ( $wpseo_separator ) { // use Yoast SEO plugin's separator if available
 					$separator = $wpseo_separator;
-				} else if ( ! current_theme_supports( 'ctfw-auto-title' ) && ! empty( $sep ) ) { // otherwise, $sep if provided while ctfw-auto-title not used
-					$separator = $sep;
-				} else { // otherwise fall back to ' - ' like ctfw_head_title uses
+				} else { // otherwise fall back to ' | ' WordPress default
 					/* translators: separator for <title> content */
-					$separator = _x( ' - ', 'head title', 'church-theme-framework' );
+					$separator = _x( ' | ', 'head title', 'church-theme-framework' );
 				}
 
 				// Combine month and category into suffix
