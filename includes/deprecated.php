@@ -2,7 +2,7 @@
 /**
  * Deprecated Functions
  *
- * Deprecated functions will go here; avoid breakage and trigger _deprecated_function().
+ * Deprecated functions are moved here; avoid breakage and trigger _deprecated_function().
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
