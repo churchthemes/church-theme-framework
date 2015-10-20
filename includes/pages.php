@@ -44,27 +44,8 @@ function ctfw_get_page_by_template( $templates ) {
 		// Templates are stored in directory
 		$template = CTFW_THEME_PAGE_TPL_DIR . '/' . basename( $template );
 
-		/*
-
 		// If more than one, gets the newest
-		$pages = get_pages( array(
-			'meta_key' => '_wp_page_template',
-			'meta_value' => $template,
-			'sort_column' => 'ID',
-			'sort_order' => 'DESC',
-			'number' => 1
-		) );
-
-		// Got one?
-		if ( ! empty( $pages[0] ) ) {
-			return $pages[0];
-		}
-
-		*/
-
-		// Note: the method above fails for pages that have parent(s) so using WP_Query directly
-
-		// If more than one, gets the newest
+		// Note: Using get_posts() fails for pages that have parent(s) so using WP_Query directly
 		$page_query = new WP_Query( array(
 			'post_type'			=> 'page',
 			'nopaging'			=> true,
@@ -72,7 +53,8 @@ function ctfw_get_page_by_template( $templates ) {
 			'meta_key' 			=> '_wp_page_template',
 			'meta_value' 		=> $template,
 			'orderby'			=> 'ID',
-			'order'				=> 'DESC'
+			'order'				=> 'DESC',
+			'no_found_rows'		=> true, // faster (no pagination)
 		) );
 
 		// Got one?

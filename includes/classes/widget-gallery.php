@@ -286,7 +286,7 @@ class CTFW_Widget_Gallery extends CTFW_Widget {
 			'posts_per_page'	=> $this->ctfw_instance['limit'],
 			'orderby'			=> $this->ctfw_instance['orderby'],
 			'order'				=> $this->ctfw_instance['order'],
-			'no_found_rows'		=> true // faster
+			'no_found_rows'		=> true // faster (no pagination)
 		);
 
 		// All Galleries - get images attached to Gallery posts/pages
