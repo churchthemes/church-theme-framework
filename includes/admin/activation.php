@@ -30,11 +30,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * This does not affect the Customizer preview.
  *
  * @since 0.9
- * @global object $wp_rewrite
  */
 function ctfw_after_activation() {
-
-	global $wp_rewrite;
 
 	// Does theme support this?
 	$support = get_theme_support( 'ctfw-after-activation' );
