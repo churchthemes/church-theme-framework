@@ -306,7 +306,7 @@ class CTFW_Breadcrumbs {
 	 *
 	 * This also shortens other common titles.
 	 *
-	 * To Do: Improve this so consider all languages and actual post status.
+	 * To Do: Improve this to consider all languages and actual post status.
 	 *
 	 * @since 1.3
 	 * @access public
