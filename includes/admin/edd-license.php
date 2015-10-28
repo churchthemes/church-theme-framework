@@ -480,7 +480,7 @@ function ctfw_edd_license_page() {
 							</th>
 
 							<td>
-								<?php esc_html_e( ctfw_edd_license_expiration_formatted() ); ?>
+								<?php echo esc_html( ctfw_edd_license_expiration_formatted() ); ?>
 							</td>
 
 						</tr>

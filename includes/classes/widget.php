@@ -319,10 +319,10 @@ class CTFW_Widget extends WP_Widget {
 
 						<?php if ( ! empty( $data['field']['name'] ) ) : ?>
 
-							<?php esc_html_e( $data['field']['name'] ); ?>
+							<?php echo esc_html( $data['field']['name'] ); ?>
 
 							<?php if ( ! empty( $data['field']['after_name'] ) ) : ?>
-								<span><?php esc_html_e( $data['field']['after_name'] ); ?></span>
+								<span><?php echo esc_html( $data['field']['after_name'] ); ?></span>
 							<?php endif; ?>
 
 						<?php endif; ?>

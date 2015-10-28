@@ -38,7 +38,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 			<input type="hidden" <?php $this->link(); ?> value="<?php echo esc_attr( $value ); ?>" />
 
 			<label>
-				<span class="customize-control-title"><?php esc_html_e( $this->label ); ?></span>
+				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 			</label>
 
 			<ul class="ctfw-customize-image-presets">
@@ -183,7 +183,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 
 			?>
 			<label>
-				<span class="customize-control-title"><?php esc_html_e( $this->label ); ?></span>
+				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 				<textarea class="widefat" rows="5" <?php $this->link(); ?>><?php echo esc_textarea( $this->value() ); ?></textarea>
 			</label>
 			<?php
@@ -207,7 +207,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 
 			?>
 			<label>
-				<span class="customize-control-title"><?php esc_html_e( $this->label ); ?></span>
+				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 				<input type="number" size="2" step="1" min="0" <?php $this->link(); ?> value="<?php echo esc_attr( $this->value() ); ?>" />
 			</label>
 			<?php
