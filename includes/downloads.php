@@ -82,7 +82,6 @@ function ctfw_force_download() {
 					*/
 
 					// Output file contents using Direct method
-					// This is like using echo file_get_contents()
 					// readfile more efficient; WP_Filesystem security used, causes Theme Check warning
 					//echo $wp_filesystem->get_contents( $upload_file_path );
 					@readfile( $upload_file_path );
