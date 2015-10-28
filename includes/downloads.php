@@ -83,10 +83,9 @@ function ctfw_force_download() {
 
 					// Output file contents using Direct method
 					// This is like using echo file_get_contents()
-					// read file is more efficient but generates Theme Check warning RE: WP Filesystem
-					// validation happening before this makes this secure
+					// readfile more efficient; WP_Filesystem security used, causes Theme Check warning
 					//echo $wp_filesystem->get_contents( $upload_file_path );
-					@call_user_func( 'readfile', $upload_file_path ); // more efficient than WP_Filesystem; uses WP_Filesystem security checks
+					@readfile( $upload_file_path );
 
 					// we're done, stop further execution
 					exit;
