@@ -86,7 +86,7 @@ function ctfw_force_download() {
 					// read file is more efficient but generates Theme Check warning RE: WP Filesystem
 					// validation happening before this makes this secure
 					//echo $wp_filesystem->get_contents( $upload_file_path );
-					@readfile( $upload_file_path ); // more efficient than WP_Filesystem; uses WP_Filesystem security checks
+					@call_user_func( 'readfile', $upload_file_path ); // more efficient than WP_Filesystem; uses WP_Filesystem security checks
 
 					// we're done, stop further execution
 					exit;

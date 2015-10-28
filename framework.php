@@ -120,7 +120,6 @@ $ctfw_includes = array(
 		CTFW_INC_DIR . '/template-tags.php',
 		CTFW_INC_DIR . '/templates.php',
 		CTFW_INC_DIR . '/sermons.php',
-		CTFW_INC_DIR . '/shortcodes.php',
 		CTFW_INC_DIR . '/sidebars.php',
 		CTFW_INC_DIR . '/widgets.php',
 

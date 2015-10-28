@@ -78,11 +78,15 @@ function ctfw_customization( $option ) {
 
 	}
 
+	// Replace psuedo shortcodes (used in Footer notice, Icon URLs, etc.)
+	$value = str_replace( '[ctcom_site_name]', get_bloginfo( 'name' ), $value );
+	$value = str_replace( '[ctcom_current_year]', date( 'Y' ), $value );
+	$value = str_replace( '[ctcom_rss_url]', get_bloginfo( 'rss_url' ), $value );
+
 	// Return filtered
 	return apply_filters( 'ctfw_customization', $value, $option );
 
 }
-
 
 /**
  * Get raw customization value
