@@ -23,7 +23,7 @@ jQuery( document ).ready( function( $ ) {
 			"iframe[src*='rd.io']",
 			"iframe[src*='rdio.com']",
 			"iframe[src*='spotify.com']",
-			"iframe[src*='soundcloud.com']",
+			"iframe[src*='soundcloud.com']:not(iframe[width*='%'])", // Jetpack soundcloud shortcode is already responsive with %, so exclude
 			"iframe[src*='snd.sc']",
 			"iframe[src*='livestream.com']"
 		]
