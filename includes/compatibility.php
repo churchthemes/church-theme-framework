@@ -70,7 +70,12 @@ function ctfw_old_wp_message() {
  * @param string $theme_name Theme slug
  * @param object $theme Theme object
  */
-function ctfw_old_wp_switch_theme( $theme_name, $theme ) {
+function ctfw_old_wp_switch_theme( $theme_name, $theme = false ) {
+
+	// Old theme still exists
+	if ( ! $theme ) {
+		return;
+	}
 
 	// Is WordPress version too old for theme?
 	if ( ctfw_old_wp() ) {
