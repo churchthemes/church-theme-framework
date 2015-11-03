@@ -6,7 +6,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013 - 2014, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2015, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -169,7 +169,27 @@ function ctfw_unset_customization( $option, $value ) {
  * @return array Customizer defaults
  */
 function ctfw_customize_defaults() {
-	return apply_filters( 'ctfw_customize_defaults', array() );
+
+	// Get cached defaults
+	// Customization settings are gotten dozens of times per pageload
+	// Caching them is a good idea in case default values every come from a function or query
+	$transient = 'ctfw_customize_defaults';
+	$defaults = get_transient( $transient );
+
+	// No cache; get defaults from theme, then cache
+	if ( false === $defaults ) {
+
+		// Get defaults from theme
+		$defaults = apply_filters( 'ctfw_customize_defaults', array() );
+
+		// Cache defaults
+		// 10 seconds good enough for one page load
+		set_transient( $transient, $defaults, 10 );
+
+	}
+
+	return $defaults;
+
 }
 
 /*******************************************
