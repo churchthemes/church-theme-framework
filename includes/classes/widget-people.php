@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Classes
- * @copyright  Copyright (c) 2013, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2015, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -364,8 +364,22 @@ class CTFW_Widget_People extends CTFW_Widget {
 		);
 
 		// Group argument
-		if ( 'all' != $this->ctfw_instance['group'] && $group_term = get_term( $this->ctfw_instance['group'], 'ctc_person_group' ) ) {
-			$args['ctc_person_group'] = $group_term->slug;
+		if ( 'all' != $this->ctfw_instance['group'] ) {
+
+			$group_term = get_term( $this->ctfw_instance['group'], 'ctc_person_group' );
+
+			if ( $group_term ) {
+
+				$args['tax_query'] = array(
+					array(
+						'taxonomy' => 'ctc_person_group',
+						'field' => 'term_id',
+						'terms' => $group_term->term_id,
+					)
+				);
+
+			}
+
 		}
 
 		// Get posts
@@ -377,4 +391,3 @@ class CTFW_Widget_People extends CTFW_Widget {
 	}
 
 }
-
