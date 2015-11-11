@@ -464,11 +464,13 @@ function ctfw_content_type_archives( $args = array() ) {
 					$sermons = $series_data->sermons;
 
 					// Latest sermon
-					$latest_sermon = array_shift( array_values( $sermons ) );
+					$values = array_values( $sermons );
+					$latest_sermon = array_shift( $values );
 					$series[$series_id]->sermon_latest_date = strtotime( $latest_sermon->post_date );
 
 					// Earliest sermon
-					$earliest_sermon = end( array_values( $sermons ) );
+					$values = array_values( $sermons );
+					$earliest_sermon = end( $values );
 					$series[$series_id]->sermon_earliest_date = strtotime( $earliest_sermon->post_date );
 
 				}
