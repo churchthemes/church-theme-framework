@@ -685,46 +685,58 @@ function ctfw_content_type_archives( $args = array() ) {
 
 	}
 
+	// Loop archives
+	// Remove those with no items
 	// Add archive name and URLs to terms
 	foreach ( $archives as $archive_key => $archive ) {
 
-		// Month archive
-		if ( $archive_key == 'months' ) {
-
-			// Type
-			$archives[$archive_key]['type'] = 'months';
-
-			// Name
-			$archives[$archive_key]['name'] = _x( 'Months', 'content type archives', 'church-theme-framework' );
-
+		// No items, remove archive
+		if ( empty( $archives[$archive_key]['items'] ) ) {
+			unset( $archives[$archive_key] );
 		}
 
-		// Taxonomy archive
+		// Has items, add name and URLs to terms
 		else {
 
-			// Type
-			$archives[$archive_key]['type'] = 'taxonomy';
+			// Month archive
+			if ( $archive_key == 'months' ) {
 
-			// Name
-			$taxonomy_data = get_taxonomy( $archive_key );
-			if ( ! empty( $taxonomy_data->labels->menu_name ) ) {
-				$archives[$archive_key]['name'] = $taxonomy_data->labels->menu_name; // e.g. "Topics" instead of "Sermon Topics"
-			} else { // should never happen, but just in case
-				$archives[$archive_key]['name'] = isset( $taxonomy_data->labels->name ) ? $taxonomy_data->labels->name : ctfw_make_friendly( $archive_key );
+				// Type
+				$archives[$archive_key]['type'] = 'months';
+
+				// Name
+				$archives[$archive_key]['name'] = _x( 'Months', 'content type archives', 'church-theme-framework' );
+
 			}
 
-			// Loop items
-			$archive_items = $archive['items'];
-			foreach ( $archive['items'] as $archive_item_key => $archive_item ) {
-				$archives[$archive_key]['items'][$archive_item_key]->url = ! empty( $archive_item->term_id ) ? get_term_link( $archive_item ) : '';
+			// Taxonomy archive
+			else {
+
+				// Type
+				$archives[$archive_key]['type'] = 'taxonomy';
+
+				// Name
+				$taxonomy_data = get_taxonomy( $archive_key );
+				if ( ! empty( $taxonomy_data->labels->menu_name ) ) {
+					$archives[$archive_key]['name'] = $taxonomy_data->labels->menu_name; // e.g. "Topics" instead of "Sermon Topics"
+				} else { // should never happen, but just in case
+					$archives[$archive_key]['name'] = isset( $taxonomy_data->labels->name ) ? $taxonomy_data->labels->name : ctfw_make_friendly( $archive_key );
+				}
+
+				// Loop items
+				$archive_items = $archive['items'];
+				foreach ( $archive['items'] as $archive_item_key => $archive_item ) {
+					$archives[$archive_key]['items'][$archive_item_key]->url = ! empty( $archive_item->term_id ) ? get_term_link( $archive_item ) : '';
+				}
+
 			}
+
+			// Move items to end of array so name, etc. is first
+			$items = $archives[$archive_key]['items'];
+			unset( $archives[$archive_key]['items'] );
+			$archives[$archive_key]['items'] = $items;
 
 		}
-
-		// Move items to end of array so name, etc. is first
-		$items = $archives[$archive_key]['items'];
-		unset( $archives[$archive_key]['items'] );
-		$archives[$archive_key]['items'] = $items;
 
 	}
 
