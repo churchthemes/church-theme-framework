@@ -578,7 +578,7 @@ function ctfw_content_type_archives( $args = array() ) {
 
 		}
 
-		// Speakers -- (alphabetical)
+		// Speakers -- (by count)
 		$taxonomy = 'ctc_sermon_speaker';
 		if ( ctfw_ctc_taxonomy_supported( $taxonomy ) && ( ! $specific_archive || $taxonomy == $specific_archive ) ) {
 			$archives[$taxonomy]['items'] = get_terms(
@@ -605,7 +605,7 @@ function ctfw_content_type_archives( $args = array() ) {
 			$archives[$taxonomy]['items'] = get_terms(
 				$taxonomy,
 				array(
-					'pad_counts'	=> true, // count children in parent since they do show in archive
+					'pad_counts'	=> false, // count children in parent since they do show in archive
 				)
 			);
 		}
