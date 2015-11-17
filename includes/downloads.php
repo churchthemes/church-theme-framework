@@ -182,8 +182,15 @@ function ctfw_force_download_url( $url ) {
 			$relative_url = str_replace( $upload_dir_url, '', $url ); // remove base URL
 			$relative_url = ltrim( $relative_url ); // remove preceding slash
 
-			// Add ?download=file to site URL
-			$download_url = home_url( '/' ) . '?download=' . urlencode( $relative_url ) . '&nocache';
+			// Is it actually relative?
+			// If file is outside of upload directory, it won't be
+			// And in that case it cannot be piped through ?download
+			if ( ! preg_match( '/\:\/\//', $relative_url ) ) {
+
+				// Add ?download=file to site URL
+				$download_url = home_url( '/' ) . '?download=' . urlencode( $relative_url ) . '&nocache';
+
+			}
 
 		}
 
