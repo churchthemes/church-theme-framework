@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Admin
- * @copyright  Copyright (c) 2013, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2015, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9.3
@@ -45,7 +45,10 @@ add_action( 'import_start', 'ctfw_import_remove_upscaling' );
  *
  * Note: this does not replace URLs in widgets. See ctfw_correct_imported_widget_urls() for that.
  *
- * Use add_theme_support( 'ctfw-import-correct-urls', 'http://wp.dev/site' );
+ * add_theme_support( 'ctfw-import-correct-urls', array(
+ *	'url'			=> 'http://demos.churchthemes.com/' . CTFW_THEME_SLUG . '-sample', // base URL to replace for imported files
+ *	'multisite_id'	=> 9, // site ID if imported files are coming off of a multisite installation
+ * ) );
  *
  * @since 0.9.3
  * @global object $wpdb
@@ -153,28 +156,37 @@ function ctfw_url_correction_data() {
 	$support = get_theme_support( 'ctfw-import-correct-urls' );
 	if ( ! empty( $support[0] ) ) {
 
+		// If arguments is URL, create array of arguments out of it
+		// Back-compat for URL string as second parameter: add_theme_support( 'ctfw-import-correct-urls', 'http://wp.dev/site' );
+		if ( ! is_array( $support[0] ) ) {
+			$support[0] = array(
+				'url' => $support[0],
+			);
+		}
+
+		// Default arguments
+		$args = wp_parse_args( $support[0], array(
+			'url'			=> '', // base URL to replace for imported files
+			'multisite_id'	=> '', // site ID if imported files coming off of multisite network
+		) );
+
 		// Base URLs
-		$data['old_url'] = untrailingslashit( $support[0] ); // URL to replace
+		$data['old_url'] = untrailingslashit( $args['url'] ); // URL to replace
 		$data['new_url'] = untrailingslashit( home_url() ); // this site's home URL
 
 		// Upload URLs
 		$upload_dir = wp_upload_dir();
-		$data['old_uploads_url'] = $data['old_url'] . '/' . basename( WP_CONTENT_DIR ) . '/uploads'; // we assume import data uses single, not multisite
+		$multisite_path = ! empty( $args['multisite_id'] ) ? '/sites/' . $args['multisite_id'] : ''; // append path for multisite
+		$data['old_uploads_url'] = $data['old_url'] . '/' . basename( WP_CONTENT_DIR ) . '/uploads' . $multisite_path;
 		$data['new_uploads_url'] = $upload_dir['baseurl']; // could be multisite
-
-		// Make sure this site is not the same site sample content came from
-		// UPDATE: We DO want replacement to happen even if same site, because it also accounts for multisite upload URLs
-		/*
-		if ( $data['new_url'] == $data['old_url'] ) {
-			$data = array();
-		}
-		*/
 
 	}
 
 	return apply_filters( 'ctfw_url_correction_data', $data );
 
 }
+
+add_action( 'admin_init', 'ctfw_url_correction_data' );
 
 /******************************************
  * STATIC FRONT PAGE
