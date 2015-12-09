@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2015, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -85,3 +85,27 @@ function ctfw_previous_next_location_sorting() {
 }
 
 add_action( 'wp', 'ctfw_previous_next_location_sorting' ); // is_singular() not available until wp action (after posts_selection)
+
+/**********************************
+ * LOCATION HELPERS
+ **********************************/
+
+/**
+ * Multiple or single locations
+ *
+ * @since 1.7.5
+ * @return bool True if has more than one location
+ */
+function ctfw_has_multiple_locations() {
+
+	$multiple = false;
+
+	$counts = wp_count_posts( 'ctc_location' );
+
+	if ( $counts->publish > 1 ) {
+		$multiple = true;
+	}
+
+	return $multiple;
+
+}
