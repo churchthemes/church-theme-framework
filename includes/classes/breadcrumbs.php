@@ -505,6 +505,8 @@ class CTFW_Breadcrumbs {
 					// Single posts, taxonomies, etc.
 					if ( $post_type_obj && ! is_page() ) { // not for pages
 
+						$archive_url = '';
+
 						// If static front page used and "Posts page" set, use that
 						if ( 'post' == $post_type && $posts_page_id = get_option( 'page_for_posts' ) ) {
 							$posts_page = get_page( $posts_page_id );
@@ -514,8 +516,19 @@ class CTFW_Breadcrumbs {
 
 						// Otherwise use current post type
 						else {
-							$archive_name = $post_type_obj->labels->name;
-							$archive_url = get_post_type_archive_link( $post_type );
+
+							// Show archive link in breadcrumb?
+							$show_archive = true;
+							if ( 'ctc_location' == $post_type && ! ctfw_has_multiple_locations() ) { // not if single location
+								$show_archive = false;
+							}
+
+							// Get archive name and URL
+							if ( $show_archive ) {
+								$archive_name = $post_type_obj->labels->name;
+								$archive_url = get_post_type_archive_link( $post_type );
+							}
+
 						}
 
 						// Show only if have URL
