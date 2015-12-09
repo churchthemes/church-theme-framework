@@ -451,7 +451,13 @@ function ctfw_content_type_archives( $args = array() ) {
 					foreach ( $series_with_sermon as $series_id ) {
 
 						if ( isset( $series[$series_id] ) ) {
+
+							if ( ! isset( $series[$series_id]->sermons ) ) {
+								$series[$series_id]->sermons = array();
+							}
+
 							$series[$series_id]->sermons[$sermon->ID] = $sermon;
+
 						}
 
 					}
@@ -463,15 +469,19 @@ function ctfw_content_type_archives( $args = array() ) {
 
 					$sermons = $series_data->sermons;
 
-					// Latest sermon
-					$values = array_values( $sermons );
-					$latest_sermon = array_shift( $values );
-					$series[$series_id]->sermon_latest_date = strtotime( $latest_sermon->post_date );
+					if ( $sermons ) {
 
-					// Earliest sermon
-					$values = array_values( $sermons );
-					$earliest_sermon = end( $values );
-					$series[$series_id]->sermon_earliest_date = strtotime( $earliest_sermon->post_date );
+						// Latest sermon
+						$values = array_values( $sermons );
+						$latest_sermon = array_shift( $values );
+						$series[$series_id]->sermon_latest_date = strtotime( $latest_sermon->post_date );
+
+						// Earliest sermon
+						$values = array_values( $sermons );
+						$earliest_sermon = end( $values );
+						$series[$series_id]->sermon_earliest_date = strtotime( $earliest_sermon->post_date );
+
+					}
 
 				}
 
