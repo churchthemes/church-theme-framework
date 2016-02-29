@@ -166,7 +166,8 @@ function ctfw_sanitize_url_list( $urls, $allowed_strings = array() ) {
 				'https',
 				'feed',
 				'itms', // iTunes Music Store
-				'skype'
+				'skype',
+				'mailto',
 			) );
 
 		}
