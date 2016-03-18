@@ -326,12 +326,12 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 	function ctfw_redirect_taxonomy() {
 
 		// Redirect is being attempted on front page with valid taxonomy
-		$id = isset( $_GET['id'] ) ? (int) $_GET['id'] : '';
-		if ( is_front_page() && ! empty( $_GET['redirect_taxonomy'] ) && taxonomy_exists( $_GET['redirect_taxonomy'] ) && ! empty( $id ) ) {
+		$term_id = isset( $_GET['redirect_term_id'] ) ? (int) $_GET['redirect_term_id'] : '';
+		if ( is_front_page() && ! empty( $_GET['redirect_taxonomy'] ) && taxonomy_exists( $_GET['redirect_taxonomy'] ) && ! empty( $term_id ) ) {
 
 			// Get pretty URL
 			$taxonomy = $_GET['redirect_taxonomy'];
-			$term_url = get_term_link( $id, $taxonomy );
+			$term_url = get_term_link( $term_id, $taxonomy );
 
 			// Send to URL
 			wp_redirect( $term_url, 301 );
