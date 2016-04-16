@@ -89,16 +89,24 @@ function ctfw_get_events( $args = array() ) {
 	// Filter by category
 	if ( 'all' != $args['category'] ) {
 
-		$category_term = get_term( $args['category'], 'ctc_event_category' );
+    if ( is_numeric($args['category']) ) {
+      // we have an id
+		  $category_term = get_term( (int)$args['category'], 'ctc_event_category' );
 
-		if ( $category_term ) {
-			$query_args['ctc_event_category'] = $category_term->slug;
-		}
+      if ( $category_term && !($category_term instanceof WP_Error) ) {
+        $query_args['ctc_event_category'] = $category_term->slug;
+      }
 
+    } else {
+      // we may have a term (slug)
+      if ( !empty( term_exists( $args['category'], 'ctc_event_category' ) ) ) {
+        $query_args['ctc_event_category'] = $args['category'];
+      }
+    }
 	}
 
 	// Filter get post arguments
-	$query_args = apply_filters( 'ctfw_get_events_query_args', $query_args );
+	$query_args = apply_filters( 'ctfw_get_events_query_args', $query_args, $args );
 
 	// Get events
 	$posts = get_posts( $query_args );
