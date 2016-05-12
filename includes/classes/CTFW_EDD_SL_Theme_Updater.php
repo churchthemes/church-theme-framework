@@ -92,7 +92,7 @@ class CTFW_EDD_SL_Theme_Updater {
 					$api_response->new_version,
 					$update_url,
 					$update_onclick,
-					'http://churchthemes.com/go/changelog/' . CTFW_THEME_SLUG . '/'
+					'https://churchthemes.com/go/changelog/' . CTFW_THEME_SLUG . '/'
 				);
 
 			echo '</div>';

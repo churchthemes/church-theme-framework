@@ -58,7 +58,7 @@ function ctfw_taxonomy_order_note( $taxonomy ) {
 	if ( $support ) { // returns false if feature not supported
 
 		// Get URL if not using default
-		$url = isset( $support[0] ) ? $support[0] : 'http://churchthemes.com/go/taxonomy-order';
+		$url = isset( $support[0] ) ? $support[0] : 'https://churchthemes.com/go/taxonomy-order';
 
 		// Get taxonomy plural
 		$taxonomy_obj = get_taxonomy( $taxonomy );

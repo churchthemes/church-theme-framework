@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  *		add_theme_support( 'ctfw-after-activation', array(
  *			'flush_rewrite_rules'	=> true,
- *			'replace_notice'		=> sprintf( __( 'Please follow the <a href="%s">Next Steps</a> now that the theme has been activated.', 'your-theme-textdomain' ), 'http://churchthemes.com/guides/user/getting-started/' )
+ *			'replace_notice'		=> sprintf( __( 'Please follow the <a href="%s">Next Steps</a> now that the theme has been activated.', 'your-theme-textdomain' ), 'https://churchthemes.com/guides/user/getting-started/' )
  *   	) );
  *
  * This does not affect the Customizer preview.
