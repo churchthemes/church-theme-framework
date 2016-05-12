@@ -46,7 +46,7 @@ add_action( 'import_start', 'ctfw_import_remove_upscaling' );
  * Note: this does not replace URLs in widgets. See ctfw_correct_imported_widget_urls() for that.
  *
  * add_theme_support( 'ctfw-import-correct-urls', array(
- *	'url'			=> 'http://demos.churchthemes.com/' . CTFW_THEME_SLUG . '-sample', // base URL to replace for imported files
+ *	'url'			=> 'https://demos.churchthemes.com/' . CTFW_THEME_SLUG . '-sample', // base URL to replace for imported files
  *	'multisite_id'	=> 9, // site ID if imported files are coming off of a multisite installation
  * ) );
  *
@@ -108,7 +108,7 @@ add_action( 'import_end', 'ctfw_correct_imported_urls' ); // WordPress Importer 
  * A sample widget file may have URLs from the dev site in widget settings.
  * This will replace all of those instances with the current site's base URL.
  *
- * Use add_theme_support( 'ctfw-import-correct-urls', 'http://wp.dev/site' );
+ * Example use: add_theme_support( 'https://demos.churchthemes.com/' . CTFW_THEME_SLUG . '-sample' );
  *
  * @since 0.9.3
  * @param array $widget Widget settings
