@@ -400,14 +400,14 @@ function ctfw_sermon_books_by_testament() {
 	// Old new and other testaments
 	$books_by_testament = array(
 		'old' => array(
-			'name' => __( 'Old Testament', 'maranatha' ),
+			'name' => __( 'Old Testament', 'church-theme-framework' ),
 		),
 		'new' => array(
-			'name' => __( 'New Testament', 'maranatha' ),
+			'name' => __( 'New Testament', 'church-theme-framework' ),
 		),
 		'other' => array(
 			/* translators: Label for books not in the Old or New Testaments */
-			'name' => __( 'Other Books', 'maranatha' ),
+			'name' => __( 'Other Books', 'church-theme-framework' ),
 		),
 	);
 
