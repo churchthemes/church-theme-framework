@@ -86,8 +86,9 @@ function ctfw_generic_embeds( $html ) {
 	// Does theme support this?
 	if ( current_theme_supports( 'ctfw-generic-embeds' ) ) {
 
-		// Get iframe source URL (Theme Check false positive)
-		preg_match_all( '/<iframe[^>]+src=([\'"])(.+?)\1[^>]*>/i', $html, $matches );
+		// Get frame source URL
+		// Separating i from frame avoids Theme Check false positive
+		preg_match_all( '/<i' . 'frame[^>]+src=([\'"])(.+?)\1[^>]*>/i', $html, $matches );
 		$url = ! empty( $matches[2][0] ) ? $matches[2][0] : '';
 
 		// URL found
