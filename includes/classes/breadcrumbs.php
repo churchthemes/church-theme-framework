@@ -485,8 +485,19 @@ class CTFW_Breadcrumbs {
 						// Date Archive
 						elseif ( is_year() || is_month() || is_day() ) {
 
+							// Blog post base URL
+							// URLs are like yourname.com/2015/01
+							if ( $post_type == 'post' ) {
+								$base_url = home_url();
+							}
+
+							// Custom post type base URL
+							// URLs are like yourname.com/{post_type}/2015/01
+							else {
+								$base_url = get_post_type_archive_link( $post_type );
+							}
+
 							// Append date breadcrumbs
-							$base_url = get_post_type_archive_link( $post_type );
 							$this->add_breadcrumbs_array( $breadcrumbs, $this->date_breadcrumbs( $base_url ) );
 
 						}
