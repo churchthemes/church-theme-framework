@@ -7,7 +7,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013 - 2015, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2016, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -489,6 +489,8 @@ function ctfw_content_type_archives( $args = array() ) {
 				usort( $series, 'ctfw_sort_by_latest_sermon' );
 
 				// Cache with transient
+				// See ctfw_delete_series_transient_on_change_sermon() at bottom
+				// It is deleted on add/edit/delete sermon to avoid issue of transient not expiring on time
 				set_transient( $transient_name, $series, 15 ); // 15 seconds is more than enough for a regular pageload
 
 			}
@@ -773,3 +775,55 @@ function ctfw_content_type_archives( $args = array() ) {
 function ctfw_sort_by_latest_sermon( $a, $b ) {
 	return $b->sermon_latest_date - $a->sermon_latest_date;
 }
+
+/*********************************
+ * MAINTENANCE
+ *********************************
+
+/**
+ * Delete sermon series transient on add / update / delete sermon post
+ *
+ * Some users experienced transient expiration not having effect.
+ * This forces the transient to delete when sermon series data is changed.
+ * That way on next page load, the latest sermon/series show.
+ *
+ * Note: save_post is called on Trash / Restore too, not just Add and Update (this is good)
+ *
+ * Also see ctfw_delete_series_transient_on_change_series()
+ *
+ * @since 1.7.9
+ * @param int $post_id The post ID.
+ * @param post $post The post object.
+ * @param bool $update Whether this is an existing post being updated or not.
+ */
+function ctfw_delete_series_transient_on_change_sermon( $post_id, $post, $update ) {
+
+    // Not on revisions
+    if ( wp_is_post_revision( $post_id ) ) {
+        return;
+    }
+
+    // Delete transient
+    delete_transient( 'ctfw_content_type_archives_sermon_series' );
+
+}
+
+add_action( 'save_post_ctc_sermon', 'ctfw_delete_series_transient_on_change_sermon', 10, 3 );
+
+/**
+ * Delete sermon series transient on add / update / delete sermon series term
+ *
+ * See ctfw_delete_series_transient_on_change_sermon() above for explanation
+ *
+ * @since 1.7.9
+ */
+function ctfw_delete_series_transient_on_change_series() {
+
+    // Delete transient
+    delete_transient( 'ctfw_content_type_archives_sermon_series' );
+
+}
+
+add_action( 'create_ctc_sermon_series', 'ctfw_delete_series_transient_on_change_series' );
+add_action( 'edit_ctc_sermon_series', 'ctfw_delete_series_transient_on_change_series' );
+add_action( 'delete_ctc_sermon_series', 'ctfw_delete_series_transient_on_change_series' );
