@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2016, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -80,6 +80,11 @@ function ctfw_has_title() {
 /**
  * Has content
  *
+ * It strips tags because sometimes content-less tags are left behind (breaks).
+ * Thi is useful for not outputting content wrapping tags when there is no content.
+ * Content tags like img and iframe are preserved so user can add image content
+ * with no text content and still have this return true.
+ *
  * @since 0.9
  * @return bool True if has content
  */
@@ -87,7 +92,7 @@ function ctfw_has_content() {
 
 	$has_content = false;
 
-	if ( trim( strip_tags( get_the_content() ) ) ) {
+	if ( trim( strip_tags( get_the_content(), '<img><iframe><script><embed>' ) ) ) {
 		$has_content = true;
 	}
 
