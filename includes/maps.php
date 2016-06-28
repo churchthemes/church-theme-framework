@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2016, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -199,5 +199,27 @@ function ctfw_directions_url( $address ) {
 	}
 
 	return apply_filters( 'ctfw_directions_url', $directions_url, $address );
+
+}
+
+/**
+ * Get API Key from Church Theme Content settings
+ *
+ * It's set in Church Theme Content settings because "Get From Address" button needs it.
+ * Themes can use the key from the plugin in this way.
+ *
+ * @since 1.8
+ * @return string Google Maps API Key
+ */
+function ctfw_google_maps_api_key() {
+
+	$key = '';
+
+	// Make sure the plugin's function is available
+	if ( function_exists( 'ctc_setting' ) ) {
+		$key = ctc_setting( 'google_maps_api_key' );
+	}
+
+	return apply_filters( 'ctfw_google_maps_api_key', $key );
 
 }
