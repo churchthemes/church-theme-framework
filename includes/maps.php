@@ -142,6 +142,7 @@ function ctfw_google_map_image( $options = array() ) {
 	$map_args['scale'] = $scale; // double for Retina
 	//$map_args['markers'] = 'color:0x' . $marker_color . '|' . $map_args['center'];
 	$map_args['markers'] = 'color:0x' . $marker_color . '%7C' . $map_args['center']; // HTML5-valid: http://bit.ly/1xfv8yA
+	$map_args['key'] = ctfw_google_maps_api_key(); // from Church Theme Content plugin settings
 
 	// Have zoom?
 	if ( ! empty( $zoom ) ) {
@@ -160,7 +161,7 @@ function ctfw_google_map_image( $options = array() ) {
 	$map_args = apply_filters( 'ctfw_google_map_image_args', $map_args );
 
 	// Add arguments to URL
-	$map_url = add_query_arg( $map_args, '//maps.googleapis.com/maps/api/staticmap?key=' . ctfw_google_maps_api_key() );
+	$map_url = add_query_arg( $map_args, '//maps.googleapis.com/maps/api/staticmap' );
 
 	// Filter URL
 	$map_args = apply_filters( 'ctfw_google_map_image_url', $map_args );
