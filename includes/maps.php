@@ -160,7 +160,7 @@ function ctfw_google_map_image( $options = array() ) {
 	$map_args = apply_filters( 'ctfw_google_map_image_args', $map_args );
 
 	// Add arguments to URL
-	$map_url = add_query_arg( $map_args, '//maps.googleapis.com/maps/api/staticmap?key=' . ctfw_google_map() );
+	$map_url = add_query_arg( $map_args, '//maps.googleapis.com/maps/api/staticmap?key=' . ctfw_google_maps_api_key() );
 
 	// Filter URL
 	$map_args = apply_filters( 'ctfw_google_map_image_url', $map_args );
