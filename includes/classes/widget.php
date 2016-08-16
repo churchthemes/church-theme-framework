@@ -144,6 +144,7 @@ class CTFW_Widget extends WP_Widget {
 				'select'		=> '',
 				'number'		=> 'small-text',
 				'image'			=> '',
+				'color'			=> '',
 
 			);
 			$classes = array();
@@ -301,6 +302,13 @@ class CTFW_Widget extends WP_Widget {
 
 						break;
 
+					// Color
+					case 'color':
+
+						$input = '<div style="padding: 5px 0;"><input type="text" ' . $data['common_atts'] . ' id="' . $data['esc_element_id'] . '" value="' . $data['esc_value'] . '" /></div>';
+
+						break;
+
 				}
 
 			}
@@ -448,6 +456,16 @@ class CTFW_Widget extends WP_Widget {
 
 					// Set empty if value is 0, attachment does not exist, or is not an image
 					if ( empty( $output ) || ! wp_get_attachment_image_src( $output ) ) {
+						$output = '';
+					}
+
+					break;
+
+				// Color
+				case 'color':
+
+					// Check for empty values
+					if ( empty( $output ) || $output === '#' ) {
 						$output = '';
 					}
 

@@ -31,6 +31,9 @@ function ctfw_admin_enqueue_scripts() {
 		// New media uploader in WP 3.5+
 		wp_enqueue_media();
 
+		// Color picker
+		wp_enqueue_script( 'wp-color-picker' );
+
 		// Main widgets script
 		wp_enqueue_script( 'ctfw-admin-widgets', ctfw_theme_url( CTFW_JS_DIR . '/admin-widgets.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on update
 		wp_localize_script( 'ctfw-admin-widgets', 'ctfw_widgets', ctfw_admin_widgets_js_data() ); // see admin-widgets.php

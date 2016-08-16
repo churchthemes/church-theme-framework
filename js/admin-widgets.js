@@ -7,6 +7,32 @@
 jQuery( document ).ready( function( $ ) {
 
 	/*******************************************
+	 * COLOR PICKER
+	 *******************************************/
+
+	// Add color picker
+	( function( $ ){
+		function initColorPicker( widget ) {
+			widget.find( '.ctfw-widget-color' ).wpColorPicker( {
+					change: _.throttle( function() { // For Customizer
+							$(this).trigger( 'change' );
+					}, 3000 )
+			});
+		}
+
+		// Persist after ajax save - without this the field turns into a plain text input
+		function onFormUpdate( event, widget ) {
+			initColorPicker( widget );
+		}
+		$( document ).on( 'widget-added widget-updated', onFormUpdate );
+		$( document ).ready( function() {
+			$( '#widgets-right .widget:has(.ctfw-widget-color)' ).each( function () {
+					initColorPicker( $( this ) );
+			} );
+		} );
+	}( jQuery ) );
+
+	/*******************************************
 	 * IMAGE FIELD
 	 *******************************************/
 
