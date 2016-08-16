@@ -318,7 +318,8 @@ class CTFW_Widget_Posts extends CTFW_Widget {
 
 		);
 
-		return $fields;
+		// Return config
+		return apply_filters( 'ctfw_posts_widget_fields', $fields );
 
 	}
 

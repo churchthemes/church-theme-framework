@@ -177,7 +177,8 @@ class CTFW_Widget_Galleries extends CTFW_Widget {
 
 		);
 
-		return $fields;
+		// Return config
+		return apply_filters( 'ctfw_galleries_widget_fields', $fields );
 
 	}
 

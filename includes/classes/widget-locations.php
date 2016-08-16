@@ -314,7 +314,7 @@ class CTFW_Widget_Locations extends CTFW_Widget {
 		);
 
 		// Return config
-		return $fields;
+		return apply_filters( 'ctfw_locations_widget_fields', $fields );
 
 	}
 

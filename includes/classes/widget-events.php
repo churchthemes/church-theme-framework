@@ -290,7 +290,7 @@ class CTFW_Widget_Events extends CTFW_Widget {
 		);
 
 		// Return config
-		return $fields;
+		return apply_filters( 'ctfw_events_widget_fields', $fields );
 
 	}
 

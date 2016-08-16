@@ -461,7 +461,7 @@ class CTFW_Widget_Sermons extends CTFW_Widget {
 		);
 
 		// Return config
-		return $fields;
+		return apply_filters( 'ctfw_sermons_widget_fields', $fields );
 
 	}
 

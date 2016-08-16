@@ -216,7 +216,7 @@ class CTFW_Widget_Slide extends CTFW_Widget {
 		);
 
 		// Return config
-		return $fields;
+		return apply_filters( 'ctfw_slide_widget_fields', $fields );
 
 	}
 

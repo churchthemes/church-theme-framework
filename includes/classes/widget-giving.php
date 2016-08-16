@@ -169,7 +169,8 @@ class CTFW_Widget_Giving extends CTFW_Widget {
 
 		);
 
-		return $fields;
+		// Return config
+		return apply_filters( 'ctfw_giving_widget_fields', $fields );
 
 	}
 
