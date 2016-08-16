@@ -374,7 +374,7 @@ class CTFW_Widget_Section extends CTFW_Widget {
 		);
 
 		// Return config
-		return $fields;
+		return apply_filters( 'ctfw_section_widget_fields', $fields );
 
 	}
 
