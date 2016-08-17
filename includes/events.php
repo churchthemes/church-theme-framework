@@ -154,7 +154,8 @@ function ctfw_event_data( $args = array() ) {
 		'map_lat',
 		'map_lng',
 		'map_type',
-		'map_zoom'
+		'map_zoom',
+		'registration_url',
 	), $post_id );
 
 	// Empty Custom Recurring Events add-on values if plugin not active
