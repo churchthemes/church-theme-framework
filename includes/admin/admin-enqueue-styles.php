@@ -31,6 +31,7 @@ function ctfw_admin_enqueue_styles() {
 	// Admin widgets
 	// Framework also enqueues this for Customizer in framework/includes/customize.php
 	if ( 'widgets' == $screen->base ) {
+		wp_enqueue_style( 'wp-color-picker' );
 		wp_enqueue_style( 'ctfw-widgets', ctfw_theme_url( CTFW_CSS_DIR . '/admin-widgets.css' ), false, CTFW_THEME_VERSION ); // bust cache on update
 	}
 

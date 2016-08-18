@@ -273,7 +273,8 @@ class CTFW_Widget_Categories extends CTFW_Widget {
 
 		);
 
-		return $fields;
+		// Return config
+		return apply_filters( 'ctfw_categories_widget_fields', $fields );
 
 	}
 

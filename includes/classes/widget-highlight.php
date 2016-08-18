@@ -193,7 +193,7 @@ class CTFW_Widget_Highlight extends CTFW_Widget {
 		);
 
 		// Return config
-		return $fields;
+		return apply_filters( 'ctfw_highlight_widget_fields', $fields );
 
 	}
 

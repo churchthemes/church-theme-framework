@@ -194,7 +194,8 @@ class CTFW_Widget_Archives extends CTFW_Widget {
 
 		);
 
-		return $fields;
+		// Return config
+		return apply_filters( 'ctfw_archives_widget_fields', $fields );
 
 	}
 
