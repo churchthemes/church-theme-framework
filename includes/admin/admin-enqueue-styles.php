@@ -32,6 +32,7 @@ function ctfw_admin_enqueue_styles() {
 	if ( 'widgets' == $screen->base ) {
 
 		// For color widget field type
+		// Improvement to enqueue only when there is a widget with color field?
 		wp_enqueue_style( 'wp-color-picker' );
 
 		// Script for admin widgets

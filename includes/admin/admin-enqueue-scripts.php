@@ -32,6 +32,7 @@ function ctfw_admin_enqueue_scripts() {
 		wp_enqueue_media();
 
 		// Color picker
+		// Improvement to enqueue only when there is a widget with color field?
 		wp_enqueue_script( 'wp-color-picker' );
 
 		// Main widgets script
