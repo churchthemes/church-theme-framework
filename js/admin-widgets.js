@@ -209,7 +209,9 @@ function ctfw_init_widget_colorpicker( widget ) {
 
 	widget.find( '.ctfw-widget-color' ).wpColorPicker( {
 
-		change: _.throttle( function() { // For Customizer
+		// Cause Customizer to refresh
+		// Bug? With this, first color selection doesn't take effect
+		change: _.throttle( function() {
 			jQuery( this ).trigger( 'change' );
 		}, 3000 )
 
