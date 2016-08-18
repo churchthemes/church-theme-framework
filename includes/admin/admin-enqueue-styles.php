@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Admin
- * @copyright  Copyright (c) 2013, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2016, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -29,10 +29,15 @@ function ctfw_admin_enqueue_styles() {
 	$screen = get_current_screen();
 
 	// Admin widgets
-	// Framework also enqueues this for Customizer in framework/includes/customize.php
 	if ( 'widgets' == $screen->base ) {
+
+		// For color widget field type
 		wp_enqueue_style( 'wp-color-picker' );
+
+		// Script for admin widgets
+		// Framework also enqueues this for Customizer in framework/includes/customize.php
 		wp_enqueue_style( 'ctfw-widgets', ctfw_theme_url( CTFW_CSS_DIR . '/admin-widgets.css' ), false, CTFW_THEME_VERSION ); // bust cache on update
+
 	}
 
 	// Theme license

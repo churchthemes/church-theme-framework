@@ -7,32 +7,6 @@
 jQuery( document ).ready( function( $ ) {
 
 	/*******************************************
-	 * COLOR PICKER
-	 *******************************************/
-
-	// Add color picker
-	( function( $ ){
-		function initColorPicker( widget ) {
-			widget.find( '.ctfw-widget-color' ).wpColorPicker( {
-					change: _.throttle( function() { // For Customizer
-							$(this).trigger( 'change' );
-					}, 3000 )
-			});
-		}
-
-		// Persist after ajax save - without this the field turns into a plain text input
-		function onFormUpdate( event, widget ) {
-			initColorPicker( widget );
-		}
-		$( document ).on( 'widget-added widget-updated', onFormUpdate );
-		$( document ).ready( function() {
-			$( '#widgets-right .widget:has(.ctfw-widget-color)' ).each( function () {
-					initColorPicker( $( this ) );
-			} );
-		} );
-	}( jQuery ) );
-
-	/*******************************************
 	 * IMAGE FIELD
 	 *******************************************/
 
@@ -146,6 +120,29 @@ jQuery( document ).ready( function( $ ) {
 	} );
 
 	/*******************************************
+	 * COLORPICKER
+	 *******************************************/
+
+	// Add colorpicker
+	// Thank you Andy Wilkerson https://github.com/churchthemes/church-theme-framework/pull/11
+	$( document )
+
+		// Init colorpicker
+		.on( 'widget-added widget-updated', function( event, widget ) {
+			ctfw_init_widget_colorpicker( widget );
+		} )
+
+		// Persist after AJAX save, without this the field turns into a plain text input
+		.ready( function() {
+
+			// Init for each field
+			$( '#widgets-right .widget:has(.ctfw-widget-color)' ).each( function () {
+				ctfw_init_widget_colorpicker( $( this ) );
+			} );
+
+		} );
+
+	/*******************************************
 	 * RESTRICT WIDGETS/SIDEBARS
 	 *******************************************/
 
@@ -203,3 +200,20 @@ jQuery( document ).ready( function( $ ) {
 	}
 
 } );
+
+/**********************************************
+ * FUNCTIONS
+ **********************************************/
+
+// Init colorpicker
+function ctfw_init_widget_colorpicker( widget ) {
+
+	widget.find( '.ctfw-widget-color' ).wpColorPicker( {
+
+		change: _.throttle( function() { // For Customizer
+			jQuery( this ).trigger( 'change' );
+		}, 3000 )
+
+	} );
+
+}
