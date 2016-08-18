@@ -465,10 +465,11 @@ class CTFW_Widget extends WP_Widget {
 				// Color
 				case 'color':
 
-					// Check for empty values
-					if ( empty( $output ) || $output === '#' ) {
-						$output = '';
-					}
+					// Add # if missing
+					$output = maybe_hash_hex_color( $output );
+
+					// Empty if hex code invalid (including if is only #, which is possible)
+					$output = sanitize_hex_color( $output );
 
 					break;
 
