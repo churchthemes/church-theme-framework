@@ -124,7 +124,6 @@ jQuery( document ).ready( function( $ ) {
 	 *******************************************/
 
 	// Add colorpicker
-	// Thank you Andy Wilkerson https://github.com/churchthemes/church-theme-framework/pull/11
 	$( document )
 
 		// Init colorpicker

@@ -303,6 +303,7 @@ class CTFW_Widget extends WP_Widget {
 						break;
 
 					// Color
+					// Thank you Andy Wilkerson: https://github.com/churchthemes/church-theme-framework/pull/11
 					case 'color':
 
 						$input = '<input type="text" ' . $data['common_atts'] . ' id="' . $data['esc_element_id'] . '" value="' . $data['esc_value'] . '" />';
