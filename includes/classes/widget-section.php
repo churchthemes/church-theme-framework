@@ -58,7 +58,7 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'name'				=> __( 'Field Name', 'church-theme-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> __( 'This is the description below the field.', 'church-theme-framework' ),
-				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image, color
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
@@ -82,7 +82,7 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'name'				=> _x( 'Title', 'section widget', 'church-theme-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image, color
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
@@ -105,7 +105,7 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'name'				=> _x( 'Content', 'section widget', 'church-theme-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'textarea', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'textarea', // text, textarea, checkbox, radio, select, number, url, image, color
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
@@ -128,7 +128,7 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'name'				=> _x( 'Image', 'section widget', 'church-theme-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'image', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'image', // text, textarea, checkbox, radio, select, number, url, image, color
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
@@ -151,7 +151,7 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'name'				=> _x( 'Image Opacity', 'section widget', 'church-theme-framework' ),
 				'after_name'		=> _x( '(Percentage)', 'section widget', 'church-theme-framework' ), // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'number', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'number', // text, textarea, checkbox, radio, select, number, url, image, color
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '1', // lowest possible value for number type
@@ -176,7 +176,7 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'name'				=> _x( 'Link 1', 'section widget', 'church-theme-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image, color
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
@@ -201,7 +201,7 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'name'				=> '',
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> __( 'Enter text for link then URL.', 'church-theme-framework' ),
-				'type'				=> 'url', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'url', // text, textarea, checkbox, radio, select, number, url, image, color
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
@@ -226,7 +226,7 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'name'				=> _x( 'Link 2', 'section widget', 'church-theme-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image, color
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
@@ -251,7 +251,7 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'name'				=> '',
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'url', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'url', // text, textarea, checkbox, radio, select, number, url, image, color
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
@@ -276,7 +276,7 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'name'				=> _x( 'Link 3', 'section widget', 'church-theme-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image, color
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
@@ -301,7 +301,7 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'name'				=> '',
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'url', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'url', // text, textarea, checkbox, radio, select, number, url, image, color
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
@@ -326,7 +326,7 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'name'				=> _x( 'Link 4', 'section widget', 'church-theme-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image, color
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
@@ -351,7 +351,7 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'name'				=> '',
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'url', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'url', // text, textarea, checkbox, radio, select, number, url, image, color
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type

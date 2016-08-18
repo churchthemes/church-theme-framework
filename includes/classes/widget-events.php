@@ -56,7 +56,7 @@ class CTFW_Widget_Events extends CTFW_Widget {
 				'name'				=> __( 'Field Name', 'church-theme-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> __( 'This is the description below the field.', 'church-theme-framework' ),
-				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image, color
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
@@ -80,7 +80,7 @@ class CTFW_Widget_Events extends CTFW_Widget {
 				'name'				=> _x( 'Title', 'events widget', 'church-theme-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'text', // text, textarea, checkbox, radio, select, number, url, image, color
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
@@ -103,7 +103,7 @@ class CTFW_Widget_Events extends CTFW_Widget {
 				'name'				=> _x( 'Period', 'events widget', 'church-theme-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'radio', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'radio', // text, textarea, checkbox, radio, select, number, url, image, color
 				'checkbox_label'	=> '', // show text after checkbox
 				'radio_inline'		=> true, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
@@ -129,7 +129,7 @@ class CTFW_Widget_Events extends CTFW_Widget {
 				'name'				=> _x( 'Category', 'events widget', 'church-theme-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'select', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'select', // text, textarea, checkbox, radio, select, number, url, image, color
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
@@ -154,7 +154,7 @@ class CTFW_Widget_Events extends CTFW_Widget {
 				'name'				=> _x( 'Limit', 'events widget', 'church-theme-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'number', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'number', // text, textarea, checkbox, radio, select, number, url, image, color
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '1', // lowest possible value for number type
@@ -177,7 +177,7 @@ class CTFW_Widget_Events extends CTFW_Widget {
 				'name'				=> '',
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'checkbox', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'checkbox', // text, textarea, checkbox, radio, select, number, url, image, color
 				'checkbox_label'	=> _x( 'Show image', 'events widget', 'church-theme-framework' ), //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
@@ -200,7 +200,7 @@ class CTFW_Widget_Events extends CTFW_Widget {
 				'name'				=> '',
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'checkbox', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'checkbox', // text, textarea, checkbox, radio, select, number, url, image, color
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
@@ -223,7 +223,7 @@ class CTFW_Widget_Events extends CTFW_Widget {
 				'name'				=> '',
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'checkbox', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'checkbox', // text, textarea, checkbox, radio, select, number, url, image, color
 				'checkbox_label'	=> _x( 'Show time', 'events widget', 'church-theme-framework' ), //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
@@ -246,7 +246,7 @@ class CTFW_Widget_Events extends CTFW_Widget {
 				'name'				=> '',
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'checkbox', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'checkbox', // text, textarea, checkbox, radio, select, number, url, image, color
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
@@ -269,7 +269,7 @@ class CTFW_Widget_Events extends CTFW_Widget {
 				'name'				=> '',
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'checkbox', // text, textarea, checkbox, radio, select, number, url, image
+				'type'				=> 'checkbox', // text, textarea, checkbox, radio, select, number, url, image, color
 				'checkbox_label'	=> _x( 'Show excerpt', 'events widget', 'church-theme-framework' ), //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
 				'number_min'		=> '', // lowest possible value for number type
