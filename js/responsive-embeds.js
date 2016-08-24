@@ -7,7 +7,7 @@
 ctfw_embed_fitvids_selectors = [
 
 	// Default (from fitVids.js)
-	// We redefine these here so they can bi hidden prior to FitVids.js
+	// We redefine these here so they can be hidden prior to FitVids.js
 	"iframe[src*='player.vimeo.com']",
 	"iframe[src*='youtube.com']",
 	"iframe[src*='youtube-nocookie.com']",
@@ -30,6 +30,7 @@ ctfw_embed_fitvids_selectors = [
 	"iframe[src*='soundcloud.com']:not([width$='%'])", // Jetpack soundcloud shortcode is already responsive with %, so exclude
 	"iframe[src*='snd.sc']",
 	"iframe[src*='livestream.com']",
+	"iframe[src*='soundfaith.com']",
 
 ];
 ctfw_embed_fitvids_selectors_list = ctfw_embed_fitvids_selectors.join( ', ' );
