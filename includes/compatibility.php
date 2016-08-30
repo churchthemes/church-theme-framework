@@ -108,7 +108,7 @@ add_action( 'after_switch_theme', 'ctfw_old_wp_switch_theme', 10, 2 );
 function ctfw_old_wp_switch_theme_notice() {
 
 	?>
-	<div class="error">
+	<div class="notice notice-error">
 		<p>
 			<?php echo ctfw_old_wp_message(); ?>
 		</p>
@@ -245,7 +245,7 @@ function ctfw_ctc_plugin_notice() {
 	if (  isset( $notice ) ) {
 
 		?>
-		<div class="error">
+		<div class="notice notice-warning">
 			<p>
 				<?php echo $notice; ?>
 			</p>

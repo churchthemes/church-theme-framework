@@ -87,7 +87,7 @@ function ctfw_activation_notice() {
 	if ( $notice ) {
 
 		?>
-		<div id="ctfw-activation-notice" class="updated">
+		<div id="ctfw-activation-notice" class="notice notice-success">
 			<p>
 				<?php echo $notice; ?>
 			</p>

@@ -696,7 +696,7 @@ function ctfw_edd_license_activation_failure_notice() {
 		if ( 'fail' == $activation_result && ctfw_edd_license_config( 'activation_error_notice' ) ) {
 
 			?>
-			<div id="ctfw-license-activation-error-notice" class="error">
+			<div id="ctfw-license-activation-error-notice" class="notice notice-error">
 				<p>
 					<?php echo ctfw_edd_license_config( 'activation_error_notice' ); ?>
 				</p>
@@ -731,7 +731,7 @@ function ctfw_edd_license_notice() {
 	}
 
 	// User can edit theme options?
-	// kKeeps notices from showing to non-admin users
+	// Keeps notices from showing to non-admin users
 	if ( ! current_user_can( 'edit_theme_options' ) ) {
 		return;
 	}
@@ -750,19 +750,19 @@ function ctfw_edd_license_notice() {
 	// Active But Expiring Soon
 	// Show a reminder notice 30 days before expiration
 	if ( ctfw_edd_license_active() && $expiration_data['expiring_soon'] ) {
-		$class = 'error';
+		$class = 'notice-warning';
 		$notice = 'expiring_soon_notice';
 	}
 
 	// Expired
 	elseif ( ctfw_edd_license_expired() ) {
-		$class = "error";
+		$class = "notice-error";
 		$notice = 'expired_notice';
 	}
 
 	// Inactive
 	elseif ( ! ctfw_edd_license_active() ) {
-		$class = "error";
+		$class = "notice-error";
 		$notice = 'inactive_notice';
 	}
 
@@ -771,7 +771,7 @@ function ctfw_edd_license_notice() {
 
 		?>
 
-			<div id="ctfw-license-notice" class="<?php echo $class; ?>">
+			<div id="ctfw-license-notice" class="notice <?php echo $class; ?>">
 
 				<p>
 
