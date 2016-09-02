@@ -125,6 +125,7 @@ function ctfw_cpt_date_archive_setup( $post_types, $wp_rewrite ) {
  * @since 0.9
  * @global object $wp_rewrite
  * @global object $polylang
+ * @global object $post
  * @param int $year Four digit year
  * @param int $month Numeric month
  * @param string $post_type Post type to build link for
@@ -204,7 +205,7 @@ function ctfw_post_type_get_month_link( $year, $month, $post_type = false ) {
 	$url = apply_filters( 'ctfw_post_type_month_link', $url, $year, $month );
 
 	// Polylang support
-	// This ads the /en/ to URL because Polylang is unaware of this custom function
+	// This adss the /en/ to URL because Polylang is unaware of this custom function
 	if ( isset( $polylang ) && ! empty( $post->ID ) ) {
 		$url = $polylang->links_model->add_language_to_link( $url, $polylang->model->get_post_language( $post->ID ) );
 	}
