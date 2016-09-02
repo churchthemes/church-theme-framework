@@ -226,7 +226,7 @@ function ctfw_ctc_plugin_notice() {
 
 		$notice = sprintf(
 			__( '<b>Plugin Required:</b> Please install and activate the <a href="%s">Church Theme Content</a> plugin to use with the current theme.', 'church-theme-framework' ),
-			network_admin_url( 'plugin-install.php?s=%22Church+Theme+Content%22+churchthemes.com&tab=search' )
+			network_admin_url( 'plugin-install.php?s=' . urlencode( '"Church Theme Content" churchthemes.com' ) . '&tab=search' )
 		);
 
 	}
