@@ -6,7 +6,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2016, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -225,8 +225,8 @@ function ctfw_ctc_plugin_notice() {
 	if ( ! ctfw_ctc_plugin_installed() && current_user_can( 'install_plugins' ) ) {
 
 		$notice = sprintf(
-			__( '<b>Plugin Required:</b> Please install and activate the <a href="%s" class="thickbox">Church Theme Content</a> plugin to use with the current theme.', 'church-theme-framework' ),
-			network_admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . ctfw_ctc_plugin_slug() . '&TB_iframe=true&width=700&height=450' )
+			__( '<b>Plugin Required:</b> Please install and activate the <a href="%s">Church Theme Content</a> plugin to use with the current theme.', 'church-theme-framework' ),
+			network_admin_url( 'plugin-install.php?s=%22Church+Theme+Content%22+churchthemes.com&tab=search' )
 		);
 
 	}
