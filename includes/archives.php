@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013 - 2015, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2016, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -124,6 +124,7 @@ function ctfw_cpt_date_archive_setup( $post_types, $wp_rewrite ) {
  *
  * @since 0.9
  * @global object $wp_rewrite
+ * @global object $polylang
  * @param int $year Four digit year
  * @param int $month Numeric month
  * @param string $post_type Post type to build link for
@@ -131,7 +132,9 @@ function ctfw_cpt_date_archive_setup( $post_types, $wp_rewrite ) {
  */
 function ctfw_post_type_get_month_link( $year, $month, $post_type = false ) {
 
-	global $wp_rewrite;
+	global $wp_rewrite, $polylang, $post;
+
+	$url = '';
 
 	if ( ! $year ) {
 		$year = gmdate( 'Y', current_time( 'timestamp' ) );
@@ -186,8 +189,6 @@ function ctfw_post_type_get_month_link( $year, $month, $post_type = false ) {
 		// Make URL
 		$url = home_url( $path );
 
-		return apply_filters( 'ctfw_post_type_month_link', $url, $year, $month );
-
 	} else { // default with query string
 
 		$post_type_param = '';
@@ -195,9 +196,21 @@ function ctfw_post_type_get_month_link( $year, $month, $post_type = false ) {
 			$post_type_param = '&post_type=' . $post_type;
 		}
 
-		return apply_filters( 'ctfw_post_type_month_link', home_url( '?m=' . $year . zeroise( $month, 2 ) . $post_type_param ), $year, $month );
+		$url = home_url( '?m=' . $year . zeroise( $month, 2 ) . $post_type_param );
 
 	}
+
+	// Allow filtering
+	$url = apply_filters( 'ctfw_post_type_month_link', $url, $year, $month );
+
+	// Polylang support
+	// This ads the /en/ to URL because Polylang is unaware of this custom function
+	if ( isset( $polylang ) && ! empty( $post->ID ) ) {
+		$url = $polylang->links_model->add_language_to_link( $url, $polylang->model->get_post_language( $post->ID ) );
+	}
+
+	// Return
+	return $url;
 
 }
 
