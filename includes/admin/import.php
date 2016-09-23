@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Admin
- * @copyright  Copyright (c) 2013 - 2015, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2016, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9.3
@@ -30,6 +30,62 @@ function ctfw_import_remove_upscaling() {
 }
 
 add_action( 'import_start', 'ctfw_import_remove_upscaling' );
+
+/******************************************
+ * PERMALINK STRUCTURE
+ ******************************************/
+
+/**
+ * Switch to "Post name" permalink structure
+ *
+ * This is the format sample content uses.
+ * Only fires when importing from "samplecontent" user.
+ *
+ * Later could make this accept structure and user -  if needed.
+ *
+ * add_theme_support( 'ctfw-import-set-permalink-structure' );
+ *
+ * @since 1.8.6
+ * @global object $wp_rewrite
+ */
+function ctfw_import_set_permalink_structure() {
+
+	global $wp_rewrite;
+
+	// Theme supports this?
+	if ( current_theme_supports( 'ctfw-import-set-permalink-structure' ) ) {
+
+		// Get current permalink structure
+		$permalink_structure = get_option( 'permalink_structure' );
+
+		// Stop if pretty permalinks not supported
+		// This will be true if so since WordPress already would have set "Day and name"
+		if ( ! $permalink_structure ) {
+			return;
+		}
+
+		// Stop if pretty permalinks is already "Post name"
+		if ( '/%postname%/' == $permalink_structure ) {
+			return;
+		}
+
+		// Is content from "sampleuser"?
+		// We don't want to change user's setting except when they import our sample content
+		if ( isset( $_POST['imported_authors'] ) && in_array( 'sampleuser', $_POST['imported_authors'] ) ) {
+
+			// Update setting and flush rewrite rules
+			$wp_rewrite->set_permalink_structure( '/%postname%/' );
+
+			// Hard flush rewrite rules
+			$wp_rewrite->flush_rules( true );
+
+		}
+
+	}
+
+}
+
+add_action( 'import_start', 'ctfw_import_set_permalink_structure' );
 
 /******************************************
  * URL CORRECTION
