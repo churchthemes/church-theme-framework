@@ -172,7 +172,7 @@ class CTFW_Widget_Section extends CTFW_Widget {
 
 			// Image Opacity
 			'image_opacity' => array(
-				'name'				=> _x( 'Image Opacity', 'section widget', 'church-theme-framework' ),
+				'name'				=> _x( 'Opacity', 'section widget', 'church-theme-framework' ),
 				'after_name'		=> _x( '(Percentage)', 'section widget', 'church-theme-framework' ), // (Optional), (Required), etc.
 				'desc'				=> '',
 				'type'				=> 'number', // text, textarea, checkbox, radio, select, number, url, image, color
