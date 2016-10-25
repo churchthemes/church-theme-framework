@@ -202,11 +202,17 @@ class CTFW_Widget extends WP_Widget {
 				switch ( $data['field']['type'] ) {
 
 					// Text
-					// URL
 					case 'text':
-					case 'url': // same as text
 
 						$input = '<input type="text" ' . $data['common_atts'] . ' id="' . $data['esc_element_id'] . '" value="' . $data['esc_value'] . '" />';
+
+						break;
+
+					// URL
+					case 'url':
+
+						// Input same as text
+						$input = '<input type="url" ' . $data['common_atts'] . ' id="' . $data['esc_element_id'] . '" value="' . $data['esc_value'] . '" />';
 
 						break;
 

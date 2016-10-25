@@ -27,6 +27,7 @@
 
 
 	.ctfw-widget-value input[type=text], /* can also use widefat class for 100% */
+	.ctfw-widget-value input[type=url],
 	.ctfw-widget-value textarea {
 		width: 100%;
 	}
@@ -48,11 +49,13 @@
 	}
 
 	input[type=text].ctfw-widget-small,
+	input[type=url].ctfw-widget-small,
 	textarea.ctfw-widget-small {
 		width: 100px;
 	}
 
 	input[type=text].ctfw-widget-tiny,
+	input[type=url].ctfw-widget-tiny,
 	textarea.ctfw-widget-tiny {
 		width: 40px;
 	}
