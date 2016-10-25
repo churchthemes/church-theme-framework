@@ -119,6 +119,57 @@ jQuery( document ).ready( function( $ ) {
 
 	} );
 
+	/**************************************
+	 * MEDIA UPLOADER
+	 **************************************/
+
+	// Open media uploader on button click
+	$( 'body' ).on( 'click', '.ctfw-widget-upload-file', function( event ) {
+
+		var frame;
+
+		// Stop click to URL
+		event.preventDefault();
+
+		// Input element
+		$input_element = $( this ).prev( 'input' );
+
+		// Media frame
+		frame = wp.media( {
+			title : $( this ).attr( 'data-ctfw-widget-upload-title' ),
+			library : { type : $( this ).attr( 'data-ctfw-widget-upload-type' ) },
+			multiple : false
+		} );
+
+		// Open media frame
+		// To Do: Set current attachment after opening
+		// ( How with only URL? For doing with ID, see this: http://bit.ly/Zut80f )
+		frame.open();
+
+		// Set attachment URL on click of button
+		// (don't do on 'close' so user can cancel)
+		frame.on( 'select', function() {
+
+			var attachments, attachment;
+
+			// Get attachment data
+			attachments = frame.state().get( 'selection' ).toJSON();
+			attachment = attachments[0];
+
+			// An attachment is selected
+			if ( typeof attachment != 'undefined' ) {
+
+				// Set attachment URL on input
+				if ( attachment.url ) {
+					$input_element.val( attachment.url ); // input is directly before button
+				}
+
+			}
+
+		} );
+
+	} );
+
 	/*******************************************
 	 * COLORPICKER
 	 *******************************************/

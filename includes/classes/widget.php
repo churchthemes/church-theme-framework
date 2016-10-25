@@ -214,6 +214,19 @@ class CTFW_Widget extends WP_Widget {
 						// Input same as text
 						$input = '<input type="url" ' . $data['common_atts'] . ' id="' . $data['esc_element_id'] . '" value="' . $data['esc_value'] . '" />';
 
+						// Append button if upload_* used
+						if ( ! empty( $data['field']['upload_button'] ) ) {
+
+							// Button and defult title and file type
+							$upload_button = $data['field']['upload_button'];
+							$upload_title = isset( $data['field']['upload_title'] ) ? $data['field']['upload_title'] : '';
+							$upload_type = isset( $data['field']['upload_type'] ) ? $data['field']['upload_type'] : '';
+
+							// Button to choose or upload file
+							$input .= ' <input type="button" value="' . esc_attr( $upload_button ) . '" class="upload_button button ctfw-widget-upload-file" data-ctfw-widget-upload-type="' . esc_attr( $upload_type ) . '" data-ctfw-widget-upload-title="' . esc_attr( $upload_title ) . '" /> ';
+
+						}
+
 						break;
 
 					// Textarea
