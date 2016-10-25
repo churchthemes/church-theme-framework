@@ -103,6 +103,12 @@
 	display: none;
 }
 
+/* Upload Button */
+
+.ctfw-widget-upload-file {
+	margin-top: 4px !important;
+}
+
 /* Widget/Sidebar Restrictions */
 
 .ctfw-widget-incompatible {
