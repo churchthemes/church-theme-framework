@@ -64,6 +64,9 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> '', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -134,6 +137,9 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> '', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -167,7 +173,7 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'class'				=> '', // class(es) to add to input
 				'field_attributes'	=> array(), // attr => value array for field container
 				'field_class'		=> '', // class(es) to add to field container
-				'custom_sanitize'	=> 'esc_url_raw', // function to do additional sanitization (or array( &$this, 'method' ))
+				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
 				'custom_field'		=> '', // function for custom display of field input
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
@@ -184,6 +190,9 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'number_min'		=> '1', // lowest possible value for number type
 				'number_max'		=> '100', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> '10', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> true, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -209,6 +218,9 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> '', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -234,6 +246,9 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> '', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -259,6 +274,9 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> '', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -284,6 +302,9 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> '', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -309,6 +330,9 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> '', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -334,6 +358,9 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> '', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -359,6 +386,9 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> '', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -384,6 +414,9 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> '', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)

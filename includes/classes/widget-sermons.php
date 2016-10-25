@@ -62,6 +62,9 @@ class CTFW_Widget_Sermons extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> '', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -86,6 +89,9 @@ class CTFW_Widget_Sermons extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> _x( 'Sermons', 'sermons widget title default', 'church-theme-framework' ), // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -111,6 +117,9 @@ class CTFW_Widget_Sermons extends CTFW_Widget {
 				'options'			=> ctfw_term_options( 'ctc_sermon_topic', array( // array of keys/values for radio or select
 					'all' => _x( 'All Topics', 'sermons widget', 'church-theme-framework' )
 				) ),
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> 'all', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> true, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -136,6 +145,9 @@ class CTFW_Widget_Sermons extends CTFW_Widget {
 				'options'			=> ctfw_term_options( 'ctc_sermon_book', array( // array of keys/values for radio or select
 					'all' => _x( 'All Books', 'sermons widget', 'church-theme-framework' )
 				) ),
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> 'all', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> true, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -161,6 +173,9 @@ class CTFW_Widget_Sermons extends CTFW_Widget {
 				'options'			=> ctfw_term_options( 'ctc_sermon_series', array( // array of keys/values for radio or select
 					'all' => _x( 'All Series', 'sermons widget', 'church-theme-framework' )
 				) ),
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> 'all', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> true, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -186,6 +201,9 @@ class CTFW_Widget_Sermons extends CTFW_Widget {
 				'options'			=> ctfw_term_options( 'ctc_sermon_speaker', array( // array of keys/values for radio or select
 					'all' => _x( 'All Speakers', 'sermons widget', 'church-theme-framework' )
 				) ),
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> 'all', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> true, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -213,6 +231,9 @@ class CTFW_Widget_Sermons extends CTFW_Widget {
 					'publish_date'		=> _x( 'Date', 'sermons widget order by', 'church-theme-framework' ),
 					'comment_count'		=> _x( 'Comment Count', 'sermons widget order by', 'church-theme-framework' ),
 				),
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> 'publish_date', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> true, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -239,6 +260,9 @@ class CTFW_Widget_Sermons extends CTFW_Widget {
 					'asc'	=> _x( 'Low to High', 'sermons widget order', 'church-theme-framework' ),
 					'desc'	=> _x( 'High to Low', 'sermons widget order', 'church-theme-framework' ),
 				),
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> 'desc', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> true, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -262,6 +286,9 @@ class CTFW_Widget_Sermons extends CTFW_Widget {
 				'number_min'		=> '1', // lowest possible value for number type
 				'number_max'		=> '50', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> '5', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -285,6 +312,9 @@ class CTFW_Widget_Sermons extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> true, // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -308,6 +338,9 @@ class CTFW_Widget_Sermons extends CTFW_Widget {
 				'number_max'		=> '', // highest possible value for number type
 				'checkbox_label'	=> _x( 'Show date', 'sermons widget', 'church-theme-framework' ), //show text after checkbox
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> true, // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -331,6 +364,9 @@ class CTFW_Widget_Sermons extends CTFW_Widget {
 				'number_max'		=> '', // highest possible value for number type
 				'checkbox_label'	=> _x( 'Show topic', 'sermons widget', 'church-theme-framework' ), //show text after checkbox
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> false, // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -354,6 +390,9 @@ class CTFW_Widget_Sermons extends CTFW_Widget {
 				'number_max'		=> '', // highest possible value for number type
 				'checkbox_label'	=> _x( 'Show book', 'sermons widget', 'church-theme-framework' ), //show text after checkbox
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> false, // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -377,6 +416,9 @@ class CTFW_Widget_Sermons extends CTFW_Widget {
 				'number_max'		=> '', // highest possible value for number type
 				'checkbox_label'	=> _x( 'Show series', 'sermons widget', 'church-theme-framework' ), //show text after checkbox
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> false, // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -400,6 +442,9 @@ class CTFW_Widget_Sermons extends CTFW_Widget {
 				'number_max'		=> '', // highest possible value for number type
 				'checkbox_label'	=> _x( 'Show speaker', 'sermons widget', 'church-theme-framework' ), //show text after checkbox
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> false, // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -423,6 +468,9 @@ class CTFW_Widget_Sermons extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> true, // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -446,6 +494,9 @@ class CTFW_Widget_Sermons extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> false, // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)

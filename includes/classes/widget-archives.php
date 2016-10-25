@@ -64,6 +64,9 @@ class CTFW_Widget_Archives extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> '', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -88,6 +91,9 @@ class CTFW_Widget_Archives extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> _x( 'Archives', 'archives widget title default', 'church-theme-framework' ), // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -111,6 +117,9 @@ class CTFW_Widget_Archives extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> $this->ctfw_post_type_options(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> 'post', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> true, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -134,6 +143,9 @@ class CTFW_Widget_Archives extends CTFW_Widget {
 				'number_min'		=> '0', // lowest possible value for number type
 				'number_max'		=> '100', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> '0', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -157,6 +169,9 @@ class CTFW_Widget_Archives extends CTFW_Widget {
 				'number_max'		=> '', // highest possible value for number type
 				'checkbox_label'	=> _x( 'Show counts', 'archives widget', 'church-theme-framework' ), //show text after checkbox
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> true, // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -180,6 +195,9 @@ class CTFW_Widget_Archives extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> '', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)

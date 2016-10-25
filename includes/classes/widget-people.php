@@ -62,6 +62,9 @@ class CTFW_Widget_People extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> '', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -86,6 +89,9 @@ class CTFW_Widget_People extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> _x( 'People', 'people widget title default', 'church-theme-framework' ), // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -111,6 +117,9 @@ class CTFW_Widget_People extends CTFW_Widget {
 				'options'			=> ctfw_term_options( 'ctc_person_group', array( // array of keys/values for radio or select
 					'all' => _x( 'All Groups', 'people widget', 'church-theme-framework' )
 				) ),
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> 'all', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> true, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -137,6 +146,9 @@ class CTFW_Widget_People extends CTFW_Widget {
 					'menu_order'		=> _x( 'Custom Order', 'people widget order by', 'church-theme-framework' ),
 					'title'				=> _x( 'Name', 'people widget order by', 'church-theme-framework' ),
 				),
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> 'menu_order', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> true, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -163,6 +175,9 @@ class CTFW_Widget_People extends CTFW_Widget {
 					'asc'	=> _x( 'Low to High', 'people widget order', 'church-theme-framework' ),
 					'desc'	=> _x( 'High to Low', 'people widget order', 'church-theme-framework' ),
 				),
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> 'asc', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> true, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -186,6 +201,9 @@ class CTFW_Widget_People extends CTFW_Widget {
 				'number_min'		=> '1', // lowest possible value for number type
 				'number_max'		=> '50', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> '5', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -209,6 +227,9 @@ class CTFW_Widget_People extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> true, // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -232,6 +253,9 @@ class CTFW_Widget_People extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> true, // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -255,6 +279,9 @@ class CTFW_Widget_People extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> true, // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -278,6 +305,9 @@ class CTFW_Widget_People extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> false, // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -301,6 +331,9 @@ class CTFW_Widget_People extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> false, // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -324,6 +357,9 @@ class CTFW_Widget_People extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> false, // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)

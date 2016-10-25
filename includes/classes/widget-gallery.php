@@ -73,6 +73,9 @@ class CTFW_Widget_Gallery extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> '', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -97,6 +100,9 @@ class CTFW_Widget_Gallery extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> _x( 'Gallery', 'gallery widget title default', 'church-theme-framework' ), // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -120,6 +126,9 @@ class CTFW_Widget_Gallery extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> $gallery_posts_options, // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> 'all', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> true, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -143,6 +152,9 @@ class CTFW_Widget_Gallery extends CTFW_Widget {
 				'number_min'		=> '', // lowest possible value for number type
 				'number_max'		=> '', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> false, // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -170,6 +182,9 @@ class CTFW_Widget_Gallery extends CTFW_Widget {
 					'title'				=> _x( 'Title', 'gallery widget order by', 'church-theme-framework' ),
 					'comment_count'		=> _x( 'Comment Count', 'gallery widget order by', 'church-theme-framework' ),
 				),
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> 'publish_date', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> true, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -196,6 +211,9 @@ class CTFW_Widget_Gallery extends CTFW_Widget {
 					'asc'	=> _x( 'Low to High', 'gallery widget order', 'church-theme-framework' ),
 					'desc'	=> _x( 'High to Low', 'gallery widget order', 'church-theme-framework' ),
 				),
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> 'desc', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> true, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -219,6 +237,9 @@ class CTFW_Widget_Gallery extends CTFW_Widget {
 				'number_min'		=> '1', // lowest possible value for number type
 				'number_max'		=> '50', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> '6', // 6 is a versatile default for one, two or three per row
 				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
@@ -246,6 +267,9 @@ class CTFW_Widget_Gallery extends CTFW_Widget {
 					'medium'		=> _x( 'Medium', 'gallery widget', 'church-theme-framework' ),
 					'large'		=> _x( 'Large', 'gallery widget', 'church-theme-framework' ),
 				),
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
 				'default'			=> 'medium', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> true, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
