@@ -35,7 +35,7 @@ function ctfw_admin_enqueue_styles() {
 		// Improvement to enqueue only when there is a widget with color field?
 		wp_enqueue_style( 'wp-color-picker' );
 
-		// Script for admin widgets
+		// CSS for admin widgets
 		// Framework also enqueues this for Customizer in framework/includes/customize.php
 		wp_enqueue_style( 'ctfw-widgets', ctfw_theme_url( CTFW_CSS_DIR . '/admin-widgets.css' ), false, CTFW_THEME_VERSION ); // bust cache on update
 
