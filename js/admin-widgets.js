@@ -120,7 +120,7 @@ jQuery( document ).ready( function( $ ) {
 	} );
 
 	/**************************************
-	 * MEDIA UPLOADER
+	 * VIDEO FIELD
 	 **************************************/
 
 	// Open media uploader on button click
@@ -160,8 +160,12 @@ jQuery( document ).ready( function( $ ) {
 			if ( typeof attachment != 'undefined' ) {
 
 				// Set attachment URL on input
+				// Also trigger change event to make Customizer refresh preview
 				if ( attachment.url ) {
-					$input_element.val( attachment.url ); // input is directly before button
+
+					$input_element
+						.val( attachment.url ) // input is directly before button
+						.change();
 				}
 
 			}
