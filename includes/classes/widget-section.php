@@ -178,6 +178,33 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 
+			// Image Brightness
+			'image_brightness' => array(
+				'name'				=> _x( 'Brightness', 'section widget', 'church-theme-framework' ),
+				'after_name'		=> _x( '(Percentage)', 'section widget', 'church-theme-framework' ), // (Optional), (Required), etc.
+				'desc'				=> '',
+				'type'				=> 'number', // text, textarea, checkbox, radio, select, number, url, image, color
+				'checkbox_label'	=> '', //show text after checkbox
+				'radio_inline'		=> false, // show radio inputs inline or on top of each other
+				'number_min'		=> '1', // lowest possible value for number type
+				'number_max'		=> '100', // highest possible value for number type
+				'options'			=> array(), // array of keys/values for radio or select
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
+				'default'			=> '100', // value to pre-populate option with (before first save or on reset)
+				'no_empty'			=> true, // if user empties value, force default to be saved instead
+				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
+				'attributes'		=> array(
+										'style="width:60px"',
+									), // attributes to add to input element
+				'class'				=> '', // class(es) to add to input
+				'field_attributes'	=> array(), // attr => value array for field container
+				'field_class'		=> '', // class(es) to add to field container
+				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
+				'custom_field'		=> '', // function for custom display of field input
+				'taxonomies'		=> array(), // hide field if taxonomies are not supported
+			),
 
 			// Image Opacity
 			'image_opacity' => array(
