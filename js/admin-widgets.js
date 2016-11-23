@@ -262,7 +262,7 @@ jQuery( document ).ready( function( $ ) {
 // Init colorpicker
 function ctfw_init_widget_colorpicker( widget ) {
 
-	widget.find( '.ctfw-widget-color' ).wpColorPicker( {
+	jQuery( widget ).find( '.ctfw-widget-color' ).wpColorPicker( {
 
 		// Cause Customizer to refresh
 		// Bug? With this, first color selection doesn't take effect
