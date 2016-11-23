@@ -375,3 +375,57 @@ function ctfw_make_friendly( $string ) {
 	return apply_filters( 'ctfw_make_friendly', $friendly_string, $string );
 
 }
+
+/*************************************************
+ * COLORS
+ *************************************************/
+
+/**
+ * Convert hex code to RGB alues
+ *
+ * This is largely based on Simon Waldherr's ColorConverter.php (MIT license)
+ * https://github.com/SimonWaldherr/ColorConverter.php
+ *
+ * @since 1.9.1
+ * @param  str $hex_color Hex color with or without #
+ * @return array RGB values
+ */
+function ctfw_hex_to_rgb( $hex_color ) {
+
+	if ( substr( trim( $hex_color ), 0, 1) === '#' ) {
+		$hex_color  = substr( $hex_color , 1 );
+	}
+
+	if ( ( strlen( $hex_color ) < 2 ) || ( strlen( $hex_color ) > 6 ) ) {
+		return false;
+	}
+
+	$values = str_split( $hex_color );
+
+	if ( strlen( $hex_color ) === 2 ) {
+		$r = intval($values[0] . $values[1], 16 );
+		$g = $r;
+		$b = $r;
+	} else if ( strlen( $hex_color ) === 3 ) {
+		$r = intval( $values[0], 16 );
+		$g = intval( $values[1], 16 );
+		$b = intval( $values[2], 16 );
+	} else if ( strlen( $hex_color ) === 6 ) {
+		$r = intval( $values[0] . $values[1], 16 );
+		$g = intval( $values[2] . $values[3], 16 );
+		$b = intval( $values[4] . $values[5], 16 );
+	} else {
+		return false;
+	}
+
+	$rgb = array(
+		'r' => $r,
+		'g' => $g,
+		'b' => $b
+	);
+
+	$rgb = apply_filters( 'ctfw_hex_to_rgb', $rgb, $hex_color );
+
+	return $rgb;
+
+}
