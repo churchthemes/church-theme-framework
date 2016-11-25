@@ -152,9 +152,6 @@ $ctfw_includes = array(
 	// Frontend Only
 	'frontend' => array (
 
-		// Functions
-		CTFW_INC_DIR . '/menus.php',
-
 		// Classes
 		CTFW_CLASS_DIR . '/breadcrumbs.php',
 		CTFW_CLASS_DIR . '/walker-nav-menu-description.php',
