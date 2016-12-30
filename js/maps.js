@@ -116,7 +116,12 @@ jQuery( document ).ready( function( $ ) {
 
 					// Centered latitude/longitude on window resize
 					if ( center_resize ) {
-						map.setCenter( latlng );
+
+						// Slight delay improve accuracy
+						setTimeout( function() {
+							map.setCenter( latlng );
+						}, 100 );
+
 					}
 
 					// On resize callback
