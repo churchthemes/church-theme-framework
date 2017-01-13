@@ -557,7 +557,28 @@ class CTFW_Widget extends WP_Widget {
 		// Load template for current widget area, if template file exists
 		// e.g. widget-sermons.php becomes widget-sermons-footer.php for widget area named 'footer'
 		if ( ! empty( $args['id'] ) ) {
-			$template_files[] = preg_replace( '/(\.php)$/', '-' . $args['id'] . '$1', $default_template_file );
+
+			// Template filename having widget area ID
+			$widget_area_template_file = preg_replace( '/(\.php)$/', '-' . $args['id'] . '$1', $default_template_file );
+
+			// Use template filename without prefix for cleaner template filenames
+			// Example: widget-sermons-ctcom-home.php becomes widget-sermons-home.php
+			// Usage: add_theme_support( 'ctfw-widget-template-no-prefix', 'ctcom-' );
+			$remove_prefix_support = get_theme_support( 'ctfw-widget-template-no-prefix' );
+			if ( ! empty( $remove_prefix_support[0] ) ) {
+
+				// Prefix to remove
+				$prefix = $remove_prefix_support[0];
+
+				// Attempt to load filename having no prefix before filename with prefix (see below)
+				$template_files[] = preg_replace( '/-' . preg_quote( $prefix ) . '/', '-', $widget_area_template_file );
+
+			}
+
+			// Add template file (e.g. widget-sermons-ctcom-home.php)
+			// Try to load prefixed version even if ctfw-widget-template-no-prefix in case file is missing
+			$template_files[] = $widget_area_template_file;
+
 		}
 
 		// Otherwise, load standard template
