@@ -578,6 +578,9 @@ class CTFW_Widget extends WP_Widget {
 				// Load template with globals available (unlike locate_template())
 				include $template_path;
 
+				// Don't load another template
+				break;
+
 			}
 
 		}
