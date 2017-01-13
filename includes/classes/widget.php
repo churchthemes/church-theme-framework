@@ -7,7 +7,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Classes
- * @copyright  Copyright (c) 2013 - 2016, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2017, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -546,23 +546,39 @@ class CTFW_Widget extends WP_Widget {
 
 		global $post; // setup_postdata() needs this
 
+		$template_files = array();
+
 		// Available widgets
 		$widgets = ctfw_widgets();
 
-		// Get template filename
-		$template_file = $widgets[$this->id_base]['template_file'];
+		// Get default template filename
+		$default_template_file = $widgets[$this->id_base]['template_file'];
 
-		// Check if template exists
-		if ( $template_path = locate_template( CTFW_THEME_WIDGET_DIR . '/' . $template_file ) ) { // false if does not exist
+		// Load template for current widget area, if template file exists
+		// e.g. widget-sermons.php becomes widget-sermons-footer.php for widget area named 'footer'
+		if ( ! empty( $args['id'] ) ) {
+			$template_files[] = preg_replace( '/(\.php)$/', '-' . $args['id'] . '$1', $default_template_file );
+		}
 
-			// Sanitize widget instance (field values) before loading template
-			$instance = $this->ctfw_sanitize( $instance );
+		// Otherwise, load standard template
+		$template_files[] = $default_template_file;
 
-			// Make instance available to other methods used by template (e.g. get_posts())
-			$this->ctfw_instance = $instance;
+		// Loop templates to load highest priority existing
+		foreach ( $template_files as $template_file ) {
 
-			// Load template with globals available (unlike locate_template())
-			include $template_path;
+			// Check if template exists
+			if ( $template_path = locate_template( CTFW_THEME_WIDGET_DIR . '/' . $template_file ) ) { // false if does not exist
+
+				// Sanitize widget instance (field values) before loading template
+				$instance = $this->ctfw_sanitize( $instance );
+
+				// Make instance available to other methods used by template (e.g. get_posts())
+				$this->ctfw_instance = $instance;
+
+				// Load template with globals available (unlike locate_template())
+				include $template_path;
+
+			}
 
 		}
 
