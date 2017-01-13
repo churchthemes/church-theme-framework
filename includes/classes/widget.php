@@ -559,7 +559,7 @@ class CTFW_Widget extends WP_Widget {
 		if ( ! empty( $args['id'] ) ) {
 
 			// Template filename having widget area ID
-			$widget_area_template_file = preg_replace( '/(\.php)$/', '-' . $args['id'] . '$1', $default_template_file );
+			$widget_area_template_file = str_replace( '.php', '-' . $args['id'] . '.php', $default_template_file );
 
 			// Use template filename without prefix for cleaner template filenames
 			// Example: widget-sermons-ctcom-home.php becomes widget-sermons-home.php
@@ -571,7 +571,7 @@ class CTFW_Widget extends WP_Widget {
 				$prefix = $remove_prefix_support[0];
 
 				// Attempt to load filename having no prefix before filename with prefix (see below)
-				$template_files[] = preg_replace( '/-' . preg_quote( $prefix ) . '/', '-', $widget_area_template_file );
+				$template_files[] = str_replace( '-' . $prefix, '-', $widget_area_template_file );
 
 			}
 
