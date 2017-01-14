@@ -112,6 +112,9 @@ class CTFW_Widget extends WP_Widget {
 	 */
 	function form( $instance ) {
 
+		// Insert content before fields
+		do_action( 'ctfw_widget_before_fields', $this );
+
 		// Loop fields
 		$fields = $this->ctfw_prepared_fields();
 		foreach ( $fields as $id => $field ) {
@@ -375,6 +378,9 @@ class CTFW_Widget extends WP_Widget {
 			}
 
 		}
+
+		// Insert content after fields
+		do_action( 'ctfw_widget_after_fields', $this );
 
 	}
 
