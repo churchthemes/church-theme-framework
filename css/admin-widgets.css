@@ -4,13 +4,17 @@
  * Appearance > Widgets and Customizer's widget controls both use these styles.
  */
 
+/* Field Container */
+
+.widget-content {
+	margin-top: 12px;
+}
+
+/* Fields */
+
 .ctfw-widget-field {
 	margin-bottom: 12px;
 }
-
-	.ctfw-widget-field:first-child {
-		margin-top: 12px;
-	}
 
 	.ctfw-widget-field.ctfw-widget-no-bottom-margin {
 		margin-bottom: 0;
