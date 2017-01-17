@@ -200,13 +200,6 @@ jQuery( document ).ready( function( $ ) {
 	 * RESTRICT WIDGETS/SIDEBARS
 	 *******************************************/
 
-	// Add hidden message to all widgets
-	// admin-widgets.css hides this by default
-	// admin_head outputs CSS to show this and hide form content
-	if ( ctfw_widgets.widget_restrictions ) { // if feature supported
-		$( '.widget-inside' ).prepend( '<div class="ctfw-widget-incompatible">' + ctfw_widgets.incompatible_message + '</div>' );
-	}
-
 	// Customizer: Pre-fill Search when "Add a Widget" clicked
 	// Show only Slide for Slider widget area and same for Homepage Highlights
 	if ( $( '.wp-customizer' ).length ) { // on Customizer only

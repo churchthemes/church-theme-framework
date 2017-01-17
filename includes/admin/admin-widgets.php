@@ -1,10 +1,10 @@
 <?php
 /**
- * Admin Widgets Functions
+ * Admin Widgets Functions (Framework)
  *
  * @package    Church_Theme_Framework
  * @subpackage Admin
- * @copyright  Copyright (c) 2013-2014, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2017, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -32,8 +32,6 @@ function ctfw_admin_widgets_js_data() {
 	$data = array( // make data available
 		'image_library_title'	=> _x( 'Choose Image for Widget', 'widget image library', 'church-theme-framework' ),
 		'image_library_button'	=> _x( 'Use in Widget', 'widget image library', 'church-theme-framework' ),
-		'incompatible_message'	=> __( 'Sorry, this widget is not made for use in this area. Please delete.', 'church-theme-framework' ),
-		'widget_restrictions'	=> current_theme_supports( 'ctfw-sidebar-widget-restrictions' )
 	);
 
 	return apply_filters( 'ctfw_admin_widgets_js_data', $data );
@@ -43,6 +41,32 @@ function ctfw_admin_widgets_js_data() {
 /*******************************************
  * WIDGET RESTRICTIONS
  *******************************************/
+
+/**
+ * Insert widget incompatibility message
+ *
+ * This is added to all widgets but hidden by default with framework's js/admin-widgets.css
+ * admin_head (below) outputs CSS to show this and hide form content
+ *
+ * @since 1.0
+ */
+function ctfw_widget_incompatible_message( $widget ) {
+
+	// Only if feature is supported
+	if ( ! current_theme_supports( 'ctfw-sidebar-widget-restrictions' ) ) {
+		return;
+	}
+
+	// Output message
+	?>
+	<div class="ctfw-widget-incompatible">
+		<?php _e( 'Sorry, this widget is not made for use in this area. Please delete.', 'church-theme-framework' ); ?>
+	</div>
+	<?php
+
+}
+
+add_action( 'ctfw_widget_before_fields', 'ctfw_widget_incompatible_message' );
 
 /**
  * Show widget incompatibility messages
@@ -93,24 +117,24 @@ function ctfw_admin_restrict_widgets_css() {
 					// Appearance > Widgets
 					if ( 'widgets' == $screen->base ) {
 
-						// Elements for hiding form and save button
-						$form_elements[] = "#$sidebar_id div[id*=_$widget_id-] .widget-content";
-						$form_elements[] = "#$sidebar_id div[id*=_$widget_id-] .widget-control-save";
+						// Elements for hiding form fields and save button
+						//$form_elements[] = "#$sidebar_id div[id*=_$widget_id-] .widget-content";
+						$form_elements[] = "#$sidebar_id > .widget[id*=$widget_id] .widget-content > *:not(.ctfw-widget-incompatible)";
+						$form_elements[] = "#$sidebar_id > .widget[id*=$widget_id] .widget-control-save";
 
 						// Element for showing message
-						$message_elements[] = "#$sidebar_id div[id*=_$widget_id-] .ctfw-widget-incompatible";
+						$message_elements[] = "#$sidebar_id > .widget[id*=$widget_id] .ctfw-widget-incompatible";
 
 					}
 
 					// Customizer
 					elseif ( 'customize' == $screen->base ) {
 
-						// Elements for hiding form and save button
-						$form_elements[] = "#accordion-section-sidebar-widgets-$sidebar_id div[id*=_$widget_id-] .widget-content";
-						$form_elements[] = "#accordion-section-sidebar-widgets-$sidebar_id div[id*=_$widget_id-] .widget-control-save";
+						// Elements for hiding form fields
+						$form_elements[] = "#sub-accordion-section-sidebar-widgets-$sidebar_id .widget[id*=$widget_id] .widget-content > *:not(.ctfw-widget-incompatible)";
 
 						// Element for showing message
-						$message_elements[] = "#accordion-section-sidebar-widgets-$sidebar_id div[id*=_$widget_id-] .ctfw-widget-incompatible";
+						$message_elements[] = "#sub-accordion-section-sidebar-widgets-$sidebar_id .widget[id*=$widget_id] .ctfw-widget-incompatible";
 
 					}
 
