@@ -31,9 +31,10 @@ function ctfw_post_date( $options = array(), $post = null ) {
 
 	// Default options
 	$defaults = apply_filters( 'ctfw_post_date_default_options', array(
-		'return'	=> false,
-		'today'		=> true,	// show "Today" if post is from today
-		'yesterday'	=> true,	// show "Yesterday" instead of yesterday's date
+		'return'		=> false,
+		'today'			=> true,						// show "Today" if post is from today
+		'yesterday'		=> true,						// show "Yesterday" instead of yesterday's date
+		'date_format' 	=> get_option( 'date_format' ), // from WordPress general settings
 	) );
 	$options = wp_parse_args( $options, $defaults );
 
@@ -57,8 +58,7 @@ function ctfw_post_date( $options = array(), $post = null ) {
 
 	// Show date
 	else {
-		$date_format = get_option( 'date_format' ); // this is from WordPress general settings
-		$date_formatted = date_i18n( $date_format, $date_timestamp ); // translated date
+		$date_formatted = date_i18n( $options['date_format'], $date_timestamp ); // translated date
 	}
 
 	// Date filtering
