@@ -6,7 +6,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2017, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -185,6 +185,29 @@ function ctfw_sanitize_url_list( $urls, $allowed_strings = array() ) {
 
 	// Return sanitized filterable
 	return apply_filters( 'ctfw_sanitize_url_list', $sanitized_urls, $urls, $allowed_strings );
+
+}
+
+/*************************************************
+ * Email
+ *************************************************/
+
+/**
+ * Output email link with spam protection and line wrapping
+ *
+ * Uses WordPress core antispambot() function to encode address.
+ * Also adds <wbr> (&#8203;) before @ so breaks there to wrap to two lines when space runs out.
+ *
+ * @param  array $args Optional arguments (see defaults in function)
+ * @return string Linked email address
+ */
+function ctfw_email( $email ) {
+
+	$output = '<a href="mailto:' . antispambot( $email, true ) . '">' . "\n";
+	$output .= str_replace( '&#64;', '&#8203;&#64;', antispambot( $email ) ) . "\n"; // this on own line or validation can fail
+	$output .= '</a>';
+
+	return apply_filters( 'ctfw_email', $output, $email );
 
 }
 
