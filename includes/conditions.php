@@ -158,6 +158,44 @@ function ctfw_has_excerpt_or_more() {
 
 }
 
+/**
+ * Has loop for multiple entries
+ *
+ * This page is looping multiple entries
+ *
+ * @since 1.9.2
+ * @return bool true if looping multiple entries
+ */
+function ctfw_has_loop_multiple() {
+
+	$showing = false;
+
+	// Loop being output on regular page, such as via page templates like Sermons, People, etc.
+	if ( saved_loop_after_content_used() ) {
+		$showing = true;
+	}
+
+	// Archives like Sermon Topics, People Groups, etc.
+	// Also covers post type archives if a page with archive template isn't setup yet
+	elseif ( is_archive() ) {
+		$showing = true;
+	}
+
+	// Blog requires special handling with regard to Settings > Reading
+	elseif ( is_home() ) { // is_home() returns blog page
+		$showing = true;
+	}
+
+	// Search shows short entries
+	elseif ( is_search() ) {
+		$showing = true;
+	}
+
+	// Return filterable
+	return apply_filters( 'ctfw_has_loop_multiple', $showing );
+
+}
+
 /*******************************************
  * USERS
  *******************************************/
