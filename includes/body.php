@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2014, churchthemes.com
+ * @copyright  Copyright (c) 2014 - 2017, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      1.1.2
@@ -34,7 +34,12 @@ function ctfw_add_body_classes( $classes ) {
 	// Theme supports body helper classes?
 	if ( current_theme_supports( 'ctfw-body-classes' ) ) {
 
-		// Currently none
+		// Page has loop for multiple entries (archive, search, etc.)
+		if ( ctfw_has_loop_multiple() ) {
+			$classes[] = 'ctfw-has-loop-multiple';
+		} else {
+			$classes[] = 'ctfw-no-loop-multiple';
+		}
 
 	}
 
