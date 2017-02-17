@@ -129,6 +129,7 @@ function ctfw_event_data( $args = array() ) {
 		'post_id'				=> null, // use current
 		/* translators: time range (%1$s) and description (%2$s) for an event */
 		'time_and_desc_format'	=> __( '%1$s <span>(%2$s)</span>', 'church-theme-framework' ),
+		'abbreviate_month'		=> false, // use Dec instead of December (replaced F with M in date_format setting)
 	) );
 
 	// Extract arguments to variables
@@ -171,8 +172,16 @@ function ctfw_event_data( $args = array() ) {
 	$start_date_timestamp = strtotime( $meta['start_date'] );
 	$end_date_timestamp = strtotime( $meta['end_date'] );
 
+	// Date format from settings
+	$original_date_format = get_option( 'date_format' );
+	$date_format = $original_date_format;
+
+	// Abbreviate month in date format (e.g. December becomes Dec)
+	if ( $abbreviate_month ) {
+		$date_format = str_replace( 'F', 'M', $date_format );
+	}
+
 	// Add friendly date
-	$date_format = get_option( 'date_format' );
 	if ( $meta['end_date'] != $meta['start_date'] ) { // date range
 
 		// Date formats
@@ -180,7 +189,7 @@ function ctfw_event_data( $args = array() ) {
 		// If year is same but month different, becomes "June 30 - July 1, 2015"
 		$start_date_format = $date_format;
 		$end_date_format = $date_format;
-		if ( 'F j, Y' == $date_format && date_i18n( 'Y', $start_date_timestamp ) == date_i18n( 'Y', $end_date_timestamp ) ) { // Year on both dates must be same
+		if ( 'F j, Y' == $original_date_format && date_i18n( 'Y', $start_date_timestamp ) == date_i18n( 'Y', $end_date_timestamp ) ) { // Year on both dates must be same
 
 			// Remove year from start date
 			$start_date_format = 'F j';
