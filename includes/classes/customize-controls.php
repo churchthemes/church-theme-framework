@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Classes
- * @copyright  Copyright (c) 2013 - 2014, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2017, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -70,10 +70,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 
 						<li <?php echo $class_attr; ?><?php if ( $data['colorable'] ) : ?>data-customize-image-title="<?php _e( 'Colorable', 'church-theme-framework' ); ?>"<?php endif; ?>
 							data-customize-image-value="<?php echo esc_attr( $url ); ?>"
-							data-customize-image-preset-fullscreen="<?php echo esc_attr( $data['fullscreen'] ); ?>"
-							data-customize-image-preset-repeat="<?php echo esc_attr( $data['repeat'] ); ?>"
-							data-customize-image-preset-position="<?php echo esc_attr( $data['position'] ); ?>"
-							data-customize-image-preset-attachment="<?php echo esc_attr( $data['attachment'] ); ?>"
+							data-customize-image-preset-preset="<?php echo esc_attr( $data['preset'] ); ?>"
 							data-customize-image-preset-colorable="<?php echo esc_attr( $data['colorable'] ); ?>">
 							<div class="ctfw-customize-thumbnail-wrapper"><img src="<?php echo esc_url( $thumbnail_url ); ?>" /></div>
 						</li>
