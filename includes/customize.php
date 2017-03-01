@@ -6,7 +6,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013 - 2015, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2017, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      0.9
@@ -146,7 +146,7 @@ function ctfw_update_customization( $option, $value ) {
  * @since 1.4.1
  * @param string $option Customization option to remove from array
  */
-function ctfw_unset_customization( $option, $value ) {
+function ctfw_unset_customization( $option ) {
 
 	// Get array of options
 	$options = get_option( ctfw_customize_option_id() );
