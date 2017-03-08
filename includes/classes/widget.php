@@ -602,6 +602,13 @@ class CTFW_Widget extends WP_Widget {
 				// Make instance available to other methods used by template (e.g. get_posts())
 				$this->ctfw_instance = $instance;
 
+				// Set global to provide widget data inside get_template_part();
+				$GLOBALS['ctfw_current_widget'] = array(
+					'this'		=> $this,
+					'args'		=> $args,
+					'instance'	=> $instance,
+				);
+
 				// Load template with variables available (unlike locate_template())
 				include $template_path;
 
