@@ -195,6 +195,24 @@ function ctfw_has_loop_multiple() {
 	return apply_filters( 'ctfw_has_loop_multiple', $showing );
 
 }
+/**
+ * Is page template used
+ *
+ * An shorter way to determine if page is using a template
+ *
+ * Usage: ctfw_is_page_template( 'homepage' ) // homepage.php in template directory
+ *
+ * @since  1.9.3
+ * @param  $name Filename minus .php
+ * @return bool True if current page is using that template
+ */
+function ctfw_is_page_template( $name ) {
+
+	$result = is_page_template( CTFW_THEME_PAGE_TPL_DIR . '/' . $name . '.php' ) ? true : false;
+
+	return apply_filters( 'ctfw_is_page_template', $result, $name );
+
+}
 
 /*******************************************
  * USERS
