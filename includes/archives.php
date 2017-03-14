@@ -394,7 +394,7 @@ add_action( 'template_redirect', 'ctfw_redirect_archives_to_pages' );
 /**
  * Blog page URL
  *
- * Get URl of blog page depending on situation.
+ * Get URL of blog page depending on situation.
  *
  * @since 1.9.3
  * @return string URL of blog page
@@ -421,5 +421,40 @@ function ctfw_posts_page_url() {
 	}
 
 	return apply_filters( 'ctfw_posts_page_url', $url );
+
+}
+
+/**
+ * Post type archive URL
+ *
+ * Get URL of custom post type archive or page depending on situation.
+ *
+ * @since 1.9.3
+ * @param string $content_type Content type for post type (sermon, event, etc.)
+ * @return string URL of blog page
+ */
+function ctfw_post_type_archive_url( $post_type ) {
+
+	// Blog is special case
+	if ( 'post' == $post_type ) {
+		$url = ctfw_posts_page_url();
+	}
+
+	// Other post types
+	else {
+
+		// Use page having template
+		$content_type = ctfw_content_type_by_post_type( $post_type ); // Get content type based on post type
+		$url = ctfw_get_page_url_by_template( ctfw_page_template_by_content_type( $content_type ) );
+
+		// If no page found, use default archive URL
+		// User may not have set a page template on a page
+		if ( ! $url ) {
+			$url = get_post_type_archive_link( $post_type );
+		}
+
+	}
+
+	return apply_filters( 'ctfw_posts_type_archive_url', $url, $content_type );
 
 }

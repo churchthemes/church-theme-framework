@@ -195,6 +195,36 @@ function ctfw_current_content_type() {
 }
 
 /**
+ * Get content type based on post type
+ *
+ * @since 1.9.3
+ * @param string $post_type Post type to get content type for
+ * @return string Content type
+ */
+function ctfw_content_type_by_post_type( $post_type ) {
+
+	$post_type_content_type = '';
+
+	// Get types
+	$content_types = ctfw_content_types();
+
+	// Loop content types
+	foreach ( $content_types as $content_type => $content_type_data ) {
+
+		// Check for post type
+		if ( in_array( $post_type, $content_type_data['post_types'] ) ) {
+			$post_type_content_type = $content_type;
+			break;
+		}
+
+	}
+
+	// Return filtered
+	return apply_filters( 'ctfw_content_type_by_post_type', $post_type_content_type, $post_type );
+
+}
+
+/**
  * Get content type based on page template
  *
  * @since 0.9
@@ -211,7 +241,7 @@ function ctfw_content_type_by_page_template( $page_template ) {
 	// Get types
 	$content_types = ctfw_content_types();
 
-	// Loop conent types
+	// Loop content types
 	foreach ( $content_types as $content_type => $content_type_data ) {
 
 		// Check for page template
