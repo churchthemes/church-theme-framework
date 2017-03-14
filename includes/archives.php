@@ -291,7 +291,7 @@ function ctfw_get_month_archives( $post_type, $args = array() ) {
 }
 
 /**********************************
- * REDIRECTION
+ * POST TYPE ARCHIVES
  **********************************/
 
 /**
@@ -390,3 +390,36 @@ function ctfw_redirect_archives_to_pages() {
 }
 
 add_action( 'template_redirect', 'ctfw_redirect_archives_to_pages' );
+
+/**
+ * Blog page URL
+ *
+ * Get URl of blog page depending on situation.
+ *
+ * @since 1.9.3
+ * @return string URL of blog page
+ */
+function ctfw_posts_page_url() {
+
+	$show_on_front = get_option( 'show_on_front' );
+	$page_for_posts = get_option( 'page_for_posts' );
+
+	// "Posts page" is set in Settings > Reading
+	if ( 'page' == $show_on_front && $page_for_posts ) {
+		$url = get_permalink( $page_for_posts );
+	}
+
+	// "Your latest posts" is front page setting
+	elseif ( 'posts' == $show_on_front ) {
+		$url = home_url();
+	}
+
+	// Get URL of page using Blog template if settings are incomplete
+	// This will happen if "A static page" is set but no "Posts page" is selected
+	else {
+		$url = ctfw_get_page_url_by_template( ctfw_page_template_by_content_type( 'blog' ) );
+	}
+
+	return apply_filters( 'ctfw_posts_page_url', $url );
+
+}
