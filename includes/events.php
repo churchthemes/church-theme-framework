@@ -882,7 +882,7 @@ function ctfw_event_calendar_redirection() {
 	) );
 
 	// Only on event calendar page template
-	if ( ! is_page_template( CTFW_THEME_PAGE_TPL_DIR . '/' . $args['page_template'] ) ) {
+	if ( ! ctfw_is_page_template( $args['page_template'] ) ) {
 		return;
 	}
 
