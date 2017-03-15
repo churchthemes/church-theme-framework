@@ -215,6 +215,29 @@ function ctfw_is_page_template( $name ) {
 }
 
 /*******************************************
+ * WIDGETS
+ *******************************************/
+
+/**
+ * Determine if inside a particular widget area
+ *
+ * @since 1.9.3
+ * @param string Widget area / sidebar ID
+ * @return bool True if so
+ */
+function ctfw_is_widget_area( $widget_area ) {
+
+	$is = false;
+
+	if ( isset( $GLOBALS['ctfw_current_widget']['args']['id'] ) && $widget_area == $GLOBALS['ctfw_current_widget']['args']['id'] ) {
+		$is = true;
+	}
+
+	return apply_filters( 'ctfw_is_widget_area', $is, $widget_area );
+
+}
+
+/*******************************************
  * USERS
  *******************************************/
 
