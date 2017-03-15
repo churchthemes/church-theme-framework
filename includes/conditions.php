@@ -203,13 +203,18 @@ function ctfw_has_loop_multiple() {
  * Usage: ctfw_is_page_template( 'homepage' ) // homepage.php in template directory
  *
  * @since  1.9.3
- * @param  $name Filename minus .php
+ * @param  $name Filename with or without .php and with or without path
  * @return bool True if current page is using that template
  */
 function ctfw_is_page_template( $name ) {
 
+	// Remove path and .php
+	$name = basename( $name, '.php' );
+
+	// Check it
 	$result = is_page_template( CTFW_THEME_PAGE_TPL_DIR . '/' . $name . '.php' ) ? true : false;
 
+	// Return filtered
 	return apply_filters( 'ctfw_is_page_template', $result, $name );
 
 }
