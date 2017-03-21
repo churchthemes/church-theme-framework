@@ -167,7 +167,7 @@ add_filter( 'sidebars_widgets', 'ctfw_restrict_sidebars_widgets', 5 );
 /**
  * Set current sidebar ID
  *
- * See ctfw_is_widget_area() in conditions.php which uses this global.
+ * See ctfw_is_sidebar() in conditions.php which uses this global.
  *
  * @since 1.9.3
  * @param  string $index Sidebar ID
