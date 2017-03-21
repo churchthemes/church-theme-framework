@@ -226,15 +226,19 @@ function ctfw_is_page_template( $name ) {
 /**
  * Determine if inside a particular widget area
  *
+ * This uses global set by saved_set_current_sidebar_id() in sidebars.php.
+ *
  * @since 1.9.3
- * @param string Widget area / sidebar ID
+ * @param string Sidebar ID / widget area
  * @return bool True if so
  */
 function ctfw_is_widget_area( $widget_area ) {
 
+	global $ctfw_current_sidebar_id;
+
 	$is = false;
 
-	if ( isset( $GLOBALS['ctfw_current_widget']['args']['id'] ) && $widget_area == $GLOBALS['ctfw_current_widget']['args']['id'] ) {
+	if ( isset( $ctfw_current_sidebar_id ) && $widget_area == $ctfw_current_sidebar_id ) {
 		$is = true;
 	}
 

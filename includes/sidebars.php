@@ -174,7 +174,13 @@ add_filter( 'sidebars_widgets', 'ctfw_restrict_sidebars_widgets', 5 );
  */
 
 function saved_set_current_sidebar_id( $index ) {
-	$GLOBALS['ctfw_current_sidebar'] = $index;
+
+	global $ctfw_current_sidebar_id;
+
+	if ( ! empty( $index ) ) {
+		$ctfw_current_sidebar_id = $index;
+	}
+
 }
 
 add_action( 'dynamic_sidebar_before', 'saved_set_current_sidebar_id' );
@@ -189,8 +195,14 @@ add_action( 'dynamic_sidebar_before', 'saved_set_current_sidebar_id' );
  * @since 1.9.3
  * @param  string $index Sidebar ID
  */
-function saved_unset_current_sidebar_id( $index ) {
-	unset( $GLOBALS['ctfw_current_sidebar'] );
+function saved_unset_current_sidebar_id() {
+
+	global $ctfw_current_sidebar_id;
+
+	if ( isset( $ctfw_current_sidebar_id ) ) {
+		unset( $ctfw_current_sidebar_id );
+	}
+
 }
 
 add_action( 'dynamic_sidebar_after', 'saved_unset_current_sidebar_id' );
