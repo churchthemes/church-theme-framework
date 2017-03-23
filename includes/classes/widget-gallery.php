@@ -334,6 +334,9 @@ class CTFW_Widget_Gallery extends CTFW_Widget {
 
 		}
 
+		// Filter arguments
+		$args = apply_filters( 'ctfw_widget_gallery_get_posts_args', $args );
+
 		// Get gallery images
 		if ( ! empty( $args['post_parent__in'] ) || ! empty( $args['post__in'] ) ) { // if have something to search for
 			$images_query = new WP_Query( $args );
