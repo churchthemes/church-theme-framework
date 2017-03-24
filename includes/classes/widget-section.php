@@ -220,7 +220,7 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'upload_button'		=> '', // for url field; text for button that opens media frame
 				'upload_title'		=> '', // for url field; title appearing at top of media frame
 				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
-				'default'			=> '10', // value to pre-populate option with (before first save or on reset)
+				'default'			=> '100', // value to pre-populate option with (before first save or on reset)
 				'no_empty'			=> true, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
 				'attributes'		=> array(
