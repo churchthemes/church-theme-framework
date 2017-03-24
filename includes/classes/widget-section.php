@@ -234,6 +234,40 @@ class CTFW_Widget_Section extends CTFW_Widget {
 				'taxonomies'		=> array(), // hide field if taxonomies are not supported
 			),
 
+			// Height
+			'height' => array(
+				'name'				=> _x( 'Height', 'section widget', 'church-theme-framework' ),
+				'after_name'		=> '', // (Optional), (Required), etc.
+				'desc'				=> '',
+				'type'				=> 'select', // text, textarea, checkbox, radio, select, number, url, image, color
+				'checkbox_label'	=> '', //show text after checkbox
+				'radio_inline'		=> false, // show radio inputs inline or on top of each other
+				'number_min'		=> '', // lowest possible value for number type
+				'number_max'		=> '', // highest possible value for number type
+				'options'			=> array( // array of keys/values for radio or select
+					'fit' 			=> __( 'Fit to Content (Automatic)', 'church-theme-framework' ),
+					'one-fourth' 	=> __( 'One-fourth (25%)', 'church-theme-framework' ),
+					'one-third'	 	=> __( 'One-third (33%)', 'church-theme-framework' ),
+					'one-half'	 	=> __( 'One-half (50%)', 'church-theme-framework' ),
+					'two-thirds'	=> __( 'Two-thirds (67%)', 'church-theme-framework' ),
+					'three-fourths'	=> __( 'Three-fourths (75%)', 'church-theme-framework' ),
+					'full'			=> __( 'Fullscreen (100%)', 'church-theme-framework' ),
+				),
+				'upload_button'		=> '', // for url field; text for button that opens media frame
+				'upload_title'		=> '', // for url field; title appearing at top of media frame
+				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
+				'default'			=> 'fit', // value to pre-populate option with (before first save or on reset)
+				'no_empty'			=> true, // if user empties value, force default to be saved instead
+				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
+				'attributes'		=> array(), // attributes to add to input element
+				'class'				=> '', // class(es) to add to input
+				'field_attributes'	=> array(), // attr => value array for field container
+				'field_class'		=> '', // class(es) to add to field container
+				'custom_sanitize'	=> '', // function to do additional sanitization (or array( &$this, 'method' ))
+				'custom_field'		=> '', // function for custom display of field input
+				'taxonomies'		=> array(), // hide field if taxonomies are not supported
+			),
+
 			// Link 1 Text
 			'link1_text' => array(
 				'name'				=> _x( 'Link 1', 'section widget', 'church-theme-framework' ),
