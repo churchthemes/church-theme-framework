@@ -248,7 +248,7 @@ class CTFW_Widget_Section extends CTFW_Widget {
 					'fit' 			=> __( 'Fit to Content (Automatic)', 'church-theme-framework' ),
 					'one-fourth' 	=> __( 'One-fourth (25%)', 'church-theme-framework' ),
 					'one-third'	 	=> __( 'One-third (33%)', 'church-theme-framework' ),
-					'one-half'	 	=> __( 'One-half (50%)', 'church-theme-framework' ),
+					'half'	 		=> __( 'Half (50%)', 'church-theme-framework' ),
 					'two-thirds'	=> __( 'Two-thirds (67%)', 'church-theme-framework' ),
 					'three-fourths'	=> __( 'Three-fourths (75%)', 'church-theme-framework' ),
 					'full'			=> __( 'Fullscreen (100%)', 'church-theme-framework' ),
