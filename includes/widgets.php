@@ -403,3 +403,48 @@ function ctfw_get_registered_widgets() {
 	return apply_filters( 'ctfw_get_registered_widgets', $widgets );
 
 }
+
+/**
+ * Increment current widget's position in sidebar
+ *
+ * Store widgets position in its sidebar in a global.
+ * Useful for determining if a position is first in a sidebar.
+ *
+ * @since 1.9.3
+ * @global int $ctfw_current_widget_position Current widget position within its sidebar
+ * @global string $ctfw_last_sidebar_id Last sidebar to match against current sidebar
+ * @param array $sidebar_params Sidebar parameters
+ */
+function ctfw_increment_widget_position( $sidebar_params ) {
+
+	global $ctfw_current_widget_position, $ctfw_last_sidebar_id;
+
+	// Not in admin area
+	if ( ! is_admin() ) {
+
+		// Current sidebar
+		$current_sidebar_id = isset( $sidebar_params[0]['id'] ) ? $sidebar_params[0]['id'] : '';
+
+		// If no position set (first widget on page), start at 0
+		// Or, if starting in new sidebar, restart at 0
+		if (
+			! isset( $ctfw_current_widget_position )
+			||
+			( isset( $ctfw_last_sidebar_id ) && $current_sidebar_id != $ctfw_last_sidebar_id )
+		) {
+			$ctfw_current_widget_position = 0;
+		}
+
+		// Increment position
+		$ctfw_current_widget_position++;
+
+		// Store last sidebar
+		$ctfw_last_sidebar_id = $current_sidebar_id;
+
+	}
+
+	return $sidebar_params;
+
+}
+
+add_filter( 'dynamic_sidebar_params', 'ctfw_increment_widget_position' );

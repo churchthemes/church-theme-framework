@@ -246,6 +246,28 @@ function ctfw_is_sidebar( $sidebar_id ) {
 
 }
 
+/**
+ * Determine if is first widget in sidebar
+ *
+ * This uses global set by ctfw_increment_widget_position() in widgets.php.
+ *
+ * @since 1.9.3
+ * @return bool True if so
+ */
+function ctfw_is_first_widget() {
+
+	global $ctfw_current_widget_position;
+
+	$is_first = false;
+
+	if ( isset( $ctfw_current_widget_position ) && 1 == $ctfw_current_widget_position ) {
+		$is_first = true;
+	}
+
+	return apply_filters( 'ctfw_is_first_widget', $is_first );
+
+}
+
 /*******************************************
  * USERS
  *******************************************/
