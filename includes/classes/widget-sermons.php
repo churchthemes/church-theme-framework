@@ -582,6 +582,9 @@ class CTFW_Widget_Sermons extends CTFW_Widget {
 			$args['ctc_sermon_speaker'] = $speaker_term->slug;
 		}
 
+		// Filter arguments
+		$args = apply_filters( 'ctfw_widget_sermons_get_posts_args', $args );
+
 		// Get posts
 		$posts = get_posts( $args );
 

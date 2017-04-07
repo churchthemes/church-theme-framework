@@ -406,6 +406,9 @@ class CTFW_Widget_Posts extends CTFW_Widget {
 			$args['category'] = $this->ctfw_instance['category']; // ID
 		}
 
+		// Filter arguments
+		$args = apply_filters( 'ctfw_widget_posts_get_posts_args', $args );
+
 		// Get posts
 		$posts = get_posts( $args );
 

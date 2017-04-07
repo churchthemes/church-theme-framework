@@ -444,6 +444,9 @@ class CTFW_Widget_People extends CTFW_Widget {
 
 		}
 
+		// Filter arguments
+		$args = apply_filters( 'ctfw_widget_posts_get_people_args', $args );
+
 		// Get posts
 		$posts = get_posts( $args );
 
