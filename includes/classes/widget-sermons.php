@@ -583,7 +583,7 @@ class CTFW_Widget_Sermons extends CTFW_Widget {
 		}
 
 		// Filter arguments
-		$args = apply_filters( 'ctfw_widget_sermons_get_posts_args', $args );
+		$args = apply_filters( 'ctfw_widget_sermons_get_posts_args', $args, $this->ctfw_instance );
 
 		// Get posts
 		$posts = get_posts( $args );
