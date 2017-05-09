@@ -322,12 +322,12 @@ class CTFW_Widget_Section extends CTFW_Widget {
 			// Height
 			'height' => array(
 				'name'				=> _x( 'Height', 'section widget', 'church-theme-framework' ),
-				'after_name'		=>  _x( '(Percentage, Optional)', 'widget field', 'church-theme-framework' ), // (Optional), (Required), etc.
+				'after_name'		=>  _x( '(Percentage)', 'widget field', 'church-theme-framework' ), // (Optional), (Required), etc.
 				'desc'				=> '',
 				'type'				=> 'number', // text, textarea, checkbox, radio, select, number, url, image, color
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
-				'number_min'		=> '1', // lowest possible value for number type
+				'number_min'		=> '0', // lowest possible value for number type
 				'number_max'		=> '100', // highest possible value for number type
 				'options'			=> array(), // array of keys/values for radio or select
 				'upload_button'		=> '', // for url field; text for button that opens media frame
