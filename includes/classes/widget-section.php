@@ -322,29 +322,23 @@ class CTFW_Widget_Section extends CTFW_Widget {
 			// Height
 			'height' => array(
 				'name'				=> _x( 'Height', 'section widget', 'church-theme-framework' ),
-				'after_name'		=> '', // (Optional), (Required), etc.
+				'after_name'		=>  _x( '(Percentage, Optional)', 'widget field', 'church-theme-framework' ), // (Optional), (Required), etc.
 				'desc'				=> '',
-				'type'				=> 'select', // text, textarea, checkbox, radio, select, number, url, image, color
+				'type'				=> 'number', // text, textarea, checkbox, radio, select, number, url, image, color
 				'checkbox_label'	=> '', //show text after checkbox
 				'radio_inline'		=> false, // show radio inputs inline or on top of each other
-				'number_min'		=> '', // lowest possible value for number type
-				'number_max'		=> '', // highest possible value for number type
-				'options'			=> array( // array of keys/values for radio or select
-					'fit' 			=> __( 'Fit to Content (Automatic)', 'church-theme-framework' ),
-					'one-fourth' 	=> __( 'One-fourth (25%)', 'church-theme-framework' ),
-					'one-third'	 	=> __( 'One-third (33%)', 'church-theme-framework' ),
-					'half'	 		=> __( 'Half (50%)', 'church-theme-framework' ),
-					'two-thirds'	=> __( 'Two-thirds (67%)', 'church-theme-framework' ),
-					'three-fourths'	=> __( 'Three-fourths (75%)', 'church-theme-framework' ),
-					'full'			=> __( 'Fullscreen (100%)', 'church-theme-framework' ),
-				),
+				'number_min'		=> '1', // lowest possible value for number type
+				'number_max'		=> '100', // highest possible value for number type
+				'options'			=> array(), // array of keys/values for radio or select
 				'upload_button'		=> '', // for url field; text for button that opens media frame
 				'upload_title'		=> '', // for url field; title appearing at top of media frame
 				'upload_type'		=> '', // for url field; optional type of media to filter by (image, audio, video, application/pdf)
-				'default'			=> 'fit', // value to pre-populate option with (before first save or on reset)
-				'no_empty'			=> true, // if user empties value, force default to be saved instead
+				'default'			=> '', // value to pre-populate option with (before first save or on reset)
+				'no_empty'			=> false, // if user empties value, force default to be saved instead
 				'allow_html'		=> false, // allow HTML to be used in the value (text, textarea)
-				'attributes'		=> array(), // attributes to add to input element
+				'attributes'		=> array(
+										'style="width:60px"',
+									), // attributes to add to input element
 				'class'				=> '', // class(es) to add to input
 				'field_attributes'	=> array(), // attr => value array for field container
 				'field_class'		=> '', // class(es) to add to field container
