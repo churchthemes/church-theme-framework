@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Admin
- * @copyright  Copyright (c) 2015, churchthemes.com
+ * @copyright  Copyright (c) 2015 - 2017, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @since      1.7.2
@@ -32,6 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * add_theme_support( 'ctfw-editor-styles', array(
  * 		'stylesheet'	=> 'style.css', 							// style.css will be used if not specified
  * 		'css_function'	=> 'themename_head_styles',					// function outputting dynamic CSS in <head> (exclude <style> tag)
+ * 		'body_function'	=> 'themename_body_classes',				// function returning array of classes to add to <body>
  *		'fonts'			=> array( 'heading_font', 'body_font' ),	// Customizer setting names for Google Fonts
  *		'font_subsets'	=> 'font_subsets',							// Customizer setting name for Google Font subsets
  * ) );
@@ -61,6 +62,7 @@ function ctfw_editor_styles() {
 	$args = wp_parse_args( $args, array(
 		'stylesheet'	=> 'style.css',								// style.css will be used if not specified
  		'css_function'	=> '',										// function outputting dynamic CSS in <head> (exclude <style> tag)
+ 		'body_function'	=> '',										// function returning array of classes to add to <body>
  		'fonts'			=> array( 'heading_font', 'body_font' ),	// Customizer setting names for Google Fonts
  		'font_subsets'	=> 'font_subsets',							// Customizer setting name for Google Font subsets
 	) );
@@ -115,6 +117,11 @@ function ctfw_editor_styles() {
 
 	}
 
+	// Apply body classes to editor
+	if ( $args['body_function'] ) {
+		add_filter( 'tiny_mce_before_init', 'ctfw_add_editor_body_classes' );
+    }
+
 }
 
 add_action( 'after_setup_theme', 'ctfw_editor_styles', 11 );
@@ -126,4 +133,40 @@ add_action( 'after_setup_theme', 'ctfw_editor_styles', 11 );
  */
 function ctfw_editor_styles_header() {
 	header( 'Content-type: text/css; charset: UTF-8' );
+}
+
+/**
+ * Add <b>body</b> classes to editor
+ *
+ * @since 1.9.3
+ * @param array $mce Editor data
+ * @return array Editor data with extra body classes
+ */
+function ctfw_add_editor_body_classes( $mce ) {
+
+	// Get function name when 'ctfw-editor-styles' supported
+	$support = get_theme_support( 'ctfw-editor-styles' );
+	$body_function = isset( $support[0]['body_function'] ) ? $support[0]['body_function'] : false;
+
+	// Function exists?
+	if ( $body_function && function_exists( $body_function ) ) {
+
+		// Get classes array
+		$body_classes = call_user_func( $body_function );
+
+		// Have classes
+		if ( $body_classes ) {
+
+			// Convert to string
+			$body_classes = implode( ' ', $body_classes );
+
+			// Append to existing classes string
+			$mce['body_class'] .= ' ' . $body_classes;
+
+		}
+
+	}
+
+	return $mce;
+
 }
