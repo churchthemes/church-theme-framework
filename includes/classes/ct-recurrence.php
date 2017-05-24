@@ -14,7 +14,7 @@
  * See example usage at bottom of this file.
  *
  * @copyright Copyright (c) 2014 - 2015 churchthemes.com
- * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @license   GPLv2 or later
  */
 
 // No direct access

@@ -6,7 +6,7 @@
  * @subpackage Admin
  * @copyright  Copyright (c) 2015 - 2017, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
- * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @license    GPLv2 or later
  * @since      1.7.2
  */
 

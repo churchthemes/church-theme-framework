@@ -6,7 +6,7 @@
  * @subpackage Functions
  * @copyright  Copyright (c) 2013, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
- * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @license    GPLv2 or later
  * @since      0.9
  */
 
@@ -31,7 +31,7 @@ function ctfw_ctc_taxonomy_supported( $taxonomy_name ) {
 
 	// If show_ui is true, taxonomy is supported by theme and plugin
 	$supported = ! empty( $taxonomy->show_ui ) ? true : false;
-		
+
 	// Return filterable
 	return apply_filters( 'ctfw_ctc_taxonomy_supported', $supported, $taxonomy_name );
 
