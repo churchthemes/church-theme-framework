@@ -178,7 +178,15 @@ function ctfw_event_data( $args = array() ) {
 
 	// Abbreviate month in date format (e.g. December becomes Dec)
 	if ( $abbreviate_month ) {
-		$date_format = str_replace( 'F', 'M', $date_format );
+
+		//$date_format = str_replace( 'F', 'M', $date_format );
+
+		$date_format = ctfw_abbreviate_date_format( array(
+			'date_format'		=> $date_format,
+			'abbreviate_month'	=> true,
+			'remove_year'		=> false,
+		) );
+
 	}
 
 	// Add friendly date
@@ -441,7 +449,11 @@ function ctfw_event_calendar_data( $args ) {
 
 	// Date format
 	$date_format = get_option( 'date_format' );
-	$date_format_abbreviated = str_replace( 'F', 'M', $date_format );
+	$date_format_abbreviated = ctfw_abbreviate_date_format( array(
+		'date_format'		=> $date_format,
+		'abbreviate_month'	=> true, // December = Dec
+		'remove_year'		=> false,
+	) );
 
 	// Start calendar data array
 	$calendar = array();
@@ -610,8 +622,7 @@ function ctfw_event_calendar_data( $args ) {
 			$calendar['weeks'][$week_key]['days'][$day_key]['date'] = $date;
 			$calendar['weeks'][$week_key]['days'][$day_key]['date_ts'] = $date_ts;
 			$calendar['weeks'][$week_key]['days'][$day_key]['date_formatted'] = $date_formatted;
-			$calendar['weeks'][$week_key]['days'][$day_key]['date_formatted_abbreviated'] = $date_formatted_abbreviated; // // abbreviate month (use Dec instead of December by replacing F with M in date_format setting)
-
+			$calendar['weeks'][$week_key]['days'][$day_key]['date_formatted_abbreviated'] = $date_formatted_abbreviated; // abbreviate month (use Dec instead of December by replacing F with M in date_format setting)
 
 			$last_of_previous_month = false;
 			if ( $day['other_month'] && $previous_month_days == $day['day'] ) {
