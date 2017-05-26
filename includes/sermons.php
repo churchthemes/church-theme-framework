@@ -412,16 +412,20 @@ function ctfw_sermon_books_by_testament() {
 	);
 
 	// Loop books to add per testament
-	foreach ( $books['items'] as $book ) {
+	if ( ! empty( $books['items'] ) ) {
 
-		$testament = isset( $book->book_data['testament'] ) ? $book->book_data['testament'] : '';
+		foreach ( $books['items'] as $book ) {
 
-		if ( 'old' == $testament ) {
-			$books_by_testament['old']['books'][] = $book;
-		} else if ( 'new' == $testament ) {
-			$books_by_testament['new']['books'][] = $book;
-		} else {
-			$books_by_testament['other']['books'][] = $book;
+			$testament = isset( $book->book_data['testament'] ) ? $book->book_data['testament'] : '';
+
+			if ( 'old' == $testament ) {
+				$books_by_testament['old']['books'][] = $book;
+			} else if ( 'new' == $testament ) {
+				$books_by_testament['new']['books'][] = $book;
+			} else {
+				$books_by_testament['other']['books'][] = $book;
+			}
+
 		}
 
 	}
