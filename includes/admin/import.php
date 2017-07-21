@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Admin
- * @copyright  Copyright (c) 2013 - 2016, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2017, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9.3
@@ -444,3 +444,62 @@ function ctfw_import_delete_wp_sample_content() {
 }
 
 add_action( 'import_start', 'ctfw_import_delete_wp_sample_content' ); // WordPress Importer plugin hook
+
+
+/**
+ * Delete WordPress sample widgets before import widgets (.wie from Widget Importer & Explorter)
+ *
+ * Remove search, comments and meta WordPress added to the first widget area.
+ * Does this only when those and only those widgets exist, so can be nearly certain user didn't add them like that.
+ *
+ * Use add_theme_support( 'ctfw-import-delete-wp-widgets' );
+ *
+ * @since 1.9.3
+ */
+function ctfw_import_delete_wp_sample_widgets() {
+
+	// Theme supports this?
+	if ( current_theme_supports( 'ctfw-import-delete-wp-widgets' ) ) {
+
+		// Get widget areas and their widget instances
+		$sidebars_widgets = get_option( 'sidebars_widgets' ); // get sidebars and their unique widgets IDs
+
+		// Have widget area data
+		if ( ! empty( $sidebars_widgets ) && count( $sidebars_widgets ) > 1 ) {
+
+			// Get first widget area
+			// It's second item because wp_inactive_widgets exists at beginning of array
+			$first_sidebar = array_slice( $sidebars_widgets, 1, 1 );
+
+			// Have first sidebar
+			if ( $first_sidebar ) {
+
+				// Get widgets and sidebar ID
+				$widget_instances = reset( $first_sidebar );
+				$sidebar_id = key( $first_sidebar );
+
+				// Are there 3 and they are 0 = search, 1 = comments and 2 = meta?
+				if (
+					count( $widget_instances ) == 3
+					&& preg_match( '/search/', $widget_instances[0] )
+					&& preg_match( '/comments/', $widget_instances[1] )
+					&& preg_match( '/meta/', $widget_instances[2] )
+				) {
+
+					// Remove them from array
+					$sidebars_widgets[$sidebar_id] = array();
+
+					// Update sidebars_widgets option without them
+					update_option( 'sidebars_widgets', $sidebars_widgets );
+
+				}
+
+			}
+
+		}
+
+	}
+
+}
+
+add_action( 'wie_before_import', 'ctfw_import_delete_wp_sample_widgets' ); // WordPress Importer & Exporter plugin hook
