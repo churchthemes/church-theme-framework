@@ -436,7 +436,7 @@ function ctfw_import_delete_wp_sample_content() {
 		// Sample page
 		wp_delete_post( 2 ); // move to trash
 
-		// sample content
+		// Sample content
 		wp_delete_comment( 1 );
 
 	}
@@ -449,7 +449,7 @@ add_action( 'import_start', 'ctfw_import_delete_wp_sample_content' ); // WordPre
 /**
  * Delete WordPress sample widgets before import widgets (.wie from Widget Importer & Explorter)
  *
- * Remove search, comments and meta WordPress added to the first widget area.
+ * Remove search, comments and meta WordPress widgets added to the first widget area.
  * Does this only when those and only those widgets exist, so can be nearly certain user didn't add them like that.
  *
  * Use add_theme_support( 'ctfw-import-delete-wp-widgets' );
