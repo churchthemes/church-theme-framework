@@ -445,7 +445,6 @@ function ctfw_import_delete_wp_sample_content() {
 
 add_action( 'import_start', 'ctfw_import_delete_wp_sample_content' ); // WordPress Importer plugin hook
 
-
 /**
  * Delete WordPress sample widgets before import widgets (.wie from Widget Importer & Explorter)
  *
@@ -503,3 +502,34 @@ function ctfw_import_delete_wp_sample_widgets() {
 }
 
 add_action( 'wie_before_import', 'ctfw_import_delete_wp_sample_widgets' ); // WordPress Importer & Exporter plugin hook
+
+/******************************************
+ * WP SETTINGS
+ ******************************************/
+
+/**
+ * Update settings when importing content from "sampleuser"
+ *
+ * add_theme_support( 'ctfw-import-update-settings' );
+ *
+ * @since 1.9.3
+ */
+function ctfw_import_update_settings() {
+
+	// Theme supports this?
+	$support = get_theme_support( 'ctfw-import-update-settings' );
+	if ( ! empty( $support[0] ) ) {
+
+		// Get new settings
+		$settings = $support[0];
+
+		// Loop to update settings
+		foreach ( $settings as $name => $value ) {
+			update_option( $name, $value );
+		}
+
+	}
+
+}
+
+add_action( 'import_start', 'ctfw_import_update_settings' );
