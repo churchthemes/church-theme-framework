@@ -169,7 +169,7 @@ add_filter( 'sidebars_widgets', 'ctfw_restrict_sidebars_widgets', 5 );
  *
  * See ctfw_is_sidebar() in conditions.php which uses this global.
  *
- * @since 1.9.3
+ * @since 2.0
  * @param  string $index Sidebar ID
  */
 
@@ -192,7 +192,7 @@ add_action( 'dynamic_sidebar_before', 'saved_set_current_sidebar_id' );
  *
  * See saved_set_current_sidebar_id() above for more.
  *
- * @since 1.9.3
+ * @since 2.0
  * @param  string $index Sidebar ID
  */
 function saved_unset_current_sidebar_id() {

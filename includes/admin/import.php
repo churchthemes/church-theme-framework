@@ -453,7 +453,7 @@ add_action( 'import_start', 'ctfw_import_delete_wp_sample_content' ); // WordPre
  *
  * Use add_theme_support( 'ctfw-import-delete-wp-widgets' );
  *
- * @since 1.9.3
+ * @since 2.0
  */
 function ctfw_import_delete_wp_sample_widgets() {
 
@@ -513,7 +513,7 @@ add_action( 'wie_before_import', 'ctfw_import_delete_wp_sample_widgets' ); // Wo
  *
  * add_theme_support( 'ctfw-import-update-settings' );
  *
- * @since 1.9.3
+ * @since 2.0
  */
 function ctfw_import_update_settings() {
 

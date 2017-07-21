@@ -409,7 +409,7 @@ function ctfw_make_friendly( $string ) {
  * Convert common date formats to abbreviated version
  * by abbreviating month and/or removing year.
  *
- * @since 1.9.3
+ * @since 2.0
  * @param string $date_format Date format to abbreviate; if none given, uses get_option( 'date_format' )
  * @param array $args Array of bools: abbreviate_month (e.g. convert January to Jan), remove_year (both default true)
  * @return string Abbreviated date format

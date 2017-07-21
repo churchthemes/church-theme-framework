@@ -396,7 +396,7 @@ add_action( 'template_redirect', 'ctfw_redirect_archives_to_pages' );
  *
  * Get URL of blog page depending on situation.
  *
- * @since 1.9.3
+ * @since 2.0
  * @return string URL of blog page
  */
 function ctfw_posts_page_url() {
@@ -429,7 +429,7 @@ function ctfw_posts_page_url() {
  *
  * Get URL of custom post type archive or page depending on situation.
  *
- * @since 1.9.3
+ * @since 2.0
  * @param string $content_type Content type for post type (sermon, event, etc.)
  * @return string URL of blog page
  */

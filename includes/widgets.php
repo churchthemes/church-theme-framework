@@ -9,7 +9,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2017, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9
@@ -410,7 +410,7 @@ function ctfw_get_registered_widgets() {
  * Store widgets position in its sidebar in a global.
  * Useful for determining if a position is first in a sidebar.
  *
- * @since 1.9.3
+ * @since 2.0
  * @global int $ctfw_current_widget_position Current widget position within its sidebar
  * @global string $ctfw_last_sidebar_id Last sidebar to match against current sidebar
  * @param array $sidebar_params Sidebar parameters

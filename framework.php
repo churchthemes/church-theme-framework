@@ -29,7 +29,7 @@ $theme_data = is_child_theme() ? wp_get_theme( $theme_data->template ) : $theme_
 /**
  * Framework constants
  */
-if ( ! defined( 'CTFW_VERSION' ) )				define( 'CTFW_VERSION', 			'1.9.2' );
+if ( ! defined( 'CTFW_VERSION' ) )				define( 'CTFW_VERSION', 			'2.0' );
 
 /**
  * Theme constants

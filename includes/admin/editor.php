@@ -138,7 +138,7 @@ function ctfw_editor_styles_header() {
 /**
  * Add <b>body</b> classes to editor
  *
- * @since 1.9.3
+ * @since 2.0
  * @param array $mce Editor data
  * @return array Editor data with extra body classes
  */

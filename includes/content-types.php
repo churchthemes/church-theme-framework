@@ -7,7 +7,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013 - 2016, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2017, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9
@@ -197,7 +197,7 @@ function ctfw_current_content_type() {
 /**
  * Get content type based on post type
  *
- * @since 1.9.3
+ * @since 2.0
  * @param string $post_type Post type to get content type for
  * @return string Content type
  */

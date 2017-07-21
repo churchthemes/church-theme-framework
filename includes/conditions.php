@@ -228,7 +228,7 @@ function ctfw_is_page_template( $name ) {
  *
  * This uses global set by saved_set_current_sidebar_id() in sidebars.php.
  *
- * @since 1.9.3
+ * @since 2.0
  * @param string $sidebar_id Sidebar ID / widget area
  * @return bool True if so
  */
@@ -251,7 +251,7 @@ function ctfw_is_sidebar( $sidebar_id ) {
  *
  * This uses global set by ctfw_increment_widget_position() in widgets.php.
  *
- * @since 1.9.3
+ * @since 2.0
  * @return bool True if so
  */
 function ctfw_is_first_widget() {
