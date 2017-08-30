@@ -119,7 +119,7 @@ function ctfw_edd_license_updater() {
 
 		// Strings.
 		$strings = array(
-			'update-notice'    => __( 'If you have modified theme files directly (not common), your changes will be overwritten (make a child theme instead). "Cancel" to stop, "OK" to update.', 'church-theme-framework' ),
+			'update-notice'    => __( 'If you have modified theme files directly (not common), your changes will be overwritten (make a child theme instead). Click "Cancel" to stop or "OK" to update the theme.', 'church-theme-framework' ),
 			'update-available' => __( '<strong>%1$s %2$s</strong> is available. <a href="%3$s" target="_blank">Check out what\'s new</a> or <a href="%5$s"%6$s>update now</a>.', 'church-theme-framework' ),
 		);
 
