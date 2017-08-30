@@ -114,17 +114,31 @@ function ctfw_edd_license_updater() {
 	// Theme supports updates?
 	if ( current_theme_supports( 'ctfw-edd-license' ) && ctfw_edd_license_config( 'updates' ) ) {
 
-		// Include updater class
-		locate_template( CTFW_CLASS_DIR . '/CTFW_EDD_SL_Theme_Updater.php', true );
+		// Include updater class.
+		locate_template( CTFW_CLASS_DIR . '/theme-updater-class.php', true );
 
-		// Activate updates
-		$edd_updater = new CTFW_EDD_SL_Theme_Updater( array(
-			'remote_api_url' 	=> ctfw_edd_license_config( 'store_url' ), 		// Store URL running EDD with Software Licensing extension
-			'version' 			=> ctfw_edd_license_config( 'version' ), 		// Current version of theme
-			'license' 			=> ctfw_edd_license_key(), 						// The license key entered by user
-			'item_name' 		=> ctfw_edd_license_config( 'item_name' ),		// The name of this theme
-			'author'			=> ctfw_edd_license_config( 'author' )			// The author's name
-		) );
+		// Strings.
+		$strings = array(
+			'update-notice'    => __( 'If you have modified theme files directly (not common), your changes will be overwritten (make a child theme instead). "Cancel" to stop, "OK" to update.', 'church-theme-framework' ),
+			'update-available' => __( '<strong>%1$s %2$s</strong> is available. <a href="%3$s" target="_blank">Check out what\'s new</a> or <a href="%5$s"%6$s>update now</a>.', 'church-theme-framework' ),
+		);
+
+		// Use custom changelog URL.
+		$changelog_url = 'https://churchthemes.com/go/changelog/' . CTFW_THEME_SLUG . '/';
+		$strings['update-available'] = str_replace( '%3$s', $changelog_url, $strings['update-available'] );
+
+		// Activate updates.
+		new EDD_Theme_Updater(
+			array(
+				'remote_api_url' => ctfw_edd_license_config( 'store_url' ), // Store URL running EDD with Software Licensing extension.
+				'version'        => ctfw_edd_license_config( 'version' ), // Current version of theme.
+				'license'        => ctfw_edd_license_key(), // The license key entered by user.
+				'item_name'      => ctfw_edd_license_config( 'item_name' ), // The name of this theme.
+				'author'         => ctfw_edd_license_config( 'author' ), // The author's name.
+				'beta'           => false,
+			),
+			$strings
+		);
 
 	}
 
