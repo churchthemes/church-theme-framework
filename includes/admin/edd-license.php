@@ -793,11 +793,11 @@ function ctfw_edd_license_notice() {
 
 					printf(
 						ctfw_edd_license_config( $notice ),
-						admin_url( 'themes.php?page=theme-license' ),
-						CTFW_THEME_NAME,
-						$expiration_data['expiration_date'],
-						ctfw_edd_license_renewal_url(),
-						ctfw_edd_license_config( 'renewal_info_url' )
+						esc_url( admin_url( 'themes.php?page=theme-license' ) ),
+						esc_html( CTFW_THEME_NAME ),
+						esc_html( $expiration_data['expiration_date'] ),
+						esc_url( ctfw_edd_license_renewal_url() ),
+						esc_url( ctfw_edd_license_config( 'renewal_info_url' ) )
 					);
 
 					?>
