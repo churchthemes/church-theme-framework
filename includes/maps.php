@@ -142,7 +142,7 @@ function ctfw_google_map_image( $options = array() ) {
 	$map_args['scale'] = $scale; // double for Retina
 	//$map_args['markers'] = 'color:0x' . $marker_color . '|' . $map_args['center'];
 	$map_args['markers'] = 'color:0x' . $marker_color . '%7C' . $map_args['center']; // HTML5-valid: http://bit.ly/1xfv8yA
-	$map_args['key'] = ctfw_google_maps_api_key(); // from Church Theme Content plugin settings
+	$map_args['key'] = ctfw_google_maps_api_key(); // from Church Content plugin settings
 
 	// Have zoom?
 	if ( ! empty( $zoom ) ) {
@@ -204,9 +204,9 @@ function ctfw_directions_url( $address ) {
 }
 
 /**
- * Get API Key from Church Theme Content settings
+ * Get API Key from Church Content settings
  *
- * It's set in Church Theme Content settings because "Get From Address" button needs it.
+ * It's set in Church Content settings because "Get From Address" button needs it.
  * Themes can use the key from the plugin in this way.
  *
  * @since 1.8

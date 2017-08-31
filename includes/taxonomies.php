@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * If not supported, theme or plugin causes taxonomy to register with show_ui to false
  * This is used in widgets to show and render fields dependent on taxonomies.
  *
- * Note: this is intended for use only after Church Theme Content registers taxonomies since that is when show_ui is available.
+ * Note: this is intended for use only after Church Content registers taxonomies since that is when show_ui is available.
  *
  * @since 0.9
  * @param string $taxonomy_name Taxonomy name

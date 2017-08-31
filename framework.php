@@ -3,7 +3,7 @@
  * Church Theme Framework
  *
  * The framework provides code and assets common to multiple themes for more organized and efficient development/updates.
- * It is intended for use in themes that use the Church Theme Content plugin.
+ * It is intended for use in themes that use the Church Content plugin.
  *
  * @package   Church_Theme_Framework
  * @copyright Copyright (c) 2013 - 2017, churchthemes.com

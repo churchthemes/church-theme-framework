@@ -122,6 +122,6 @@ function ctfw_hide_default_activation_notice() {
 function ctfw_activation_remove_notices() {
 
 	remove_action( 'admin_notices', 'ctfw_edd_license_notice', 7 ); // Theme License
-	remove_action( 'admin_notices', 'ctfw_ctc_plugin_notice' ); // Church Theme Content
+	remove_action( 'admin_notices', 'ctfw_ctc_plugin_notice' ); // Church Content
 
 }

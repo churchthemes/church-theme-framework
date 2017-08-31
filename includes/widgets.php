@@ -40,7 +40,7 @@ function ctfw_widgets() {
 			'class'						=> 'CTFW_Widget_Categories',	// widget class name
 			'class_file'				=> 'widget-categories.php',		// filename of class in framework class directory
 			'template_file'				=> 'widget-categories.php',		// filename of template in widget-templates directory
-			'ctc_required'				=> false,						// requires Church Theme Content plugin to be active
+			'ctc_required'				=> false,						// requires Church Content plugin to be active
 			'theme_support'				=> 'ctfw-widget-categories',	// add_theme_support() feature required (can be empty)
 			'theme_support_required'	=> array(),						// additional features theme must support for widget to register
 			'icon'						=> 'dashicons-microphone',
@@ -191,7 +191,7 @@ function ctfw_register_widgets() {
 	// Available widgets
 	$widgets = ctfw_widgets();
 
-	// Church Theme Content plugin is installed and activated?
+	// Church Content plugin is installed and activated?
 	$ctc_active = ctfw_ctc_plugin_active();
 
 	// Loop widgets
@@ -213,7 +213,7 @@ function ctfw_register_widgets() {
 		// Theme support is okay
 		if ( $supported ) {
 
-			// Church Theme Content is active or not required for widget
+			// Church Content is active or not required for widget
 			if ( empty( $widget_data['ctc_required'] ) || $ctc_active ) {
 
 				// Include class if exists
@@ -347,7 +347,7 @@ function ctfw_set_visible_widget_fields( $visible_fields, $widget_id ) {
 		// Make new array out of fields theme supports
 		$visible_fields = $supported_fields;
 
-		// (here could access Church Theme Content plugin settings to override theme's feature support)
+		// (here could access Church Content plugin settings to override theme's feature support)
 
 	}
 

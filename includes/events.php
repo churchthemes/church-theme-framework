@@ -50,7 +50,7 @@ function ctfw_get_events( $args = array() ) {
 	}
 
 	// Backwards compatibility
-	// Church Theme Content added rigid time fields in version 1.2
+	// Church Content added rigid time fields in version 1.2
 	// Continue ordering by old field for old versions of plugin
 	if ( defined( 'CTC_VERSION' ) && version_compare( CTC_VERSION, '1.2', '<' ) ) { // CTC plugin is active and old
 
@@ -309,7 +309,7 @@ function ctfw_event_data( $args = array() ) {
  * Order by event date, not publish date
  *
  * Use add_theme_support( 'ctfw-event-category-query' ) to enable.
- * Must have support for Church Theme Content event category taxonomy
+ * Must have support for Church Content event category taxonomy
  *
  * @since 1.5
  * @param object $query WP_Query
@@ -660,7 +660,7 @@ function ctfw_event_calendar_data( $args ) {
 		// We don't need events beyond that because nothing is calculated backwards
 
 		// Backwards compatibility
-		// Church Theme Content added rigid time fields in version 1.2
+		// Church Content added rigid time fields in version 1.2
 		// Continue ordering by old field for old versions of plugin
 		$meta_type = 'DATETIME'; // 0000-00-00 00:00:00
 		$meta_key = '_ctc_event_start_date_start_time'; // order by this
@@ -1327,7 +1327,7 @@ function ctfw_previous_next_event_sorting() {
 		return;
 	}
 
-	// While on single event, if theme supports Events from Church Theme Content
+	// While on single event, if theme supports Events from Church Content
 	// IMPORTANT: Without ! is_page(), is_singular() runs, somehow causing /page/#/ URL's on static front page to break
 	if ( ! is_page() && is_singular( 'ctc_event' ) && current_theme_supports( 'ctc-events' ) ) {
 

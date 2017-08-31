@@ -2,7 +2,7 @@
 /**
  * Compatibility Functions
  *
- * Require minimum version of WordPress, Church Theme Content plugin, Internet Explorer, etc.
+ * Require minimum version of WordPress, Church Content plugin, Internet Explorer, etc.
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
@@ -225,8 +225,8 @@ function ctfw_ctc_plugin_notice() {
 	if ( ! ctfw_ctc_plugin_installed() && current_user_can( 'install_plugins' ) ) {
 
 		$notice = sprintf(
-			__( '<b>Plugin Required:</b> Please install and activate the <a href="%s">Church Theme Content</a> plugin to use with the current theme.', 'church-theme-framework' ),
-			esc_url( network_admin_url( 'plugin-install.php?s=' . rawurlencode( '"Church Theme Content" churchthemes.com' ) . '&tab=search' ) )
+			__( '<b>Plugin Required:</b> Please install and activate the <a href="%s">Church Content</a> plugin to use with the current theme.', 'church-theme-framework' ),
+			esc_url( network_admin_url( 'plugin-install.php?s=' . rawurlencode( '"Church Content" churchthemes.com' ) . '&tab=search' ) )
 		);
 
 	}
@@ -235,7 +235,7 @@ function ctfw_ctc_plugin_notice() {
 	elseif ( ! ctfw_ctc_plugin_active() && current_user_can( 'activate_plugins' ) ) {
 
 		$notice = sprintf(
-			__( 'Please <a href="%s">activate</a> the <b>Church Theme Content</b> plugin required by the current theme.', 'church-theme-framework' ),
+			__( 'Please <a href="%s">activate</a> the <b>Church Content</b> plugin required by the current theme.', 'church-theme-framework' ),
 			wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=' . ctfw_ctc_plugin_file() ), 'activate-plugin_' . ctfw_ctc_plugin_file() )
 		);
 
