@@ -146,6 +146,49 @@ function ctfw_edd_license_updater() {
 
 add_action( 'after_setup_theme', 'ctfw_edd_license_updater', 99 ); // after any use of add_theme_support() at 10
 
+
+/**
+ * Prevent updating theme with another having same name on WordPress.org
+ *
+ * This code is from Easy Digital Downloads theme-updater-admin.php
+ * This appears to be the source: https://wptheming.com/2014/06/disable-theme-update-checks/
+ *
+ * @since 2.1
+ * @param array  $r Request data.
+ * @param string $url Request URL.
+ * @return array Modified request.
+ */
+function ctfw_prevent_wporg_theme_update( $r, $url ) {
+
+	// Stop if theme is not using EDD Software Licensing.
+	// The theme may use the framework and be hosted on WordPress.org.
+	if ( ! ( current_theme_supports( 'ctfw-edd-license' ) && ctfw_edd_license_config( 'updates' ) ) ) {
+		return $r;
+	}
+
+	// Stop if it's not a theme update request.
+	if ( 0 !== strpos( $url, 'https://api.wordpress.org/themes/update-check/1.1/' ) ) {
+		return $r;
+	}
+
+	// Decode the JSON response.
+	$themes = json_decode( $r['body']['themes'] );
+
+	// Remove the active parent and child themes from the check.
+	$parent = get_option( 'template' );
+	$child = get_option( 'stylesheet' );
+	unset( $themes->themes->$parent );
+	unset( $themes->themes->$child );
+
+	// Encode the updated JSON response.
+	$r['body']['themes'] = wp_json_encode( $themes );
+
+	return $r;
+
+}
+
+add_filter( 'http_request_args', 'ctfw_prevent_wporg_theme_update', 5, 2 );
+
 /*******************************************
  * OPTIONS DATA (LOCAL)
  *******************************************/
@@ -1099,45 +1142,3 @@ function ctfw_edd_license_auto_sync() {
 }
 
 add_action( 'current_screen', 'ctfw_edd_license_auto_sync' );
-
-/**
- * Prevent updating theme with another having same name on WordPress.org
- *
- * This code is from Easy Digital Downloads theme-updater-admin.php
- * This appears to be the source: https://wptheming.com/2014/06/disable-theme-update-checks/
- *
- * @since 2.1
- * @param array  $r Request data.
- * @param string $url Request URL.
- * @return array Modified request.
- */
-function ctfw_prevent_wporg_theme_update( $r, $url ) {
-
-	// Stop if theme is not using EDD Software Licensing.
-	// The theme may use the framework and be hosted on WordPress.org.
-	if ( ! current_theme_supports( 'ctfw-edd-license' ) ) {
-		return $r;
-	}
-
-	// Stop if it's not a theme update request.
-	if ( 0 !== strpos( $url, 'https://api.wordpress.org/themes/update-check/1.1/' ) ) {
-		return $r;
-	}
-
-	// Decode the JSON response.
-	$themes = json_decode( $r['body']['themes'] );
-
-	// Remove the active parent and child themes from the check.
-	$parent = get_option( 'template' );
-	$child = get_option( 'stylesheet' );
-	unset( $themes->themes->$parent );
-	unset( $themes->themes->$child );
-
-	// Encode the updated JSON response.
-	$r['body']['themes'] = wp_json_encode( $themes );
-
-	return $r;
-
-}
-
-add_filter( 'http_request_args', 'ctfw_prevent_wporg_theme_update', 5, 2 );
