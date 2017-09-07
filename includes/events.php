@@ -200,7 +200,7 @@ function ctfw_event_data( $args = array() ) {
 		if ( 'F j, Y' == $original_date_format && date_i18n( 'Y', $start_date_timestamp ) == date_i18n( 'Y', $end_date_timestamp ) ) { // Year on both dates must be same
 
 			// Remove year from start date
-			$start_date_format = 'F j';
+			$start_date_format = str_replace( ', Y', '', $start_date_format );
 
 			// Months and year is same
 			// Remove month from end date
