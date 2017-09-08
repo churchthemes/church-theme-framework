@@ -170,11 +170,6 @@ function ctfw_has_loop_multiple() {
 
 	$showing = false;
 
-	// Loop being output on regular page, such as via page templates like Sermons, People, etc.
-	if ( saved_loop_after_content_used() ) {
-		$showing = true;
-	}
-
 	// Archives like Sermon Topics, People Groups, etc.
 	// Also covers post type archives if a page with archive template isn't setup yet
 	elseif ( is_archive() ) {
