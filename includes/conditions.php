@@ -161,7 +161,10 @@ function ctfw_has_excerpt_or_more() {
 /**
  * Check if theme's "loop after content" used
  *
- * This helps ctfw_has_loop_multiple() below. Second argument is function to call for the check.
+ * This tells if a loop is being output on a  regular page, such as via page templates like Sermons, People, etc.
+ * It helps ctfw_has_loop_multiple() below.
+ *
+ * Usage follows. Second argument is function to call for the check.
  *
  * add_theme_support( 'ctfw-loop-after-content-used', 'saved_loop_after_content_used' );
  *
@@ -204,7 +207,7 @@ function ctfw_has_loop_multiple() {
 
 	$showing = false;
 
-	// Theme's "loop after content" used on a page.
+	// Loop being output on regular page, such as via page templates like Sermons, People, etc.
 	// Requires 'ctfw-loop-after-content-used' via add_theme_support()
 	if ( ctfw_loop_after_content_used() ) {
 		$showing = true;
