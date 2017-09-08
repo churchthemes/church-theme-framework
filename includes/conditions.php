@@ -159,6 +159,40 @@ function ctfw_has_excerpt_or_more() {
 }
 
 /**
+ * Check if theme's "loop after content" used
+ *
+ * This helps ctfw_has_loop_multiple() below. Second argument is function to call for the check.
+ *
+ * add_theme_support( 'ctfw-loop-after-content-used', 'saved_loop_after_content_used' );
+ *
+ * @since 2.1.1
+ * @return bool True if given function is true
+ */
+function ctfw_loop_after_content_used() {
+
+	$result = false;
+
+	// Check theme support and function to call
+	$support = get_theme_support( 'ctfw-loop-after-content-used' );
+
+	// Function given in theme support?
+	if ( ! empty( $support[0] ) ) {
+
+		// Get function
+		$function = $support[0];
+
+		// Run function if exists
+		if ( function_exists( $function ) ) {
+			$result = call_user_func( $function );
+		}
+
+	}
+
+	return apply_filters( 'ctfw_loop_after_content_used', $result );
+
+}
+
+/**
  * Has loop for multiple entries
  *
  * This page is looping multiple entries
@@ -169,6 +203,12 @@ function ctfw_has_excerpt_or_more() {
 function ctfw_has_loop_multiple() {
 
 	$showing = false;
+
+	// Theme's "loop after content" used on a page.
+	// Requires 'ctfw-loop-after-content-used' via add_theme_support()
+	if ( ctfw_loop_after_content_used() ) {
+		$showing = true;
+	}
 
 	// Archives like Sermon Topics, People Groups, etc.
 	// Also covers post type archives if a page with archive template isn't setup yet
@@ -190,6 +230,7 @@ function ctfw_has_loop_multiple() {
 	return apply_filters( 'ctfw_has_loop_multiple', $showing );
 
 }
+
 /**
  * Is page template used
  *
