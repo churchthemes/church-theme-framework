@@ -984,6 +984,123 @@ add_action( 'template_redirect', 'ctfw_event_calendar_redirection' );
  **********************************/
 
 /**
+ * Grandfather recurring events functionality for early users.
+ *
+ * churchthemes.com themes no longer support basic recurrence in the free Church Content plugin.
+ * This grandfathers basic recurrence for original users. New users need to install Church Content Pro.
+ *
+ * Example usage:
+ *
+ * add_theme_support( 'ctfw-grandfather-recurring-events', '2017-10-09' ); // release date of theme version removing basic recurrence support
+ *
+ * To detect an early user, this checks for Church Content posts of any type on or before the date specified.
+ * If they already had Church Content data in database, then they must be an early user. These users will
+ * have basic recurrence automatically enabled. An option is saved so the database is queried just once.
+ *
+ * Theme makers are now asked to support the free Church Content plugin by leaving _ctc_event_recurrence and
+ * _ctc_event_recurrence_end_date disabled so that users upgrade to Pro for recurrence. This feature can assist.
+ *
+ * @since 2.2
+ * @global $wpdb
+ */
+function ctfw_grandfather_recurring_events() {
+
+	global $wpdb;
+
+	// Only if theme supports grandfathering and has date set.
+	$support = get_theme_support( 'ctfw-grandfather-recurring-events' );
+	if ( ! empty( $support[0] ) ) {
+		$grandfather_date = $support[0]; // set grandfathering date cutoff.
+	} else {
+		return; // stop, grandfathering not supported.
+	}
+
+	// Get status of grandfathering.
+	$checked = get_option( 'ctfw_grandfather_recurring_events_checked' );
+	$grandfather = get_option( 'ctfw_grandfather_recurring_events' );
+
+	// Check if should grandfather. This runs one time.
+	if ( ! $checked ) {
+
+		// Are there Church Content plugin posts of any type in database before the cut off date?
+		// If so, the website owner is an early user we should grandfather basic recurrence.
+		// Note: This check is only be run once ever then result saved as option.
+		$query = "
+			SELECT COUNT( * )
+			FROM {$wpdb->posts}
+			WHERE
+				post_type IN( '%s', '%s', '%s', '%s' )
+				AND post_date <= '%s'
+		";
+
+		// Run the query.
+		$ctc_post_count = $wpdb->get_var(
+			$wpdb->prepare(
+				$query,
+				'ctc_sermon', // these four post types existed at time of change so no newer ones need to be counted
+				'ctc_event',
+				'ctc_person',
+				'ctc_location',
+				$grandfather_date
+			)
+		);
+
+		// Do grandfathering basic recurrence for this site.
+		// Older posts from Church Content plugin were found.
+		if ( $ctc_post_count ) {
+			$grandfather = true;
+			update_option( 'ctfw_grandfather_recurring_events', $grandfather );
+		}
+
+		// Save option to indicate this check has been run, so don't run it again.
+		update_option( 'ctfw_grandfather_recurring_events_checked', true );
+
+	}
+
+	// Grandfather recurring events.
+	if ( $grandfather ) {
+
+		// Only if events feature supported.
+		if ( ! current_theme_supports( 'ctc-events' ) ) {
+			return;
+		}
+
+		// Get event fields that are supported by theme.
+		$supported_fields = ctc_get_theme_support( 'ctc-events', 'fields' );
+
+		// Only if specific fields are supported.
+		// Because, if no fields specified, all are automatically supported (including the extra recurrence fields).
+		if ( ! isset( $supported_fields ) ) {
+			return;
+		}
+
+		// Basic recurrence fields to be supported.
+		$fields = array(
+			'_ctc_event_recurrence',
+			'_ctc_event_recurrence_end_date',
+		);
+
+		// Add support for basic recurrence fields.
+		$modified_fields = (array) $supported_fields; // ensure value provided for fields is array.
+		$modified_fields = array_merge( $modified_fields, $fields ); // add them.
+		$modified_fields = array_unique( $modified_fields ); // no duplicates (Pro or Custom Recurring Events might be doing this too).
+
+		// Modify theme support data.
+		$events_support = ctc_get_theme_support( 'ctc-events' );
+		$events_support_modified = $events_support;
+		$events_support_modified['fields'] = $modified_fields;
+
+		// Update theme support.
+		remove_theme_support( 'ctc-events' );
+		add_theme_support( 'ctc-events', $events_support_modified );
+
+	}
+
+}
+
+add_action( 'init', 'ctfw_grandfather_recurring_events', 2 ); // init 2 is right after ctc_set_default_theme_support in Church Content.
+
+/**
  * Recurrence note
  *
  * This describes the recurrence pattern.
