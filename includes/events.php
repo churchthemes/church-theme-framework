@@ -1011,6 +1011,7 @@ function ctfw_grandfather_recurring_events() {
 	$support = get_theme_support( 'ctfw-grandfather-recurring-events' );
 	if ( ! empty( $support[0] ) ) {
 		$grandfather_date = $support[0]; // set grandfathering date cutoff.
+		$grandfather_date .= ' 23:59:59'; // allow up to last second of day
 	} else {
 		return; // stop, grandfathering not supported.
 	}
