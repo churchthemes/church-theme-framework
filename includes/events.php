@@ -1007,6 +1007,11 @@ function ctfw_grandfather_recurring_events() {
 
 	global $wpdb;
 
+	// Only if Church Content plugin is active.
+	if ( !ctfw_ctc_plugin_active() ) {
+		return; // avoid throwing an error.
+	}
+
 	// Only if theme supports grandfathering and has date set.
 	$support = get_theme_support( 'ctfw-grandfather-recurring-events' );
 	if ( ! empty( $support[0] ) ) {
