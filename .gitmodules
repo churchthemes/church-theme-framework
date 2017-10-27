@@ -1,3 +1,6 @@
 [submodule "includes/libraries/ct-meta-box"]
 	path = includes/libraries/ct-meta-box
 	url = https://github.com/churchthemes/ct-meta-box.git
+[submodule "includes/libraries/ct-recurrence"]
+	path = includes/libraries/ct-recurrence
+	url = https://github.com/churchthemes/ct-recurrence.git
