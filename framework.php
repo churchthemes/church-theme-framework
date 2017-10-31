@@ -128,7 +128,7 @@ $ctfw_includes = array(
 		CTFW_CLASS_DIR . '/widget.php',
 
 		// Libraries
-		CTFW_LIB_DIR . '/ct-recurrence/ct-recurrence.php',
+		CTFW_LIB_DIR . '/ct-recurrence/ct-recurrence-load.php', // don't load ct-recurrence.php directly.
 
 	),
 

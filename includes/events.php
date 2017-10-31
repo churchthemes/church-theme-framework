@@ -696,7 +696,7 @@ function ctfw_event_calendar_data( $args ) {
 		// Get events
 		$events = get_posts( $query_args );
 
-		// Prepare for recurrence calculations
+		// Prepare for recurrence calculations.
 		$ctfw_recurrence = new CT_Recurrence();
 
 		// Loop events
