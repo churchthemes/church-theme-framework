@@ -145,10 +145,12 @@ function ctfw_event_data( $args = array() ) {
 		'hide_time_range',
 		'recurrence',
 		'recurrence_end_date',
-		'recurrence_weekly_interval',	// Custom Recurring Events add-on
-		'recurrence_monthly_interval',	// Custom Recurring Events add-on
-		'recurrence_monthly_type',		// Custom Recurring Events add-on
-		'recurrence_monthly_week',		// Custom Recurring Events add-on
+		'recurrence_weekly_interval',	// Pro add-on
+		'recurrence_weekly_type',		// Pro add-on
+		'recurrence_weekly_day',		// Pro add-on
+		'recurrence_monthly_interval',	// Pro add-on
+		'recurrence_monthly_type',		// Pro add-on
+		'recurrence_monthly_week',		// Pro add-on
 		'venue',
 		'address',
 		'show_directions_link',
@@ -159,7 +161,7 @@ function ctfw_event_data( $args = array() ) {
 		'registration_url',
 	), $post_id );
 
-	// Empty Custom Recurring Events add-on values if plugin not active
+	// Empty Pro add-on values if plugin not active
 	// This keeps theme from displaying recurrence data that may be stored but is not effective
 	if ( ! defined( 'CTC_CRE_VERSION' ) ) {
 		$meta['recurrence_weekly_interval'] = 1;
@@ -1089,7 +1091,7 @@ function ctfw_grandfather_recurring_events() {
 		// Add support for basic recurrence fields.
 		$modified_fields = (array) $supported_fields; // ensure value provided for fields is array.
 		$modified_fields = array_merge( $modified_fields, $fields ); // add them.
-		$modified_fields = array_unique( $modified_fields ); // no duplicates (Pro or Custom Recurring Events might be doing this too).
+		$modified_fields = array_unique( $modified_fields ); // no duplicates (Pro or Pro might be doing this too).
 
 		// Modify theme support data.
 		$events_support = ctc_get_theme_support( 'ctc-events' );
@@ -1110,7 +1112,7 @@ add_action( 'init', 'ctfw_grandfather_recurring_events', 2 ); // init 2 is right
  * Recurrence note
  *
  * This describes the recurrence pattern.
- * It considers the Custom Recurring Events add-on.
+ * It considers the Pro add-on.
  *
  * Returns array with short and full keys.
  * short - "Every 3 Months"
