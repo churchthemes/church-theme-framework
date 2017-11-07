@@ -151,6 +151,7 @@ function ctfw_event_data( $args = array() ) {
 		'recurrence_monthly_interval',	// Pro add-on
 		'recurrence_monthly_type',		// Pro add-on
 		'recurrence_monthly_week',		// Pro add-on
+		'excluded_dates',				// Pro add-on
 		'venue',
 		'address',
 		'show_directions_link',
@@ -736,13 +737,16 @@ function ctfw_event_calendar_data( $args ) {
 
 				// Calculate future occurences of Start Date
 				$recurrence_args = array(
-					'start_date'	=> $event_data['start_date'],				// first day of event, YYYY-mm-dd (ie. 2015-07-20 for July 15, 2015)
-					'until_date'	=> $until_date,						 		// date recurrence should not extend beyond (has no effect on calc_* functions)
-					'frequency'		=> $event_data['recurrence'], 				// weekly, monthly, yearly
-					'interval'		=> $interval, 								// every 1, 2 or 3, etc. weeks, months or years
-					'monthly_type'	=> $event_data['recurrence_monthly_type'], 	// day (same day of month) or week (on a specific week); if recurrence is monthly (day is default)
-					'monthly_week'	=> $event_data['recurrence_monthly_week'], 	// 1 - 4 or 'last'; if recurrence is monthly and monthly_type is 'week'
-					'limit'			=> $recurrence_limit, 						// maximum dates to return (if no until_date, default is 100 to prevent infinite loop)
+					'start_date'     => $event_data['start_date'],				// first day of event, YYYY-mm-dd (ie. 2015-07-20 for July 15, 2015).
+					'until_date'     => $until_date,						 	// date recurrence should not extend beyond (has no effect on calc_next_future_date method).
+					'frequency'      => $event_data['recurrence'], 				// weekly, monthly, yearly
+					'interval'       => $interval, 								// every X weeks, months or years.
+					'weekly_type'    => $event_data['recurrence_weekly_type'], 	// 'same' (same day of week) or 'day' (on specific days(s)); if recurrence is weekly ('same' is default).
+					'weekly_day'     => $event_data['recurrence_weekly_day']	// single value, array or JSON-encoded array of day of week in 2-letter format (SU, MO, TU, etc.). If empty, uses same day of week.
+					'monthly_type'   => $event_data['recurrence_monthly_type'],	// 'day' (same day of month) or 'week' (on specific week(s)); if recurrence is monthly ('day' is default).
+					'excluded_dates' => $event_data['excluded_dates'],			// dates to exclude in YYYY-mm-dd format, separated by comma, as array or JSON-encoded array.
+					'monthly_week'   => $event_data['recurrence_monthly_week'], // single value, array or JSON-encoded array of numeric week(s) of month (or 'last') (e.g. 1, 2, 3, 4, 5 or last).
+					'limit'          => $recurrence_limit, 						// maximum dates to return (if no until_date, default is 100 to prevent infinite loop)
 				);
 				$calculated_dates = $ctfw_recurrence->get_dates( $recurrence_args );
 
@@ -1168,6 +1172,7 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 				'2'		=> _x( 'second', 'week of month', 'church-theme-framework' ),
 				'3'		=> _x( 'third', 'week of month', 'church-theme-framework' ),
 				'4'		=> _x( 'fourth', 'week of month', 'church-theme-framework' ),
+				'5'		=> _x( 'fifth', 'week of month', 'church-theme-framework' ),
 				'last'	=> _x( 'last', 'week of month', 'church-theme-framework' ),
 			);
 
