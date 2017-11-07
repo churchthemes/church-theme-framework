@@ -145,12 +145,12 @@ function ctfw_event_data( $args = array() ) {
 		'hide_time_range',
 		'recurrence',
 		'recurrence_end_date',
-		'recurrence_weekly_interval',	// Pro add-on
+		'recurrence_weekly_interval',	// Pro + CRE add-on
 		'recurrence_weekly_type',		// Pro add-on
 		'recurrence_weekly_day',		// Pro add-on
-		'recurrence_monthly_interval',	// Pro add-on
-		'recurrence_monthly_type',		// Pro add-on
-		'recurrence_monthly_week',		// Pro add-on
+		'recurrence_monthly_interval',	// Pro + CRE  add-on
+		'recurrence_monthly_type',		// Pro + CRE  add-on
+		'recurrence_monthly_week',		// Pro + CRE  add-on
 		'excluded_dates',				// Pro add-on
 		'venue',
 		'address',
@@ -162,92 +162,115 @@ function ctfw_event_data( $args = array() ) {
 		'registration_url',
 	), $post_id );
 
-	// Empty Pro add-on values if plugin not active
-	// This keeps theme from displaying recurrence data that may be stored but is not effective
-	if ( ! defined( 'CTC_CRE_VERSION' ) ) {
+	// Get event support.
+	$events_support = get_theme_support( 'ctc-events' );
+	$events_support = ! empty( $events_support[0] ) ? $events_support[0] : false;
+
+	// Is recurrence supported?
+	$recurrence_supported = false;
+	if ( ! empty( $events_support['fields'] ) && in_array( '_ctc_event_recurrence', $events_support['fields'], true ) ) {
+		$recurrence_supported = true;
+	}
+
+	// Empty/default Pro and Custom Recurring Event shared add-on values if plugin not active or recurrence not supported.
+	// This keeps theme from displaying recurrence data that may be stored but is not effective.
+	if ( ( ! defined( 'CCP_VERSION' ) && ! defined( 'CTC_CRE_VERSION' ) ) || ! $recurrence_supported ) {
 		$meta['recurrence_weekly_interval'] = 1;
 		$meta['recurrence_monthly_interval'] = 1;
 		$meta['recurrence_monthly_type'] = 'day';
 		$meta['recurrence_monthly_week'] = '';
 	}
 
-	// Timestamps
+	// Empty/default Pro-only add-on values if plugin not active or recurrence not supported.
+	// This keeps theme from displaying recurrence data that may be stored but is not effective.
+	if ( ! defined( 'CCP_VERSION' ) || ! $recurrence_supported ) {
+		$meta['recurrence_weekly_type'] = 'same';
+		$meta['recurrence_weekly_day'] = '';
+		$meta['excluded_dates'] = '';
+	}
+
+	// Empty Recurrence value if not supported.
+	// This keeps theme from displaying recurrence data that may be stored but is not effective.
+	// This relates to non-grandfathered users of basic recurrence.
+	if ( ! $recurrence_supported ) {
+		$meta['recurrence'] = 'none';
+	}
+
+	// Timestamps.
 	$start_date_timestamp = strtotime( $meta['start_date'] );
 	$end_date_timestamp = strtotime( $meta['end_date'] );
 
-	// Date format from settings
+	// Date format from settings.
 	$original_date_format = get_option( 'date_format' );
 	$date_format = $original_date_format;
 
-	// Abbreviate month in date format (e.g. December becomes Dec)
+	// Abbreviate month in date format (e.g. December becomes Dec).
 	if ( $abbreviate_month ) {
 
-		//$date_format = str_replace( 'F', 'M', $date_format );
-
 		$date_format = ctfw_abbreviate_date_format( array(
-			'date_format'		=> $date_format,
-			'abbreviate_month'	=> true,
-			'remove_year'		=> false,
+			'date_format'      => $date_format,
+			'abbreviate_month' => true,
+			'remove_year'      => false,
 		) );
 
 	}
 
-	// Add friendly date
-	if ( $meta['end_date'] != $meta['start_date'] ) { // date range
+	// Add friendly date.
+	if ( $meta['end_date'] !== $meta['start_date'] ) { // date range.
 
 		// Date formats
-		// Make compact range of "June 1 - 5, 2015 if using "F j, Y" format (month and year removed from start date as not to be redundant)
-		// If year is same but month different, becomes "June 30 - July 1, 2015"
+		// Make compact range of "June 1 - 5, 2015 if using "F j, Y" format (month and year removed from start date as not to be redundant).
+		// If year is same but month different, becomes "June 30 - July 1, 2015".
 		$start_date_format = $date_format;
 		$end_date_format = $date_format;
-		if ( 'F j, Y' == $original_date_format && date_i18n( 'Y', $start_date_timestamp ) == date_i18n( 'Y', $end_date_timestamp ) ) { // Year on both dates must be same
+		if ( 'F j, Y' === $original_date_format && date_i18n( 'Y', $start_date_timestamp ) === date_i18n( 'Y', $end_date_timestamp ) ) { // Year on both dates must be same.
 
-			// Remove year from start date
+			// Remove year from start date.
 			$start_date_format = str_replace( ', Y', '', $start_date_format );
 
-			// Months and year is same
-			// Remove month from end date
-			if ( date_i18n( 'F', $start_date_timestamp ) == date_i18n( 'F', $end_date_timestamp ) ) {
+			// Months and year is same.
+			// Remove month from end date.
+			if ( date_i18n( 'F', $start_date_timestamp ) === date_i18n( 'F', $end_date_timestamp ) ) {
 				$end_date_format = 'j, Y';
 			}
 
 		}
 
-		// Format dates
+		// Format dates.
 		$start_date_formatted = date_i18n( $start_date_format, $start_date_timestamp );
 		$end_date_formatted = date_i18n( $end_date_format, $end_date_timestamp );
 
-		// Build range
-		/* translators: date range */
+		// Build range.
 		$meta['date'] = sprintf(
+			/* translators: %1$s is start date formatted and %2$s is end date (date range) */
 			_x( '%1$s &ndash; %2$s', 'dates', 'church-theme-framework' ),
 			$start_date_formatted,
 			$end_date_formatted
 		);
 
-	} else { // start date only
+	} else { // start date only.
 		$meta['date'] = date_i18n( $date_format, $start_date_timestamp );
 	}
 
-	// Format Start and End Time
+	// Format Start and End Time.
 	$time_format = get_option( 'time_format' );
 	$meta['start_time_formatted'] = $meta['start_time'] ? date_i18n( $time_format, strtotime( $meta['start_time'] ) ) : '';
 	$meta['end_time_formatted'] = $meta['end_time'] ? date_i18n( $time_format, strtotime( $meta['end_time'] ) ) : '';
 
-	// Time Range
-	// Show Start/End Time range (or only Start Time)
+	// Time Range.
+	// Show Start/End Time range (or only Start Time).
 	$meta['time_range'] = '';
 	if ( $meta['start_time_formatted'] ) {
 
-		// Start Time Only
+		// Start Time Only.
 		$meta['time_range'] = $meta['start_time_formatted'];
 
-		// Start and End Time (Range)
+		// Start and End Time (Range).
 		if ( $meta['end_time_formatted'] ) {
 
-			// Time Range
-			/* translators: time range */
+			// Time Range.
 			$meta['time_range'] = sprintf(
+				/* translators: %1$s is start time and %2$s is end time (time range) */
 				_x( '%1$s &ndash; %2$s', 'times', 'church-theme-framework' ),
 				$meta['start_time_formatted'],
 				$meta['end_time_formatted']
@@ -257,22 +280,22 @@ function ctfw_event_data( $args = array() ) {
 
 	}
 
-	// Time and/or Description
-	// Show Start/End Time (if given) and maybe Time Description (if given) in parenthesis
-	// If no Start/End Time (or it is set to hide), show Time Description by itself
-	// This is useful for event post header
+	// Time and/or Description.
+	// Show Start/End Time (if given) and maybe Time Description (if given) in parenthesis.
+	// If no Start/End Time (or it is set to hide), show Time Description by itself.
+	// This is useful for event post header.
 	$meta['time_range_and_description'] = '';
 	$meta['time_range_or_description'] = '';
-	if ( $meta['time_range'] && ! $meta['hide_time_range'] ) { // Show Time Range and maybe Description after it
+	if ( $meta['time_range'] && ! $meta['hide_time_range'] ) { // Show Time Range and maybe Description after it.
 
-		// Definitely show time range
+		// Definitely show time range.
 		$meta['time_range_and_description'] = $meta['time_range'];
 		$meta['time_range_or_description'] = $meta['time_range'];
 
-		// Maybe show description after time range
+		// Maybe show description after time range.
 		if ( $meta['time'] ) {
 
-			// Time and Description
+			// Time and Description.
 			$meta['time_range_and_description'] = sprintf(
 				$time_and_desc_format,
 				$meta['time_range'],
@@ -281,23 +304,23 @@ function ctfw_event_data( $args = array() ) {
 
 		}
 
-	} else { // Show description only
+	} else { // Show description only.
 		$meta['time_range_and_description'] = $meta['time'];
 		$meta['time_range_or_description'] = $meta['time'];
 	}
 
-	// Add directions URL (empty if show_directions_link not set)
+	// Add directions URL (empty if show_directions_link not set).
 	$meta['directions_url'] = $meta['show_directions_link'] ? ctfw_directions_url( $meta['address'] ) : '';
 
-	// Recurrence note
+	// Recurrence note.
 	$recurrence_note = ctfw_event_recurrence_note( false, $meta );
-	$meta['recurrence_note'] = isset( $recurrence_note['full'] ) ? $recurrence_note['full'] : ''; // sentence such as "Every 3 months on the second Wednesday until January 24, 2018"
-	$meta['recurrence_note_short'] = isset( $recurrence_note['short'] ) ? $recurrence_note['short'] : ''; // short version such as "Every 3 Months" (can show this with full on tooltip)
+	$meta['recurrence_note'] = isset( $recurrence_note['full'] ) ? $recurrence_note['full'] : ''; // sentence such as "Every 3 months on the second Wednesday until January 24, 2018".
+	$meta['recurrence_note_short'] = isset( $recurrence_note['short'] ) ? $recurrence_note['short'] : ''; // short version such as "Every 3 Months" (can show this with full on tooltip).
 
 	// Map has coordinates?
 	$meta['map_has_coordinates'] = ( $meta['map_lat'] && $meta['map_lng'] ) ? true : false;
 
-	// Return filtered
+	// Return filtered.
 	return apply_filters( 'ctfw_event_data', $meta, $post_id );
 
 }
@@ -1014,7 +1037,7 @@ function ctfw_grandfather_recurring_events() {
 	global $wpdb;
 
 	// Only if Church Content plugin is active.
-	if ( !ctfw_ctc_plugin_active() ) {
+	if ( ! ctfw_ctc_plugin_active() ) {
 		return; // avoid throwing an error.
 	}
 
