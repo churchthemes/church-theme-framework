@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013 - 2015, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2017, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9
@@ -319,7 +319,7 @@ function ctfw_event_data( $args = array() ) {
 
 	// Map has coordinates?
 	$meta['map_has_coordinates'] = ( $meta['map_lat'] && $meta['map_lng'] ) ? true : false;
-print_r( $meta );exit;
+
 	// Return filtered.
 	return apply_filters( 'ctfw_event_data', $meta, $post_id );
 
@@ -767,8 +767,8 @@ function ctfw_event_calendar_data( $args ) {
 					'weekly_type'    => $event_data['recurrence_weekly_type'], 	// 'same' (same day of week) or 'day' (on specific days(s)); if recurrence is weekly ('same' is default).
 					'weekly_day'     => $event_data['recurrence_weekly_day'],	// single value, array or JSON-encoded array of day of week in 2-letter format (SU, MO, TU, etc.). If empty, uses same day of week.
 					'monthly_type'   => $event_data['recurrence_monthly_type'],	// 'day' (same day of month) or 'week' (on specific week(s)); if recurrence is monthly ('day' is default).
-					'excluded_dates' => $event_data['excluded_dates'],			// dates to exclude in YYYY-mm-dd format, separated by comma, as array or JSON-encoded array.
 					'monthly_week'   => $event_data['recurrence_monthly_week'], // single value, array or JSON-encoded array of numeric week(s) of month (or 'last') (e.g. 1, 2, 3, 4, 5 or last).
+					'excluded_dates' => $event_data['excluded_dates'],			// dates to exclude in YYYY-mm-dd format, separated by comma, as array or JSON-encoded array.
 					'limit'          => $recurrence_limit, 						// maximum dates to return (if no until_date, default is 100 to prevent infinite loop)
 				);
 				$calculated_dates = $ctfw_recurrence->get_dates( $recurrence_args );
