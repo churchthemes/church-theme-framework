@@ -319,7 +319,7 @@ function ctfw_event_data( $args = array() ) {
 
 	// Map has coordinates?
 	$meta['map_has_coordinates'] = ( $meta['map_lat'] && $meta['map_lng'] ) ? true : false;
-
+print_r( $meta );exit;
 	// Return filtered.
 	return apply_filters( 'ctfw_event_data', $meta, $post_id );
 
@@ -1139,13 +1139,13 @@ add_action( 'init', 'ctfw_grandfather_recurring_events', 2 ); // init 2 is right
  * Recurrence note
  *
  * This describes the recurrence pattern.
- * It considers the Pro add-on.
+ * It considers the Pro and Custom Recurring Events add-on.
  *
  * Returns array with short and full keys.
  * short - "Every 3 Months"
  * full - "Every 3 months on second Tuesday until January 14, 2018"
  *
- * Tip: Show the short version with full in tooltip
+ * Tip: Show the short version with full in tooltip.
  *
  * @since 1.5
  * @param object|int $post Post object or post ID for event
@@ -1155,26 +1155,29 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 
 	$note = array();
 
-	// Get event data if not provided
+	// Get event data if not provided.
 	if ( empty( $data ) ) {
 		$data = ctfw_event_data( $post_id );
 	}
 
 	// Is this a recurring event?
 	$recurrence = $data['recurrence'];
-	if ( $recurrence && $recurrence != 'none' ) {
+	if ( $recurrence && $recurrence !== 'none' ) {
 
 		$note['full'] = '';
 		$note['short'] = '';
 
-		// Get recurrence data
+		// Get recurrence data.
 		$recurrence_end_date = $data['recurrence_end_date'];
 		$weekly_interval = $data['recurrence_weekly_interval'];
+		$weekly_type = $data['recurrence_weekly_type'];
+		$weekly_day = $data['recurrence_weekly_day'];
 		$monthly_interval = $data['recurrence_monthly_interval'];
 		$monthly_type = $data['recurrence_monthly_type'];
 		$monthly_week = $data['recurrence_monthly_week'];
+		$excluded_dates = $data['recurrence_excluded_dates'];
 
-		// Localized end date
+		// Localized end date.
 		$recurrence_end_date_localized = '';
 		if ( $recurrence_end_date ) {
 			$date_format = get_option( 'date_format' );
@@ -1182,31 +1185,99 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 			$recurrence_end_date_localized = date_i18n( $date_format, $end_date_ts );
 		}
 
-		// Get day of week for start date
+		// Get day of week for start date.
 		$start_date = $data['start_date'];
 		$start_day_of_week = ! empty( $start_date ) ? date_i18n( 'l', strtotime( $start_date ) ) : '';
 
-		// Words for week of month
-		$monthly_week_word = '';
-		if ( $monthly_week ) {
+		// Wording for day(s) of week.
+		// e.g. "Monday, Tuesday and Friday"
+		$weekly_day_wording = '';
+		if ( 'day' === $weekly_type && $weekly_day ) {
 
-			$monthly_week_words = array(
-				'1'		=> _x( 'first', 'week of month', 'church-theme-framework' ),
-				'2'		=> _x( 'second', 'week of month', 'church-theme-framework' ),
-				'3'		=> _x( 'third', 'week of month', 'church-theme-framework' ),
-				'4'		=> _x( 'fourth', 'week of month', 'church-theme-framework' ),
-				'5'		=> _x( 'fifth', 'week of month', 'church-theme-framework' ),
-				'last'	=> _x( 'last', 'week of month', 'church-theme-framework' ),
+			// Map day value to word.
+			$weekly_day_words = array(
+				'SU' => date_i18n( 'l', strtotime( 'next Sunday' ) ), // this will translate day of week automatically.
+				'MO' => date_i18n( 'l', strtotime( 'next Monday' ) ),
+				'TU' => date_i18n( 'l', strtotime( 'next Tuesday' ) ),
+				'WE' => date_i18n( 'l', strtotime( 'next Wednesday' ) ),
+				'TH' => date_i18n( 'l', strtotime( 'next Thursday' ) ),
+				'FR' => date_i18n( 'l', strtotime( 'next Friday' ) ),
+				'SA' => date_i18n( 'l', strtotime( 'next Saturday' ) ),
 			);
 
-			$monthly_week_word = $monthly_week_words[$monthly_week];
+			// Convert comma-separated list of days into array.
+			$weekly_day_array = explode( ',', $weekly_day );
+			$weekly_day_count = count( $weekly_day_array );
+
+			// Loop day(s).
+			foreach ( $weekly_day_array as $day_key => $day_value ) {
+
+				// Separator between items (comma or and).
+				if ( $weekly_day_wording ) {
+
+					if ( $day_key < ($weekly_day_count - 1) ) {
+						/* translators: separator between items in list (e.g. "Monday, Tuesday and Friday") */
+						$weekly_day_wording .= _x( ', ', 'item list', 'church-theme-framework' );
+					} else { // "and" before last item.
+						/* translators: separator to use instead of comma before last item in a list (e.g. "Monday, Tuesday and Friday") */
+						$weekly_day_wording .= _x( ' and ', 'item list', 'church-theme-framework' );
+					}
+
+				}
+
+				// Append week to list.
+				$weekly_day_wording .= $weekly_day_words[ $day_value ];
+
+			}
 
 		}
 
-		// Frequency
+		// Wording for week(s) of month.
+		// e.g. "first and third Tuesday"
+		$monthly_week_wording = '';
+		if ( 'week' === $monthly_type && $monthly_week ) {
+
+			// Map week value to word.
+			$monthly_week_words = array(
+				'1'    => esc_html_x( 'first', 'week of month', 'church-theme-framework' ),
+				'2'    => esc_html_x( 'second', 'week of month', 'church-theme-framework' ),
+				'3'    => esc_html_x( 'third', 'week of month', 'church-theme-framework' ),
+				'4'    => esc_html_x( 'fourth', 'week of month', 'church-theme-framework' ),
+				'5'    => esc_html_x( 'fifth', 'week of month', 'church-theme-framework' ),
+				'last' => esc_html_x( 'last', 'week of month', 'church-theme-framework' ),
+			);
+
+			// Convert comma-separated list of weeks into array.
+			$monthly_week_array = explode( ',', $monthly_week );
+			$monthly_week_count = count( $monthly_week_array );
+
+			// Loop week(s).
+			foreach ( $monthly_week_array as $week_key => $week_value ) {
+
+				// Separator between items (comma or and).
+				if ( $monthly_week_wording ) {
+
+					if ( $week_key < ($monthly_week_count - 1) ) {
+						/* translators: separator between items in list (e.g. "first, second, third and last tuesday") */
+						$monthly_week_wording .= _x( ', ', 'item list', 'church-theme-framework' );
+					} else { // "and" before last item.
+						/* translators: separator to use instead of comma before last item in a list (e.g. "first, second, third and last tuesday") */
+						$monthly_week_wording .= _x( ' and ', 'item list', 'church-theme-framework' );
+					}
+
+				}
+
+				// Append week to list.
+				$monthly_week_wording .= $monthly_week_words[ $week_value ];
+
+			}
+
+		}
+
+		// Frequency.
 		switch ( $recurrence ) {
 
-			case 'weekly' :
+			case 'weekly':
 
 				// Full
 				if ( $recurrence_end_date ) {
@@ -1252,7 +1323,7 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 
 				break;
 
-			case 'monthly' :
+			case 'monthly':
 
 				// On specific week
 				if ( 'week' == $monthly_type && $start_day_of_week ) { // only if start date is present
@@ -1269,7 +1340,7 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 								'church-theme-framework'
 							),
 							$monthly_interval,
-							$monthly_week_word,
+							$monthly_week_wording,
 							$start_day_of_week,
 							$recurrence_end_date_localized
 						);
@@ -1288,7 +1359,7 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 								'church-theme-framework'
 							),
 							$monthly_interval,
-							$monthly_week_word,
+							$monthly_week_wording,
 							$start_day_of_week
 						);
 
@@ -1345,7 +1416,7 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 
 				break;
 
-			case 'yearly' :
+			case 'yearly':
 
 				// Full
 				if ( $recurrence_end_date ) {
