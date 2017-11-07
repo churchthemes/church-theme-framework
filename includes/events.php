@@ -1147,9 +1147,13 @@ add_action( 'init', 'ctfw_grandfather_recurring_events', 2 ); // init 2 is right
  *
  * Tip: Show the short version with full in tooltip.
  *
+ * To Do: Consider making this into a human-readable class or method in CT Recurrence
+ * for plugin and theme framework to share. Could pass-in text strings so that the
+ * class itself does not need to contain a textdomain string.
+ *
  * @since 1.5
- * @param object|int $post Post object or post ID for event
- * @return array Keys are full and short
+ * @param object|int $post Post object or post ID for event.
+ * @return array Keys are full and short.
  */
 function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 
@@ -1175,12 +1179,14 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 		$monthly_interval = $data['recurrence_monthly_interval'];
 		$monthly_type = $data['recurrence_monthly_type'];
 		$monthly_week = $data['recurrence_monthly_week'];
-		$excluded_dates = $data['recurrence_excluded_dates'];
+		$excluded_dates = $data['excluded_dates'];
+
+		// Get date format.
+		$date_format = get_option( 'date_format' );
 
 		// Localized end date.
 		$recurrence_end_date_localized = '';
 		if ( $recurrence_end_date ) {
-			$date_format = get_option( 'date_format' );
 			$end_date_ts = strtotime( $recurrence_end_date );
 			$recurrence_end_date_localized = date_i18n( $date_format, $end_date_ts );
 		}
@@ -1190,7 +1196,7 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 		$start_day_of_week = ! empty( $start_date ) ? date_i18n( 'l', strtotime( $start_date ) ) : '';
 
 		// Wording for day(s) of week.
-		// e.g. "Monday, Tuesday and Friday"
+		// e.g. "Monday, Tuesday and Friday".
 		$weekly_day_wording = '';
 		if ( 'day' === $weekly_type && $weekly_day ) {
 
@@ -1233,7 +1239,7 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 		}
 
 		// Wording for week(s) of month.
-		// e.g. "first and third Tuesday"
+		// e.g. "first and third Tuesday".
 		$monthly_week_wording = '';
 		if ( 'week' === $monthly_type && $monthly_week ) {
 
@@ -1274,17 +1280,84 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 
 		}
 
+		// Wording for excluded dates.
+		$excluded_dates_wording = '';
+		if ( $excluded_dates ) {
+
+			// Convert comma-separated list of weeks into array.
+			$excluded_dates_array = explode( ',', $excluded_dates );
+			$excluded_dates_count = count( $excluded_dates_array );
+
+			// Loop dates(s).
+			$date_years = array();
+			foreach ( $excluded_dates_array as $date_key => $date_value ) {
+
+				// Separator between items (comma or and).
+				if ( $excluded_dates_wording ) {
+
+					if ( $date_key < ($excluded_dates_count - 1) ) {
+						/* translators: separator between items in list (e.g. "first, second, third and last tuesday") */
+						$excluded_dates_wording .= _x( ', ', 'item list', 'church-theme-framework' );
+					} else { // "and" before last item.
+						/* translators: separator to use instead of comma before last item in a list (e.g. "first, second, third and last tuesday") */
+						$excluded_dates_wording .= _x( ' and ', 'item list', 'church-theme-framework' );
+					}
+
+				}
+
+				// Append date to list.
+				$excluded_dates_wording .= date_i18n( $date_format, strtotime( $date_value ) );
+
+				// Log date years.
+				$year = date_i18n( 'Y', strtotime( $date_value ) );
+				$date_years[$year] = $year;
+
+			}
+
+			// If dates all have same year, only mention year on last date.
+			if ( $excluded_dates_count > 1 && count( $date_years ) === 1 && 'F j, Y' === $date_format ) {
+
+				// Replace all years but last.
+				$year = reset( $date_years );
+				$replace = ', ' . $year;
+				$excluded_dates_wording = preg_replace( '/' . $replace . '/', '', $excluded_dates_wording, preg_match_all( '/' . $replace . '/', $excluded_dates_wording ) - 1 );
+
+			}
+
+		}
+
 		// Frequency.
 		switch ( $recurrence ) {
 
 			case 'weekly':
 
+				// On specific day(s) of week.
+				if ( 'day' === $weekly_type && $weekly_day_wording && $start_day_of_week ) { // only if start date is present.
 
-					// On specific day(s) of week.
-					if ( 'day' === $weekly_type && $weekly_day_wording && $start_day_of_week ) { // only if start date is present.
+					// Has recurrence end date.
+					if ( $recurrence_end_date ) {
 
-						// Has recurrence end date.
-						if ( $recurrence_end_date ) {
+						// Has excluded dates.
+						if ( $excluded_dates_wording ) {
+
+							$note['full'] = sprintf(
+								/* translators: %1$s is weekly interval, %2$s is specific day(s) of week, %3$s is recurrence end date localized, %4$s is list of excluded dates */
+								_n(
+									'Every week on %2$s until %3$s (excluding %4$s)',
+									'Every %1$s weeks on %2$s until %3$s (excluding %4$s)',
+									$weekly_interval,
+									'church-theme-framework'
+								),
+								$weekly_interval,
+								$weekly_day_wording,
+								$recurrence_end_date_localized,
+								$excluded_dates_wording
+							);
+
+						}
+
+						// No excluded dates.
+						else {
 
 							$note['full'] = sprintf(
 								/* translators: %1$s is weekly interval, %2$s is specific day(s) of week, %3$s is recurrence end date localized */
@@ -1301,7 +1374,30 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 
 						}
 
-						// No recurrence end date.
+					}
+
+					// No recurrence end date.
+					else {
+
+						// Has excluded dates.
+						if ( $excluded_dates_wording ) {
+
+							$note['full'] = sprintf(
+								/* translators: %1$s is weekly interval, %2$s is day(s) of week, %3$s is list of excluded dates */
+								_n(
+									'Every week on %2$s (excluding %3$s)',
+									'Every %1$s weeks on %2$s (excluding %3$s)',
+									$weekly_interval,
+									'church-theme-framework'
+								),
+								$weekly_interval,
+								$weekly_day_wording ,
+								$excluded_dates_wording
+							);
+
+						}
+
+						// No excluded dates.
 						else {
 
 							$note['full'] = sprintf(
@@ -1320,11 +1416,34 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 
 					}
 
-					// On same day of week.
-					else {
+				}
 
-						// Has recurrence end date.
-						if ( $recurrence_end_date ) {
+				// On same day of week.
+				else {
+
+					// Has recurrence end date.
+					if ( $recurrence_end_date ) {
+
+						// Has excluded dates.
+						if ( $excluded_dates_wording ) {
+
+							$note['full'] = sprintf(
+								/* translators: %1$s is weekly interval, %2$s is recurrence end date localized, %3$s is list of excluded dates */
+								_n(
+									'Every week until %2$s (excluding %3$s)',
+									'Every %1$s weeks until %2$s (excluding %3$s)',
+									$weekly_interval,
+									'church-theme-framework'
+								),
+								$weekly_interval,
+								$recurrence_end_date_localized,
+								$excluded_dates_wording
+							);
+
+						}
+
+						// No excluded dates.
+						else {
 
 							$note['full'] = sprintf(
 								/* translators: %1$s is weekly interval, %2$s is recurrence end date localized */
@@ -1340,10 +1459,31 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 
 						}
 
-						// No recurrence end date.
+					}
+
+					// No recurrence end date.
+					else {
+
+						// Has excluded dates.
+						if ( $excluded_dates_wording ) {
+
+							$note['full'] = sprintf(
+								/* translators: %1$s is weekly interval, %2$s is list of excluded dates */
+								_n(
+									'Every week (excluding %2$s)',
+									'Every %1$s weeks (excluding %2$s)',
+									$weekly_interval,
+									'church-theme-framework'
+								),
+								$weekly_interval,
+								$excluded_dates_wording
+							);
+
+						}
+
+						// No excluded dates.
 						else {
 
-							/* translators: %1$s is interval */
 							$note['full'] = sprintf(
 								/* translators: %1$s is weekly interval */
 								_n(
@@ -1359,9 +1499,11 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 
 					}
 
+				}
+
 				// Short
-				/* translators: %1$s is interval */
 				$note['short'] = sprintf(
+					/* translators: %1$s is weekly interval (e.g. 1, 2, 3, etc.) */
 					_n(
 						'Every Week',
 						'Every %1$s Weeks',
@@ -1381,80 +1523,175 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 					// Has recurrence end date.
 					if ( $recurrence_end_date ) {
 
-						/* translators: %1$s is interval, %2$s is week of month, %3$s is day of week, %4$s is recurrence end date */
-						$note['full'] = sprintf(
-							_n(
-								'Every month on the %2$s %3$s until %4$s',
-								'Every %1$s months on the %2$s %3$s until %4$s',
+						// Has excluded dates.
+						if ( $excluded_dates_wording ) {
+
+							$note['full'] = sprintf(
+								/* translators: %1$s is interval, %2$s is week of month, %3$s is day of week, %4$s is recurrence end date, $5$s is list of excluded dates */
+								_n(
+									'Every month on the %2$s %3$s until %4$s (excluding %5$s)',
+									'Every %1$s months on the %2$s %3$s until %4$s (excluding %5$s)',
+									$monthly_interval,
+									'church-theme-framework'
+								),
 								$monthly_interval,
-								'church-theme-framework'
-							),
-							$monthly_interval,
-							$monthly_week_wording,
-							$start_day_of_week,
-							$recurrence_end_date_localized
-						);
+								$monthly_week_wording,
+								$start_day_of_week,
+								$recurrence_end_date_localized,
+								$excluded_dates_wording
+							);
+
+						}
+
+						// No excluded dates.
+						else {
+
+							$note['full'] = sprintf(
+								/* translators: %1$s is interval, %2$s is week of month, %3$s is day of week, %4$s is recurrence end date */
+								_n(
+									'Every month on the %2$s %3$s until %4$s',
+									'Every %1$s months on the %2$s %3$s until %4$s',
+									$monthly_interval,
+									'church-theme-framework'
+								),
+								$monthly_interval,
+								$monthly_week_wording,
+								$start_day_of_week,
+								$recurrence_end_date_localized
+							);
+
+						}
 
 					}
 
-					// No recurrence end date
+					// No recurrence end date.
 					else {
 
-						/* translators: %1$s is interval, %2$s is week of month, %3$s is day of week */
-						$note['full'] = sprintf(
-							_n(
-								'Every month on the %2$s %3$s',
-								'Every %1$s months on the %2$s %3$s',
+						// Has excluded dates.
+						if ( $excluded_dates_wording ) {
+
+							$note['full'] = sprintf(
+								/* translators: %1$s is interval, %2$s is week of month, %3$s is day of week, %4$s is list of excluded dates */
+								_n(
+									'Every month on the %2$s %3$s (excluding %4$s)',
+									'Every %1$s months on the %2$s %3$s (excluding %4$s)',
+									$monthly_interval,
+									'church-theme-framework'
+								),
 								$monthly_interval,
-								'church-theme-framework'
-							),
-							$monthly_interval,
-							$monthly_week_wording,
-							$start_day_of_week
-						);
+								$monthly_week_wording,
+								$start_day_of_week,
+								$excluded_dates_wording
+							);
+
+						}
+
+						// No excluded dates.
+						else {
+
+							$note['full'] = sprintf(
+								/* translators: %1$s is interval, %2$s is week of month, %3$s is day of week */
+								_n(
+									'Every month on the %2$s %3$s',
+									'Every %1$s months on the %2$s %3$s',
+									$monthly_interval,
+									'church-theme-framework'
+								),
+								$monthly_interval,
+								$monthly_week_wording,
+								$start_day_of_week
+							);
+
+						}
 
 					}
 
 				// On same day of month.
 				} else {
 
-					// Has recurrence end date
+					// Has recurrence end date.
 					if ( $recurrence_end_date ) {
 
-						/* translators: %1$s is interval, %2$s is recurrence end date */
-						$note['full'] = sprintf(
-							_n(
-								'Every month until %2$s',
-								'Every %1$s months until %2$s',
+						// Has excluded dates.
+						if ( $excluded_dates_wording ) {
+
+							$note['full'] = sprintf(
+								/* translators: %1$s is interval, %2$s is recurrence end date, %3$s is list of exclude dates */
+								_n(
+									'Every month until %2$s (excluding %3$s)',
+									'Every %1$s months until %2$s (excluding %3$s)',
+									$monthly_interval,
+									'church-theme-framework'
+								),
 								$monthly_interval,
-								'church-theme-framework'
-							),
-							$monthly_interval,
-							$recurrence_end_date_localized
-						);
+								$recurrence_end_date_localized,
+								$excluded_dates_wording
+							);
+
+						}
+
+						// No excluded dates.
+						else {
+
+							$note['full'] = sprintf(
+								/* translators: %1$s is interval, %2$s is recurrence end date */
+								_n(
+									'Every month until %2$s',
+									'Every %1$s months until %2$s',
+									$monthly_interval,
+									'church-theme-framework'
+								),
+								$monthly_interval,
+								$recurrence_end_date_localized
+							);
+
+						}
 
 					}
 
-					// No recurrence end date
+					// No recurrence end date.
 					else {
 
-						/* translators: %1$s is interval */
-						$note['full'] = sprintf(
-							_n(
-								'Every month',
-								'Every %1$s months',
+						// Has excluded dates.
+						if ( $excluded_dates_wording ) {
+
+							$note['full'] = sprintf(
+								/* translators: %1$s is interval, %2$s is list of excluded dates */
+								_n(
+									'Every month (excluding %2$s)',
+									'Every %1$s months (excluding %2$s)',
+									$monthly_interval,
+									'church-theme-framework'
+								),
 								$monthly_interval,
-								'church-theme-framework'
-							),
-							$monthly_interval
-						);
+								$excluded_dates_wording
+							);
+
+						}
+
+						// No excluded dates.
+						else {
+
+							$note['full'] = sprintf(
+								/* translators: %1$s is interval */
+								_n(
+									'Every month',
+									'Every %1$s months',
+									$monthly_interval,
+									'church-theme-framework'
+								),
+								$monthly_interval
+							);
+
+						}
 
 					}
 
 				}
 
-				/* translators: %1$s is interval */
+				// Short.
 				$note['short'] = sprintf(
+					/* translators: %1$s is interval */
 					_n(
 						'Every Month',
 						'Every %1$s Months',
@@ -1468,20 +1705,56 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 
 			case 'yearly':
 
-				// Full
+				// Has recurrence end date.
 				if ( $recurrence_end_date ) {
 
-					/* translators: %1$s is recurrence end date */
-					$note['full'] = sprintf(
-						__( 'Every year until %1$s', 'church-theme-framework' ),
-						$recurrence_end_date_localized
-					);
+					// Has excluded dates.
+					if ( $excluded_dates_wording ) {
 
-				} else {
-					$note['full'] = __( 'Every year', 'church-theme-framework' );
+						$note['full'] = sprintf(
+							/* translators: %1$s is recurrence end date, %2$s is list of excluded dates */
+							__( 'Every year until %1$s (excluding %2$s)', 'church-theme-framework' ),
+							$recurrence_end_date_localized,
+							$excluded_dates_wording
+						);
+
+					}
+
+					// No excluded dates.
+					else {
+
+						$note['full'] = sprintf(
+							/* translators: %1$s is recurrence end date */
+							__( 'Every year until %1$s', 'church-theme-framework' ),
+							$recurrence_end_date_localized
+						);
+
+					}
+
 				}
 
-				// Short
+				// No recurrence end date.
+				else {
+
+					// Has excluded dates.
+					if ( $excluded_dates_wording ) {
+
+						/* translators: %1$s is list of excluded dates */
+						$note['full'] = sprintf(
+							__( 'Every year (excluding %1$s)', 'church-theme-framework' ),
+							$excluded_dates_wording
+						);
+
+					}
+
+					// No excluded dates.
+					else {
+						$note['full'] = __( 'Every year ', 'church-theme-framework' );
+					}
+
+				}
+
+				// Short.
 				$note['short'] = __( 'Every Year', 'church-theme-framework' );
 
 				break;
