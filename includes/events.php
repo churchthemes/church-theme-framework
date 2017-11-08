@@ -784,6 +784,9 @@ function ctfw_event_calendar_data( $args ) {
 			// Event is on multiple days
 			if ( $event_data['start_date'] != $event_data['end_date'] ) {
 
+				// Excluded dates array
+				$excluded_dates_array = $event_data['excluded_dates'] ? explode( ',', $event_data['excluded_dates'] ) : array();
+
 				// Loop all occurences of Start Date
 				foreach ( $event_dates as $date ) {
 
@@ -793,9 +796,14 @@ function ctfw_event_calendar_data( $args ) {
 					$DateTime = new DateTime( $date );
 					while ( $while_date <= $event_data['end_date'] ) { // loop dates in original range
 
-						// Add date to array if today or future
-						// And is not beyond event's recur until date
-						if ( strtotime( $date ) >= $today_ts && ( ! $event_data['recurrence_end_date'] || strtotime( $date ) <= strtotime( $event_data['recurrence_end_date'] ) ) ) {
+						// Add date to array if today or future.
+						// And is not beyond event's recur until date.
+						// And is not an excluded date.
+						if (
+							strtotime( $date ) >= $today_ts // today or future.
+							&& ( ! $event_data['recurrence_end_date'] || strtotime( $date ) <= strtotime( $event_data['recurrence_end_date'] ) ) // not beyond event's recur until date.
+							&& ( ! $excluded_dates_array || ! in_array( $date, $excluded_dates_array, true ) ) // not excluded
+						) {
 							$event_dates[] = $date;
 						}
 
