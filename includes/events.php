@@ -10,8 +10,10 @@
  * @since      0.9
  */
 
-// No direct access
-if ( ! defined( 'ABSPATH' ) ) exit;
+// No direct access.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**********************************
  * EVENTS DATA
@@ -24,70 +26,70 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * May also be used elsewhere (e.g. upcoming events in header)
  *
  * @since 0.9
- * @param array $args Arguments for getting events
+ * @param array $args Arguments for getting events.
  * @return array Event posts
  */
 function ctfw_get_events( $args = array() ) {
 
-	// Defaults
+	// Defaults.
 	$args['timeframe'] = ! empty( $args['timeframe'] ) ? $args['timeframe'] : 'upcoming';
 	$args['category'] = ! empty( $args['category'] ) ? $args['category'] : 'all';
-	$args['limit'] = isset( $args['limit'] ) ? absint( $args['limit'] ) : -1; // default no limit
+	$args['limit'] = isset( $args['limit'] ) ? absint( $args['limit'] ) : -1; // default no limit.
 
-	// Upcoming or past
-	$meta_type = 'DATETIME'; // 0000-00-00 00:00:00
+	// Upcoming or past.
+	$meta_type = 'DATETIME'; // 0000-00-00 00:00:00.
 
 	// Upcoming events
-	$compare = '>=';  // all events with start OR end date today or later
-	$meta_key = '_ctc_event_start_date_start_time'; // order by this; want earliest starting date/time first
-	$order = 'ASC'; // sort from soonest to latest
+	$compare = '>=';  // all events with start OR end date today or later.
+	$meta_key = '_ctc_event_start_date_start_time'; // order by this; want earliest starting date/time first.
+	$order = 'ASC'; // sort from soonest to latest.
 
-	// Past events
-	if ( 'past' == $args['timeframe'] ) {
-		$compare = '<'; // all events with start AND end date BEFORE today
-		$meta_key = '_ctc_event_end_date_start_time'; // order by this; want finish date first (not end time because may be empty)
-		$order = 'DESC'; // sort from most recently past to oldest
+	// Past events.
+	if ( 'past' === $args['timeframe'] ) {
+		$compare = '<'; // all events with start AND end date BEFORE today.
+		$meta_key = '_ctc_event_end_date_start_time'; // order by this; want finish date first (not end time because may be empty).
+		$order = 'DESC'; // sort from most recently past to oldest.
 	}
 
-	// Backwards compatibility
-	// Church Content added rigid time fields in version 1.2
-	// Continue ordering by old field for old versions of plugin
-	if ( defined( 'CTC_VERSION' ) && version_compare( CTC_VERSION, '1.2', '<' ) ) { // CTC plugin is active and old
+	// Backwards compatibility.
+	// Church Content added rigid time fields in version 1.2.
+	// Continue ordering by old field for old versions of plugin.
+	if ( defined( 'CTC_VERSION' ) && version_compare( CTC_VERSION, '1.2', '<' ) ) { // CTC plugin is active and old.
 
-		// Upcoming or past
-		$meta_type = 'DATE'; // 0000-00-00
+		// Upcoming or past.
+		$meta_type = 'DATE'; // 0000-00-00.
 
-		// Upcoming events
-		$meta_key = '_ctc_event_start_date'; // order by this; want earliest starting date/time first
+		// Upcoming events.
+		$meta_key = '_ctc_event_start_date'; // order by this; want earliest starting date/time first.
 
-		// Past events
-		if ( 'past' == $args['timeframe'] ) {
-			$meta_key = '_ctc_event_end_date'; // order by this; want finish date first (not end time because may be empty)
+		// Past events.
+		if ( 'past' === $args['timeframe'] ) {
+			$meta_key = '_ctc_event_end_date'; // order by this; want finish date first (not end time because may be empty).
 		}
 
 	}
 
-	// Arguments
+	// Arguments.
 	$query_args = array(
-		'post_type'			=> 'ctc_event',
-		'numberposts'		=> $args['limit'],
-		'meta_query' 		=> array(
+		'post_type'         => 'ctc_event',
+		'numberposts'       => $args['limit'],
+		'meta_query'        => array(
 			array(
-				'key'			=> '_ctc_event_end_date', // the latest date that the event goes to (could be start date)
-				'value' 		=> date_i18n( 'Y-m-d' ), // today's date, localized
-				'compare' 		=> $compare,
-				'type' 			=> 'DATE'
+				'key'       => '_ctc_event_end_date', // the latest date that the event goes to (could be start date).
+				'value'     => date_i18n( 'Y-m-d' ), // today's date, localized.
+				'compare'   => $compare,
+				'type'      => 'DATE'
 			),
 		),
-		'meta_key' 			=> $meta_key,
-		'meta_type' 		=> $meta_type,
-		'orderby'			=> 'meta_value',
-		'order'				=> $order,
-		'suppress_filters'	=> false // keep WPML from showing posts from all languages: http://bit.ly/I1JIlV + http://bit.ly/1f9GZ7D
+		'meta_key'          => $meta_key,
+		'meta_type'         => $meta_type,
+		'orderby'           => 'meta_value',
+		'order'             => $order,
+		'suppress_filters' => false, // keep WPML from showing posts from all languages: http://bit.ly/I1JIlV + http://bit.ly/1f9GZ7D.
 	);
 
-	// Filter by category
-	if ( 'all' != $args['category'] ) {
+	// Filter by category.
+	if ( 'all' !== $args['category'] ) {
 
 		$category_term = get_term( $args['category'], 'ctc_event_category' );
 
@@ -97,13 +99,14 @@ function ctfw_get_events( $args = array() ) {
 
 	}
 
-	// Filter get post arguments
+	// Filter get post arguments.
 	$query_args = apply_filters( 'ctfw_get_events_query_args', $query_args );
 
-	// Get events
+	// Get events.
+	// To Do: switch this to WP_Query.
 	$posts = get_posts( $query_args );
 
-	// Return filtered
+	// Return filtered.
 	return apply_filters( 'ctfw_get_events', $posts, $args );
 
 }
@@ -112,8 +115,8 @@ function ctfw_get_events( $args = array() ) {
  * Get event data
  *
  * @since 0.9
- * @param array|int $args post_id or array of arguments; If no post ID, current post used
- * @return array Event data
+ * @param array|int $args post_id or array of arguments; If no post ID, current post used.
+ * @return array Event data.
  */
 function ctfw_event_data( $args = array() ) {
 
@@ -124,34 +127,34 @@ function ctfw_event_data( $args = array() ) {
 		);
 	}
 
-	// Default arguments
+	// Default arguments.
 	$args = wp_parse_args( $args, array(
-		'post_id'				=> null, // use current
+		'post_id'              => null, // use current
 		/* translators: time range (%1$s) and description (%2$s) for an event */
-		'time_and_desc_format'	=> __( '%1$s <span>(%2$s)</span>', 'church-theme-framework' ),
-		'abbreviate_month'		=> false, // use Dec instead of December (replaced F with M in date_format setting)
+		'time_and_desc_format' => __( '%1$s <span>(%2$s)</span>', 'church-theme-framework' ),
+		'abbreviate_month'     => false, // use Dec instead of December (replaced F with M in date_format setting).
 	) );
 
-	// Extract arguments to variables
+	// Extract arguments to variables.
 	extract( $args );
 
-	// Get meta values
+	// Get meta values.
 	$meta = ctfw_get_meta_data( array(
 		'start_date',
 		'end_date',
-		'time', // Time Description
+		'time', // Time Description.
 		'start_time',
 		'end_time',
 		'hide_time_range',
 		'recurrence',
 		'recurrence_end_date',
-		'recurrence_weekly_interval',	// Pro + CRE add-on
-		'recurrence_weekly_type',		// Pro add-on
-		'recurrence_weekly_day',		// Pro add-on
-		'recurrence_monthly_interval',	// Pro + CRE  add-on
-		'recurrence_monthly_type',		// Pro + CRE  add-on
-		'recurrence_monthly_week',		// Pro + CRE  add-on
-		'excluded_dates',				// Pro add-on
+		'recurrence_weekly_interval',   // Pro + CRE add-on.
+		'recurrence_weekly_type',       // Pro add-on.
+		'recurrence_weekly_day',        // Pro add-on.
+		'recurrence_monthly_interval',  // Pro + CRE  add-on.
+		'recurrence_monthly_type',      // Pro + CRE  add-on.
+		'recurrence_monthly_week',      // Pro + CRE  add-on.
+		'excluded_dates',               // Pro add-on.
 		'venue',
 		'address',
 		'show_directions_link',
@@ -341,7 +344,7 @@ function ctfw_event_data( $args = array() ) {
  * Must have support for Church Content event category taxonomy
  *
  * @since 1.5
- * @param object $query WP_Query
+ * @param object $query WP_Query.
  */
 function ctfw_event_category_query( $query ) {
 
@@ -350,31 +353,31 @@ function ctfw_event_category_query( $query ) {
 		return;
 	}
 
-	// Don't manipulate feed
+	// Don't manipulate feed.
 	if ( $query->is_feed ) {
 		return;
 	}
 
-	// Only manipulate event category taxonomy archive query
+	// Only manipulate event category taxonomy archive query.
 	if ( ! $query->is_archive || ! $query->is_tax || empty( $query->query_vars['ctc_event_category'] ) ) {
 		return;
 	}
 
-	// Modify query to show upcoming events soonest to latest
-	$query->query_vars['meta_query'] 	= array(
-			array( // only get upcoming events (ending today or in future)
-				'key'		=> '_ctc_event_end_date', // the latest date that the event goes to (could be same as start date)
-				'value' 	=> date_i18n( 'Y-m-d' ), // today's date, localized
-				'compare' 	=> '>=', // all events with start OR end date today or later
-				'type' 		=> 'DATE'
-			),
-		);
-	$query->query_vars['meta_key'] 		= '_ctc_event_start_date_start_time'; // want earliest start date/time first
-	$query->query_vars['meta_type'] 	= 'DATETIME'; // 0000-00-00 00:00:00
-	$query->query_vars['orderby']		= 'meta_value';
-	$query->query_vars['order']			= 'ASC'; // sort from soonest to latest
+	// Modify query to show upcoming events soonest to latest.
+	$query->query_vars['meta_query'] = array(
+		array( // only get upcoming events (ending today or in future).
+			'key'     => '_ctc_event_end_date', // the latest date that the event goes to (could be same as start date).
+			'value'   => date_i18n( 'Y-m-d' ), // today's date, localized.
+			'compare' => '>=', // all events with start OR end date today or later.
+			'type'    => 'DATE',
+		),
+	);
+	$query->query_vars['meta_key']  = '_ctc_event_start_date_start_time'; // want earliest start date/time first.
+	$query->query_vars['meta_type'] = 'DATETIME'; // 0000-00-00 00:00:00.
+	$query->query_vars['orderby']   = 'meta_value';
+	$query->query_vars['order']     = 'ASC'; // sort from soonest to latest.
 
-	// Backwards compatibility not needed for time fields because category taxonomy introduced after new time fields
+	// Backwards compatibility not needed for time fields because category taxonomy introduced after new time fields.
 
 }
 
@@ -390,24 +393,24 @@ add_action( 'pre_get_posts', 'ctfw_event_category_query' );
  * Take in YYYY-MM and convert it to a valid year, month and month timestamp.
  * If missing or invalid, use current year/month.
  *
- * @param string $year_month YYYY-MM such as 2015-01 for January, 2015
- * @return array Year, month (no leading 0) and month timestamp
+ * @param string $year_month YYYY-MM such as 2015-01 for January, 2015.
+ * @return array Year, month (no leading 0) and month timestamp.
  */
 function ctfw_event_calendar_month_data( $year_month ) {
 
 	$data = array();
 
-	// Year/month given and valid
+	// Year/month given and valid.
 	if ( ! empty( $year_month ) && preg_match( '/^[0-9]{4}-[0-9]{2}$/', $year_month ) ) {
 
-		// Get year and month
+		// Get year and month.
 		list( $year, $month ) = explode( '-', $year_month );
 
-		// Remove preceding 0 from month
+		// Remove preceding 0 from month.
 		$month = ltrim( $month, '0' );
 
 		// Invalid month and year?
-		// Unset to use default
+		// Unset to use default.
 		if ( ! checkdate( $month, 1, $year ) ) {
 			unset( $year );
 			unset( $month );
@@ -415,28 +418,28 @@ function ctfw_event_calendar_month_data( $year_month ) {
 
 	}
 
-	// Set defaults
+	// Set defaults.
 	if ( ! isset( $year ) || ! isset( $month ) ) {
 		$year = date_i18n( 'Y' );
 		$month = date_i18n( 'n' );
 	}
 
-	// Make timestamp for year/month
+	// Make timestamp for year/month.
 	$month_ts = mktime( 0, 0, 0, $month, 1, $year );
 
-	// Set $year_month in case was empty or invalid
+	// Set $year_month in case was empty or invalid.
 	$year_month = date_i18n( 'Y-m', $month_ts );
 
-	// First day of month
+	// First day of month.
 	$first_of_month = date_i18n( 'Y-m-d', $month_ts );
 
-	// Prev and next months
+	// Prev and next months.
 	$prev_month = date_i18n( 'Y-m', ( $month_ts - 1 ) );
 	$prev_month_ts = strtotime( $prev_month );
 	$next_month = date_i18n( 'Y-m', ( $month_ts + ( DAY_IN_SECONDS * 32 ) ) );
 	$next_month_ts = strtotime( $next_month );
 
-	// Data in array
+	// Data in array.
 	$data['year_month'] = $year_month;
 	$data['year'] = $year;
 	$data['month'] = $month;
@@ -447,7 +450,7 @@ function ctfw_event_calendar_month_data( $year_month ) {
 	$data['next_month'] = $next_month;
 	$data['next_month_ts'] = $next_month_ts;
 
-	// Filter the data
+	// Filter the data.
 	$data = apply_filters( 'ctfw_event_calendar_month_data', $data, $year_month );
 
 	return $data;
@@ -465,86 +468,86 @@ function ctfw_event_calendar_month_data( $year_month ) {
  */
 function ctfw_event_calendar_data( $args ) {
 
-	// Arguments
+	// Arguments.
 	$args = wp_parse_args( $args, array(
-		'year_month' 		=> '', // YYYY-MM (e.g. 2015-01 for January, 2015)
-		'get_events'		=> true, // get events for each day in array
-		'category'			=> '', // category term slug or empty for all
-		'recurrence_limit'	=> 160, // max number of future event occurences to calculate (160 will cover 3 years of weekly recurrence)
+		'year_month'       => '', // YYYY-MM (e.g. 2015-01 for January, 2015).
+		'get_events'       => true, // get events for each day in array.
+		'category'         => '', // category term slug or empty for all.
+		'recurrence_limit' => 160, // max number of future event occurences to calculate (160 will cover 3 years of weekly recurrence).
 	) );
 
-	// Extract arguments for easy use
+	// Extract arguments for easy use.
 	extract( $args );
 
 	// Date format
 	$date_format = get_option( 'date_format' );
 	$date_format_abbreviated = ctfw_abbreviate_date_format( array(
-		'date_format'		=> $date_format,
-		'abbreviate_month'	=> true, // December = Dec
-		'remove_year'		=> false,
+		'date_format'      => $date_format,
+		'abbreviate_month' => true, // December = Dec.
+		'remove_year'      => false,
 	) );
 
-	// Start calendar data array
+	// Start calendar data array.
 	$calendar = array();
 
-	// Get $year, $month and $month_ts, validated
-	// If invalid date passed, current month/year used
-	// This also removed preceding 0 from month
+	// Get $year, $month and $month_ts, validated.
+	// If invalid date passed, current month/year used.
+	// This also removed preceding 0 from month.
 	$calendar['month_data'] = ctfw_event_calendar_month_data( $year_month );
 	extract( $calendar['month_data'] );
 
-	// Get today
+	// Get today.
 	$today = date_i18n( 'Y-m-d' );
 	$today_ts = strtotime( $today );
 
-	// Days in the month
+	// Days in the month.
 	$days_in_month = date_i18n( 't', $month_ts );
 
-	// Get day of week for first day of month (0 - 6 representing Sunday - Saturday)
-	// This is useful for determining where to start the calendar
+	// Get day of week for first day of month (0 - 6 representing Sunday - Saturday).
+	// This is useful for determining where to start the calendar.
 	$first_day_in_month_ts = mktime( 0, 0, 0, $month, 1, $year );
 	$first_day_in_month_info = getdate( $first_day_in_month_ts );
 	$first_day_in_month_day_of_week = $first_day_in_month_info['wday'];
 
-	// Previous month
+	// Previous month.
 	$previous_month_days = date_i18n( 't', ( $first_day_in_month_ts - DAY_IN_SECONDS ) );
 
-	// Build days of week array
-	// Make start of week first in array
+	// Build days of week array.
+	// Make start of week first in array.
 	$days_of_week = array();
 
-		// Place days of week in array
-		// Using first week of month specifically so can determine localized day of week names
+		// Place days of week in array.
+		// Using first week of month specifically so can determine localized day of week names.
 		for ( $day_in_month = 1; $day_in_month <= 7; $day_in_month++ ) {
 
-			// This day's info
+			// This day's info.
 			$day_in_month_ts = mktime( 0, 0, 0, $month, $day_in_month, $year );
 			$day_in_month_info = getdate( $day_in_month_ts );
 			$day_in_month_day_of_week = $day_in_month_info['wday'];
 
-			// Numeric day of week
-			$days_of_week[$day_in_month_day_of_week]['numeric'] = $day_in_month_day_of_week; // on 0 - 6 scake
-			$days_of_week[$day_in_month_day_of_week]['numeric_friendly'] = $day_in_month_day_of_week + 1; // on 1 - 7 scale
+			// Numeric day of week.
+			$days_of_week[ $day_in_month_day_of_week ]['numeric'] = $day_in_month_day_of_week; // on 0 - 6 scale.
+			$days_of_week[ $day_in_month_day_of_week ]['numeric_friendly'] = $day_in_month_day_of_week + 1; // on 1 - 7 scale.
 
-			// Localized names
-			$days_of_week[$day_in_month_day_of_week]['name'] = date_i18n( 'l', $day_in_month_ts );
-			$days_of_week[$day_in_month_day_of_week]['name_short'] = date_i18n( 'D', $day_in_month_ts );
+			// Localized names.
+			$days_of_week[ $day_in_month_day_of_week ]['name'] = date_i18n( 'l', $day_in_month_ts );
+			$days_of_week[ $day_in_month_day_of_week ]['name_short'] = date_i18n( 'D', $day_in_month_ts );
 
 		}
 
-		// Sort by day of week 0 - 6
+		// Sort by day of week 0 - 6.
 		ksort( $days_of_week );
 
-		// Change start of week (e.g. Monday instead of Sunday)
-		// Settings > General controls this
-		$start_of_week = get_option( 'start_of_week' ); // Day week starts on; numeric (0 - 6 representing Sunday - Saturday)
-		$removed_days = array_splice( $days_of_week, $start_of_week ); // remove days before new first day from front
-		$days_of_week = array_merge( $removed_days, $days_of_week ); // move them to end to effect new first day of week
+		// Change start of week (e.g. Monday instead of Sunday).
+		// Settings > General controls this.
+		$start_of_week = get_option( 'start_of_week' ); // Day week starts on; numeric (0 - 6 representing Sunday - Saturday).
+		$removed_days = array_splice( $days_of_week, $start_of_week ); // remove days before new first day from front.
+		$days_of_week = array_merge( $removed_days, $days_of_week ); // move them to end to effect new first day of week.
 
-		// Add to calendar array
+		// Add to calendar array.
 		$calendar['days_of_week'] = $days_of_week;
 
-	// Loop days of month to build rows
+	// Loop days of month to build rows.
 	$day = 1;
 	$week = 0;
 	$day_of_week = $first_day_in_month_day_of_week;
@@ -554,7 +557,7 @@ function ctfw_event_calendar_data( $args ) {
 	}
 	while ( $day <= $days_in_month ) {
 
-		// Add day to array
+		// Add day to array.
 		$calendar['weeks'][$week]['days'][$day_of_week] = array(
 			'day'			=> $day,
 			'month'			=> $month,
