@@ -317,6 +317,9 @@ function ctfw_event_data( $args = array() ) {
 	$meta['recurrence_note'] = isset( $recurrence_note['full'] ) ? $recurrence_note['full'] : ''; // sentence such as "Every 3 months on the second Wednesday until January 24, 2018".
 	$meta['recurrence_note_short'] = isset( $recurrence_note['short'] ) ? $recurrence_note['short'] : ''; // short version such as "Every 3 Months" (can show this with full on tooltip).
 
+	// Excluded dates note.
+	$meta['excluded_dates_note'] = ctfw_event_excluded_dates_note( false, $meta );
+
 	// Map has coordinates?
 	$meta['map_has_coordinates'] = ( $meta['map_lat'] && $meta['map_lng'] ) ? true : false;
 
@@ -1009,7 +1012,7 @@ function ctfw_event_calendar_redirection() {
 add_action( 'template_redirect', 'ctfw_event_calendar_redirection' );
 
 /**********************************
- * EVENT RECURRENCE
+ * EVENT RECURRENCE & EXCLUSIONS
  **********************************/
 
 /**
@@ -1281,50 +1284,7 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 		}
 
 		// Wording for excluded dates.
-		$excluded_dates_wording = '';
-		if ( $excluded_dates ) {
-
-			// Convert comma-separated list of weeks into array.
-			$excluded_dates_array = explode( ',', $excluded_dates );
-			$excluded_dates_count = count( $excluded_dates_array );
-
-			// Loop dates(s).
-			$date_years = array();
-			foreach ( $excluded_dates_array as $date_key => $date_value ) {
-
-				// Separator between items (comma or and).
-				if ( $excluded_dates_wording ) {
-
-					if ( $date_key < ($excluded_dates_count - 1) ) {
-						/* translators: separator between items in list (e.g. "first, second, third and last tuesday") */
-						$excluded_dates_wording .= _x( ', ', 'item list', 'church-theme-framework' );
-					} else { // "and" before last item.
-						/* translators: separator to use instead of comma before last item in a list (e.g. "first, second, third and last tuesday") */
-						$excluded_dates_wording .= _x( ' and ', 'item list', 'church-theme-framework' );
-					}
-
-				}
-
-				// Append date to list.
-				$excluded_dates_wording .= date_i18n( $date_format, strtotime( $date_value ) );
-
-				// Log date years.
-				$year = date_i18n( 'Y', strtotime( $date_value ) );
-				$date_years[$year] = $year;
-
-			}
-
-			// If dates all have same year, only mention year on last date.
-			if ( $excluded_dates_count > 1 && count( $date_years ) === 1 && 'F j, Y' === $date_format ) {
-
-				// Replace all years but last.
-				$year = reset( $date_years );
-				$replace = ', ' . $year;
-				$excluded_dates_wording = preg_replace( '/' . $replace . '/', '', $excluded_dates_wording, preg_match_all( '/' . $replace . '/', $excluded_dates_wording ) - 1 );
-
-			}
-
-		}
+		$excluded_dates_wording = ctfw_event_excluded_dates_note( false, $data );
 
 		// Frequency.
 		switch ( $recurrence ) {
@@ -1766,6 +1726,85 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 	// Filter
 	$note = apply_filters( 'ctfw_event_recurrence_note', $note, $post_id, $data );
 
+	return $note;
+
+}
+
+/**
+ * Excluded dates note
+ *
+ * A sentence describing excluded dates, when Pro add-on used.
+ *
+ * @since 2.2
+ * @param object|int $post Post object or post ID for event.
+ * @param array $data Data to use (instead of giving $post_id).
+ * @return string List of excluded dates (e.g. "September 12, October 17 and October 30, 2017")
+ */
+function ctfw_event_excluded_dates_note( $post_id = false, $data = false ) {
+
+	$note = '';
+
+	// Get event data if not provided.
+	if ( empty( $data ) ) {
+		$data = ctfw_event_data( $post_id );
+	}
+
+	// Get excluded dates.
+	$excluded_dates = isset( $data['excluded_dates'] ) ? $data['excluded_dates'] : '';
+
+	// Do we have excluded dates?
+	if ( $excluded_dates ) {
+
+		// Ger date format.
+		$date_format = get_option( 'date_format' );
+
+		// Convert comma-separated list of weeks into array.
+		$excluded_dates_array = explode( ',', $excluded_dates );
+		$excluded_dates_count = count( $excluded_dates_array );
+
+		// Loop dates(s).
+		$date_years = array();
+		foreach ( $excluded_dates_array as $date_key => $date_value ) {
+
+			// Separator between items (comma or and).
+			if ( $note ) {
+
+				if ( $date_key < ($excluded_dates_count - 1) ) {
+					/* translators: separator between items in list (e.g. "first, second, third and last tuesday") */
+					$note .= _x( ', ', 'item list', 'church-theme-framework' );
+				} else { // "and" before last item.
+					/* translators: separator to use instead of comma before last item in a list (e.g. "first, second, third and last tuesday") */
+					$note .= _x( ' and ', 'item list', 'church-theme-framework' );
+				}
+
+			}
+
+			// Append date to list.
+			$note .= date_i18n( $date_format, strtotime( $date_value ) );
+
+			// Log date years.
+			$year = date_i18n( 'Y', strtotime( $date_value ) );
+			$date_years[$year] = $year;
+
+		}
+
+		// If dates all have same year, only mention year on last date.
+		// This is done only for the most common format of "F, j, Y".
+		if ( $excluded_dates_count > 1 && count( $date_years ) === 1 && 'F j, Y' === $date_format ) {
+
+			// Replace all years but last.
+			$year = reset( $date_years );
+			$replace = ', ' . $year;
+			$note = preg_replace( '/' . $replace . '/', '', $excluded_dates_wording, preg_match_all( '/' . $replace . '/', $excluded_dates_wording ) - 1 );
+
+		}
+
+	}
+
+	// Filter.
+	$note = apply_filters( 'ctfw_event_excluded_dates_note', $note, $post_id, $data );
+
+	// Return.
 	return $note;
 
 }
