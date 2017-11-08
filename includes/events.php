@@ -890,9 +890,6 @@ function ctfw_event_calendar_data( $args ) {
 
 	}
 
-	// DEBUG
-	//ctfw_print_array( $calendar );
-
 	// Filter
 	$calendar = apply_filters( 'ctfw_event_calendar_data', $calendar, $args );
 
