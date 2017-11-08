@@ -1795,7 +1795,7 @@ function ctfw_event_excluded_dates_note( $post_id = false, $data = false ) {
 			// Replace all years but last.
 			$year = reset( $date_years );
 			$replace = ', ' . $year;
-			$note = preg_replace( '/' . $replace . '/', '', $excluded_dates_wording, preg_match_all( '/' . $replace . '/', $excluded_dates_wording ) - 1 );
+			$note = preg_replace( '/' . $replace . '/', '', $note, preg_match_all( '/' . $replace . '/', $note ) - 1 );
 
 		}
 
