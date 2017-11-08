@@ -772,7 +772,7 @@ function ctfw_event_calendar_data( $args ) {
 					'monthly_type'   => $event_data['recurrence_monthly_type'],	// 'day' (same day of month) or 'week' (on specific week(s)); if recurrence is monthly ('day' is default).
 					'monthly_week'   => $event_data['recurrence_monthly_week'], // single value, array or JSON-encoded array of numeric week(s) of month (or 'last') (e.g. 1, 2, 3, 4, 5 or last).
 					'excluded_dates' => $event_data['excluded_dates'],			// dates to exclude in YYYY-mm-dd format, separated by comma, as array or JSON-encoded array.
-					'limit'          => $recurrence_limit, 						// maximum dates to return (if no until_date, default is 100 to prevent infinite loop)
+					'limit'          => $recurrence_limit, 						// maximum dates to return (if no until_date, default is 1000 to prevent infinite loop)
 				);
 				$calculated_dates = $ctfw_recurrence->get_dates( $recurrence_args );
 
