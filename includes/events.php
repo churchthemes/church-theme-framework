@@ -1144,7 +1144,7 @@ function ctfw_grandfather_recurring_events() {
 
 }
 
-add_action( 'init', 'ctfw_grandfather_recurring_events', 2 ); // init 2 is right after ctc_set_default_theme_support in Church Content.
+add_action( 'init', 'ctfw_grandfather_recurring_events', 1.5 ); // init 1.5 is right after ctc_set_default_theme_support at 1 in Church Content, but before ctc_cre_set_fields_theme_support in CRE.
 
 /**
  * Recurrence note
