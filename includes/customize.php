@@ -170,19 +170,19 @@ function ctfw_unset_customization( $option ) {
  */
 function ctfw_customize_defaults() {
 
-	// Get cached defaults
+	// Get cached defaults.
 	// Customization settings are gotten dozens of times per pageload
 	// Caching them is a good idea in case default values every come from a function or query
-	$transient = 'ctfw_customize_defaults';
+	$transient = CTFW_THEME_SLUG . '_customize_defaults';
 	$defaults = get_transient( $transient );
 
-	// No cache; get defaults from theme, then cache
-	if ( false === $defaults ) {
+	// No cache; get defaults from theme, then cache.
+	if ( empty( $defaults ) ) {
 
 		// Get defaults from theme
 		$defaults = apply_filters( 'ctfw_customize_defaults', array() );
 
-		// Cache defaults
+		// Cache defaults (if have them and not live preview)
 		// 10 seconds good enough for one page load
 		set_transient( $transient, $defaults, 10 );
 
