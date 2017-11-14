@@ -780,7 +780,9 @@ function ctfw_event_calendar_data( $args ) {
 				$calculated_dates = $ctfw_recurrence->get_dates( $recurrence_args );
 
 				// Add calculated dates to array
-				$event_dates = array_merge( $event_dates, $calculated_dates );
+				if ( $calculated_dates ) {
+					$event_dates = array_merge( $event_dates, $calculated_dates );
+				}
 
 			}
 
