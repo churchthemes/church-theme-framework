@@ -1721,7 +1721,7 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 
 					// No excluded dates.
 					else {
-						$note['full'] = __( 'Every year ', 'church-theme-framework' );
+						$note['full'] = __( 'Every year', 'church-theme-framework' );
 					}
 
 				}
