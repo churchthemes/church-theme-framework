@@ -318,12 +318,18 @@ class CTFW_Breadcrumbs {
 
 		$tidy_title = $title;
 
+		// Sermon wording.
+		$sermon_word_singular = ctfw_sermon_word_singular();
+		$sermon_word_plural = ctfw_sermon_word_plural();
+
 		// Remove "Protected: " and "Private: "
 		$tidy_title = preg_replace( '/^(Protected|Private): (.+)$/', '$2', $tidy_title );
 
 		// Shorten other common titles (short, concise, non-redundant breadcrumb is best)
 		// These are sample content page titles and likely to remain unchanged by user
-		$tidy_title = str_replace( 'Sermon Archive', _x( 'Sermons', 'sermon breadcrumb', 'church-theme-framework' ), $tidy_title );
+
+		$tidy_title = str_replace( 'Sermon Archive', $sermon_word_plural, $tidy_title );
+
 		$tidy_title = str_replace( 'Sermon Topics', _x( 'Topics', 'sermon breadcrumb', 'church-theme-framework' ), $tidy_title );
 		$tidy_title = str_replace( 'Sermon Series', _x( 'Series', 'sermon breadcrumb', 'church-theme-framework' ), $tidy_title );
 		$tidy_title = str_replace( 'Sermon Books', _x( 'Books', 'sermon breadcrumb', 'church-theme-framework' ), $tidy_title );
