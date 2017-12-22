@@ -59,7 +59,7 @@ function ctfw_sermon_word_singular() {
 function ctfw_sermon_word_plural() {
 
 	// Default in case Church Content plugin is inactive.
-	$word = _x( 'Sermon', 'plural', 'church-theme-framework' );
+	$word = _x( 'Sermons', 'plural', 'church-theme-framework' );
 
 	// Get registered post type label.
 	$post_type_obj = get_post_type_object( 'ctc_sermon' );
