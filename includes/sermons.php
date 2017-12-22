@@ -4,14 +4,72 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013 - 2015, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2017, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9
  */
 
-// No direct access
-if ( ! defined( 'ABSPATH' ) ) exit;
+// No direct access.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**********************************
+ * SERMON WORDING
+ **********************************/
+
+/**
+ * "Sermon" singular word from post type.
+ *
+ * This will be post type label, English or translated.
+ * It may also be what Church Contet Pro settings dictate.
+ *
+ * When Church Content plugin inactive (post type not registered), a default string is used.
+ *
+ * @since 2.3
+ * @return string Word for "Sermon"
+ */
+function ctfw_sermon_word_singular() {
+
+	// Default in case Church Content plugin is inactive.
+	$word = _x( 'Sermon', 'singular', 'church-theme-framework' );
+
+	// Get registered post type label.
+	$post_type_obj = get_post_type_object( 'ctc_sermon' );
+	if ( ! empty( $post_type_obj->labels->singular_name ) ) { // post type registered.
+		$word = $post_type_obj->labels->singular_name;
+	}
+
+	return apply_filters( 'ctfw_sermon_word_singular', $word );
+
+}
+
+/**
+ * "Sermon" plural word from post type.
+ *
+ * This will be post type label, English or translated.
+ * It may also be what Church Contet Pro settings dictate.
+ *
+ * When Church Content plugin inactive (post type not registered), a default string is used.
+ *
+ * @since 2.3
+ * @return string Word for "Sermons"
+ */
+function ctfw_sermon_word_plural() {
+
+	// Default in case Church Content plugin is inactive.
+	$word = _x( 'Sermon', 'plural', 'church-theme-framework' );
+
+	// Get registered post type label.
+	$post_type_obj = get_post_type_object( 'ctc_sermon' );
+	if ( ! empty( $post_type_obj->labels->name ) ) { // post type registered.
+		$word = $post_type_obj->labels->name;
+	}
+
+	return apply_filters( 'ctfw_sermon_word_plural', $word );
+
+}
 
 /**********************************
  * SERMON ARCHIVES
