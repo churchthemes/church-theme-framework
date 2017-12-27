@@ -128,7 +128,7 @@ class CTFW_Widget_Section extends CTFW_Widget {
 
 			// Text Size
 			'text_size' => array(
-				'name'				=> _x( 'Text Size', 'section widget', 'saved' ),
+				'name'				=> _x( 'Text Size', 'section widget', 'church-theme-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
 				'type'				=> 'radio', // text, textarea, checkbox, radio, select, number, url, image, color
@@ -292,7 +292,7 @@ class CTFW_Widget_Section extends CTFW_Widget {
 
 			// Attachment
 			'attachment' => array(
-				'name'				=> _x( 'Attachment', 'section widget', 'saved' ),
+				'name'				=> _x( 'Attachment', 'section widget', 'church-theme-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
 				'type'				=> 'radio', // text, textarea, checkbox, radio, select, number, url, image, color
@@ -349,7 +349,7 @@ class CTFW_Widget_Section extends CTFW_Widget {
 
 			// Text Size
 			'orientation' => array(
-				'name'				=> _x( 'Orientation', 'section widget', 'saved' ),
+				'name'				=> _x( 'Orientation', 'section widget', 'church-theme-framework' ),
 				'after_name'		=> '', // (Optional), (Required), etc.
 				'desc'				=> '',
 				'type'				=> 'radio', // text, textarea, checkbox, radio, select, number, url, image, color
