@@ -2,11 +2,17 @@
 /**
  * Theme updater class.
  *
+ * Modified for Church Theme Framework.
+ *
+ * - Prefixed class and filename to remind that this is modified
+ * - Prefixed so this version always loads; class_exists() not necessary
+ * - Prefixed to avoid conflicts with other products, like AppPresser.
+ *
  * @package EDD Sample Theme
  * @version 1.0.3
  */
 
-class EDD_Theme_Updater {
+class CTFW_EDD_Theme_Updater {
 
 	private $remote_api_url;
 	private $request_data;

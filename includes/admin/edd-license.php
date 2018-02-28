@@ -115,7 +115,7 @@ function ctfw_edd_license_updater() {
 	if ( current_theme_supports( 'ctfw-edd-license' ) && ctfw_edd_license_config( 'updates' ) ) {
 
 		// Include updater class.
-		locate_template( CTFW_CLASS_DIR . '/theme-updater-class.php', true );
+		locate_template( CTFW_CLASS_DIR . '/ctfw-theme-updater-class.php', true );
 
 		// Strings.
 		$strings = array(
@@ -128,7 +128,7 @@ function ctfw_edd_license_updater() {
 		$strings['update-available'] = str_replace( '%3$s', $changelog_url, $strings['update-available'] );
 
 		// Activate updates.
-		new EDD_Theme_Updater(
+		new CTFW_EDD_Theme_Updater(
 			array(
 				'remote_api_url' => ctfw_edd_license_config( 'store_url' ), // Store URL running EDD with Software Licensing extension.
 				'version'        => ctfw_edd_license_config( 'version' ), // Current version of theme.
