@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013 - 2015, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2018, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9
@@ -46,7 +46,6 @@ function ctfw_image_size_dimensions( $size ) {
  * Add note below Featured Image
  *
  * Each post type has a recommended image size.
- * See includes/support.php for notes on Highlight and Slide widgets.
  *
  * @since 0.9
  * @param string $content Featured image meta box content
