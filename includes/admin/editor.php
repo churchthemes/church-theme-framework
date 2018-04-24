@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Admin
- * @copyright  Copyright (c) 2015 - 2017, churchthemes.com
+ * @copyright  Copyright (c) 2015 - 2018, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      1.7.2
@@ -161,6 +161,7 @@ function ctfw_add_editor_body_classes( $mce ) {
 			$body_classes = implode( ' ', $body_classes );
 
 			// Append to existing classes string
+			$mce['body_class'] = isset( $mce['body_class'] ) ? $mce['body_class'] : '';
 			$mce['body_class'] .= ' ' . $body_classes;
 
 		}
