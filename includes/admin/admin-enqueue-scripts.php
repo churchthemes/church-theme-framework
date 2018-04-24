@@ -29,7 +29,7 @@ function ctfw_admin_enqueue_scripts() {
 
 		wp_enqueue_script( 'ctfw-admin-post', ctfw_theme_url( CTFW_JS_DIR . '/admin-post.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on update
 		wp_localize_script( 'ctfw-admin-post', 'ctfw_post', array(
-			//'featured_image_note' => ctfw_featured_image_note(), // get note to show on current post type's Featured Image (Gutenberg).
+			'featured_image_note' => ctfw_featured_image_note(), // get note to show on current post type's Featured Image (Gutenberg).
 		) );
 
 	}

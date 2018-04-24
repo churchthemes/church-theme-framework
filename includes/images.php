@@ -43,9 +43,72 @@ function ctfw_image_size_dimensions( $size ) {
 }
 
 /**
+ * Get note to show below featured image for current post type
+ *
+ * @return string Note to show.
+ */
+function ctfw_featured_image_note() {
+
+	// Theme supports this?
+	$support = get_theme_support( 'ctfw-featured-image-notes' );
+	if ( ! empty( $support[0] ) ) {
+
+		// Get post type size data.
+		$post_types = $support[0];
+
+		// Get admin screen.
+		$screen = get_current_screen();
+		if ( ! empty( $screen->post_type ) && ! empty( $post_types[$screen->post_type] ) ) {
+
+			// Get post type data
+			$post_type_data = $post_types[$screen->post_type];
+
+			// Size and specific note specified.
+			if ( is_array( $post_type_data ) && ! empty( $post_type_data[0] ) && ! empty( $post_type_data[1] ) ) {
+				$size = $post_type_data[0];
+				$note = $post_type_data[1];
+			}
+
+			// Only size specified (use default note).
+			elseif ( ! empty( $post_types[$screen->post_type] ) ) {
+				$size = $post_types[$screen->post_type];
+				$note = ! empty( $support[1] ) ? $support[1] : __( 'The target image size is %s.', 'church-theme-framework' ); // third argument, if any
+			}
+
+			// Build note.
+			if ( isset( $size ) && isset( $note ) ) {
+
+				// Get dimensions for size.
+				$dimensions = ctfw_image_size_dimensions( $size );
+				if ( $dimensions ) {
+
+					// Add dimensions to note.
+					$note = sprintf( $note, $dimensions );
+
+				}
+
+			}
+
+			// Empty note.
+			else {
+				$note = '';
+			}
+
+		}
+
+	}
+
+	// Return note.
+	return apply_filters( 'ctfw_featured_image_note', $note );
+
+}
+
+/**
  * Add note below Featured Image
  *
  * Each post type has a recommended image size.
+ *
+ * Note: This only affects classic editor. Gutenberg is handled by admin-post.js.
  *
  * @since 0.9
  * @param string $content Featured image meta box content
