@@ -116,54 +116,19 @@ function ctfw_featured_image_note() {
  */
 function ctfw_featured_image_notes( $content ) {
 
-	// Theme supports this?
-	$support = get_theme_support( 'ctfw-featured-image-notes' );
-	if ( ! empty( $support[0] ) ) {
+	// Get note for current post type.
+	// This only returns a value when ctfw-featured-image-notes feature supported.
+	$note = ctfw_featured_image_note();
 
-		// Get post type size data
-		$post_types = $support[0];
+	// Have note.
+	if ( $note ) {
 
-		// Get admin screen
-		$screen = get_current_screen();
-		if ( ! empty( $screen->post_type ) && ! empty( $post_types[$screen->post_type] ) ) {
-
-			// Get post type data
-			$post_type_data = $post_types[$screen->post_type];
-
-			// Size and specific message specified
-			if ( is_array( $post_type_data ) && ! empty( $post_type_data[0] ) && ! empty( $post_type_data[1] ) ) {
-				$size = $post_type_data[0];
-				$message = $post_type_data[1];
-			}
-
-			// Only size specified (use default message)
-			elseif ( ! empty( $post_types[$screen->post_type] ) ) {
-				$size = $post_types[$screen->post_type];
-				$message = ! empty( $support[1] ) ? $support[1] : __( 'The target image size is %s.', 'church-theme-framework' ); // third argument, if any
-			}
-
-			// Show message
-			if ( isset( $size ) && isset( $message ) ) {
-
-				// Get dimensions for size
-				$dimensions = ctfw_image_size_dimensions( $size );
-				if ( $dimensions ) {
-
-					// Add dimensions to message
-					$message = sprintf( $message, $dimensions );
-
-					// Apply the note for the appropriate post type
-					$content .= '<p class="description">' . esc_html( $message  ) . '</p>';
-
-				}
-
-			}
-
-		}
+		// Apply the note for the appropriate post type
+		$content .= '<p class="description">' . esc_html( $note  ) . '</p>';
 
 	}
 
-	// Return content with note appended
+	// Return content with note appended.
 	return $content;
 
 }
