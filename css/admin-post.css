@@ -1,0 +1,16 @@
+/**
+ * Admin Add/Edit Post CSS
+ */
+
+/* Gutenberg */
+
+.gutenberg #ctfw-featured-image-note:first-child {
+	margin-top: 0;
+	margin-bottom: 1em;
+}
+
+.gutenberg #ctfw-featured-image-note:last-child {
+	margin-top: 1em;
+	margin-bottom: 0;
+}
+
