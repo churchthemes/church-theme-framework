@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Admin
- * @copyright  Copyright (c) 2013 - 2016, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2018, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9
@@ -24,8 +24,8 @@ function ctfw_admin_enqueue_scripts() {
 
 	$screen = get_current_screen();
 
-	// Post Add/Edit
-	if ( 'post' == $screen->base ) { // don't enqueue unless needed
+	// Post Add/Edit.
+	if ( 'post' === $screen->base ) { // don't enqueue unless needed
 
 		wp_enqueue_script( 'ctfw-admin-post', ctfw_theme_url( CTFW_JS_DIR . '/admin-post.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on update
 		wp_localize_script( 'ctfw-admin-post', 'ctfw_post', array(
@@ -36,7 +36,7 @@ function ctfw_admin_enqueue_scripts() {
 
 	// Widgets JavaScript
 	// wp_enqueue_media() is run in classes/widget.php
-	if ( 'widgets' == $screen->base ) { // don't enqueue unless needed
+	if ( 'widgets' === $screen->base ) { // don't enqueue unless needed
 
 		// New media uploader in WP 3.5+
 		wp_enqueue_media();

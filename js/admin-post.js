@@ -1,5 +1,5 @@
 /**
- * Admin Add/Edit Post
+ * Admin Add/Edit Post JavaScript
  */
 
 jQuery( document ).ready( function( $ ) {
@@ -15,8 +15,8 @@ jQuery( document ).ready( function( $ ) {
 		if ( $( '.gutenberg .editor-post-featured-image' ).length && ctfw_post.featured_image_note.length ) { // Gutenberg editor and have post type note.
 
 				$( '.gutenberg .editor-post-featured-image' )
-					.append( '<p class="description" id="risen-featured-image-note">' + ctfw_post.featured_image_note + '</p>' );
-				$( '#risen-featured-image-note' )
+					.append( '<p class="description" id="ctfw-featured-image-note">' + ctfw_post.featured_image_note + '</p>' );
+				$( '#ctfw-featured-image-note' )
 					.hide()
 					.fadeIn( 'fast' );
 		}

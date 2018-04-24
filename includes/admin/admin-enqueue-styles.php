@@ -4,14 +4,16 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Admin
- * @copyright  Copyright (c) 2013 - 2016, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2018, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9
  */
 
-// No direct access
-if ( ! defined( 'ABSPATH' ) ) exit;
+// No direct access.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /*******************************************
  * ENQUEUE STYLESHEETS
@@ -28,22 +30,30 @@ function ctfw_admin_enqueue_styles() {
 
 	$screen = get_current_screen();
 
-	// Admin widgets
-	if ( 'widgets' == $screen->base ) {
+	// Post Add/Edit.
+	if ( 'post' === $screen->base ) {
 
-		// For color widget field type
-		// Improvement to enqueue only when there is a widget with color field?
-		wp_enqueue_style( 'wp-color-picker' );
-
-		// CSS for admin widgets
-		// Framework also enqueues this for Customizer in framework/includes/customize.php
-		wp_enqueue_style( 'ctfw-widgets', ctfw_theme_url( CTFW_CSS_DIR . '/admin-widgets.css' ), false, CTFW_THEME_VERSION ); // bust cache on update
+		// CSS for add/edit post screen.
+		wp_enqueue_style( 'ctfw-post', ctfw_theme_url( CTFW_CSS_DIR . '/admin-post.css' ), false, CTFW_THEME_VERSION ); // bust cache on update.
 
 	}
 
-	// Theme license
+	// Admin Widgets.
+	if ( 'widgets' === $screen->base ) {
+
+		// For color widget field type.
+		// Improvement to enqueue only when there is a widget with color field?
+		wp_enqueue_style( 'wp-color-picker' );
+
+		// CSS for admin widgets.
+		// Framework also enqueues this for Customizer in framework/includes/customize.php.
+		wp_enqueue_style( 'ctfw-widgets', ctfw_theme_url( CTFW_CSS_DIR . '/admin-widgets.css' ), false, CTFW_THEME_VERSION ); // bust cache on update.
+
+	}
+
+	// Theme License.
 	if ( 'appearance_page_theme-license' == $screen->base ) {
-		wp_enqueue_style( 'ctfw-license', ctfw_theme_url( CTFW_CSS_DIR . '/admin-license.css' ), false, CTFW_THEME_VERSION ); // bust cache on update
+		wp_enqueue_style( 'ctfw-license', ctfw_theme_url( CTFW_CSS_DIR . '/admin-license.css' ), false, CTFW_THEME_VERSION ); // bust cache on update.
 	}
 
 }
