@@ -99,36 +99,6 @@ function ctfw_site_path() {
 }
 
 /**
- * Retrieve the url of a file in the theme.
- *
- * Searches in the stylesheet directory before the template directory so themes
- * which inherit from a parent theme can just override one file.
- *
- * This is from here and will likely be part of WordPress core. At that time, move this to deprecated.php.
- * http://core.trac.wordpress.org/attachment/ticket/18302/18302.12.diff
- * http://core.trac.wordpress.org/ticket/18302
- *
- * @since 0.9
- * @param string $file File to search for in the stylesheet directory
- * @return string The URL of the file
- */
-function ctfw_theme_url( $file = '' ) {
-
-	$file = ltrim( $file, '/' );
-
-	if ( empty( $file ) ) {
-		$url = get_stylesheet_directory_uri();
-	} elseif( is_child_theme() && file_exists( get_stylesheet_directory() . "/$file" ) ) {
-		$url = get_stylesheet_directory_uri() . "/$file";
-	} else {
-		$url = get_template_directory_uri() . "/$file";
-	}
-
-	return apply_filters( 'ctfw_theme_url', $url, $file );
-
-}
-
-/**
  * Sanitize URL List
  *
  * Make sure URL is not empty and not invalid.
