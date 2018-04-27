@@ -6,7 +6,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Classes
- * @copyright  Copyright (c) 2013 - 2015, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2018, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9
@@ -318,65 +318,19 @@ class CTFW_Breadcrumbs {
 
 		$tidy_title = $title;
 
-		// Sermon wording.
-		$sermon_word_singular = ctfw_sermon_word_singular();
-		$sermon_word_plural = ctfw_sermon_word_plural();
-
-		// Remove "Protected: " and "Private: ".
+		// Remove "Protected: " and "Private: "
 		$tidy_title = preg_replace( '/^(Protected|Private): (.+)$/', '$2', $tidy_title );
 
-		// Shorten other common titles (short, concise, non-redundant breadcrumb is best).
-		// These are sample content page titles and likely to remain unchanged by user.
+		// Shorten other common titles (short, concise, non-redundant breadcrumb is best)
+		// These are sample content page titles and likely to remain unchanged by user
+		$tidy_title = str_replace( 'Sermon Archive', _x( 'Sermons', 'sermon breadcrumb', 'church-theme-framework' ), $tidy_title );
+		$tidy_title = str_replace( 'Sermon Topics', _x( 'Topics', 'sermon breadcrumb', 'church-theme-framework' ), $tidy_title );
+		$tidy_title = str_replace( 'Sermon Series', _x( 'Series', 'sermon breadcrumb', 'church-theme-framework' ), $tidy_title );
+		$tidy_title = str_replace( 'Sermon Books', _x( 'Books', 'sermon breadcrumb', 'church-theme-framework' ), $tidy_title );
+		$tidy_title = str_replace( 'Sermon Speakers', _x( 'Speakers', 'sermon breadcrumb', 'church-theme-framework' ), $tidy_title );
+		$tidy_title = str_replace( 'Sermon Dates', _x( 'Dates', 'sermon breadcrumb', 'church-theme-framework' ), $tidy_title );
 
-		// Sermon Archive.
-		$archive_title = sprintf(
-			/* translators: %1$s is "Sermon" (singular), possibly translated or changed in settings. */
-			_x( '%1$s Archive', 'sermon breadcrumb', 'church-theme-framework' ),
-			$sermon_word_singular
-		);
-		$tidy_title = str_replace( $archive_title, $sermon_word_plural, $tidy_title );
-
-		// Sermon Topics.
-		$topics_title = sprintf(
-			/* translators: %1$s is "Sermon" (singular), possibly translated or changed in settings. */
-			_x( '%1$s Topics', 'sermon breadcrumb', 'church-theme-framework' ),
-			$sermon_word_singular
-		);
-		$tidy_title = str_replace( $topics_title, _x( 'Topics', 'sermon breadcrumb', 'church-theme-framework' ), $tidy_title );
-
-		// Sermon Series.
-		$series_title = sprintf(
-			/* translators: %1$s is "Sermon" (singular), possibly translated or changed in settings. */
-			_x( '%1$s Series', 'sermon breadcrumb', 'church-theme-framework' ),
-			$sermon_word_singular
-		);
-		$tidy_title = str_replace( $series_title, _x( 'Series', 'sermon breadcrumb', 'church-theme-framework' ), $tidy_title );
-
-		// Sermon Books.
-		$books_title = sprintf(
-			/* translators: %1$s is "Sermon" (singular), possibly translated or changed in settings. */
-			_x( '%1$s Books', 'sermon breadcrumb', 'church-theme-framework' ),
-			$sermon_word_singular
-		);
-		$tidy_title = str_replace( $books_title, _x( 'Books', 'sermon breadcrumb', 'church-theme-framework' ), $tidy_title );
-
-		// Sermon Speakers.
-		$speakers_title = sprintf(
-			/* translators: %1$s is "Sermon" (singular), possibly translated or changed in settings. */
-			_x( '%1$s Speakers', 'sermon breadcrumb', 'church-theme-framework' ),
-			$sermon_word_singular
-		);
-		$tidy_title = str_replace( $speakers_title, _x( 'Speakers', 'sermon breadcrumb', 'church-theme-framework' ), $tidy_title );
-
-		// Sermon Dates.
-		$dates_title = sprintf(
-			/* translators: %1$s is "Sermon" (singular), possibly translated or changed in settings. */
-			_x( '%1$s Dates', 'sermon breadcrumb', 'church-theme-framework' ),
-			$sermon_word_singular
-		);
-		$tidy_title = str_replace( $dates_title, _x( 'Dates', 'sermon breadcrumb', 'church-theme-framework' ), $tidy_title );
-
-		// Shorten.
+		// Shorten
 		if ( isset( $options['shorten'] ) ) {
 			$tidy_title = ctfw_shorten( $tidy_title, $options['shorten'] );
 		}
@@ -471,8 +425,16 @@ class CTFW_Breadcrumbs {
 
 						// Show taxonomy before if has one
 						// Use primary taxonomy's first term
-						$taxonomies = get_object_taxonomies( $post_type );
-						$taxonomy = isset( $taxonomies[0] ) ? $taxonomies[0] : false;
+						//$taxonomies = get_object_taxonomies( $post_type );
+						//$taxonomy = isset( $taxonomies[0] ) ? $taxonomies[0] : false;
+						$taxonomies = get_object_taxonomies( $post_type, 'objects' );
+						$taxonomy = '';
+						foreach ( $taxonomies as $taxonomy_data ) {
+							if ( ! empty( $taxonomy_data->public ) ) { // get first public taxonomy (avoid issue with Yoast Premium Prominent Words - HS 16064)
+								$taxonomy = $taxonomy_data->name;
+								break;
+							}
+						}
 						if ( $taxonomy ) {
 							$taxonomy_terms = get_the_terms( $post_id, $taxonomy );
 							$taxonomy_term = is_array( $taxonomy_terms ) ? current( $taxonomy_terms ) : $taxonomy_terms; // use first term in list
