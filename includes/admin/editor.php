@@ -34,12 +34,13 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Usage example:
  *
  * add_theme_support( 'ctfw-editor-styles', array(
- * 		'stylesheet'		=> 'style.css', 							// For Classic Editor. style.css will be used if not specified.
- * 		'block_stylesheet'	=> 'css/admin/block-editor.css', 			// For Gutenberg Editor to style block controls.
- * 		'css_function'		=> 'themename_head_styles',					// function outputting dynamic CSS in <head> (exclude <style> tag)
- * 		'body_function'		=> 'themename_body_classes',				// function returning array of classes to add to <body>
- *		'fonts'				=> array( 'heading_font', 'body_font' ),	// Customizer setting names for Google Fonts
- *		'font_subsets'		=> 'font_subsets',							// Customizer setting name for Google Font subsets
+ * 		'stylesheet'			=> 'style.css', 								// For Classic Editor. style.css will be used if not specified.
+ * 		'block_stylesheet'		=> 'css/admin/block-editor.css', 				// For Gutenberg Editor to style block controls.
+ * 		'css_function'			=> 'themename_head_styles',						// For Classic Editor. Function outputting dynamic CSS in <head> (exclude <style> tag).
+ * 		'block_css_function'	=> 'themename_bsaved_block_editor_head_styles',	// For Gutenberg Editor. Function outputting dynamic CSS in admin <head> (exclude <style> tag).
+ * 		'body_function'			=> 'themename_body_classes',					// Function returning array of classes to add to <body>.
+ *		'fonts'					=> array( 'heading_font', 'body_font' ),		// Customizer setting names for Google Fonts.
+ *		'font_subsets'			=> 'font_subsets',								// Customizer setting name for Google Font subsets.
  * ) );
  *
  * This is based on http://wordpress.stackexchange.com/a/120849.
@@ -65,12 +66,13 @@ function ctfw_editor_styles() {
 
 	// Defaults.
 	$args = wp_parse_args( $args, array(
-		'stylesheet'		=> 'style.css',								// For Classic Editor. style.css will be used if not specified.
-		'block_stylesheet'	=> '',										// For Gutenberg Editor to style block controls.
- 		'css_function'		=> '',										// function outputting dynamic CSS in <head> (exclude <style> tag).
- 		'body_function'		=> '',										// function returning array of classes to add to <body>.
- 		'fonts'				=> array( 'heading_font', 'body_font' ),	// Customizer setting names for Google Fonts.
- 		'font_subsets'		=> 'font_subsets',							// Customizer setting name for Google Font subsets.
+		'stylesheet'			=> 'style.css',								// For Classic Editor. style.css will be used if not specified.
+		'block_stylesheet'		=> '',										// For Gutenberg Editor to style block controls.
+ 		'css_function'			=> '',										// For Classic Editor. Function outputting dynamic CSS in <head> (exclude <style> tag).
+ 		'block_css_function'	=> '',										// For Gutenberg Editor. Function outputting dynamic CSS in admin <head> (exclude <style> tag).
+ 		'body_function'			=> '',										// Function returning array of classes to add to <body>.
+ 		'fonts'					=> array( 'heading_font', 'body_font' ),	// Customizer setting names for Google Fonts.
+ 		'font_subsets'			=> 'font_subsets',							// Customizer setting name for Google Font subsets.
 	) );
 
 	// Load Google Fonts.
@@ -102,17 +104,15 @@ function ctfw_editor_styles() {
 	if ( $args['css_function'] && function_exists( $args['css_function'] ) ) {
 
 		// Classic editor.
-
-			// Output as CSS.
-			add_action( 'wp_ajax_ctfw_editor_styles', 'ctfw_editor_styles_header' );
-			add_action( 'wp_ajax_nopriv_ctfw_editor_styles', 'ctfw_editor_styles_header' );
-
-			// Call CSS output function.
-			add_action( 'wp_ajax_ctfw_editor_styles', $args['css_function'] );
-			add_action( 'wp_ajax_nopriv_ctfw_editor_styles', $args['css_function'] );
+		add_action( 'wp_ajax_ctfw_editor_styles', 'ctfw_editor_styles_header' ); // output as CSS.
+		add_action( 'wp_ajax_nopriv_ctfw_editor_styles', 'ctfw_editor_styles_header' ); // output as CSS.
+		add_action( 'wp_ajax_ctfw_editor_styles', $args['css_function'] ); // call CSS output function.
+		add_action( 'wp_ajax_nopriv_ctfw_editor_styles', $args['css_function'] ); // call CSS output function.
 
 		// Gutenberg editor.
-		add_action( 'admin_init', 'ctfw_block_editor_styles', 11 );
+		if ( ! empty( $args['block_css_function'] ) && function_exists( $args['block_css_function'] ) ) {
+			add_action( 'admin_head', $args['block_css_function'] );
+		}
 
 	}
 
@@ -178,35 +178,12 @@ function ctfw_editor_get_google_fonts_url() {
 }
 
 /**
- * Output editor styles CSS header (Classic Editor).
+ * Output Classic Editor styles CSS header (Classic Editor).
  *
  * @since 1.7.2
  */
 function ctfw_editor_styles_header() {
 	header( 'Content-type: text/css; charset: UTF-8' );
-}
-
-/**
- * Output editor styles CSS for Gutenberg editor.
- *
- * @since 2.4
- */
-function ctfw_block_editor_styles() {
-
-	// Gutenberg editor in use.
-	//if ( ctfw_is_gutenberg_editor() ) {
-
-		// Get callback function.
-		$support = get_theme_support( 'ctfw-editor-styles' );
-		$css_function = isset( $support[0]['css_function'] ) ? $support[0]['css_function'] : false;
-
-		// Run function to output editor styles.
-		if ( $css_function && function_exists( $css_function ) ) {
-			add_action( 'admin_head', $css_function );
-		}
-
-	//}
-
 }
 
 /**
