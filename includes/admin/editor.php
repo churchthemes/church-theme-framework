@@ -337,7 +337,7 @@ function ctfw_enqueue_block_editor_fonts() {
 
 	// Have Google Fonts URL.
 	if ( $google_fonts_url ) {
-		wp_enqueue_style( 'ctfw-block-editor-fonts', get_theme_file_uri( $google_fonts_url ), false, CTFW_THEME_VERSION );
+		wp_enqueue_style( 'ctfw-block-editor-fonts', $google_fonts_url, false, CTFW_THEME_VERSION );
 	}
 
 }
