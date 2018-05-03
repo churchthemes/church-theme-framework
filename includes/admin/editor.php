@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *******************************************/
 
 /**
- * Add editor styles with colors/fonts from Customizer
+ * Add editor styles with colors/fonts from Customizer.
  *
  * For classic editor, this loads style.css into admin editor and outputs CSS contents from a function
  * in order to render colors and fonts like on front-end (can use same function).
@@ -262,7 +262,7 @@ function ctfw_add_editor_body_classes( $mce ) {
 function ctfw_add_block_editor_body_classes( $classes ) {
 
 	// Gutenberg editor in use.
-	if ( ctfw_is_gutenberg_editor() ) {
+	if ( ctfw_is_block_editor() ) {
 
 		// Get body classes.
 		$body_classes = ctfw_get_editor_body_classes();
@@ -324,9 +324,9 @@ function ctfw_enqueue_block_editor_fonts() {
  *******************************************/
 
 /**
- * Gutenberg in use on add/edit screen.
+ * Block editor (Gutenberg) in use on add/edit screen.
  */
-function ctfw_is_gutenberg_editor() {
+function ctfw_is_block_editor() {
 
 	global $post, $pagenow;
 
