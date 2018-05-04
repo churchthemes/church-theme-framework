@@ -24,12 +24,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * For classic editor, this loads style.css into admin editor and outputs CSS contents from a function
  * in order to render colors and fonts like on front-end (can use same function).
- *
  * style.css, heading_font and body_font are loaded by default so can specify just themename_head_styles()
  *
- * For Gutenberg, specify a stylesheet for the block editor.
+ * For Gutenberg, specify a stylesheet specifically for the block editor and block_css_function to output
+ * styling that applies colors/fonts to Gutenberg editor elements. Cannot just use style.css.
  *
- * See ctfw_editor_styles_callback() for how Customizer colors/fonts are applied
+ * See ctfw_editor_styles_callback() for how Customizer colors/fonts are applied.
  *
  * Usage example:
  *
@@ -96,7 +96,7 @@ function ctfw_editor_styles() {
 	);
 
 	// Load Gutenberg styles for Gutenberg editor.
-	if ( ! empty( $args['stylesheet'] ) ) {
+	if ( ! empty( $args['block_stylesheet'] ) ) {
 		add_action( 'enqueue_block_editor_assets', 'ctfw_enqueue_block_editor_styles' );
 	}
 
@@ -122,7 +122,8 @@ function ctfw_editor_styles() {
 		// Apply body classes to Classic Editor.
 		add_filter( 'tiny_mce_before_init', 'ctfw_add_editor_body_classes' );
 
-	   	// Add body classes to Block Editor (Gutenberg).
+	   	// Add body classes for Block Editor (Gutenberg).
+	   	// Note: Ideal to check ctfw_is_block_editor() here; however, the check fails (too early?).
 		add_filter( 'admin_body_class', 'ctfw_add_block_editor_body_classes' );
 
 	}
@@ -335,7 +336,7 @@ function ctfw_is_block_editor() {
 
 	// Editing single post and Gutenberg is available.
 	// Using $pagenow instead of get_current_screen() since it's sometimes too early to be available.
-	if ( 'post.php' === $pagenow && function_exists( 'gutenberg_can_edit_post' ) ) {
+	if ( in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) && function_exists( 'gutenberg_can_edit_post' ) ) {
 
 		// Not using classic editor.
 		if ( isset( $_GET['classic-editor'] ) ) {
