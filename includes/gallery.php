@@ -4,14 +4,16 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013, churchthemes.com
+ * @copyright  Copyright (c) 2013 -2018, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9
  */
 
-// No direct access
-if ( ! defined( 'ABSPATH' ) ) exit;
+// No direct access.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /***********************************************
  * GALLERIES
@@ -123,7 +125,7 @@ add_filter( 'wp', 'ctfw_remove_prepend_attachment' ); // conditionals like is_at
 /**
  * Get post's gallery data
  *
- * Extract gallery shortcode data from content  (unique image IDs, total count, shortcode attribures, etc.).
+ * Extract gallery shortcode data from content (unique image IDs, total count, shortcode attribures, etc.).
  *
  * @since 0.9
  * @param object $post Post object
