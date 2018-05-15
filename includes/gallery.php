@@ -413,6 +413,9 @@ function ctfw_gallery_posts_ids( $options = array() ) {
  * Show X rows of thumbnails from post content with gallery shortcode(s).
  * The shortcode column attribute from the first gallery will be used.
  *
+ * Note: This does not consider Gutenberg block galleries, but not sure any themes use this (CT themes don't).
+ * The reason is that ctfw_post_galleries_data() only gets $galleries_data for shortcode galleries. A Gutenberg equivilent could possibly be made.
+ *
  * @since 0.9
  * @param object $post Post to make gallery preview for
  * @param array $options Options for preview display
