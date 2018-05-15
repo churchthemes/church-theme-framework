@@ -125,7 +125,7 @@ add_filter( 'wp', 'ctfw_remove_prepend_attachment' ); // conditionals like is_at
 /**
  * Get post's gallery data
  *
- * Extract gallery shortcode data from content (unique image IDs, total count, shortcode attribures, etc.).
+ * Extract gallery shortcode (or Gutenberg block) data from content (unique image IDs, total count, shortcode attribures, etc.).
  *
  * @since 0.9
  * @param object $post Post object
@@ -211,27 +211,32 @@ function ctfw_post_galleries_data( $post, $options = array() ) {
 			// Get images.
    			$gallery_images = $gallery_block->getElementsByTagName( 'img' );
 
-   			// Loop images.
-   			foreach ( $gallery_images as $gallery_image ) {
+   			// Have gallery images.
+   			if ( $gallery_images ) {
 
-   				// Get ID attribute.
-				$gallery_image_id = $gallery_image->getAttribute( 'data-id' );
+	   			// Loop images.
+	   			foreach ( $gallery_images as $gallery_image ) {
 
-				// Add ID to array.
-				if ( $gallery_image_id ) {
-					$gallery_image_ids[] = $gallery_image_id;
+	   				// Get ID attribute.
+					$gallery_image_id = $gallery_image->getAttribute( 'data-id' );
+
+					// Add ID to array.
+					if ( $gallery_image_id ) {
+						$gallery_image_ids[] = $gallery_image_id;
+					}
+
 				}
 
-			}
+				// Have gallery image IDs.
+				if ( $gallery_image_ids ) {
+					$galleries_image_ids = array_merge( $galleries_image_ids, $gallery_image_ids );
+				}
 
-			// Have gallery image IDs.
-			if ( $gallery_image_ids ) {
-				$galleries_image_ids = array_merge( $galleries_image_ids, $gallery_image_ids );
-			}
+				// No ID attributes, in which case all attached images shown - get 'em
+				else {
+					$get_attached_images = true;
+				}
 
-			// No ID attributes, in which case all attached images shown - get 'em
-			else {
-				$get_attached_images = true;
 			}
 
 		}
@@ -294,20 +299,20 @@ function ctfw_gallery_posts( $options = array() ) {
 
 	$gallery_posts = array();
 
-	// Defaults
+	// Defaults.
 	$options = wp_parse_args( $options, array(
 		'orderby'		=> 'modified',
 		'order'			=> 'desc',
-		'limit'			=> -1, // no limit
-		'extract_data'	=> true, // false to skip that for optimization
-		'exclude_empty'	=> true, // works only when 'extract_data' is true
+		'limit'			=> -1, // no limit.
+		'extract_data'	=> true, // false to skip that for optimization.
+		'exclude_empty'	=> true, // works only when 'extract_data' is true.
 		'post_id'		=> ''
 	) );
 
-	// If no extract_data, force exclude_empty false (since it is not possible)
+	// If no extract_data, force exclude_empty false (since it is not possible).
 	$options['exclude_empty'] = ! $options['extract_data'] ? false : $options['exclude_empty'];
 
-	// Query arguments
+	// Query arguments.
 	$args = array(
 		'p'					=> $options['post_id'], // if getting one
 		'post_type'			=> array( 'page', 'post', 'ctc_sermon', 'ctc_event', 'ctc_person', 'ctc_location' ),
