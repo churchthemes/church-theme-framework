@@ -141,12 +141,15 @@ function ctfw_post_galleries_data( $post, $options = array() ) {
 		'galleries'		=> array(),
 	);
 
-	// Gather IDs from all gallery shortcodes in content
-	// This is based on the core get_content_galleries() function but slimmed down to do only what is needed
+	// Default values.
+	$galleries_image_ids = array();
+	$galleries_data = array();
+
+	// Shortcode.
+	// Gather IDs from all gallery shortcodes in content.
+	// This is based on the core get_content_galleries() function but slimmed down to do only what is needed.
 	if ( preg_match_all( '/' . get_shortcode_regex() . '/s', $post->post_content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
 
-		$galleries_data = array();
-		$galleries_image_ids = array();
 		$got_attached_images = false;
 
 		// Loop matching shortcodes
@@ -210,20 +213,56 @@ function ctfw_post_galleries_data( $post, $options = array() ) {
 
 		}
 
-		// Did we find some images?
-		if ( $galleries_image_ids ) {
+	}
 
-			// Remove duplicates
-			$galleries_image_ids = array_unique( $galleries_image_ids );
+	// Gutenberg block.
+	if ( preg_match( '/wp-block-gallery/', $post->post_content ) ) {
 
-			// Build array of data
-			$data['image_ids'] = $galleries_image_ids;
-			$data['image_count'] = count( $galleries_image_ids );
-			$data['galleries'] = $galleries_data;
+		// DOM.
+		$dom = new domDocument;
+		@$dom->loadHTML($post->post_content);
+
+		// Get gallery block image items <li class="blocks-gallery-item">.
+		$finder = new DomXPath( $dom );
+		$finder->query( "//*[contains(@class, '$classname')]" );
+		$gallery_items = $finder->query("//*[contains(@class, 'blocks-gallery-item')]");
+
+		// Loop items in gallery.
+		foreach ( $gallery_items as $gallery_item ) {
+
+			// Get image.
+   			$img = $gallery_item->getElementsByTagName( 'img' );
+   			if ( $img ) {
+
+   				// Get ID attribute.
+				$gallery_image_id = $img->item(0)->getAttribute( 'data-id' );
+
+				// Add to array.
+				if ( $gallery_image_id ) {
+					$galleries_image_ids[] = $gallery_image_id;
+				}
+
+			}
 
 		}
 
 	}
+
+	// Did we find some images?
+	if ( $galleries_image_ids ) {
+
+		// Remove duplicates
+		$galleries_image_ids = array_unique( $galleries_image_ids );
+
+		// Build array of data
+		$data['image_ids'] = $galleries_image_ids;
+		$data['image_count'] = count( $galleries_image_ids );
+		$data['galleries'] = $galleries_data;
+
+	}
+
+	// Gutenberg block.
+	echo "\n\n\n" . $post->content . "\n\n\n";
 
 	// Return filterable
 	return apply_filters( 'ctfw_post_galleries_data', $data, $post );
@@ -323,8 +362,8 @@ function ctfw_gallery_posts_where( $where ) {
 	*/
 	$where .= $wpdb->prepare(
 		" AND ( $wpdb->posts.post_content LIKE %s OR $wpdb->posts.post_content LIKE %s )",
-		'%[gallery%',
-		'%wp-block-gallery%'
+		'%[gallery%', // shortcode.
+		'%wp-block-gallery%' // Gutenberg block.
 	);
 
 	return $where;
