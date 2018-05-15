@@ -144,13 +144,12 @@ function ctfw_post_galleries_data( $post, $options = array() ) {
 	// Default values.
 	$galleries_image_ids = array();
 	$galleries_data = array();
+	$get_attached_images = false;
 
 	// Shortcode.
 	// Gather IDs from all gallery shortcodes in content.
 	// This is based on the core get_content_galleries() function but slimmed down to do only what is needed.
 	if ( preg_match_all( '/' . get_shortcode_regex() . '/s', $post->post_content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
-
-		$got_attached_images = false;
 
 		// Loop matching shortcodes
 		foreach ( $matches as $shortcode ) {
@@ -182,31 +181,8 @@ function ctfw_post_galleries_data( $post, $options = array() ) {
 				}
 
 				// No ID attributes, in which case all attached images shown - get 'em
-				elseif ( ! $got_attached_images ) {
-
-					// Don't run more than once per post
-					$got_attached_images = true;
-
-					// Get all attached images for this post
-					$images = get_children( array(
-						'post_parent' => $post->ID,
-						'post_type' => 'attachment',
-						'post_status' => 'inherit', // for attachments
-						'post_mime_type' => 'image',
-						'numberposts' => -1, // all
-						'orderby' => 'menu_order', // want first manually ordered ('Add Media > Uploaded to this page' lets drag order)
-						'order' => 'ASC'
-					) ) ;
-
-					// Found some?
-					if ( ! empty( $images ) ) {
-
-						// Add to array containing image IDs from all galleries in post
-						$attached_image_ids = array_keys( $images );
-						$galleries_image_ids = array_merge( $galleries_image_ids, $attached_image_ids );
-
-					}
-
+				else {
+					$get_attached_images = true;
 				}
 
 			}
@@ -220,29 +196,68 @@ function ctfw_post_galleries_data( $post, $options = array() ) {
 
 		// DOM.
 		$dom = new domDocument;
-		@$dom->loadHTML($post->post_content);
+		@$dom->loadHTML( $post->post_content );
 
-		// Get gallery block image items <li class="blocks-gallery-item">.
+		// Get gallery blocks.
 		$finder = new DomXPath( $dom );
 		$finder->query( "//*[contains(@class, '$classname')]" );
-		$gallery_items = $finder->query("//*[contains(@class, 'blocks-gallery-item')]");
+		$gallery_blocks = $finder->query( "//*[contains(@class, 'wp-block-gallery')]" );
 
-		// Loop items in gallery.
-		foreach ( $gallery_items as $gallery_item ) {
+		// Loop gallery blocks.
+		foreach ( $gallery_blocks as $gallery_block ) {
 
-			// Get image.
-   			$img = $gallery_item->getElementsByTagName( 'img' );
-   			if ( $img ) {
+			$gallery_image_ids = array();
+
+			// Get images.
+   			$gallery_images = $gallery_block->getElementsByTagName( 'img' );
+
+   			// Loop images.
+   			foreach ( $gallery_images as $gallery_image ) {
 
    				// Get ID attribute.
-				$gallery_image_id = $img->item(0)->getAttribute( 'data-id' );
+				$gallery_image_id = $gallery_image->getAttribute( 'data-id' );
 
-				// Add to array.
+				// Add ID to array.
 				if ( $gallery_image_id ) {
-					$galleries_image_ids[] = $gallery_image_id;
+					$gallery_image_ids[] = $gallery_image_id;
 				}
 
 			}
+
+			// Have gallery image IDs.
+			if ( $gallery_image_ids ) {
+				$galleries_image_ids = array_merge( $galleries_image_ids, $gallery_image_ids );
+			}
+
+			// No ID attributes, in which case all attached images shown - get 'em
+			else {
+				$get_attached_images = true;
+			}
+
+		}
+
+	}
+
+	// Get all attached images because at least one gallery had no IDs, which means to use all attached to the page.
+	if ( $get_attached_images ) {
+
+		// Get all attached images for this post
+		$images = get_children( array(
+			'post_parent' => $post->ID,
+			'post_type' => 'attachment',
+			'post_status' => 'inherit', // for attachments
+			'post_mime_type' => 'image',
+			'numberposts' => -1, // all
+			'orderby' => 'menu_order', // want first manually ordered ('Add Media > Uploaded to this page' lets drag order)
+			'order' => 'ASC'
+		) ) ;
+
+		// Found some?
+		if ( ! empty( $images ) ) {
+
+			// Add to array containing image IDs from all galleries in post
+			$attached_image_ids = array_keys( $images );
+			$galleries_image_ids = array_merge( $galleries_image_ids, $attached_image_ids );
 
 		}
 
@@ -260,9 +275,6 @@ function ctfw_post_galleries_data( $post, $options = array() ) {
 		$data['galleries'] = $galleries_data;
 
 	}
-
-	// Gutenberg block.
-	echo "\n\n\n" . $post->content . "\n\n\n";
 
 	// Return filterable
 	return apply_filters( 'ctfw_post_galleries_data', $data, $post );
@@ -341,7 +353,7 @@ function ctfw_gallery_posts( $options = array() ) {
 }
 
 /**
- * Filter gallery posts query to get only those with [gallery] shortcode
+ * Filter gallery posts query to get only those with [gallery] shortcode or Gallery blocks.
  *
  * This way not all posts are gotten; only post with galleries.
  *
@@ -353,7 +365,7 @@ function ctfw_gallery_posts_where( $where ) {
 
 	global $wpdb;
 
-	// Append search for gallery shortcode
+	// Append search for gallery shortcode or Gutenberg gallery block.
 	/*
 	$where .= $wpdb->prepare(
 		" AND $wpdb->posts.post_content LIKE %s",
