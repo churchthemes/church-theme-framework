@@ -196,11 +196,12 @@ function ctfw_post_galleries_data( $post, $options = array() ) {
 
 		// DOM.
 		$dom = new domDocument;
-		@$dom->loadHTML( $post->post_content );
+		libxml_use_internal_errors( true ); // suppress errors caused by domDocument not recognizing HTML5.
+		$dom->loadHTML( $post->post_content );
+		libxml_clear_errors();
 
 		// Get gallery blocks.
 		$finder = new DomXPath( $dom );
-		$finder->query( "//*[contains(@class, '$classname')]" );
 		$gallery_blocks = $finder->query( "//*[contains(@class, 'wp-block-gallery')]" );
 
 		// Loop gallery blocks.
