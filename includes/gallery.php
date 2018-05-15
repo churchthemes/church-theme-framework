@@ -315,9 +315,16 @@ function ctfw_gallery_posts_where( $where ) {
 	global $wpdb;
 
 	// Append search for gallery shortcode
+	/*
 	$where .= $wpdb->prepare(
 		" AND $wpdb->posts.post_content LIKE %s",
 		'%[gallery%'
+	);
+	*/
+	$where .= $wpdb->prepare(
+		" AND ( $wpdb->posts.post_content LIKE %s OR $wpdb->posts.post_content LIKE %s )",
+		'%[gallery%',
+		'%wp-block-gallery%'
 	);
 
 	return $where;
