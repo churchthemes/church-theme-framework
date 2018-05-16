@@ -10,8 +10,10 @@
  * @since      0.9
  */
 
-// No direct access
-if ( ! defined( 'ABSPATH' ) ) exit;
+// No direct access.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Enqueue Admin JavaScript
@@ -27,7 +29,7 @@ function ctfw_admin_enqueue_scripts() {
 	// Post Add/Edit.
 	if ( 'post' === $screen->base ) { // don't enqueue unless needed
 
-		wp_enqueue_script( 'ctfw-admin-post', ctfw_theme_url( CTFW_JS_DIR . '/admin-post.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on update
+		wp_enqueue_script( 'ctfw-admin-post', get_theme_file_uri( CTFW_JS_DIR . '/admin-post.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on update
 		wp_localize_script( 'ctfw-admin-post', 'ctfw_post', array(
 			'featured_image_note' => ctfw_featured_image_note(), // get note to show on current post type's Featured Image (Gutenberg).
 		) );
@@ -46,7 +48,7 @@ function ctfw_admin_enqueue_scripts() {
 		wp_enqueue_script( 'wp-color-picker' );
 
 		// Main widgets script
-		wp_enqueue_script( 'ctfw-admin-widgets', ctfw_theme_url( CTFW_JS_DIR . '/admin-widgets.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on update
+		wp_enqueue_script( 'ctfw-admin-widgets', get_theme_file_uri( CTFW_JS_DIR . '/admin-widgets.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on update
 		wp_localize_script( 'ctfw-admin-widgets', 'ctfw_widgets', ctfw_admin_widgets_js_data() ); // see admin-widgets.php
 
 	}

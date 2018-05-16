@@ -6,14 +6,16 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013 - 2016, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2018, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9
  */
 
-// No direct access
-if ( ! defined( 'ABSPATH' ) ) exit;
+// No direct access.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /*******************************************
  * WORDPRESS VERSION
@@ -295,7 +297,7 @@ function ctfw_enqueue_ie_unsupported() {
 		}
 
 		// Client-side JS to compare versions, alert and redirect
-		wp_enqueue_script( 'ctfw-ie-unsupported', ctfw_theme_url( CTFW_JS_DIR . '/ie-unsupported.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on theme update
+		wp_enqueue_script( 'ctfw-ie-unsupported', get_theme_file_uri( CTFW_JS_DIR . '/ie-unsupported.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on theme update
 
 		// Pass data
 		wp_localize_script( 'ctfw-ie-unsupported', 'ctfw_ie_unsupported', array( // pass WP data into JS from this point on

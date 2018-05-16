@@ -4,14 +4,16 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2018, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9
  */
 
-// No direct access
-if ( ! defined( 'ABSPATH' ) ) exit;
+// No direct access.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /***********************************************
  * EMBEDS
@@ -58,10 +60,10 @@ function ctfw_responsive_embeds_enqueue_scripts() {
 	if ( current_theme_supports( 'ctfw-responsive-embeds' ) ) {
 
 		// FitVids.js
-		wp_enqueue_script( 'fitvids', ctfw_theme_url( CTFW_JS_DIR . '/jquery.fitvids.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on theme update
+		wp_enqueue_script( 'fitvids', get_theme_file_uri( CTFW_JS_DIR . '/jquery.fitvids.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on theme update
 
 		// Responsive embeds script
-		wp_enqueue_script( 'ctfw-responsive-embeds', ctfw_theme_url( CTFW_JS_DIR . '/responsive-embeds.js' ), array( 'fitvids' ), CTFW_THEME_VERSION ); // bust cache on theme update
+		wp_enqueue_script( 'ctfw-responsive-embeds', get_theme_file_uri( CTFW_JS_DIR . '/responsive-embeds.js' ), array( 'fitvids' ), CTFW_THEME_VERSION ); // bust cache on theme update
 
 	}
 

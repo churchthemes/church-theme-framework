@@ -6,14 +6,16 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013 - 2017, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2018, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9
  */
 
-// No direct access
-if ( ! defined( 'ABSPATH' ) ) exit;
+// No direct access.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /*********************************************
  * PRESET BACKGROUNDS
@@ -105,7 +107,7 @@ function ctfw_background_image_preset_urls() {
  */
 function ctfw_background_image_preset_url( $filename ) {
 
-	$url = ctfw_theme_url( CTFW_THEME_BG_DIR . '/' . $filename );
+	$url = get_theme_file_uri( CTFW_THEME_BG_DIR . '/' . $filename );
 
 	return apply_filters( 'ctfw_background_image_preset_url', $url );
 

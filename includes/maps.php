@@ -4,14 +4,16 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013 - 2016, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2018, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9
  */
 
-// No direct access
-if ( ! defined( 'ABSPATH' ) ) exit;
+// No direct access.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /*******************************************
  * JAVASCRIPT MAP
@@ -88,7 +90,7 @@ function ctfw_google_map( $options = false ) {
 		// Enqueue map scripts to handle Google Maps init
 		// this way the scripts are loaded only when feature is used, not on every page
 		wp_enqueue_script( 'google-maps', '//maps.googleapis.com/maps/api/js?key=' . ctfw_google_maps_api_key(), false, null ); // no version, generic name to share w/plugins
-		wp_enqueue_script( 'ctfw-maps', ctfw_theme_url( CTFW_JS_DIR . '/maps.js' ), array( 'jquery', 'google-maps' ), CTFW_VERSION ); // bust cache on theme update
+		wp_enqueue_script( 'ctfw-maps', get_theme_file_uri( CTFW_JS_DIR . '/maps.js' ), array( 'jquery', 'google-maps' ), CTFW_VERSION ); // bust cache on theme update
 
 	} elseif ( ! empty( $options['show_error'] ) ) {
 		$html = __( '<p><b>Google Map Error:</b> <i>latitude</i> and <i>longitude</i> attributes are required. See documentation for help.</p>', 'church-theme-framework' );

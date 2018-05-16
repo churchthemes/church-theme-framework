@@ -4,14 +4,16 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2018, churchthemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9
  */
 
-// No direct access
-if ( ! defined( 'ABSPATH' ) ) exit;
+// No direct access.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /*******************************************
  * COLOR SCHEMES
@@ -98,7 +100,7 @@ function ctfw_color_url( $file, $color = false ) {
 	// Validate color scheme
 	// (even active one, to prevent any messing with cookies in front-end style customizer)
 	if ( ctfw_valid_color( $color ) ) {
-		$url = ctfw_theme_url( CTFW_THEME_COLOR_DIR . '/' . $color . '/' . ltrim( $file, '/' ) );
+		$url = get_theme_file_uri( CTFW_THEME_COLOR_DIR . '/' . $color . '/' . ltrim( $file, '/' ) );
 	} else {
 		$url = '';
 	}
@@ -147,7 +149,7 @@ function ctfw_color_style_url( $theme = false ) {
 		// Auto-detect (default)
 		// If parent or child not explicit, use default behavior (child if exists, otherwise parent)
 		else {
-			$url = ctfw_theme_url( $color_rel ); // use child theme version if provided
+			$url = get_theme_file_uri( $color_rel ); // use child theme version if provided
 		}
 
 	}

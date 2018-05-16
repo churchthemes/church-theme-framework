@@ -34,7 +34,7 @@ function ctfw_admin_enqueue_styles() {
 	if ( 'post' === $screen->base ) {
 
 		// CSS for add/edit post screen.
-		wp_enqueue_style( 'ctfw-post', ctfw_theme_url( CTFW_CSS_DIR . '/admin-post.css' ), false, CTFW_THEME_VERSION ); // bust cache on update.
+		wp_enqueue_style( 'ctfw-post', get_theme_file_uri( CTFW_CSS_DIR . '/admin-post.css' ), false, CTFW_THEME_VERSION ); // bust cache on update.
 
 	}
 
@@ -47,13 +47,13 @@ function ctfw_admin_enqueue_styles() {
 
 		// CSS for admin widgets.
 		// Framework also enqueues this for Customizer in framework/includes/customize.php.
-		wp_enqueue_style( 'ctfw-widgets', ctfw_theme_url( CTFW_CSS_DIR . '/admin-widgets.css' ), false, CTFW_THEME_VERSION ); // bust cache on update.
+		wp_enqueue_style( 'ctfw-widgets', get_theme_file_uri( CTFW_CSS_DIR . '/admin-widgets.css' ), false, CTFW_THEME_VERSION ); // bust cache on update.
 
 	}
 
 	// Theme License.
 	if ( 'appearance_page_theme-license' == $screen->base ) {
-		wp_enqueue_style( 'ctfw-license', ctfw_theme_url( CTFW_CSS_DIR . '/admin-license.css' ), false, CTFW_THEME_VERSION ); // bust cache on update.
+		wp_enqueue_style( 'ctfw-license', get_theme_file_uri( CTFW_CSS_DIR . '/admin-license.css' ), false, CTFW_THEME_VERSION ); // bust cache on update.
 	}
 
 }
