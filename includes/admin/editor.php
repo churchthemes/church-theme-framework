@@ -97,7 +97,13 @@ function ctfw_editor_styles() {
 
 	// Load Gutenberg styles for Gutenberg editor.
 	if ( ! empty( $args['block_stylesheet'] ) ) {
+
+		// Block editor styles.
 		add_action( 'enqueue_block_editor_assets', 'ctfw_enqueue_block_editor_styles' );
+
+		// Gutenberg color palette styles.
+		add_action( 'admin_head',  'ctfw_output_editor_color_styles' );
+
 	}
 
 	// Apply Customizer fonts and colors CSS to editor.
@@ -317,6 +323,18 @@ function ctfw_enqueue_block_editor_fonts() {
 	if ( $google_fonts_url ) {
 		wp_enqueue_style( 'ctfw-block-editor-fonts', $google_fonts_url, false, CTFW_THEME_VERSION );
 	}
+
+}
+
+/**
+ * Output Gutenberg editor color styles.
+ *
+ * @since 2.4.2
+ */
+function ctfw_output_editor_color_styles( $editor = false ) {
+
+	// Output styles if colors are defined.
+	echo ctfw_color_styles( 'editor' ); // prefix with .edit-post-visual-editor.
 
 }
 

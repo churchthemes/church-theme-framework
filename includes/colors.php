@@ -223,8 +223,6 @@ function ctfw_color_styles( $editor = false ) {
  * Related: This is done by 'ctfw-editor-styles' feature for Gutenberg editor.
  *
  * @since 2.4.2
- * @param string $editor True if to be used in Gutenberg editor.
- * @return string <style> HTML tag.
  */
 function ctfw_output_color_styles( $editor = false ) {
 
