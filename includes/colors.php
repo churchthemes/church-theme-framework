@@ -1,6 +1,6 @@
 <?php
 /**
- * Color Scheme Functions
+ * Color Functions
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
@@ -154,7 +154,88 @@ function ctfw_color_style_url( $theme = false ) {
 
 	}
 
-	// Return filtered
+	// Return filtered.
 	return apply_filters( 'ctfw_color_style_url', $url, $theme );
 
 }
+
+/*******************************************
+ * EDITOR COLORS
+ *******************************************/
+
+/**
+ * Color styles.
+ *
+ * Gutenberg editor requires a class for every color specified via add_theme_support( 'editor-color-palette' ).
+ *
+ * @since 2.4.2
+ * @param string $editor True if to be used in Gutenberg editor.
+ * @return string <style> HTML tag.
+ */
+function ctfw_color_styles( $editor = false ) {
+
+	// Get colors and proceed only if defined.
+	$color_palette = get_theme_support( 'editor-color-palette' );
+	if ( empty( $color_palette ) ) {
+		return;
+	}
+
+	// Gutenberg editor class.
+	$editor_prefix = '';
+	if ( ! empty( $editor ) ) {
+		$editor_prefix = '.edit-post-visual-editor ';
+	}
+
+	// Loop colors to build styles.
+	$styles = "\n<style type=\"text/css\">";
+	foreach ( $color_palette as $color ) {
+
+		// Have color.
+		if ( ! empty( $color['color'] ) ) {
+
+			$name_dashed = str_replace( ' ', '-', $color['name'] );
+
+			$styles .= esc_html( $editor_prefix ) . '.has-' . esc_html( $name_dashed ) . '-background-color,';
+			$styles .= esc_html( $editor_prefix ) . 'p.has-' . esc_html( $name_dashed ) . '-background-color {';
+			$styles .= ' background-color: ' . esc_html( $color['color'] ) . '; ';
+			$styles .= '}';
+
+			$styles .= esc_html( $editor_prefix ) . '.has-' . esc_html( $name_dashed ) . '-color,';
+			$styles .= esc_html( $editor_prefix ) . 'p.has-' . esc_html( $name_dashed ) . '-color {';
+			$styles .= ' color: ' . esc_html( $color['color'] ) . '; ';
+			$styles .= '}';
+
+		}
+
+	}
+	$styles .= "</style>\n\n";
+
+	// Return.
+	return apply_filters( 'ctfw_color_styles', $styles, $editor );
+
+}
+
+/**
+ * Output frontend color styles.
+ *
+ * Must use add_theme_support( 'editor-color-palette' ) for this to work.
+ *
+ * Related: This is done by 'ctfw-editor-styles' feature for Gutenberg editor.
+ *
+ * @since 2.4.2
+ * @param string $editor True if to be used in Gutenberg editor.
+ * @return string <style> HTML tag.
+ */
+function ctfw_output_color_styles( $editor = false ) {
+
+	// Only if theme supports automatically adding color styles.
+	if ( ! current_theme_supports( 'ctfw-color-styles' ) ) {
+		return;
+	}
+
+	// Output styles if colors are defined.
+	echo ctfw_color_styles();
+
+}
+
+add_action( 'wp_head',  'ctfw_output_color_styles' );
