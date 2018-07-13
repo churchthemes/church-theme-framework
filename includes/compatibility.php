@@ -6,7 +6,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013 - 2018, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2018, ChurchThemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9
@@ -228,7 +228,7 @@ function ctfw_ctc_plugin_notice() {
 
 		$notice = sprintf(
 			__( '<b>Plugin Required:</b> Please install and activate the <a href="%s">Church Content</a> plugin to use with the current theme.', 'church-theme-framework' ),
-			esc_url( network_admin_url( 'plugin-install.php?s=' . rawurlencode( '"Church Content" churchthemes.com' ) . '&tab=search' ) )
+			esc_url( network_admin_url( 'plugin-install.php?s=' . rawurlencode( '"Church Content" ChurchThemes.com' ) . '&tab=search' ) )
 		);
 
 	}

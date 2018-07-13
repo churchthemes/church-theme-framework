@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013 - 2017, churchthemes.com
+ * @copyright  Copyright (c) 2013 - 2017, ChurchThemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9
@@ -1028,7 +1028,7 @@ add_action( 'template_redirect', 'ctfw_event_calendar_redirection' );
 /**
  * Grandfather recurring events functionality for early users.
  *
- * churchthemes.com themes no longer support basic recurrence in the free Church Content plugin.
+ * ChurchThemes.com themes no longer support basic recurrence in the free Church Content plugin.
  * This grandfathers basic recurrence for original users. New users need to install Church Content Pro.
  *
  * Example usage:
