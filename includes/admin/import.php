@@ -213,7 +213,7 @@ function ctfw_url_correction_data() {
 	if ( ! empty( $support[0] ) ) {
 
 		// If arguments is URL, create array of arguments out of it
-		// Back-compat for URL string as second parameter: add_theme_support( 'ctfw-import-correct-urls', 'http://wp.local/site' );
+		// Back-compat for URL string as second parameter: add_theme_support( 'ctfw-import-correct-urls', 'http://wp.dev/site' );
 		if ( ! is_array( $support[0] ) ) {
 			$support[0] = array(
 				'url' => $support[0],
