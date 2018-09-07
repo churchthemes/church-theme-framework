@@ -26,14 +26,16 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Admin
- * @copyright  Copyright (c) 2013 - 2017, ChurchThemes.com
+ * @copyright  Copyright (c) 2013 - 2018, ChurchThemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9
  */
 
-// No direct access
-if ( ! defined( 'ABSPATH' ) ) exit;
+// No direct access.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /*******************************************
  * CONFIGURATION
@@ -802,7 +804,6 @@ function ctfw_edd_license_notice() {
 
 	// Get expiration data
 	$expiration_data = ctfw_edd_license_expiration_data();
-
 
 	// Active But Expiring Soon
 	// Show a reminder notice 30 days before expiration
