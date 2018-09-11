@@ -578,6 +578,25 @@ function ctfw_edd_license_page() {
 
 		</form>
 
+		<?php
+
+		$agency_mode_note = '';
+
+		// Get generic note about Agency Mode (used on CC plugin on add-on license settings screen).
+		if ( function_exists( 'ctc_agency_mode_note' ) ) {
+			$agency_mode_note = ctc_agency_mode_note();
+		}
+
+		// Make note filterable so Pro can change it to an "Enabled" message.
+		$agency_mode_note = apply_filters( 'ctf_license_page_agency_mode_note', $agency_mode_note );
+
+		// Show note if have it.
+		if ( $agency_mode_note ) {
+			echo '<p id="ccp-agency-mode-theme-license-note" style="margin-top: 40px">' . $agency_mode_note . '</p>';
+		}
+
+		?>
+
 		<?php do_action( 'ctf_license_page_bottom' ); ?>
 
 	</div>
