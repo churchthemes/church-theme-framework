@@ -76,7 +76,7 @@ function ctfw_edd_license_config( $arg = false ) {
 		'activation_error_notice'		=> __( '<strong>License key could not be activated.</strong>', 'church-theme-framework' ),
 		'inactive_notice'				=> __( '<strong>Theme License Inactive:</strong> <a href="%1$s">Activate Your Theme License</a> to enable updates for the <strong>%2$s</strong> theme.', 'church-theme-framework' ),	// optional notice to override default with license is inactive
 		'expired_notice'				=> __( '<strong>Theme License Expired:</strong> <a href="%1$s">Renew Your Theme License</a> to re-enable updates for the <strong>%2$s</strong> theme (expired on <strong>%3$s</strong>).', 'church-theme-framework' ),	// optional notice to override default with when license is expired
-		'expired_notice_agency_mode'	=> __( '<strong>Theme License Expired:</strong> Ask %7$s to renew their <a href="%1$s">Theme License</a> for <strong>%2$s</strong> to re-enable updates for your site (expired <strong>%3$s</strong>).', 'church-theme-framework' ),	// optional notice to override default with when license is expired
+		'expired_notice_agency_mode'	=> __( '<strong>Theme License Expired:</strong> Ask %6$s to renew their <a href="%1$s">Theme License</a> for <strong>%2$s</strong> to re-enable updates for your site (expired <strong>%3$s</strong>).', 'church-theme-framework' ),	// optional notice to override default with when license is expired
 		'expiring_soon_notice'			=> __( '<strong>Theme License Expiring Soon:</strong> <a href="%1$s">Renew Your Theme License</a> to continue receiving updates for the <strong>%2$s</strong> theme (expires on <strong>%3$s</strong>).', 'church-theme-framework' ),	// optional notice to override default with when license expires soon
 		'expiring_soon_days'			=> 7,						// days before expiration to consider a license "expiring soon"
 		'renewal_url'					=> '',						// optional URL for renewal links (ie. EDD checkout); {license_key} will be replaced with key
@@ -854,6 +854,13 @@ function ctfw_edd_license_notice() {
 	// Show the notice
 	if ( ! empty( $notice ) && ctfw_edd_license_config( $notice ) && ! empty( $class ) ) {
 
+		// Agency name.
+		/* translators: This is used in place of agency name for Agency Mode when no agency name available */
+		$agency_name = __( 'your website provider', 'church-theme-framework');
+		if ( function_exists( 'ccp_agency_mode_name_linked' ) ) {
+			$agency_name = ccp_agency_mode_name_linked();
+		}
+
 		?>
 
 			<div id="ctfw-license-notice" class="notice <?php echo esc_attr( $class ); ?>">
@@ -868,7 +875,8 @@ function ctfw_edd_license_notice() {
 						esc_html( CTFW_THEME_NAME ),
 						esc_html( $expiration_data['expiration_date'] ),
 						esc_url( ctfw_edd_license_renewal_url() ),
-						esc_url( ctfw_edd_license_config( 'renewal_info_url' ) )
+						esc_url( ctfw_edd_license_config( 'renewal_info_url' ) ),
+						$agency_name
 					);
 
 					?>
