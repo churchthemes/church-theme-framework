@@ -482,6 +482,7 @@ function ctfw_edd_license_page() {
 
 						<td>
 							<input id="<?php echo esc_attr( ctfw_edd_license_key_option() ); ?>" name="<?php echo esc_attr( ctfw_edd_license_key_option() ); ?>" type="text" class="regular-text" value="<?php echo esc_attr( $license ); ?>" />
+							<?php do_action( 'ctf_after_license_key_input' ); ?>
 						</td>
 
 					</tr>
