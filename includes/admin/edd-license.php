@@ -592,7 +592,7 @@ function ctfw_edd_license_page() {
 
 		// Show note if have it.
 		if ( $agency_mode_note ) {
-			echo '<p id="ccp-agency-mode-theme-license-note" style="margin-top: 40px">' . $agency_mode_note . '</p>';
+			echo '<p id="ctf-agency-mode-theme-license-note" style="margin-top: 40px">' . $agency_mode_note . '</p>';
 		}
 
 		?>
