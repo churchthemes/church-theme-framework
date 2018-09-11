@@ -578,6 +578,8 @@ function ctfw_edd_license_page() {
 
 		</form>
 
+		<?php do_action( 'ctf_license_page_bottom' ); ?>
+
 	</div>
 	<?php
 }
