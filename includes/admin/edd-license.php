@@ -551,7 +551,7 @@ function ctfw_edd_license_page() {
 
 			</table>
 
-			<p class="submit">
+			<p style="padding-top: 8px">
 
 				<?php if ( ! ctfw_edd_license_expired() ) : // only show renew button if expired ?>
 
