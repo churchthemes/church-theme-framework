@@ -449,7 +449,7 @@ function ctfw_edd_license_page() {
 	$status 	= ctfw_edd_license_key( 'status' ); // local status
 
 	?>
-	<div class="wrap">
+	<div id="ctf-license-settings" class="wrap">
 
 		<h2><?php _ex( 'Theme License', 'page title', 'church-theme-framework' ); ?></h2>
 
