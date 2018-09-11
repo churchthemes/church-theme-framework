@@ -830,19 +830,19 @@ function ctfw_edd_license_notice() {
 	// Active But Expiring Soon
 	// Show a reminder notice 30 days before expiration
 	if ( ctfw_edd_license_active() && $expiration_data['expiring_soon'] ) {
-		$class = 'notice-warning';
+		$class = 'notice-warning ctf-license-notice-expiring-soon';
 		$notice = 'expiring_soon_notice';
 	}
 
 	// Expired
 	elseif ( ctfw_edd_license_expired() ) {
-		$class = "notice-error";
+		$class = "notice-error ctf-license-notice-expired";
 		$notice = 'expired_notice';
 	}
 
 	// Inactive
 	elseif ( ! ctfw_edd_license_active() ) {
-		$class = "notice-error";
+		$class = "notice-error ctf-license-notice-inactive";
 		$notice = 'inactive_notice';
 	}
 
@@ -851,7 +851,7 @@ function ctfw_edd_license_notice() {
 
 		?>
 
-			<div id="ctfw-license-notice" class="notice <?php echo $class; ?>">
+			<div id="ctfw-license-notice" class="notice <?php echo esc_attr( $class ); ?>">
 
 				<p>
 
