@@ -176,8 +176,10 @@ function ctfw_color_styles( $editor = false ) {
 
 	// Get colors and proceed only if defined.
 	$color_palette = get_theme_support( 'editor-color-palette' );
-	if ( empty( $color_palette ) ) {
+	if ( empty( $color_palette[0] ) ) {
 		return;
+	} else {
+		$color_palette = $color_palette[0];
 	}
 
 	// Gutenberg editor class.
@@ -193,15 +195,15 @@ function ctfw_color_styles( $editor = false ) {
 		// Have color.
 		if ( ! empty( $color['color'] ) ) {
 
-			$name_dashed = str_replace( ' ', '-', $color['name'] );
+			$slug_dashed = str_replace( ' ', '-', $color['slug'] );
 
-			$styles .= esc_html( $editor_prefix ) . '.has-' . esc_html( $name_dashed ) . '-background-color,';
-			$styles .= esc_html( $editor_prefix ) . 'p.has-' . esc_html( $name_dashed ) . '-background-color {';
+			$styles .= esc_html( $editor_prefix ) . '.has-' . esc_html( $slug_dashed ) . '-background-color,';
+			$styles .= esc_html( $editor_prefix ) . 'p.has-' . esc_html( $slug_dashed ) . '-background-color {';
 			$styles .= ' background-color: ' . esc_html( $color['color'] ) . '; ';
 			$styles .= '}';
 
-			$styles .= esc_html( $editor_prefix ) . '.has-' . esc_html( $name_dashed ) . '-color,';
-			$styles .= esc_html( $editor_prefix ) . 'p.has-' . esc_html( $name_dashed ) . '-color {';
+			$styles .= esc_html( $editor_prefix ) . '.has-' . esc_html( $slug_dashed ) . '-color,';
+			$styles .= esc_html( $editor_prefix ) . 'p.has-' . esc_html( $slug_dashed ) . '-color {';
 			$styles .= ' color: ' . esc_html( $color['color'] ) . '; ';
 			$styles .= '}';
 
