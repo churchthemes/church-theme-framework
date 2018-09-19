@@ -1033,7 +1033,7 @@ add_action( 'template_redirect', 'ctfw_event_calendar_redirection' );
  *
  * Example usage:
  *
- * add_theme_support( 'ctfw-grandfather-recurring-events', '2018-11-12' ); // release date of theme version removing basic recurrence support
+ * add_theme_support( 'ctfw-grandfather-recurring-events', '2018-10-08' ); // release date of theme version removing basic recurrence support
  *
  * To detect an early user, this checks for Church Content posts of any type on or before the date specified.
  * If they already had Church Content data in database, then they must be an early user. These users will
