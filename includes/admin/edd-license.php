@@ -828,6 +828,9 @@ function ctfw_edd_license_notice() {
 	// Get expiration data
 	$expiration_data = ctfw_edd_license_expiration_data();
 
+	// No notice.
+	$notice = '';
+
 	// Active But Expiring Soon
 	// Show a reminder notice 30 days before expiration
 	if ( ctfw_edd_license_active() && $expiration_data['expiring_soon'] ) {
