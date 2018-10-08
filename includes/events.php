@@ -94,7 +94,15 @@ function ctfw_get_events( $args = array() ) {
 		$category_term = get_term( $args['category'], 'ctc_event_category' );
 
 		if ( $category_term ) {
-			$query_args['ctc_event_category'] = $category_term->slug;
+
+			//$query_args['ctc_event_category'] = $category_term->slug;
+
+			$query_args['tax_query'][] = array(
+				'taxonomy' => 'ctc_event_category',
+				'field'    => 'slug',
+				'terms'    => $category_term->slug,
+			);
+
 		}
 
 	}
