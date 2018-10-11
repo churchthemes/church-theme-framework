@@ -1330,7 +1330,7 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 								_n(
 									'Every week on %2$s until %3$s (excluding %4$s)',
 									'Every %1$s weeks on %2$s until %3$s (excluding %4$s)',
-									$weekly_interval,
+									$weekly_interval_test,
 									'church-theme-framework'
 								),
 								$weekly_interval,
@@ -1349,7 +1349,7 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 								_n(
 									'Every week on %2$s until %3$s',
 									'Every %1$s weeks on %2$s until %3$s',
-									$weekly_interval,
+									$weekly_interval_test,
 									'church-theme-framework'
 								),
 								$weekly_interval,
@@ -1372,7 +1372,7 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 								_n(
 									'Every week on %2$s (excluding %3$s)',
 									'Every %1$s weeks on %2$s (excluding %3$s)',
-									$weekly_interval,
+									$weekly_interval_test,
 									'church-theme-framework'
 								),
 								$weekly_interval,
@@ -1390,7 +1390,7 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 								_n(
 									'Every week on %2$s',
 									'Every %1$s weeks on %2$s',
-									$weekly_interval,
+									$weekly_interval_test,
 									'church-theme-framework'
 								),
 								$weekly_interval,
@@ -1417,7 +1417,7 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 								_n(
 									'Every week until %2$s (excluding %3$s)',
 									'Every %1$s weeks until %2$s (excluding %3$s)',
-									$weekly_interval,
+									$weekly_interval_test,
 									'church-theme-framework'
 								),
 								$weekly_interval,
@@ -1435,7 +1435,7 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 								_n(
 									'Every week until %2$s',
 									'Every %1$s weeks until %2$s',
-									$weekly_interval,
+									$weekly_interval_test,
 									'church-theme-framework'
 								),
 								$weekly_interval,
@@ -1457,7 +1457,7 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 								_n(
 									'Every week (excluding %2$s)',
 									'Every %1$s weeks (excluding %2$s)',
-									$weekly_interval,
+									$weekly_interval_test,
 									'church-theme-framework'
 								),
 								$weekly_interval,
@@ -1560,7 +1560,7 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 								_n(
 									'Every month on the %2$s %3$s (excluding %4$s)',
 									'Every %1$s months on the %2$s %3$s (excluding %4$s)',
-									$monthly_interval,
+									$monthly_interval_test,
 									'church-theme-framework'
 								),
 								$monthly_interval,
@@ -1579,7 +1579,7 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 								_n(
 									'Every month on the %2$s %3$s',
 									'Every %1$s months on the %2$s %3$s',
-									$monthly_interval,
+									$monthly_interval_test,
 									'church-theme-framework'
 								),
 								$monthly_interval,
@@ -1605,7 +1605,7 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 								_n(
 									'Every month until %2$s (excluding %3$s)',
 									'Every %1$s months until %2$s (excluding %3$s)',
-									$monthly_interval,
+									$monthly_interval_test,
 									'church-theme-framework'
 								),
 								$monthly_interval,
@@ -1623,7 +1623,7 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 								_n(
 									'Every month until %2$s',
 									'Every %1$s months until %2$s',
-									$monthly_interval,
+									$monthly_interval_test,
 									'church-theme-framework'
 								),
 								$monthly_interval,
@@ -1645,7 +1645,7 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 								_n(
 									'Every month (excluding %2$s)',
 									'Every %1$s months (excluding %2$s)',
-									$monthly_interval,
+									$monthly_interval_test,
 									'church-theme-framework'
 								),
 								$monthly_interval,
@@ -1662,7 +1662,7 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 								_n(
 									'Every month',
 									'Every %1$s months',
-									$monthly_interval,
+									$monthly_interval_test,
 									'church-theme-framework'
 								),
 								$monthly_interval
@@ -1680,7 +1680,7 @@ function ctfw_event_recurrence_note( $post_id = false, $data = false ) {
 					_n(
 						'Every Month',
 						'Every %1$s Months',
-						$monthly_interval,
+						$monthly_interval_test,
 						'church-theme-framework'
 					),
 					$monthly_interval
