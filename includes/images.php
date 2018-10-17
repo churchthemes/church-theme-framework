@@ -49,6 +49,8 @@ function ctfw_image_size_dimensions( $size ) {
  */
 function ctfw_featured_image_note() {
 
+	$note = '';
+
 	// Theme supports this?
 	$support = get_theme_support( 'ctfw-featured-image-notes' );
 	if ( ! empty( $support[0] ) ) {
