@@ -366,7 +366,7 @@ function ctfw_is_block_editor() {
 		}
 
 	}
-echo $is;exit;
+
 	return $is;
 
 }
