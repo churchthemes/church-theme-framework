@@ -268,7 +268,8 @@ function ctfw_add_editor_body_classes( $mce ) {
 function ctfw_add_block_editor_body_classes( $classes ) {
 
 	// Gutenberg editor in use.
-	if ( ctfw_is_block_editor() ) {
+	// Fix: ctfw_is_block_editor() returns false here (too early for get_current_screen()?)
+	//if ( ctfw_is_block_editor() ) {
 
 		// Get body classes.
 		$body_classes = ctfw_get_editor_body_classes();
@@ -281,7 +282,7 @@ function ctfw_add_block_editor_body_classes( $classes ) {
 
 		}
 
-	}
+	//}
 
 	return $classes;
 
