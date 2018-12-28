@@ -64,6 +64,9 @@ function ctfw_responsive_embeds_enqueue_scripts() {
 
 		// Responsive embeds script
 		wp_enqueue_script( 'ctfw-responsive-embeds', get_theme_file_uri( CTFW_JS_DIR . '/responsive-embeds.js' ), array( 'fitvids' ), CTFW_THEME_VERSION ); // bust cache on theme update
+		wp_localize_script( 'ctfw-responsive-embeds', 'ctfw_responsive_embeds', array(
+			'wp_responsive_embeds' => current_theme_supports( 'responsive-embeds' ),
+		) );
 
 	}
 
