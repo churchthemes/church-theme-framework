@@ -6,7 +6,7 @@
  * It is intended for use in themes that use the Church Content plugin.
  *
  * @package   Church_Theme_Framework
- * @copyright Copyright (c) 2013 - 2018, ChurchThemes.com
+ * @copyright Copyright (c) 2013 - 2019, ChurchThemes.com
  * @link      https://github.com/churchthemes/church-theme-framework
  * @license   GPLv2 or later
  */

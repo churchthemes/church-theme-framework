@@ -9,23 +9,26 @@ jQuery( document ).ready( function( $ ) {
 	 *******************************************/
 
 	 // Gutenberg in use.
-	 if ( $( '.gutenberg' ).length ) {
+	 if ( $( '.block-editor-page' ).length && ctfw_post.featured_image_note.length ) {
 
-		// After Gutenberg inits.
-		setTimeout( function() {
+		// After Featured Image section opened.
+		var interval = setInterval( function() {
 
 			// Add size notes to Gutenberg's Featured Image box for custom post types.
 			// This is handled in classic editor by filtering.
-			if ( $( '.gutenberg .editor-post-featured-image' ).length && ctfw_post.featured_image_note.length ) { // Gutenberg editor and have post type note.
+			if ( $( '.block-editor-page .editor-post-featured-image' ).length ) {
 
-					$( '.gutenberg .editor-post-featured-image' )
-						.append( '<p class="description" id="ctfw-featured-image-note">' + ctfw_post.featured_image_note + '</p>' );
-					$( '#ctfw-featured-image-note' )
-						.hide()
-						.fadeIn( 'fast' );
+				$( '.block-editor-page .editor-post-featured-image' )
+					.append( '<p class="description" id="ctfw-featured-image-note">' + ctfw_post.featured_image_note + '</p>' );
+				$( '#ctfw-featured-image-note' )
+					.hide()
+					.fadeIn( 'fast' );
+
+	        	clearInterval( interval );
+
 			}
 
-		}, 100 );
+		}, 1000 );
 
 	}
 
