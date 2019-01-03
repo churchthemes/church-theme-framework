@@ -755,7 +755,7 @@ function ctfw_event_calendar_data( $args ) {
 			$event_dates = array();
 
 			// Add Start Date to array if not excluded.
-			if ( $event_data['start_date'] && $excluded_dates_array && ! in_array( $event_data['start_date'], $excluded_dates_array ) ) { // Start Date can be excluded.
+			if ( $event_data['start_date'] && ! in_array( $event_data['start_date'], $excluded_dates_array ) ) { // Start Date can be excluded.
 				$event_dates[] = $event_data['start_date'];
 			}
 
