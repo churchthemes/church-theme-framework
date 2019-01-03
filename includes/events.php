@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013 - 2019, ChurchThemes.com
+ * @copyright  Copyright (c) 2013 - 2017, ChurchThemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9
@@ -745,19 +745,11 @@ function ctfw_event_calendar_data( $args ) {
 			// Get meta data
 			$event_data = ctfw_event_data( $event->ID ); // friendly data
 
-			// Exclude dates array.
-			$excluded_dates_array = array();
-			if ( ! empty( $event_data['excluded_dates'] ) ) {
-				$excluded_dates_array = explode( ',', $event_data['excluded_dates'] );
-			}
-
 			// Prepare to capture every day event occurs on
 			$event_dates = array();
 
-			// Add Start Date to array if not excluded.
-			if ( $event_data['start_date'] && ! in_array( $event_data['start_date'], $excluded_dates_array ) ) { // Start Date can be excluded.
-				$event_dates[] = $event_data['start_date'];
-			}
+			// Add Start Date to array
+			$event_dates[] = $event_data['start_date'];
 
 			// Recurring event?
 			if ( $event_data['recurrence'] && $event_data['recurrence'] != 'none' ) {
