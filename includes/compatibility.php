@@ -119,25 +119,6 @@ function ctfw_old_wp_switch_theme_notice() {
 
 }
 
-/**
- * Prevent Customizer preview from showing theme while using old version of WordPress
- *
- * @since 0.9
- */
-function ctfw_old_wp_customizer_notice() {
-
-	// Is WordPress version too old for theme?
-	if ( ctfw_old_wp() ) {
-
-		// Show message
-		wp_die( ctfw_old_wp_message() . sprintf( ' <a href="javascript:history.go(-1);">%s</a>', __( 'Go back.', 'church-theme-framework' ) ) );
-
-	}
-
-}
-
-add_action( 'load-customize.php', 'ctfw_old_wp_customizer_notice' );
-
 /*****************************************************
  * CHURCH CONTENT PLUGIN
  *****************************************************/
