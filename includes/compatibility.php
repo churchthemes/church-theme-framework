@@ -6,7 +6,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013 - 2018, ChurchThemes.com
+ * @copyright  Copyright (c) 2013 - 2019, ChurchThemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9
@@ -139,7 +139,7 @@ function ctfw_old_wp_customizer_notice() {
 add_action( 'load-customize.php', 'ctfw_old_wp_customizer_notice' );
 
 /*****************************************************
- * CHURCH THEME CONTENT
+ * CHURCH CONTENT PLUGIN
  *****************************************************/
 
 /**
