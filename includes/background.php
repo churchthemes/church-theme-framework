@@ -6,7 +6,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013 - 2018, ChurchThemes.com
+ * @copyright  Copyright (c) 2013 - 2019, ChurchThemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9
@@ -82,7 +82,7 @@ function ctfw_background_image_preset_urls() {
 
 	$background_urls = array();
 
-	while( list( $filename ) = each( $backgrounds ) ) {
+	foreach( $backgrounds as $filename => $file_data ) {
 
 		$url = ctfw_background_image_preset_url( $filename );
 
