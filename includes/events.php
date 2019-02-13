@@ -1121,6 +1121,11 @@ function ctfw_grandfather_recurring_events() {
 			return;
 		}
 
+		// Only if ctc_get_theme_support() available (seen a few instances in which it was not).
+		if ( ! function_exists( 'ctc_get_theme_support' ) ) {
+			return;
+		}
+
 		// Get event fields that are supported by theme.
 		$supported_fields = ctc_get_theme_support( 'ctc-events', 'fields' );
 
