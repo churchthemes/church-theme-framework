@@ -214,8 +214,9 @@ class CTFW_Widget extends WP_Widget {
 					// URL
 					case 'url':
 
-						// Input same as text
-						$input = '<input type="url" ' . $data['common_atts'] . ' id="' . $data['esc_element_id'] . '" value="' . $data['esc_value'] . '" />';
+						// Input same as text.
+						// Not using 'url' type so widget will still submit if uses relative URL.
+						$input = '<input type="text" ' . $data['common_atts'] . ' id="' . $data['esc_element_id'] . '" value="' . $data['esc_value'] . '" />';
 
 						// Append button if upload_* used
 						if ( ! empty( $data['field']['upload_button'] ) ) {
@@ -469,6 +470,12 @@ class CTFW_Widget extends WP_Widget {
 
 				// URL
 				case 'url':
+
+					// Make relative URL absolute.
+					if ( $output && ! ctfw_is_url( $output ) ) {
+						$output = site_url( $output );
+						$output = trailingslashit( $output );
+					}
 
 					$output = esc_url_raw( $output ); // force valid URL or use nothing
 
