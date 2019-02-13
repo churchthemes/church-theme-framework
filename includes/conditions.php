@@ -265,7 +265,7 @@ function ctfw_is_page_template( $name ) {
 /**
  * Determine if inside a particular sidebar / widget area
  *
- * This uses global set by saved_set_current_sidebar_id() in sidebars.php.
+ * This uses global set by ctfw_set_current_sidebar_id() in sidebars.php.
  *
  * @since 2.0
  * @param string $sidebar_id Sidebar ID / widget area
