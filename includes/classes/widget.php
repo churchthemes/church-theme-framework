@@ -403,10 +403,16 @@ class CTFW_Widget extends WP_Widget {
 
 		// Loop valid fields to sanitize
 		$fields = $this->ctfw_prepared_fields();
+
 		foreach ( $fields as $id => $field ) {
 
-			// Get posted value
-			$input = isset( $instance[$id] ) ? $instance[$id] : '';
+			// Get posted value.
+			$input = '';
+			if ( isset( $instance[ $id ] ) ) {
+				$input = $instance[ $id ];
+			} elseif ( isset( $field['default'] ) ) { // set default value if instance not set
+				$input = $field['default'];
+			}
 
 			// General sanitization
 			$output = trim( stripslashes( $input ) );
