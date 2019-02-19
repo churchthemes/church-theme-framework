@@ -1998,8 +1998,10 @@ function ctfw_previous_next_event_where( $direction ) {
 	global $wpdb;
 
 	// Start Date meta
-	$meta_key = '_ctc_event_start_date';
-	$meta_value = get_post_meta( get_the_ID(), '_ctc_event_start_date', true );
+	//$meta_key = '_ctc_event_start_date';
+	//$meta_value = get_post_meta( get_the_ID(), '_ctc_event_start_date', true );
+	$meta_key = '_ctc_event_start_date_start_time';
+	$meta_value = get_post_meta( get_the_ID(), $meta_key, true );
 
 	// Direction
 	if ( 'previous' == $direction ) {
