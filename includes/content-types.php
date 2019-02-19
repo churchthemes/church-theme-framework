@@ -555,7 +555,7 @@ function ctfw_content_type_archives( $args = array() ) {
 					$found_book_term = false;
 					foreach ( $archives[$taxonomy]['items'] as $book_term ) {
 
-						if ( trim( strtolower( $book_term->name ) ) == strtolower( $bible_book['name'] ) ) {
+						if ( trim( strtolower( $book_term->name ) ) === strtolower( $bible_book['name'] ) ) {
 
 							// Add book data (testament, alternate names)
 							$book_term->book_data = $bible_book;
@@ -599,7 +599,7 @@ function ctfw_content_type_archives( $args = array() ) {
 						$found = false;
 
 						// Found it?
-						if ( $bible_book['name'] == $book_term->name ) {
+						if ( strtolower( $bible_book['name'] ) === strtolower( $book_term->name ) ) {
 							$found = true;
 							break;
 						}
