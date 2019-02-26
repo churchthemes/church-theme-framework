@@ -46,4 +46,3 @@ function ctfw_download_url( $url ) {
 	return apply_filters( 'ctfw_download_url', $download_url, $url );
 
 }
-

@@ -180,7 +180,6 @@ function ctfw_sermon_data( $post_id = null ) {
 	// Get download URL's
 	// URL is returned if is local or external and has an extension.
 	// Those without an extension (YouTube, SoundCloud, etc. page URL) return empty (nothing to download).
-	// If locally hosted, URL is changed to force "Save As" via headers.
 	// Use <a href="" download="download"> to attempt Save As via limited browser support for externally hosted files.
 	$data['video_download_url'] = ctfw_download_url( $data['video'] );
 	$data['audio_download_url'] = ctfw_download_url( $data['audio'] );
