@@ -36,24 +36,16 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 function ctfw_download_url( $url ) {
 
-	// May return original URL if is external and has extension
 	$download_url = $url;
 
-	// Has extension?
-	// If not, is not actual file (may be URL to SoundCloud, YouTube, etc.)
-	$filetype = wp_check_filetype( $download_url ); // remove any query string
+	// Must have extension to be downloadable.
+	// It may be URL to SoundCloud, YouTube, etc.
+	$filetype = wp_check_filetype( $download_url ); // remove any query string.
 	if ( empty( $filetype['ext'] ) ) {
-
-		// Return nothing; there is no file to download
-		$download_url = '';
-
-	} else {
-
-		// If local and theme supports it, force "Save As" headers by piping via special URL
-		$download_url = ctfw_force_download_url( $download_url );
-
+		$download_url = ''; // Return nothing, there is no file to download.
 	}
 
 	return apply_filters( 'ctfw_download_url', $download_url, $url );
 
 }
+
