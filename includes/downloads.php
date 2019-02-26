@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013 - 2015, ChurchThemes.com
+ * @copyright  Copyright (c) 2013 - 2019, ChurchThemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9
@@ -55,59 +55,5 @@ function ctfw_download_url( $url ) {
 	}
 
 	return apply_filters( 'ctfw_download_url', $download_url, $url );
-
-}
-
-/**
- * Convert download URL to one that forces "Save As" via headers
- *
- * This keeps the browser from doing what it wants with the file (such as play MP3 or show PDF).
- * Note that file must be in uploads folder and extension must be allowed by WordPress.
- *
- * See ctfw_download_url() which uses this. Use it with download="download" attribute as fallback.
- * This function will be deprecated when near 100% browser support exists for the attribute.
- *
- * Makes this:	http://yourname.com/?download=%2F2009%2F10%2Ffile.pdf
- * Out of:		http://yourname.com/wp-content/uploads/2013/05/file.pdf
- * 				http://yourname.com/wp-content/uploads/sites/6/2013/05/file.pdf (multisite)
- *
- * @since 0.9
- * @param string $url URL for file
- * @return string URL forcing "Save As" on file if local
- */
-function ctfw_force_download_url( $url ) {
-
-	// In case URL is not local or feature not supported by theme
-	$download_url = $url;
-
-	// Theme supports this?
-	if ( current_theme_supports( 'ctfw-force-downloads' ) ) {
-
-		// Is URL local?
-		if ( ctfw_is_local_url( $url ) ) {
-
-			// Get URL to upload directory
-			$upload_dir = wp_upload_dir();
-			$upload_dir_url = $upload_dir['baseurl'];
-
-			// Get relative URL for file
-			$relative_url = str_replace( $upload_dir_url, '', $url ); // remove base URL
-			$relative_url = ltrim( $relative_url ); // remove preceding slash
-
-			// Is it actually relative?
-			// If file is outside of upload directory, it won't be
-			// And in that case it cannot be piped through ?download
-			if ( ! preg_match( '/\:\/\//', $relative_url ) ) {
-
-				// Add ?download=file to site URL
-				$download_url = home_url( '/' ) . '?download=' . urlencode( $relative_url ) . '&nocache';
-
-			}
-
-		}
-
-	}
-
-	return apply_filters( 'ctfw_force_download_url', $download_url, $url );
 
 }

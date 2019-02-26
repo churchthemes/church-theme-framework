@@ -18,6 +18,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Convert download URL to one that forces "Save As" via headers
+ *
+ * With the forcing of downloads via headers removed in favor of download attribute,
+ * this now simply returns regular URL for file.
+ *
+ * @since 0.9
+ * @param string $url URL for file
+ * @return string URL
+ */
+function ctfw_force_download_url( $url ) {
+
+	_deprecated_function( __FUNCTION__, '2.6', 'ctfw_download_url()' );
+
+	$download_url = ctfw_download_url( $url );
+
+	return apply_filters( 'ctfw_force_download_url', $download_url, $url );
+
+}
+
+/**
  * Retrieve the url of a file in the theme.
  *
  * Searches in the stylesheet directory before the template directory so themes
