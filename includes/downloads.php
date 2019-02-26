@@ -20,15 +20,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Get download URL
  *
- * If URL is local and theme supports 'ctfw-force-downloads', it will be piped through script to send "Save As" headers.
- * Otherwise, original URL will be returned (local or external) but only if it has an extension (ie. not URL to YouTube, SoundCloud, etc.)
+ * URL returned if is downloadable (has extension, not YouTube, SoundCloud, etc.).
  *
- * On <a> tags use download="download" attribute to attempt "Save As" for externally hosted files.
- * As of October, 2015, download attribute works on 60% browser use. When near 100%, will deprecate ctfw_force_download_url().
+ * On <a> tags use download="download" attribute to attempt "Save As".
+ * As of October, 2019, most browsers support (not IE11 or iOS, which doesn't save files anyway).
  *
- * Makes this:	http://yourname.com/?download=%2F2009%2F10%2Ffile.pdf
- * Out of:		http://yourname.com/wp-content/uploads/2013/05/file.pdf
- * 				http://yourname.com/wp-content/uploads/sites/6/2013/05/file.pdf (multisite)
+ * Prior to framework version 2.6, this would use ctfw_force_download_url() to force downloads via headers.
+ * Now we're relying on download attribute which is simpler, safer and not error-prone.
  *
  * @since 1.7.2
  * @param string $url URL for file
