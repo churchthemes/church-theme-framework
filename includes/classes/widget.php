@@ -479,8 +479,14 @@ class CTFW_Widget extends WP_Widget {
 
 					// Make relative URL absolute.
 					if ( $output && ! ctfw_is_url( $output ) ) {
+
 						$output = site_url( $output );
-						$output = trailingslashit( $output );
+
+						// Add trailing slash if no hash.
+						if ( ! preg_match( '/\#/', $output ) ) {
+							$output = trailingslashit( $output );
+						}
+
 					}
 
 					$output = esc_url_raw( $output ); // force valid URL or use nothing
