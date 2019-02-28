@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2013 - 2017, ChurchThemes.com
+ * @copyright  Copyright (c) 2013 - 2019, ChurchThemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9
@@ -110,6 +110,7 @@ function ctfw_restrict_sidebars_widgets( $sidebars_widgets ) {
 		if ( preg_match( '/^wp_/', $sidebar_id ) ) {
 			continue;
 		}
+
 		// Sidebar widget restrictions
 		// (used for checking limit)
 		$sidebar_widget_restrictions = ctfw_get_sidebar_widget_restrictions( 'sidebar_widget' );
