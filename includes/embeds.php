@@ -77,7 +77,7 @@ add_action( 'wp_enqueue_scripts', 'ctfw_responsive_embeds_enqueue_scripts' ); //
 /**
  * Generic embeds
  *
- * This helps make embeds more generic by setting parameters to remove
+ * This helps make embeds more generic by setting parameters to remove.
  * related videos, set neutral colors, reduce branding, etc.
  *
  * Enable with: add_theme_support( 'ctfw-generic-embeds' );

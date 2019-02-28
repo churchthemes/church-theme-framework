@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Admin
- * @copyright  Copyright (c) 2013 - 2017, ChurchThemes.com
+ * @copyright  Copyright (c) 2013 - 2019, ChurchThemes.com
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9
@@ -50,7 +50,8 @@ function ctfw_admin_widgets_js_data() {
  *
  * @since 1.0
  */
-function ctfw_widget_incompatible_message( $widget ) {
+//function ctfw_widget_incompatible_message( $widget ) { // framework widgets only
+function ctfw_widget_incompatible_message( $widget, $return, $instance ) { // all widgets, including core.
 
 	// Only if feature is supported
 	if ( ! current_theme_supports( 'ctfw-sidebar-widget-restrictions' ) ) {
@@ -66,7 +67,8 @@ function ctfw_widget_incompatible_message( $widget ) {
 
 }
 
-add_action( 'ctfw_widget_before_fields', 'ctfw_widget_incompatible_message' );
+//add_action( 'ctfw_widget_before_fields', 'ctfw_widget_incompatible_message' ); // framework widgets only
+add_filter( 'in_widget_form', 'ctfw_widget_incompatible_message', 10, 3 ); // all widgets, including core.
 
 /**
  * Show widget incompatibility messages
