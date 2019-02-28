@@ -122,6 +122,9 @@ function ctfw_admin_restrict_widgets_css() {
 						// Elements for hiding form fields and save button
 						//$form_elements[] = "#$sidebar_id div[id*=_$widget_id-] .widget-content";
 						$form_elements[] = "#$sidebar_id > .widget[id*=$widget_id] .widget-content > *:not(.ctfw-widget-incompatible)";
+						$form_elements[] = "#$sidebar_id > .widget[id*=$widget_id] .media-widget-control > *:not(.ctfw-widget-incompatible)";
+						$form_elements[] = "#$sidebar_id > .widget[id*=$widget_id] .custom-html-widget-fields > *:not(.ctfw-widget-incompatible)";
+						$form_elements[] = "#$sidebar_id > .widget[id*=$widget_id] .text-widget-fields > *:not(.ctfw-widget-incompatible)";
 						$form_elements[] = "#$sidebar_id > .widget[id*=$widget_id] .widget-control-save";
 
 						// Element for showing message
