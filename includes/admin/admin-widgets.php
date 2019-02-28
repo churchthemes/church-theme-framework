@@ -137,6 +137,9 @@ function ctfw_admin_restrict_widgets_css() {
 
 						// Elements for hiding form fields
 						$form_elements[] = "#sub-accordion-section-sidebar-widgets-$sidebar_id .widget[id*=$widget_id] .widget-content > *:not(.ctfw-widget-incompatible)";
+						$form_elements[] = "#sub-accordion-section-sidebar-widgets-$sidebar_id .widget[id*=$widget_id] .media-widget-control > *:not(.ctfw-widget-incompatible)";
+						$form_elements[] = "#sub-accordion-section-sidebar-widgets-$sidebar_id .widget[id*=$widget_id] .custom-html-widget-fields > *:not(.ctfw-widget-incompatible)";
+						$form_elements[] = "#sub-accordion-section-sidebar-widgets-$sidebar_id .widget[id*=$widget_id] .text-widget-fields > *:not(.ctfw-widget-incompatible)";
 
 						// Element for showing message
 						$message_elements[] = "#sub-accordion-section-sidebar-widgets-$sidebar_id .widget[id*=$widget_id] .ctfw-widget-incompatible";
