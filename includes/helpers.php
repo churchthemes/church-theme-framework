@@ -174,7 +174,7 @@ function ctfw_sanitize_url_list( $urls, $allowed_strings = array() ) {
 function ctfw_email( $email ) {
 
 	$output = '<a href="mailto:' . antispambot( $email, true ) . '">' . "\n";
-	$output .= str_replace( '&#64;', '&#8203;&#64;', antispambot( $email, true ) ) . "\n"; // this on own line or validation can fail
+	$output .= str_replace( '&#64;', '&#8203;&#64;', antispambot( $email ) ) . "\n"; // this on own line or validation can fail
 	$output .= '</a>';
 
 	return apply_filters( 'ctfw_email', $output, $email );
