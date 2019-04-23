@@ -269,6 +269,7 @@ function ctfw_add_block_editor_body_classes( $classes ) {
 
 	// Gutenberg editor in use.
 	// Fix: ctfw_is_block_editor() returns false here (too early for get_current_screen()?)
+	// See this; might work in WP 5.2+: https://make.wordpress.org/core/2019/04/17/block-editor-detection-improvements-in-5-2/
 	//if ( ctfw_is_block_editor() ) {
 
 		// Get body classes.
