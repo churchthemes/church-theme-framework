@@ -120,6 +120,27 @@ function ctfw_old_wp_switch_theme_notice() {
 }
 
 /*****************************************************
+ * WORDPRESS FUNCTIONS
+ *****************************************************/
+
+/**
+ * Make wp_body_open() work on all versions of WordPress.
+ *
+ * This makes the function available for versions of WordPress earlier than 5.2.
+ *
+ * https://make.wordpress.org/core/2019/04/24/miscellaneous-developer-updates-in-5-2/
+ *
+ * @since 2.6.2
+ */
+if ( ! function_exists( 'wp_body_open' ) ) {
+
+	function wp_body_open() {
+		do_action( 'wp_body_open' );
+	}
+
+}
+
+/*****************************************************
  * CHURCH CONTENT PLUGIN
  *****************************************************/
 
