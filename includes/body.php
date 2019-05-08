@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Functions
- * @copyright  Copyright (c) 2014 - 2017, ChurchThemes.com
+ * @copyright  Copyright (c) 2014 - 2019, ChurchThemes.com, LLC
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      1.1.2
