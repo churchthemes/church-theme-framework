@@ -33,6 +33,7 @@ ctfw_embed_fitvids_selectors = [
 	"iframe[src*='soundfaith.com']",
 	"iframe[src*='ustream.tv']",
 	"iframe[src*='sermon.net']",
+	"iframe[src*='read.amazon.com']",
 
 ];
 ctfw_embed_fitvids_selectors_list = ctfw_embed_fitvids_selectors.join( ', ' );
