@@ -34,7 +34,45 @@ function ctfw_embed_code( $content ) {
 
 	// Convert URL into media shortcode like [audio] or [video]
 	if ( ctfw_is_url( $content ) ) {
-		$embed_code = $wp_embed->shortcode( array(), $content );
+
+		$embed_code = '';
+
+		// Use native HTML 5 <audio> or <video> player.
+		if ( current_theme_supports( 'ctfw-native-player' ) ) {
+
+			$url = $content;
+
+			// Get file type.
+			$filetype = wp_check_filetype( $url );
+
+			// Audio or video player?
+			$tag = '';
+			if ( // Audio (ideally mp3)
+				'mp3' === $filetype['ext']
+				|| 'wav' === $filetype['ext']
+				|| ( 'mp4' === $filetype['ext'] && 'audio/mp4' === $filetype['type'] ) // can be audio or video (usually video)
+				// ogg/audio and acc better off with MediaElementJS due to browser support
+			) {
+				$tag = 'audio';
+			} elseif ( // Video (ideally mp4)
+				'mp4' === $filetype['ext'] // video if wasn't audio above
+				// ogg/video and webm better off with MediaElementJS due to browser support
+			) {
+				$tag = 'video';
+			}
+
+			// Build tag.
+			if ( $tag ) {
+				$embed_code = '<' . $tag . ' controls="" controlsList="nodownload" src="' . esc_url( $url ) . '"></' . $tag . '>';
+			}
+
+		}
+
+		// If not using native player or could not detect an audio/video file type.
+		if ( ! $embed_code ) {
+			$embed_code = $wp_embed->shortcode( array(), $content );
+		}
+
 	}
 
 	// HTML or shortcode embed may have been provided
