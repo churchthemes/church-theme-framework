@@ -94,7 +94,7 @@ function ctfw_has_content() {
 
 	// Check for content and allow certain tags if no content.
 	// This way, for example, if has just an image tag, the content still renders.
-	if ( trim( strip_tags( get_the_content(), '<img><iframe><script><embed>' ) ) ) {
+	if ( trim( strip_tags( get_the_content(), '<img><iframe><script><embed><audio><video>' ) ) ) {
 		$has_content = true;
 	}
 
