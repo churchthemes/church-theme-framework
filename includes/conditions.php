@@ -93,7 +93,13 @@ function ctfw_has_content() {
 	$has_content = false;
 
 	// Check for content and allow certain tags if no content.
+	// This way, for example, if has just an image tag, the content still renders.
 	if ( trim( strip_tags( get_the_content(), '<img><iframe><script><embed>' ) ) ) {
+		$has_content = true;
+	}
+
+	// Check for page buiders like Elementor and Beaver Builder.
+	if ( ctfw_using_builder_plugin() ) {
 		$has_content = true;
 	}
 
