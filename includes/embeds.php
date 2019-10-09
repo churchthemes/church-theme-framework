@@ -213,3 +213,34 @@ function ctfw_valid_embeds( $html ) {
 }
 
 add_filter( 'embed_oembed_html', 'ctfw_valid_embeds' );
+
+/**
+ * Clean video shortcode URLs
+ *
+ * Safari sometimes struggles with video shortcode's src URL when ?_=1 is appended.
+ * Remove it with add_theme_support( 'ctfw-clean-video-shortcode-url' );
+ *
+ * @since 2.6.4
+ * @param string $output Video shortcode HTML output.
+ * @param array $atts Array of video shortcode attributes.
+ * @param string $video Video file.
+ * @param int $post_id Post ID.
+ * @param string $library Media library used for the video shortcode.
+ * @return string Filtered video output.
+ */
+function ctfw_clean_video_shortcode_url( $output, $atts, $video, $post_id, $library ) {
+
+	// Theme supports this.
+	if ( current_theme_supports( 'ctfw-clean-video-shortcode-url' ) ) {
+
+		// Remove ?_=1 from video URL.
+		$output = str_replace( '?_=1', '', $output );
+
+	}
+
+	return $output;
+
+}
+
+add_action( 'wp_video_shortcode', 'ctfw_clean_video_shortcode_url', 10, 5 );
+
