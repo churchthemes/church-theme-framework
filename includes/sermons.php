@@ -160,7 +160,9 @@ function ctfw_sermon_data( $post_id = null ) {
 		// Get extension
 		// This can be determined for local and external files
 		// Empty for YouTube, SoundCloud, etc.
-		$filetype = wp_check_filetype( $data[$media_type] );
+		$url = $data[$media_type];
+		$url_no_qs = strtok( $data[ $media_type ], '?' ); // remove query string such as in case of Dropbox.
+		$filetype = wp_check_filetype( $url_no_qs );
 		$data[$media_type . '_extension'] = $filetype['ext'];
 
 		// File is local, so can get path and size
