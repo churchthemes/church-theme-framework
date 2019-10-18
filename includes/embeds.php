@@ -70,7 +70,46 @@ function ctfw_embed_code( $content ) {
 
 		// If not using native player or could not detect an audio/video file type.
 		if ( ! $embed_code ) {
-			$embed_code = $wp_embed->shortcode( array(), $content );
+
+			// Make Dropbox URL's work.
+			if ( preg_match( '/dropbox/', $content ) ) {
+
+				// URL.
+				$url = $content;
+				$url_no_qs = strtok( $url, '?' );
+
+				// Replace ?dl=0 (or ?dl=1) with ?raw=1.
+				$url = remove_query_arg( 'dl', $url );
+				$url = add_query_arg( 'raw', '1', $url );
+
+				// Audio or video shortcode?
+				$format = '';
+				$ext = pathinfo( $url_no_qs , PATHINFO_EXTENSION );
+
+				if ( in_array( $ext, array( 'mp3', 'wav' ) ) ) { // Audio (ideally mp3)
+					$format = 'audio';
+				} else if ( in_array( $ext, array( 'mp4' ) ) ) { // Video (assuming mp4 is video, not audio)
+					$format = 'video';
+				}
+
+				// Build shortcode since WP won't auto-convert URL.
+				if ( $format ) {
+
+					$shortcode = '[' . $format . ' src="' . $url . '"]';
+
+					add_filter( 'wp_' . $format . '_extensions', 'ctfw_embed_allow_dropbox' ); // temporarily allow parameters like ?raw=1 in media URL
+					$embed_code = do_shortcode( $shortcode );
+					remove_filter( 'wp_' . $format . '_extensions', 'ctfw_embed_allow_dropbox' );
+
+				}
+
+			}
+
+			// Process shortcode
+			if ( ! $embed_code ) {
+				$embed_code = $wp_embed->shortcode( array(), $content );
+			}
+
 		}
 
 	}
@@ -86,6 +125,26 @@ function ctfw_embed_code( $content ) {
 
 	// Return filtered
 	return apply_filters( 'ctfw_embed_code', $embed_code, $content );
+
+}
+
+/**
+ * Allow Dropbox URL's with ?raw=1 in shortcodes
+ *
+ * Used temporarily by ctfw_embed_code() for wp_audio_extensions and wp_video_extensions.
+ *
+ * This is a workaround until WordPress allows media URLs with query strings:
+ * https://wordpress.stackexchange.com/questions/220572/how-can-i-get-the-video-shortcode-to-allow-query-string-parameters
+ *
+ * @param array $ext Array of extensions
+ * @return array Modified extensions
+ */
+function ctfw_embed_allow_dropbox( $ext ) {
+
+	// Allows any extension (ie. mp3?raw=1 for Dropbox)
+    $ext[] = '';
+
+    return $ext;
 
 }
 
