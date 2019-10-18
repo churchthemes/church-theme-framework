@@ -21,6 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Get download URL
  *
  * URL returned if is downloadable (has extension, not YouTube, SoundCloud, etc.).
+ * This will accommodate Dropbox URLs by make sure ?dl=1 is used.
  *
  * On <a> tags use download="download" attribute to attempt "Save As".
  * As of October, 2019, most browsers support (not IE11 or iOS, which doesn't save files anyway).
@@ -36,10 +37,23 @@ function ctfw_download_url( $url ) {
 
 	$download_url = $url;
 
-	// Must have extension to be downloadable.
+	// Dropbox URL?
+	$is_dropbox = '';
+	if ( preg_match( '/dropbox/', $url ) ) {
+
+		$is_dropbox = true;
+
+		// Force ?dl=1 since download="download" attribute won't work with remote URL in most browser.
+		$download_url = remove_query_arg( 'dl', $download_url );
+		$download_url = remove_query_arg( 'raw', $download_url );
+		$download_url = add_query_arg( 'dl', '1', $download_url );
+
+	}
+
+	// Must have extension or be Dropbox URL to be downloadable.
 	// It may be URL to SoundCloud, YouTube, etc.
 	$filetype = wp_check_filetype( $download_url ); // remove any query string.
-	if ( empty( $filetype['ext'] ) ) {
+	if ( empty( $filetype['ext'] ) && ! $is_dropbox ) {
 		$download_url = ''; // Return nothing, there is no file to download.
 	}
 
