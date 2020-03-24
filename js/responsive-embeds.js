@@ -32,7 +32,7 @@ ctfw_embed_fitvids_selectors = [
 	"iframe[src*='livestream.com']",
 	"iframe[src*='soundfaith.com']",
 	"iframe[src*='ustream.tv']",
-	"iframe[src*='sermon.net']",
+	"iframe[src*='sermon.net']:not([src*='/main'])",
 	"iframe[src*='read.amazon.com']",
 
 ];
