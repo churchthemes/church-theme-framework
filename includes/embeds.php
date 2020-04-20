@@ -119,6 +119,30 @@ function ctfw_embed_code( $content ) {
 		$embed_code = $content;
 	}
 
+	// Use video media item's featured image in shortcode like video block does.
+	// Only for WP 4.4+ (2015) and on [video] shortcode not already having poster attribute.
+	if ( function_exists( 'get_the_post_thumbnail_url' ) && preg_match( '/^\[video /', $embed_code ) && ! preg_match( '/^\poster="/', $embed_code ) ) {
+
+		// Get src URL from shortcode.
+		preg_match( '/src="([^"]*)"/', $embed_code, $matches );
+		$src_url = isset( $matches[1] ) ? $matches[1] : '';
+
+		// Get video's media post ID from URL.
+		$media_post_id = url_to_postid( $src_url );
+		$media_post_id = attachment_url_to_postid( $src_url );
+
+		// Get poster URL from media item's featured image.
+		if ( $media_post_id ) {
+			$poster_url = get_the_post_thumbnail_url( $media_post_id, 'full' );
+		}
+
+		// Add poster attribute to shortcode if have URL.
+		if ( $poster_url ) {
+			$embed_code = str_replace( '[video ', '[video poster="' . $poster_url . '" ', $embed_code );
+		}
+
+	}
+
 	// Run shortcode
 	// [video], [audio] or [embed] converted from URL or already existing in $content
 	$embed_code = do_shortcode( $embed_code );
@@ -305,4 +329,3 @@ function ctfw_clean_media_shortcode_url( $output, $atts, $media, $post_id, $libr
 
 add_action( 'wp_audio_shortcode', 'ctfw_clean_media_shortcode_url', 10, 5 );
 add_action( 'wp_video_shortcode', 'ctfw_clean_media_shortcode_url', 10, 5 );
-
