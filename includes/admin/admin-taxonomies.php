@@ -4,14 +4,14 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Admin
- * @copyright  Copyright (c) 2013 - 2019, ChurchThemes.com, LLC
+ * @copyright  Copyright (c) 2013 - 2020, ChurchThemes.com, LLC
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      0.9
  */
 
 // No direct access
-if ( ! defined( 'ABSPATH' ) ) exit;
+if (! defined( 'ABSPATH' )) exit;
 
 /**
  * Show custom ordering notes
@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 function ctfw_taxonomy_order_notes() {
 
 	// Only if theme supports it
-	if ( ! current_theme_supports( 'ctfw-taxonomy-order-note' ) ) {
+	if (! current_theme_supports( 'ctfw-taxonomy-order-note' )) {
 		return false;
 	}
 
@@ -36,9 +36,19 @@ function ctfw_taxonomy_order_notes() {
 		'show_ui'	=> true // weed out post_format
 	) );
 
+	// Supported taxonomies (some cannot be re-ordered).
+	$supported_taxonomies = array(
+		'category',
+		'ctc_person_group',
+		'ctc_sermon_speaker',
+		'ctc_event_category',
+	);
+
 	// Add note to each
-	foreach ( $taxonomies as $taxonomy ) {
-		add_action( 'after-' . $taxonomy . '-table', 'ctfw_taxonomy_order_note' );
+	foreach ($taxonomies as $taxonomy) {
+		if (in_array($taxonomy, $supported_taxonomies)) {
+			add_action( 'after-' . $taxonomy . '-table', 'ctfw_taxonomy_order_note' );
+		}
 	}
 
 }
@@ -55,7 +65,7 @@ function ctfw_taxonomy_order_note( $taxonomy ) {
 
 	// Only if theme requests this
 	$support = get_theme_support( 'ctfw-taxonomy-order-note' );
-	if ( $support ) { // returns false if feature not supported
+	if ($support) { // returns false if feature not supported
 
 		// Get URL if not using default
 		$url = isset( $support[0] ) ? $support[0] : 'https://churchthemes.com/go/taxonomy-order';
