@@ -33,7 +33,7 @@
  */
 
 // No direct access.
-if ( ! defined( 'ABSPATH' ) ) {
+if (! defined( 'ABSPATH' )) {
 	exit;
 }
 
@@ -59,7 +59,7 @@ function ctfw_edd_license_config( $arg = false ) {
 	$support = get_theme_support( 'ctfw-edd-license' );
 
 	// Get arguments passed in via theme support
-	if ( ! empty( $support[0] ) ) {
+	if (! empty( $support[0] )) {
 		$config = $support[0];
 	}
 
@@ -84,10 +84,10 @@ function ctfw_edd_license_config( $arg = false ) {
 	) );
 
 	// Get specific argument?
-	if ( ! empty( $arg ) ) {
+	if (! empty( $arg )) {
 
 		// Is argument valid? Use value
-		if ( isset( $config[$arg] ) ) {
+		if (isset( $config[$arg] )) {
 			$config = $config[$arg];
 		}
 
@@ -115,7 +115,7 @@ function ctfw_edd_license_config( $arg = false ) {
 function ctfw_edd_license_updater() {
 
 	// Theme supports updates?
-	if ( current_theme_supports( 'ctfw-edd-license' ) && ctfw_edd_license_config( 'updates' ) ) {
+	if (current_theme_supports( 'ctfw-edd-license' ) && ctfw_edd_license_config( 'updates' )) {
 
 		// Include updater class.
 		locate_template( CTFW_CLASS_DIR . '/ctfw-theme-updater-class.php', true );
@@ -123,7 +123,7 @@ function ctfw_edd_license_updater() {
 		// Strings.
 		$strings = array(
 			'update-notice'    => __( 'If you have modified theme files directly (not common), your changes will be overwritten (make a child theme instead). Click "Cancel" to stop or "OK" to update the theme.', 'church-theme-framework' ),
-			'update-available' => __( '<strong>%1$s %2$s</strong> is available. <a href="%3$s" target="_blank">Check out what\'s new</a> or <a href="%5$s"%6$s>update now</a>.', 'church-theme-framework' ),
+			'update-available' => __( '<strong>%1$s %2$s</strong> is available. <a href="%3$s" target="_blank" rel="noopener noreferrer">Check out what\'s new</a> or <a href="%5$s"%6$s>update now</a>.', 'church-theme-framework' ),
 		);
 
 		// Use custom changelog URL.
@@ -165,12 +165,12 @@ function ctfw_prevent_wporg_theme_update( $r, $url ) {
 
 	// Stop if theme is not using EDD Software Licensing.
 	// The theme may use the framework and be hosted on WordPress.org.
-	if ( ! ( current_theme_supports( 'ctfw-edd-license' ) && ctfw_edd_license_config( 'updates' ) ) ) {
+	if (! ( current_theme_supports( 'ctfw-edd-license' ) && ctfw_edd_license_config( 'updates' ) )) {
 		return $r;
 	}
 
 	// Stop if it's not a theme update request.
-	if ( 0 !== strpos( $url, 'https://api.wordpress.org/themes/update-check/1.1/' ) ) {
+	if (0 !== strpos( $url, 'https://api.wordpress.org/themes/update-check/1.1/' )) {
 		return $r;
 	}
 
@@ -209,7 +209,7 @@ function ctfw_edd_license_key_option( $append = '' ) {
 
 	$field = CTFW_THEME_SLUG . '_license_key';
 
-	if ( $append ) {
+	if ($append) {
 		$field .= '_' . ltrim( $append, '_' );
 	}
 
@@ -258,7 +258,7 @@ function ctfw_edd_license_active() {
 
 	$active = false;
 
-	if ( 'active' == ctfw_edd_license_status() ) {
+	if ('active' == ctfw_edd_license_status()) {
 		$active = true;
 	}
 
@@ -276,7 +276,7 @@ function ctfw_edd_license_inactive() {
 
 	$inactive = false;
 
-	if ( ! ctfw_edd_license_status() ) {
+	if (! ctfw_edd_license_status()) {
 		$inactive = true;
 	}
 
@@ -294,7 +294,7 @@ function ctfw_edd_license_expired() {
 
 	$expired = false;
 
-	if ( 'expired' == ctfw_edd_license_status() ) {
+	if ('expired' == ctfw_edd_license_status()) {
 		$expired = true;
 	}
 
@@ -314,7 +314,7 @@ function ctfw_edd_license_expiring_soon() {
 
 	$expiration_data = ctfw_edd_license_expiration_data();
 
-	if ( ! empty( $expiration_data['expiring_soon'] ) ) {
+	if (! empty( $expiration_data['expiring_soon'] )) {
 		$expiring_soon = true;
 	}
 
@@ -334,14 +334,14 @@ function ctfw_edd_license_expiring_soon() {
 function ctfw_edd_license_update_expiration( $expiration ) {
 
 	// Only if have a value (old value better than no value)
-	if ( ! empty( $expiration ) ) {
+	if (! empty( $expiration )) {
 
 		// Remove seconds so stored value is YYYY-MM-DD
 		list( $expiration ) = explode( ' ', $expiration );
 		$expiration = trim( $expiration );
 
 		// Not an invalid key?
-		if ( $expiration != '1970-01-01' ) {
+		if ($expiration != '1970-01-01') {
 
 			// Update local value
 			update_option( ctfw_edd_license_key_option( 'expiration' ), $expiration );
@@ -379,9 +379,9 @@ function ctfw_edd_license_expiration_formatted( $none_text = false ) {
 
 	$date = '';
 
-	if ( $expiration ) {
+	if ($expiration) {
 		$date = date_i18n( get_option( 'date_format' ), strtotime( $expiration ) );
-	} elseif ( ! empty( $none_text ) ) {
+	} elseif (! empty( $none_text )) {
 		$date = $none_text;
 	}
 
@@ -422,7 +422,7 @@ function ctfw_edd_license_expiration_data() {
 function ctfw_edd_license_menu() {
 
 	// Theme supports license options page?
-	if ( current_theme_supports( 'ctfw-edd-license' ) && ctfw_edd_license_config( 'options_page' ) ) {
+	if (current_theme_supports( 'ctfw-edd-license' ) && ctfw_edd_license_config( 'options_page' )) {
 
 		// Add menu item and page
 		add_theme_page(
@@ -456,7 +456,7 @@ function ctfw_edd_license_page() {
 
 		<?php
 		$message = ctfw_edd_license_config( 'options_page_message' );
-		if ( $message ) :
+		if ($message) :
 		?>
 		<p>
 			<?php echo $message; ?>
@@ -494,7 +494,7 @@ function ctfw_edd_license_page() {
 
 			<?php submit_button( __( 'Save Key', 'church-theme-framework' ) ); ?>
 
-			<?php if ( $license ) : ?>
+			<?php if ($license) : ?>
 
 			<h3 class="title"><?php _e( 'License Status', 'church-theme-framework' ); ?></h3>
 
@@ -510,15 +510,15 @@ function ctfw_edd_license_page() {
 
 						<td>
 
-							<?php if ( ctfw_edd_license_active() ) : ?>
+							<?php if (ctfw_edd_license_active()) : ?>
 
 								<span class="ctfw-license-active"><?php _ex( 'Active', 'license key', 'church-theme-framework' ); ?></span>
 
-								<?php if ( ctfw_edd_license_expiring_soon() ) : ?>
+								<?php if (ctfw_edd_license_expiring_soon()) : ?>
 									/ <span class="ctfw-license-expiring-soon"><?php _ex( 'Expiring Soon', 'license status', 'church-theme-framework' ); ?></span>
 								<?php endif; ?>
 
-							<?php elseif ( ctfw_edd_license_expired() ) : ?>
+							<?php elseif (ctfw_edd_license_expired()) : ?>
 
 								<span class="ctfw-license-expired"><?php _ex( 'Expired', 'license key', 'church-theme-framework' ); ?></span>
 
@@ -532,7 +532,7 @@ function ctfw_edd_license_page() {
 
 					</tr>
 
-					<?php if ( ctfw_edd_license_expiration() && ( ctfw_edd_license_active() || ctfw_edd_license_expired() ) ) : // show only if active or expired, not just if have the data ?>
+					<?php if (ctfw_edd_license_expiration() && ( ctfw_edd_license_active() || ctfw_edd_license_expired() )) : // show only if active or expired, not just if have the data ?>
 
 						<tr valign="top">
 
@@ -554,9 +554,9 @@ function ctfw_edd_license_page() {
 
 			<p style="padding-top: 8px">
 
-				<?php if ( ! ctfw_edd_license_expired() ) : // only show renew button if expired ?>
+				<?php if (! ctfw_edd_license_expired()) : // only show renew button if expired ?>
 
-					<?php if ( ctfw_edd_license_active() ) : ?>
+					<?php if (ctfw_edd_license_active()) : ?>
 
 						<input type="submit" class="button button-primary ctfw-license-button ctfw-license-deactivate-button" name="ctfw_edd_license_deactivate" value="<?php _e( 'Deactivate License', 'church-theme-framework' ); ?>" />
 
@@ -568,8 +568,8 @@ function ctfw_edd_license_page() {
 
 				<?php endif; ?>
 
-				<?php if ( ctfw_edd_license_config( 'renewal_url' ) && ( ctfw_edd_license_active() || ctfw_edd_license_expired() ) ) : // only if URL provided ?>
-					<input type="submit" id="ctfw-license-renew-button" class="button button<?php if ( ctfw_edd_license_expired() ) : ?>-primary<?php endif; ?> ctfw-license-button ctfw-license-renew-button" name="ctfw_edd_license_renew" value="<?php _e( 'Renew License', 'church-theme-framework' ); ?>" />
+				<?php if (ctfw_edd_license_config( 'renewal_url' ) && ( ctfw_edd_license_active() || ctfw_edd_license_expired() )) : // only if URL provided ?>
+					<input type="submit" id="ctfw-license-renew-button" class="button button<?php if (ctfw_edd_license_expired()) : ?>-primary<?php endif; ?> ctfw-license-button ctfw-license-renew-button" name="ctfw_edd_license_renew" value="<?php _e( 'Renew License', 'church-theme-framework' ); ?>" />
 				<?php endif; ?>
 
 			</p>
@@ -584,7 +584,7 @@ function ctfw_edd_license_page() {
 		$agency_mode_note = '';
 
 		// Get generic note about Agency Mode (used on CC plugin on add-on license settings screen).
-		if ( function_exists( 'ctc_agency_mode_note' ) ) {
+		if (function_exists( 'ctc_agency_mode_note' )) {
 			$agency_mode_note = ctc_agency_mode_note();
 		}
 
@@ -592,7 +592,7 @@ function ctfw_edd_license_page() {
 		$agency_mode_note = apply_filters( 'ctf_license_page_agency_mode_note', $agency_mode_note );
 
 		// Show note if have it.
-		if ( $agency_mode_note ) {
+		if ($agency_mode_note) {
 			echo '<p id="ctf-agency-mode-theme-license-note" style="margin-top: 40px">' . $agency_mode_note . '</p>';
 		}
 
@@ -614,7 +614,7 @@ function ctfw_edd_license_page() {
 function ctfw_edd_license_register_option() {
 
 	// If theme supports it
-	if ( current_theme_supports( 'ctfw-edd-license' ) && ctfw_edd_license_config( 'options_page' ) ) {
+	if (current_theme_supports( 'ctfw-edd-license' ) && ctfw_edd_license_config( 'options_page' )) {
 		register_setting( 'ctfw_edd_license', ctfw_edd_license_key_option(), 'ctfw_edd_license_sanitize' );
 	}
 
@@ -636,7 +636,7 @@ function ctfw_edd_license_sanitize( $new ) {
 	$old = ctfw_edd_license_key();
 
 	// Unset local status as active and expiration date when changing key -- need to activate new key
-	if ( $old && $old != $new ) {
+	if ($old && $old != $new) {
 		delete_option( ctfw_edd_license_key_option( 'status' ) );
 		delete_option( ctfw_edd_license_key_option( 'expiration' ) );
 	}
@@ -684,19 +684,19 @@ add_action( 'update_option_' . CTFW_THEME_SLUG . '_license_key', 'ctfw_edd_licen
 function ctfw_edd_license_activation( $action = false ) {
 
 	// Theme supports this?
-	if ( ! current_theme_supports( 'ctfw-edd-license' ) ) {
+	if (! current_theme_supports( 'ctfw-edd-license' )) {
 		return;
 	}
 
 	// Activate or Deactivate button clicked
 	// Or, action manually passed
-	if ( $action || isset( $_POST['ctfw_edd_license_activate'] ) || isset( $_POST['ctfw_edd_license_deactivate'] ) ) {
+	if ($action || isset( $_POST['ctfw_edd_license_activate'] ) || isset( $_POST['ctfw_edd_license_deactivate'] )) {
 
 		// Check post if action not passed
-		if ( ! $action ) {
+		if (! $action) {
 
 			// Security check
-		 	if( ! check_admin_referer( 'ctfw_edd_license_nonce', 'ctfw_edd_license_nonce' ) ) {
+		 	if(! check_admin_referer( 'ctfw_edd_license_nonce', 'ctfw_edd_license_nonce' )) {
 				return;
 			}
 
@@ -709,13 +709,13 @@ function ctfw_edd_license_activation( $action = false ) {
 		$license_data = ctfw_edd_license_action( $action );
 
 		// Call action via API
-		if ( $license_data ) {
+		if ($license_data) {
 
 			// If activated remotely, set local status; or set local status if was already active remotely -- keep in sync
-			if ( 'activate_license' == $action ) {
+			if ('activate_license' == $action) {
 
 				// Success
-				if ( 'valid' == $license_data->license || 'valid' == ctfw_edd_license_check() ) {
+				if ('valid' == $license_data->license || 'valid' == ctfw_edd_license_check()) {
 					update_option( ctfw_edd_license_key_option( 'status' ), 'active' );
 				}
 
@@ -741,7 +741,7 @@ function ctfw_edd_license_activation( $action = false ) {
 
 			// Set current expiration locally
 			// Local will be synced to remote daily in case changes
-			if ( isset( $license_data->expires ) ) {
+			if (isset( $license_data->expires )) {
 				ctfw_edd_license_update_expiration( $license_data->expires );
 			}
 
@@ -761,21 +761,21 @@ add_action( 'admin_init', 'ctfw_edd_license_activation' );
 function ctfw_edd_license_activation_failure_notice() {
 
 	// Theme supports this?
-	if ( ! current_theme_supports( 'ctfw-edd-license' ) ) {
+	if (! current_theme_supports( 'ctfw-edd-license' )) {
 		return;
 	}
 
 	// Only on Theme License page
 	$screen = get_current_screen();
-	if ( 'appearance_page_theme-license' != $screen->base ) {
+	if ('appearance_page_theme-license' != $screen->base) {
 		return;
 	}
 
 	// Have a result transient?
-	if ( $activation_result = get_transient( 'ctfw_edd_license_activation_result' ) ) {
+	if ($activation_result = get_transient( 'ctfw_edd_license_activation_result' )) {
 
 		// Failed
-		if ( 'fail' == $activation_result && ctfw_edd_license_config( 'activation_error_notice' ) ) {
+		if ('fail' == $activation_result && ctfw_edd_license_config( 'activation_error_notice' )) {
 
 			?>
 			<div id="ctfw-license-activation-error-notice" class="notice notice-error">
@@ -808,20 +808,20 @@ add_action( 'admin_notices', 'ctfw_edd_license_activation_failure_notice' );
 function ctfw_edd_license_notice() {
 
 	// Theme supports this?
-	if ( ! current_theme_supports( 'ctfw-edd-license' ) ) {
+	if (! current_theme_supports( 'ctfw-edd-license' )) {
 		return;
 	}
 
 	// User can edit theme options?
 	// Keeps notices from showing to non-admin users
-	if ( ! current_user_can( 'edit_theme_options' ) ) {
+	if (! current_user_can( 'edit_theme_options' )) {
 		return;
 	}
 
 	// Show only on relevant pages as not to overwhelm the admin
 	// Don't show on Theme License page -- redundant
 	$screen = get_current_screen();
-	if ( ! in_array( $screen->base, array( 'dashboard', 'themes', 'update-core' ) ) ) {
+	if (! in_array( $screen->base, array( 'dashboard', 'themes', 'update-core' ) )) {
 		return;
 	}
 
@@ -833,19 +833,19 @@ function ctfw_edd_license_notice() {
 
 	// Active But Expiring Soon
 	// Show a reminder notice 30 days before expiration
-	if ( ctfw_edd_license_active() && $expiration_data['expiring_soon'] ) {
+	if (ctfw_edd_license_active() && $expiration_data['expiring_soon']) {
 		$class = 'notice-warning ctf-license-notice-expiring-soon';
 		$notice = 'expiring_soon_notice';
 	}
 
 	// Expired
-	elseif ( ctfw_edd_license_expired() ) {
+	elseif (ctfw_edd_license_expired()) {
 		$class = "notice-error ctf-license-notice-expired";
 		$notice = 'expired_notice';
 	}
 
 	// Inactive
-	elseif ( ! ctfw_edd_license_active() ) {
+	elseif (! ctfw_edd_license_active()) {
 		$class = "notice-error ctf-license-notice-inactive";
 		$notice = 'inactive_notice';
 	}
@@ -855,12 +855,12 @@ function ctfw_edd_license_notice() {
 	$notice = apply_filters( 'ctfw_edd_license_notice_key', $notice );
 
 	// Show the notice
-	if ( ! empty( $notice ) && ctfw_edd_license_config( $notice ) && ! empty( $class ) ) {
+	if (! empty( $notice ) && ctfw_edd_license_config( $notice ) && ! empty( $class )) {
 
 		// Agency name.
 		/* translators: This is used in place of agency name for Agency Mode when no agency name available */
 		$agency_name = __( 'your website provider', 'church-theme-framework');
-		if ( function_exists( 'ccp_agency_mode_name_linked' ) ) {
+		if (function_exists( 'ccp_agency_mode_name_linked' )) {
 			$agency_name = ccp_agency_mode_name_linked();
 		}
 
@@ -929,18 +929,18 @@ function ctfw_edd_license_renewal_url() {
 function ctfw_edd_license_process_renew_button() {
 
 	// Theme supports this?
-	if ( ! current_theme_supports( 'ctfw-edd-license' ) ) {
+	if (! current_theme_supports( 'ctfw-edd-license' )) {
 		return;
 	}
 
 	// Renewal button on Theme License page clicked
-	if ( isset( $_POST['ctfw_edd_license_renew'] ) ) {
+	if (isset( $_POST['ctfw_edd_license_renew'] )) {
 
 		// Get renewal URL
 		$renewal_url = ctfw_edd_license_renewal_url();
 
 		// Renewal URL provided
-		if ( ! empty( $renewal_url ) ) {
+		if (! empty( $renewal_url )) {
 
 			// Redirect to renewal URL
 			wp_redirect( $renewal_url );
@@ -975,17 +975,17 @@ function ctfw_edd_license_action( $action ) {
 	$license_data = array();
 
 	// Theme stores local option?
-	if ( ctfw_edd_license_config( 'options_page' ) ) {
+	if (ctfw_edd_license_config( 'options_page' )) {
 
 		// Valid action?
 		$actions = array( 'activate_license', 'deactivate_license', 'check_license' );
-		if ( in_array( $action, $actions ) ) {
+		if (in_array( $action, $actions )) {
 
 			// Get license
 			$license = ctfw_edd_license_key();
 
 			// Have license
-			if ( $license ) {
+			if ($license) {
 
 				// Data to send in API request
 				$api_params = array(
@@ -999,7 +999,7 @@ function ctfw_edd_license_action( $action ) {
 				$response = wp_remote_get( esc_url_raw( add_query_arg( $api_params, ctfw_edd_license_config( 'store_url' ) ) ), array( 'timeout' => 15, 'sslverify' => false ) );
 
 				// Got a valid response?
-				if ( ! is_wp_error( $response ) ) {
+				if (! is_wp_error( $response )) {
 
 					// Decode the license data
 					$license_data = json_decode( wp_remote_retrieve_body( $response ) );
@@ -1034,10 +1034,10 @@ function ctfw_edd_license_check_data( $key = false ) {
 	$data = (array) $data;
 
 	// Get value for specific key?
-	if ( isset( $data[$key] ) ) { // key is given
+	if (isset( $data[$key] )) { // key is given
 
 		// Value exists for key in object
-		if ( ! empty( $data[$key] ) ) {
+		if (! empty( $data[$key] )) {
 			$data = $data[$key];
 		}
 
@@ -1085,7 +1085,7 @@ function ctfw_edd_license_check() {
 function ctfw_edd_license_sync() {
 
 	// Theme stores local option?
-	if ( ! ctfw_edd_license_config( 'options_page' ) ) {
+	if (! ctfw_edd_license_config( 'options_page' )) {
 		return;
 	}
 
@@ -1093,14 +1093,14 @@ function ctfw_edd_license_sync() {
 	$license_data = ctfw_edd_license_check_data();
 
 	// Continue only if got a response
-	if ( ! empty( $license_data ) ) { // don't do anything if times out
+	if (! empty( $license_data )) { // don't do anything if times out
 
 		// Get remote status
 		$status = isset( $license_data['license'] ) ? $license_data['license'] : false;
 
 		// Active remotely
 		// This will activate locally if had been inactive or expired locally
-		if ( 'valid' == $status ) {
+		if ('valid' == $status) {
 
 			// Activate locally
 			update_option( ctfw_edd_license_key_option( 'status' ), 'active' );
@@ -1108,7 +1108,7 @@ function ctfw_edd_license_sync() {
 		}
 
 		// Inactive remotely
-		elseif ( in_array( $status, array( 'inactive', 'site_inactive', 'disabled' ) ) ) { // status is not valid
+		elseif (in_array( $status, array( 'inactive', 'site_inactive', 'disabled' ) )) { // status is not valid
 
 			// Deactivate locally
 			delete_option( ctfw_edd_license_key_option( 'status' ) );
@@ -1116,7 +1116,7 @@ function ctfw_edd_license_sync() {
 		}
 
 		// Expired remotely
-		elseif ( 'expired' == $status ) {
+		elseif ('expired' == $status) {
 
 			// Set status expired locally
 			update_option( ctfw_edd_license_key_option( 'status' ), 'expired' );
@@ -1125,7 +1125,7 @@ function ctfw_edd_license_sync() {
 
 		// Update expiration data
 		// This helps the user know when to renew
-		if ( isset( $license_data['expires'] ) ) {
+		if (isset( $license_data['expires'] )) {
 			ctfw_edd_license_update_expiration( $license_data['expires'] );
 		}
 
@@ -1146,26 +1146,26 @@ function ctfw_edd_license_sync() {
 function ctfw_edd_license_auto_sync() {
 
 	// Theme supports this?
-	if ( ! current_theme_supports( 'ctfw-edd-license' ) ) {
+	if (! current_theme_supports( 'ctfw-edd-license' )) {
 		return;
 	}
 
 	// Admin only
-	if ( ! is_admin() ) {
+	if (! is_admin()) {
 		return;
 	}
 
 	// Theme stores local option?
-	if ( ! ctfw_edd_license_config( 'options_page' ) ) {
+	if (! ctfw_edd_license_config( 'options_page' )) {
 		return;
 	}
 
 	// Periodically in relevant areas or always on Theme License page
 	$screen = get_current_screen();
-	if ( in_array( $screen->base, array( 'dashboard', 'appearance_page_theme-license', 'themes', 'update-core' ) ) ) {
+	if (in_array( $screen->base, array( 'dashboard', 'appearance_page_theme-license', 'themes', 'update-core' ) )) {
 
 		// Has this been checked in last day or is it theme license page?
-		if ( ! get_transient( 'ctfw_edd_license_auto_sync' ) || 'appearance_page_theme-license' == $screen->base ) {
+		if (! get_transient( 'ctfw_edd_license_auto_sync' ) || 'appearance_page_theme-license' == $screen->base) {
 
 			// Check remote status and sync both ways if necessary
 			ctfw_edd_license_sync();
