@@ -36,7 +36,7 @@ ctfw_embed_fitvids_selectors = [
 	"iframe[src*='read.amazon.com']",
 
 ];
-ctfw_embed_fitvids_selectors_list = ctfw_embed_fitvids_selectors.join( ', ' );
+ctfw_embed_fitvids_selectors_list = ctfw_embed_fitvids_selectors.join(', ');
 
 // Other embedded media only need max-width: 100% ( height is static ) - MediaElement.js
 // Important: when done via stylesheet, MediaElement.js volume control flickers
@@ -45,39 +45,51 @@ ctfw_embed_other_selectors_list = '.wp-video-shortcode, .wp-audio-shortcode';
 // Hide videos before resizing
 // This keeps them from showing briefly at small size before showing at full width
 ctfw_embed_all_selectors_list = ctfw_embed_fitvids_selectors_list + ', ' + ctfw_embed_other_selectors_list;
-jQuery( 'head' ).prepend( '<style type="text/css" id="ctfw-hide-responsive-embeds">' + ctfw_embed_all_selectors_list + ' { visibility: hidden; }</style>' + "\n" );
+jQuery('head').prepend('<style type="text/css" id="ctfw-hide-responsive-embeds">' + ctfw_embed_all_selectors_list + ' { visibility: hidden; }</style>' + "\n");
 
 // Resize videos to 100% width
-jQuery( document ).ready( function( $ ) {
+jQuery(document).ready(function ($) {
 
 	// Ignore those already being made responsive with WordPress.
-	if ( ctfw_responsive_embeds.wp_responsive_embeds ) {
+	if (ctfw_responsive_embeds.wp_responsive_embeds) {
 
 		// Loop selectors
-		jQuery.each( ctfw_embed_fitvids_selectors, function( i, selector ) {
+		jQuery.each(ctfw_embed_fitvids_selectors, function (i, selector) {
 
 			// Ignore FitVids if WP already making responsive.
-			if ( jQuery( selector ).parents('.wp-has-aspect-ratio').length ) {
-				jQuery( selector ).addClass( 'fitvidsignore' );
+			if (jQuery(selector).parents('.wp-has-aspect-ratio').length) {
+
+				// Loop each element matching selector.
+				jQuery.each(jQuery(selector), function (i, element) {
+
+					// Not sermon media element (problem when also have media in content).
+					if (jQuery(element).parents('[id$=-sermon-video-player]').length) {
+						return;
+					}
+
+					jQuery(element).addClass('fitvidsignore');
+
+				});
+
 			}
 
-		} );
+		});
 
 	}
 
 	// Remove <object> element from Blip.tv (use iframe only) - creates a gap w/FitVid
-	$( "embed[src*='blip.tv']" ).remove();
+	$("embed[src*='blip.tv']").remove();
 
 	// FitVids.js for most embeds
-	$( 'body' ).fitVids( {
+	$('body').fitVids({
 		customSelector: ctfw_embed_fitvids_selectors,
-	} );
+	});
 
 	// Other embeds (MediaElement.js)
-	$( ctfw_embed_other_selectors_list ).css( 'max-width', '100%' );
+	$(ctfw_embed_other_selectors_list).css('max-width', '100%');
 
 	// Show embeds after resize
-	$( '#ctfw-hide-responsive-embeds' ).remove();
+	$('#ctfw-hide-responsive-embeds').remove();
 
 
-} );
+});
