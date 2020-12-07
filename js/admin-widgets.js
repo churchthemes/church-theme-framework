@@ -4,7 +4,7 @@
  * Appearance > Widgets and Customizer both use this.
  */
 
-replRjQuery(document).ready(function ($) {
+jQuery(document).ready(function ($) {
 
 	/*******************************************
 	 * IMAGE FIELD
