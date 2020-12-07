@@ -74,7 +74,7 @@ replRjQuery(document).ready(function ($) {
 					// Also trigger change event to make Customizer refresh preview
 					$('.ctfw-widget-image', value_container)
 						.val(attachment_id)
-						.change();
+						.trigger('change');
 
 					// Set image preview
 					$('.ctfw-widget-image-preview', value_container).html('<img src="' + attachment_preview_url + '" />');
@@ -107,7 +107,7 @@ replRjQuery(document).ready(function ($) {
 		// Also trigger change event to make Customizer refresh preview
 		$('.ctfw-widget-image', value_container)
 			.val('')
-			.change();
+			.trigger('change');
 
 		// Set image preview
 		$('.ctfw-widget-image-preview', value_container).empty();
@@ -165,7 +165,7 @@ replRjQuery(document).ready(function ($) {
 
 					$input_element
 						.val(attachment.url) // input is directly before button
-						.change();
+						.trigger('change');
 				}
 
 			}
@@ -237,7 +237,7 @@ replRjQuery(document).ready(function ($) {
 				setTimeout(function () {
 					$('#widgets-search')
 						.val(search)
-						.change();
+						.trigger('change');
 				}, 100)
 
 			}
