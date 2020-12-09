@@ -83,16 +83,16 @@ class CTFW_EDD_Theme_Updater {
 		$theme        = wp_get_theme( $this->theme_slug );
 		$api_response = get_transient( $this->response_key );
 
-		if ( false === $api_response ) {
+		if (false === $api_response) {
 			return;
 		}
 
 		$update_url     = wp_nonce_url( 'update.php?action=upgrade-theme&amp;theme=' . urlencode( $this->theme_slug ), 'upgrade-theme_' . $this->theme_slug );
 		$update_onclick = ' onclick="if ( confirm(\'' . esc_js( $strings['update-notice'] ) . '\') ) {return true;}return false;"';
 
-		if ( version_compare( $this->version, $api_response->new_version, '<' ) ) {
+		if (version_compare( $this->version, $api_response->new_version, '<' )) {
 
-			echo '<div id="update-nag">';
+			echo '<div id="update-nag" class="notice notice-warning">';
 			printf(
 				$strings['update-available'],
 				$theme->get( 'Name' ),
@@ -118,7 +118,7 @@ class CTFW_EDD_Theme_Updater {
 	 */
 	function theme_update_transient( $value ) {
 		$update_data = $this->check_for_update();
-		if ( $update_data ) {
+		if ($update_data) {
 			$value->response[ $this->theme_slug ] = $update_data;
 		}
 		return $value;
@@ -143,7 +143,7 @@ class CTFW_EDD_Theme_Updater {
 
 		$update_data = get_transient( $this->response_key );
 
-		if ( false === $update_data ) {
+		if (false === $update_data) {
 			$failed = false;
 
 			$api_params = array(
@@ -159,32 +159,32 @@ class CTFW_EDD_Theme_Updater {
 			$response = wp_remote_post( $this->remote_api_url, array( 'timeout' => 15, 'body' => $api_params ) );
 
 			// Make sure the response was successful
-			if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) ) {
+			if (is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response )) {
 				$failed = true;
 			}
 
 			$update_data = json_decode( wp_remote_retrieve_body( $response ) );
 
-			if ( ! is_object( $update_data ) ) {
+			if (! is_object( $update_data )) {
 				$failed = true;
 			}
 
 			// If the response failed, try again in 30 minutes
-			if ( $failed ) {
-				$data = new stdClass;
+			if ($failed) {
+				$data = new stdClass();
 				$data->new_version = $this->version;
 				set_transient( $this->response_key, $data, strtotime( '+30 minutes', current_time( 'timestamp' ) ) );
 				return false;
 			}
 
 			// If the status is 'ok', return the update arguments
-			if ( ! $failed ) {
+			if (! $failed) {
 				$update_data->sections = maybe_unserialize( $update_data->sections );
 				set_transient( $this->response_key, $update_data, strtotime( '+12 hours', current_time( 'timestamp' ) ) );
 			}
 		}
 
-		if ( version_compare( $this->version, $update_data->new_version, '>=' ) ) {
+		if (version_compare( $this->version, $update_data->new_version, '>=' )) {
 			return false;
 		}
 
