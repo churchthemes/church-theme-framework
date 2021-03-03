@@ -11,7 +11,7 @@
  */
 
 // No direct access
-if ( ! defined( 'ABSPATH' ) ) exit;
+if (! defined( 'ABSPATH' )) exit;
 
 /*******************************************
  * CONTENT
@@ -30,7 +30,7 @@ function ctfw_is_multipage() {
 
 	$is_multipage = false;
 
-	if ( ! empty( $multipage ) ) {
+	if (! empty( $multipage )) {
 		$is_multipage = true;
 	}
 
@@ -51,7 +51,7 @@ function ctfw_has_more_tag() {
 
 	$has_more_tag = false;
 
-	if ( preg_match( '/<!--more(.*?)?-->/', $post->post_content ) ) {
+	if (preg_match( '/<!--more(.*?)?-->/', $post->post_content )) {
 		$has_more_tag = true;
 	}
 
@@ -69,7 +69,7 @@ function ctfw_has_title() {
 
 	$has_title = false;
 
-	if ( trim( strip_tags( get_the_title() ) ) ) {
+	if (trim( strip_tags( get_the_title() ) )) {
 		$has_title = true;
 	}
 
@@ -95,12 +95,12 @@ function ctfw_has_content() {
 	// Check for content and allow certain tags if no content.
 	// This way, for example, if has just an image tag, the content still renders.
 	$content = trim( get_the_content() );
-	if ( strip_tags( $content, '<img><iframe><script><embed><audio><video>' ) || preg_match( '/wp\:block/', $content ) ) {
+	if (strip_tags( $content, '<img><iframe><script><embed><audio><video>' ) || preg_match( '/wp\:/', $content )) {
 		$has_content = true;
 	}
 
 	// Check for page buiders like Elementor and Beaver Builder.
-	if ( ctfw_using_builder_plugin() ) {
+	if (ctfw_using_builder_plugin()) {
 		$has_content = true;
 	}
 
@@ -118,7 +118,7 @@ function ctfw_has_excerpt() {
 
 	$has_excerpt = false;
 
-	if ( trim( strip_tags( get_the_excerpt() ) ) ) {
+	if (trim( strip_tags( get_the_excerpt() ) )) {
 		$has_excerpt = true;
 	}
 
@@ -139,7 +139,7 @@ function ctfw_has_manual_excerpt() {
 
 	$bool = false;
 
-	if ( trim( strip_tags( $post->post_excerpt ) ) ) {
+	if (trim( strip_tags( $post->post_excerpt ) )) {
 		$bool = true;
 	}
 
@@ -158,7 +158,7 @@ function ctfw_has_excerpt_or_more() {
 
 	$bool = false;
 
-	if ( ctfw_has_excerpt() || ctfw_has_more_tag() ) {
+	if (ctfw_has_excerpt() || ctfw_has_more_tag()) {
 		$bool = true;
 	}
 
@@ -187,13 +187,13 @@ function ctfw_loop_after_content_used() {
 	$support = get_theme_support( 'ctfw-loop-after-content-used' );
 
 	// Function given in theme support?
-	if ( ! empty( $support[0] ) ) {
+	if (! empty( $support[0] )) {
 
 		// Get function
 		$function = $support[0];
 
 		// Run function if exists
-		if ( function_exists( $function ) ) {
+		if (function_exists( $function )) {
 			$result = call_user_func( $function );
 		}
 
@@ -217,23 +217,23 @@ function ctfw_has_loop_multiple() {
 
 	// Loop being output on regular page, such as via page templates like Sermons, People, etc.
 	// Requires 'ctfw-loop-after-content-used' via add_theme_support()
-	if ( ctfw_loop_after_content_used() ) {
+	if (ctfw_loop_after_content_used()) {
 		$showing = true;
 	}
 
 	// Archives like Sermon Topics, People Groups, etc.
 	// Also covers post type archives if a page with archive template isn't setup yet
-	elseif ( is_archive() ) {
+	elseif (is_archive()) {
 		$showing = true;
 	}
 
 	// Blog requires special handling with regard to Settings > Reading
-	elseif ( is_home() ) { // is_home() returns blog page
+	elseif (is_home()) { // is_home() returns blog page
 		$showing = true;
 	}
 
 	// Search shows short entries
-	elseif ( is_search() ) {
+	elseif (is_search()) {
 		$showing = true;
 	}
 
@@ -282,12 +282,12 @@ function ctfw_using_builder_plugin() {
 	$result = false;
 
 	// Elementor.
-	if ( did_action( 'elementor/loaded' ) && isset( $post->ID ) && \Elementor\Plugin::$instance->db->is_built_with_elementor( $post->ID ) ) {
+	if (did_action( 'elementor/loaded' ) && isset( $post->ID ) && \Elementor\Plugin::$instance->db->is_built_with_elementor( $post->ID )) {
 		$result = true;
 	}
 
 	// Beaver Builder.
-	elseif ( method_exists( 'FLBuilderModel', 'is_builder_enabled' ) && FLBuilderModel::is_builder_enabled() ) {
+	elseif (method_exists( 'FLBuilderModel', 'is_builder_enabled' ) && FLBuilderModel::is_builder_enabled()) {
 		$result = true;
 	}
 
@@ -314,7 +314,7 @@ function ctfw_is_sidebar( $sidebar_id ) {
 
 	$is = false;
 
-	if ( isset( $ctfw_current_sidebar_id ) && $sidebar_id == $ctfw_current_sidebar_id ) {
+	if (isset( $ctfw_current_sidebar_id ) && $sidebar_id == $ctfw_current_sidebar_id) {
 		$is = true;
 	}
 
@@ -336,7 +336,7 @@ function ctfw_is_first_widget() {
 
 	$is_first = false;
 
-	if ( isset( $ctfw_current_widget_position ) && 1 == $ctfw_current_widget_position ) {
+	if (isset( $ctfw_current_widget_position ) && 1 == $ctfw_current_widget_position) {
 		$is_first = true;
 	}
 
@@ -361,13 +361,13 @@ function ctfw_can_edit_post() {
 
 	$can_edit = false;
 
-	if ( ! empty( $post ) ) {
+	if (! empty( $post )) {
 
 		$post_type_object = get_post_type_object( $post->post_type );
 
-		if ( ! empty( $post_type_object ) ) {
+		if (! empty( $post_type_object )) {
 
-			if ( current_user_can( $post_type_object->cap->edit_post, $post->ID ) ) {
+			if (current_user_can( $post_type_object->cap->edit_post, $post->ID )) {
 				$can_edit = true;
 			}
 
@@ -395,7 +395,7 @@ function ctfw_is_posts_page() {
 
 	$bool = false;
 
-	if ( is_home() && ! is_front_page() ) {
+	if (is_home() && ! is_front_page()) {
 		$bool = true;
 	}
 
