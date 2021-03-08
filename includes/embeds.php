@@ -11,7 +11,7 @@
  */
 
 // No direct access.
-if ( ! defined( 'ABSPATH' ) ) {
+if (! defined( 'ABSPATH' )) {
 	exit;
 }
 
@@ -33,12 +33,12 @@ function ctfw_embed_code( $content ) {
 	global $wp_embed;
 
 	// Convert URL into media shortcode like [audio] or [video]
-	if ( ctfw_is_url( $content ) ) {
+	if (ctfw_is_url( $content )) {
 
 		$embed_code = '';
 
 		// Use native HTML 5 <audio> or <video> player.
-		if ( current_theme_supports( 'ctfw-native-player' ) ) {
+		if (current_theme_supports( 'ctfw-native-player' )) {
 
 			$url = $content;
 
@@ -47,14 +47,16 @@ function ctfw_embed_code( $content ) {
 
 			// Audio or video player?
 			$tag = '';
-			if ( // Audio (ideally mp3)
+			if (
+                // Audio (ideally mp3)
 				'mp3' === $filetype['ext']
 				|| 'wav' === $filetype['ext']
 				|| ( 'mp4' === $filetype['ext'] && 'audio/mp4' === $filetype['type'] ) // can be audio or video (usually video)
 				// ogg/audio and acc better off with MediaElementJS due to browser support
 			) {
 				$tag = 'audio';
-			} elseif ( // Video (ideally mp4)
+			} elseif (
+                // Video (ideally mp4)
 				'mp4' === $filetype['ext'] // video if wasn't audio above
 				// ogg/video and webm better off with MediaElementJS due to browser support
 			) {
@@ -62,17 +64,17 @@ function ctfw_embed_code( $content ) {
 			}
 
 			// Build tag.
-			if ( $tag ) {
+			if ($tag) {
 				$embed_code = '<' . $tag . ' controls="" controlsList="nodownload" src="' . esc_url( $url ) . '"></' . $tag . '>';
 			}
 
 		}
 
 		// If not using native player or could not detect an audio/video file type.
-		if ( ! $embed_code ) {
+		if (! $embed_code) {
 
 			// Make Dropbox URL's work.
-			if ( preg_match( '/dropbox/', $content ) ) {
+			if (preg_match( '/dropbox/', $content )) {
 
 				// URL.
 				$url = $content;
@@ -86,14 +88,14 @@ function ctfw_embed_code( $content ) {
 				$format = '';
 				$ext = pathinfo( $url_no_qs , PATHINFO_EXTENSION );
 
-				if ( in_array( $ext, array( 'mp3', 'wav' ) ) ) { // Audio (ideally mp3)
+				if (in_array( $ext, array( 'mp3', 'wav' ) )) { // Audio (ideally mp3)
 					$format = 'audio';
-				} else if ( in_array( $ext, array( 'mp4' ) ) ) { // Video (assuming mp4 is video, not audio)
+				} else if (in_array( $ext, array( 'mp4' ) )) { // Video (assuming mp4 is video, not audio)
 					$format = 'video';
 				}
 
 				// Build shortcode since WP won't auto-convert URL.
-				if ( $format ) {
+				if ($format) {
 
 					$shortcode = '[' . $format . ' src="' . $url . '"]';
 
@@ -106,7 +108,7 @@ function ctfw_embed_code( $content ) {
 			}
 
 			// Process shortcode
-			if ( ! $embed_code ) {
+			if (! $embed_code) {
 				$embed_code = $wp_embed->shortcode( array(), $content );
 			}
 
@@ -121,7 +123,9 @@ function ctfw_embed_code( $content ) {
 
 	// Use video media item's featured image in shortcode like video block does.
 	// Only for WP 4.4+ (2015) and on [video] shortcode not already having poster attribute.
-	if ( function_exists( 'get_the_post_thumbnail_url' ) && preg_match( '/^\[video /', $embed_code ) && ! preg_match( '/^\poster="/', $embed_code ) ) {
+	if (function_exists( 'get_the_post_thumbnail_url' ) && preg_match( '/^\[video /', $embed_code ) && ! preg_match( '/^\poster="/', $embed_code )) {
+
+		$poster_url = '';
 
 		// Get src URL from shortcode.
 		preg_match( '/src="([^"]*)"/', $embed_code, $matches );
@@ -132,12 +136,12 @@ function ctfw_embed_code( $content ) {
 		$media_post_id = attachment_url_to_postid( $src_url );
 
 		// Get poster URL from media item's featured image.
-		if ( $media_post_id ) {
+		if ($media_post_id) {
 			$poster_url = get_the_post_thumbnail_url( $media_post_id, 'full' );
 		}
 
 		// Add poster attribute to shortcode if have URL.
-		if ( $poster_url ) {
+		if ($poster_url) {
 			$embed_code = str_replace( '[video ', '[video poster="' . $poster_url . '" ', $embed_code );
 		}
 
@@ -178,7 +182,7 @@ function ctfw_embed_allow_dropbox( $ext ) {
 function ctfw_responsive_embeds_enqueue_scripts() {
 
 	// If theme supports this feature
-	if ( current_theme_supports( 'ctfw-responsive-embeds' ) ) {
+	if (current_theme_supports( 'ctfw-responsive-embeds' )) {
 
 		// FitVids.js
 		wp_enqueue_script( 'fitvids', get_theme_file_uri( CTFW_JS_DIR . '/jquery.fitvids.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on theme update
@@ -210,7 +214,7 @@ add_action( 'wp_enqueue_scripts', 'ctfw_responsive_embeds_enqueue_scripts' ); //
 function ctfw_generic_embeds( $html ) {
 
 	// Does theme support this?
-	if ( current_theme_supports( 'ctfw-generic-embeds' ) ) {
+	if (current_theme_supports( 'ctfw-generic-embeds' )) {
 
 		// Get frame source URL
 		// Separating i from frame avoids Theme Check false positive
@@ -218,14 +222,14 @@ function ctfw_generic_embeds( $html ) {
 		$url = ! empty( $matches[2][0] ) ? $matches[2][0] : '';
 
 		// URL found
-		if ( $url ) {
+		if ($url) {
 
 			$new_url = '';
 			$source = '';
 			$args = array();
 
 			// YouTube
-			if ( preg_match( '/youtube/i', $url ) ) {
+			if (preg_match( '/youtube/i', $url )) {
 				$source = 'youtube';
 				$args = array(
 					'wmode'				=> 'transparent',
@@ -237,7 +241,7 @@ function ctfw_generic_embeds( $html ) {
 			}
 
 			// Vimeo
-			elseif ( preg_match( '/vimeo/i', $url ) ) {
+			elseif (preg_match( '/vimeo/i', $url )) {
 				$source = 'vimeo';
 				$args = array(
 					'title'				=> '0',
@@ -252,7 +256,7 @@ function ctfw_generic_embeds( $html ) {
 			$new_url = esc_url( add_query_arg( $args, $url ) );
 
 			// Replace source with modified URL
-			if ( $new_url != $url ) {
+			if ($new_url != $url) {
 				$html = str_replace( $url, $new_url, $html );
 			}
 
@@ -281,7 +285,7 @@ add_filter( 'embed_oembed_html', 'ctfw_generic_embeds' );
 function ctfw_valid_embeds( $html ) {
 
 	// Does theme support this?
-	if ( current_theme_supports( 'ctfw-valid-embeds' ) ) {
+	if (current_theme_supports( 'ctfw-valid-embeds' )) {
 
 		// YouTube, Vimeo, etc.
 	 	$html = str_replace( 'frameborder="0"', 'style="border: none;"', $html );
@@ -316,7 +320,7 @@ add_filter( 'embed_oembed_html', 'ctfw_valid_embeds' );
 function ctfw_clean_media_shortcode_url( $output, $atts, $media, $post_id, $library ) {
 
 	// Theme supports this.
-	if ( current_theme_supports( 'ctfw-clean-media-shortcode-url' ) ) {
+	if (current_theme_supports( 'ctfw-clean-media-shortcode-url' )) {
 
 		// Remove ?_=1 from video URL.
 		$output = str_replace( '?_=1', '', $output );
