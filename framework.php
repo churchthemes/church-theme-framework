@@ -7,7 +7,7 @@
  *
  * @package   Church_Theme_Framework
  * @copyright Copyright (c) 2013 - 2021, ChurchThemes.com, LLC
- * @link      https://github.com/churchthemes/church-theme-framework
+ * @link      https: //github.com/churchthemes/church-theme-framework
  * @license   GPLv2 or later
  */
 
@@ -30,8 +30,12 @@ $theme_data = is_child_theme() ? wp_get_theme( $theme_data->template ) : $theme_
 
 /**
  * Framework constants
+ *
+ * TODO: BEFORE NEXT RELEASE
+ * - See HS 24102 to fix Jetpack Forms Block button disappearing
+ * - Remove this TODO: note
  */
-if (! defined( 'CTFW_VERSION' ))				define( 'CTFW_VERSION', 			'2.8.1' );
+if (! defined( 'CTFW_VERSION' ))			define( 'CTFW_VERSION', 			'2.8.1' ); // TODO: Before next release, see above
 
 /**
  * Theme constants
@@ -39,11 +43,11 @@ if (! defined( 'CTFW_VERSION' ))				define( 'CTFW_VERSION', 			'2.8.1' );
 if (! defined( 'CTFW_THEME_VERSION' ))		define( 'CTFW_THEME_VERSION',		$theme_data->Version );						// parent theme version
 if (! defined( 'CTFW_THEME_NAME' ))			define( 'CTFW_THEME_NAME',			$theme_data->Name );						// parent theme name, specified in style.css
 if (! defined( 'CTFW_THEME_SLUG' ))			define( 'CTFW_THEME_SLUG',			$theme_data->template );					// parent theme's folder (theme slug)
-if (! defined( 'CTFW_THEME_AUTHOR' ))			define( 'CTFW_THEME_AUTHOR',		strip_tags( $theme_data->Author ) );		// parent theme's author
+if (! defined( 'CTFW_THEME_AUTHOR' ))		define( 'CTFW_THEME_AUTHOR',		strip_tags( $theme_data->Author ) );		// parent theme's author
 if (! defined( 'CTFW_THEME_PATH' ))			define( 'CTFW_THEME_PATH',			get_template_directory() );					// parent theme path
 if (! defined( 'CTFW_THEME_URL' ))			define( 'CTFW_THEME_URL',			get_template_directory_uri() );				// parent theme URI
-if (! defined( 'CTFW_THEME_CHILD_PATH' ))		define( 'CTFW_THEME_CHILD_PATH',	get_stylesheet_directory() );				// child theme path
-if (! defined( 'CTFW_THEME_CHILD_URL' ))		define( 'CTFW_THEME_CHILD_URL',		get_stylesheet_directory_uri() );			// child theme URI
+if (! defined( 'CTFW_THEME_CHILD_PATH' ))	define( 'CTFW_THEME_CHILD_PATH',	get_stylesheet_directory() );				// child theme path
+if (! defined( 'CTFW_THEME_CHILD_URL' ))	define( 'CTFW_THEME_CHILD_URL',		get_stylesheet_directory_uri() );			// child theme URI
 
 /**
  * Theme directory constants
@@ -51,17 +55,17 @@ if (! defined( 'CTFW_THEME_CHILD_URL' ))		define( 'CTFW_THEME_CHILD_URL',		get_s
  * Theme and framework structures mirror each other.
  */
 if (! defined( 'CTFW_THEME_INC_DIR' ))		define( 'CTFW_THEME_INC_DIR',		'includes' );								// includes directory
-if (! defined( 'CTFW_THEME_ADMIN_DIR' ))		define( 'CTFW_THEME_ADMIN_DIR',		CTFW_THEME_INC_DIR . '/admin' );			// admin directory
-if (! defined( 'CTFW_THEME_CLASS_DIR' ))		define( 'CTFW_THEME_CLASS_DIR',		CTFW_THEME_INC_DIR . '/classes' );			// classes directory
+if (! defined( 'CTFW_THEME_ADMIN_DIR' ))	define( 'CTFW_THEME_ADMIN_DIR',		CTFW_THEME_INC_DIR . '/admin' );			// admin directory
+if (! defined( 'CTFW_THEME_CLASS_DIR' ))	define( 'CTFW_THEME_CLASS_DIR',		CTFW_THEME_INC_DIR . '/classes' );			// classes directory
 if (! defined( 'CTFW_THEME_LIB_DIR' ))		define( 'CTFW_THEME_LIB_DIR',		CTFW_THEME_INC_DIR . '/libraries' );		// libraries directory
 if (! defined( 'CTFW_THEME_PAGE_TPL_DIR' ))	define( 'CTFW_THEME_PAGE_TPL_DIR',	'page-templates' );							// page templates directory
 if (! defined( 'CTFW_THEME_PARTIAL_DIR' ))	define( 'CTFW_THEME_PARTIAL_DIR',	'partials' );								// partials directory (re-usable template parts)
-if (! defined( 'CTFW_THEME_WIDGET_DIR' ))		define( 'CTFW_THEME_WIDGET_DIR',	'widget-templates' );						// widget templates directory
+if (! defined( 'CTFW_THEME_WIDGET_DIR' ))	define( 'CTFW_THEME_WIDGET_DIR',	'widget-templates' );						// widget templates directory
 if (! defined( 'CTFW_THEME_CSS_DIR' ))		define( 'CTFW_THEME_CSS_DIR',		'css' );									// stylesheets directory
-if (! defined( 'CTFW_THEME_JS_DIR' ))			define( 'CTFW_THEME_JS_DIR',		'js' );										// JavaScript directory
+if (! defined( 'CTFW_THEME_JS_DIR' ))		define( 'CTFW_THEME_JS_DIR',		'js' );										// JavaScript directory
 if (! defined( 'CTFW_THEME_IMG_DIR' ))		define( 'CTFW_THEME_IMG_DIR',		'images' );									// images directory
-if (! defined( 'CTFW_THEME_BG_DIR' ))			define( 'CTFW_THEME_BG_DIR',		CTFW_THEME_IMG_DIR . '/backgrounds' );		// background images directory
-if (! defined( 'CTFW_THEME_COLOR_DIR' ))		define( 'CTFW_THEME_COLOR_DIR',		'colors' );									// color schemes directory
+if (! defined( 'CTFW_THEME_BG_DIR' ))		define( 'CTFW_THEME_BG_DIR',		CTFW_THEME_IMG_DIR . '/backgrounds' );		// background images directory
+if (! defined( 'CTFW_THEME_COLOR_DIR' ))	define( 'CTFW_THEME_COLOR_DIR',		'colors' );									// color schemes directory
 if (! defined( 'CTFW_THEME_LANG_DIR' ))		define( 'CTFW_THEME_LANG_DIR',		'languages' );								// languages directory
 
 /**
@@ -69,14 +73,14 @@ if (! defined( 'CTFW_THEME_LANG_DIR' ))		define( 'CTFW_THEME_LANG_DIR',		'langua
  *
  * Note use of theme constants. Theme and framework structures mirror each other.
  */
-if (! defined( 'CTFW_DIR' ))					define( 'CTFW_DIR',					basename( dirname( __FILE__) ) );			// framework directory (where this file is)
-if (! defined( 'CTFW_INC_DIR' ))				define( 'CTFW_INC_DIR',				CTFW_DIR . '/' . CTFW_THEME_INC_DIR );		// framework includes directory
+if (! defined( 'CTFW_DIR' ))				define( 'CTFW_DIR',					basename( dirname( __FILE__) ) );			// framework directory (where this file is)
+if (! defined( 'CTFW_INC_DIR' ))			define( 'CTFW_INC_DIR',				CTFW_DIR . '/' . CTFW_THEME_INC_DIR );		// framework includes directory
 if (! defined( 'CTFW_ADMIN_DIR' ))			define( 'CTFW_ADMIN_DIR',			CTFW_DIR . '/' . CTFW_THEME_ADMIN_DIR );	// framework admin directory
 if (! defined( 'CTFW_CLASS_DIR' ))			define( 'CTFW_CLASS_DIR',			CTFW_DIR . '/' . CTFW_THEME_CLASS_DIR );	// framework classes directory
-if (! defined( 'CTFW_LIB_DIR' ))				define( 'CTFW_LIB_DIR',				CTFW_DIR . '/' . CTFW_THEME_LIB_DIR );		// framework libraries directory
-if (! defined( 'CTFW_CSS_DIR' ))				define( 'CTFW_CSS_DIR',				CTFW_DIR . '/' . CTFW_THEME_CSS_DIR );		// framework stylesheets directory
+if (! defined( 'CTFW_LIB_DIR' ))			define( 'CTFW_LIB_DIR',				CTFW_DIR . '/' . CTFW_THEME_LIB_DIR );		// framework libraries directory
+if (! defined( 'CTFW_CSS_DIR' ))			define( 'CTFW_CSS_DIR',				CTFW_DIR . '/' . CTFW_THEME_CSS_DIR );		// framework stylesheets directory
 if (! defined( 'CTFW_JS_DIR' ))				define( 'CTFW_JS_DIR',				CTFW_DIR . '/' . CTFW_THEME_JS_DIR );		// framework JavaScript directory
-if (! defined( 'CTFW_IMG_DIR' ))				define( 'CTFW_IMG_DIR',				CTFW_DIR . '/' . CTFW_THEME_IMG_DIR );		// framework images directory
+if (! defined( 'CTFW_IMG_DIR' ))			define( 'CTFW_IMG_DIR',				CTFW_DIR . '/' . CTFW_THEME_IMG_DIR );		// framework images directory
 
 /********************************************
  * INCLUDES
@@ -167,7 +171,7 @@ $ctfw_includes = array(
 /**
  * Filter includes
  */
-$ctfw_includes = apply_filters( 'ctfw_includes', $ctfw_includes ); // make filterable
+$ctfw_includes = apply_filters( 'ctfw_includes', $ctfw_includes );  // make filterable
 
 /**
  * Load includes
