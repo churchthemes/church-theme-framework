@@ -13,7 +13,7 @@
  */
 
 // No direct access.
-if ( ! defined( 'ABSPATH' ) ) {
+if (! defined( 'ABSPATH' )) {
 	exit;
 }
 
@@ -37,13 +37,13 @@ function ctfw_old_wp() {
 
 	// Theme uses this feature
 	$support = get_theme_support( 'ctfw-wordpress-version' );
-	if ( ! empty( $support[0] ) ) {
+	if (! empty( $support[0] )) {
 
 		// Get minimum required version
 		$required_version = $support[0];
 
 		// Is old version used?
-		if ( version_compare( $GLOBALS['wp_version'], $required_version, '<' ) ) {
+		if (version_compare( $GLOBALS['wp_version'], $required_version, '<' )) {
 			$old = true;
 		}
 
@@ -75,16 +75,16 @@ function ctfw_old_wp_message() {
 function ctfw_old_wp_switch_theme( $theme_name, $theme = false ) {
 
 	// Old theme still exists
-	if ( ! $theme ) {
+	if (! $theme) {
 		return;
 	}
 
 	// Is WordPress version too old for theme?
-	if ( ctfw_old_wp() ) {
+	if (ctfw_old_wp()) {
 
-		if ( CTFW_THEME_SLUG != $theme->get_template() ) {
+		if (CTFW_THEME_SLUG != $theme->get_template()) {
 			switch_theme( $theme->get_template(), $theme->get_stylesheet() );
-		} elseif ( CTFW_THEME_SLUG != WP_DEFAULT_THEME ) {
+		} elseif (CTFW_THEME_SLUG != WP_DEFAULT_THEME) {
 			switch_theme( WP_DEFAULT_THEME );
 		}
 
@@ -132,7 +132,7 @@ function ctfw_old_wp_switch_theme_notice() {
  *
  * @since 2.6.2
  */
-if ( ! function_exists( 'wp_body_open' ) ) {
+if (! function_exists( 'wp_body_open' )) {
 
 	function wp_body_open() {
 		do_action( 'wp_body_open' );
@@ -176,7 +176,7 @@ function ctfw_ctc_plugin_active() {
 
 	include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-	if ( is_plugin_active( ctfw_ctc_plugin_file() ) ) {
+	if (is_plugin_active( ctfw_ctc_plugin_file() )) {
 		$activated = true;
 	}
 
@@ -194,7 +194,7 @@ function ctfw_ctc_plugin_installed() {
 
 	$installed = false;
 
-	if ( array_key_exists( ctfw_ctc_plugin_file(), get_plugins() ) ) {
+	if (array_key_exists( ctfw_ctc_plugin_file(), get_plugins() )) {
 		$installed = true;
 	}
 
@@ -213,20 +213,20 @@ function ctfw_ctc_plugin_notice() {
 
 	// Show only on relevant pages as not to overwhelm the admin
 	$screen = get_current_screen();
-	if ( ! in_array( $screen->base, array( 'dashboard', 'themes', 'plugins' ) ) ) {
+	if (! in_array( $screen->base, array( 'dashboard', 'themes', 'plugins' ) )) {
 		return;
 	}
 
 	// Prevent plugins (CTC add-ons) from showing similar notice
 	// Make sure this is always after last return above, meaning a notice is being shown
-	if ( ! empty( $GLOBALS['ctc_install_notice_sent'] ) ) {
+	if (! empty( $GLOBALS['ctc_install_notice_sent'] )) {
 		return;
 	} else {
 		$GLOBALS['ctc_install_notice_sent'] = true;
 	}
 
 	// Plugin not installed
-	if ( ! ctfw_ctc_plugin_installed() && current_user_can( 'install_plugins' ) ) {
+	if (! ctfw_ctc_plugin_installed() && current_user_can( 'install_plugins' )) {
 
 		$notice = sprintf(
 			__( '<b>Plugin Required:</b> Please install and activate the <a href="%s">Church Content</a> plugin to use with the current theme.', 'church-theme-framework' ),
@@ -236,7 +236,7 @@ function ctfw_ctc_plugin_notice() {
 	}
 
 	// Plugin installed but not activated
-	elseif ( ! ctfw_ctc_plugin_active() && current_user_can( 'activate_plugins' ) ) {
+	elseif (! ctfw_ctc_plugin_active() && current_user_can( 'activate_plugins' )) {
 
 		$notice = sprintf(
 			__( 'Please <a href="%s">activate</a> the <b>Church Content</b> plugin required by the current theme.', 'church-theme-framework' ),
@@ -246,7 +246,7 @@ function ctfw_ctc_plugin_notice() {
 	}
 
 	// Show notice
-	if (  isset( $notice ) ) {
+	if (isset( $notice )) {
 
 		?>
 		<div class="notice notice-warning">
@@ -281,7 +281,7 @@ function ctfw_enqueue_ie_unsupported() {
 
 	// Only if theme requests this
 	$support = get_theme_support( 'ctfw-ie-unsupported' );
-	if ( $support ) {
+	if ($support) {
 
 		// Default and valid version range
 		// Currently specified version must be between 5 and 9 (10 could require more complex regex, but that may never be needed)
@@ -294,7 +294,7 @@ function ctfw_enqueue_ie_unsupported() {
 
 		// Check version range
 		$version = absint( $version );
-		if ( $version < $min_version || $version > $max_version ) {
+		if ($version < $min_version || $version > $max_version) {
 			$version = $default_version;
 		}
 
@@ -308,7 +308,7 @@ function ctfw_enqueue_ie_unsupported() {
 			'max_version' => $max_version,
 			'version' => $version,
 			'message' => __( 'You are using an outdated version of Internet Explorer. Please upgrade your browser to use this site.', 'church-theme-framework' ),
-			'redirect_url' => apply_filters( 'ctfw_upgrade_browser_url', 'http://browsehappy.com/' )
+			'redirect_url' => apply_filters( 'ctfw_upgrade_browser_url', 'https://browsehappy.com/' )
 		) );
 
 	}
