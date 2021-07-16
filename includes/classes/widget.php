@@ -14,7 +14,7 @@
  */
 
 // No direct access
-if ( ! defined( 'ABSPATH' ) ) exit;
+if (! defined( 'ABSPATH' )) exit;
 
 /**
  * Main widget class
@@ -32,7 +32,7 @@ class CTFW_Widget extends WP_Widget {
 	 * @param array $widget_options Widget options
 	 * @param array $control_options Control options
 	 */
-	function __construct( $id_base = false, $name, $widget_options = array(), $control_options = array() ) {
+	function __construct( $id_base, $name, $widget_options = array(), $control_options = array() ) {
 
 		parent::__construct( $id_base, $name, $widget_options, $control_options );
 
@@ -51,17 +51,18 @@ class CTFW_Widget extends WP_Widget {
 	 * @since 0.9
 	 * @return array Modified fields
 	 */
-	function ctfw_prepared_fields() { // prefix in case WP core adds method with same name
+	function ctfw_prepared_fields() {
+ // prefix in case WP core adds method with same name
 
 		// Get fields from extending class
 		$fields = array();
-		if ( method_exists( $this->ctfw_class, 'ctfw_fields' ) ) {
+		if (method_exists( $this->ctfw_class, 'ctfw_fields' )) {
 			$fields = $this->ctfw_fields();
 		}
 
 		// Fill array of visible fields with all by default
 		$visible_fields = array();
-		foreach ( $fields as $id => $field ) {
+		foreach ($fields as $id => $field) {
 			$visible_fields[] = $id;
 		}
 
@@ -72,10 +73,10 @@ class CTFW_Widget extends WP_Widget {
 		$field_overrides = apply_filters( 'ctfw_widget_field_overrides-' . $this->id_base, array(), $this->id_base ); // by default no overrides
 
 		// Loop fields to modify them with filtered data
-		foreach ( $fields as $id => $field ) {
+		foreach ($fields as $id => $field) {
 
 			// Selectively override field data based on filtered array
-			if ( ! empty( $field_overrides[$id] ) && is_array( $field_overrides[$id] ) ) {
+			if (! empty( $field_overrides[$id] ) && is_array( $field_overrides[$id] )) {
 				$fields[$id] = array_merge( $field, $field_overrides[$id] ); // merge filtered in data over top existing data
 			}
 
@@ -83,13 +84,13 @@ class CTFW_Widget extends WP_Widget {
 			$fields[$id]['hidden'] = ! in_array( $id, (array) $visible_fields ) ? true : false; // set hidden true if not in array
 
 			// Set visibility of field based on required taxonomy support (in case unsupported by theme or via plugin settings, etc.)
-			if ( ! empty( $fields[$id]['taxonomies'] ) ) {
+			if (! empty( $fields[$id]['taxonomies'] )) {
 
 				// Loop taxonomies
-				foreach ( (array) $fields[$id]['taxonomies'] as $taxonomy_name ) {
+				foreach ( (array) $fields[$id]['taxonomies'] as $taxonomy_name) {
 
 					// Taxonomy not supported by theme (or possibly disabled via Church Content)
-					if ( ! ctfw_ctc_taxonomy_supported( $taxonomy_name ) ) { // check show_ui
+					if (! ctfw_ctc_taxonomy_supported( $taxonomy_name )) { // check show_ui
 						$fields[$id]['hidden'] = true;
 						break; // one strike and you're out
 					}
@@ -117,7 +118,7 @@ class CTFW_Widget extends WP_Widget {
 
 		// Loop fields
 		$fields = $this->ctfw_prepared_fields();
-		foreach ( $fields as $id => $field ) {
+		foreach ($fields as $id => $field) {
 
 			/**
 			 * Field Data
@@ -152,18 +153,18 @@ class CTFW_Widget extends WP_Widget {
 			);
 			$classes = array();
 			$classes[] = 'ctfw-widget-' . $data['field']['type'];
-			if ( ! empty( $default_classes[$data['field']['type']] ) ) {
+			if (! empty( $default_classes[$data['field']['type']] )) {
 				$classes[] = $default_classes[$data['field']['type']];
 			}
-			if ( ! empty( $data['field']['class'] ) ) {
+			if (! empty( $data['field']['class'] )) {
 				$classes[] = $data['field']['class'];
 			}
 			$data['classes'] = implode( ' ', $classes );
 
 			// Common attributes
 			$data['common_atts'] = 'name="' . $this->get_field_name( $data['id'] ) . '" class="' . esc_attr( $data['classes'] ) . '"';
-			if ( ! empty( $data['field']['attributes'] ) ) { // add custom attributes
-				foreach ( $data['field']['attributes'] as $attr_name => $attr_value ) {
+			if (! empty( $data['field']['attributes'] )) { // add custom attributes
+				foreach ($data['field']['attributes'] as $attr_name => $attr_value) {
 					$data['common_atts'] .= ' ' . $attr_name . '="' . esc_attr( $attr_value ) . '"';
 				}
 			}
@@ -172,18 +173,18 @@ class CTFW_Widget extends WP_Widget {
 			$data['field_class'] = array();
 			$data['field_class'][] = 'ctfw-widget-field';
 			$data['field_class'][] = 'ctfw-widget-field-' . $data['id'];
-			if ( ! empty( $data['field']['hidden'] ) ) { // Hidden (for internal use only, via prepare() filter)
+			if (! empty( $data['field']['hidden'] )) { // Hidden (for internal use only, via prepare() filter)
 				$data['field_class'][] = 'ctfw-widget-hidden';
 			}
-			if ( ! empty( $data['field']['field_class'] ) ) {
+			if (! empty( $data['field']['field_class'] )) {
 				$data['field_class'][] = $data['field']['field_class']; // append custom classes
 			}
 			$data['field_class'] = implode( ' ', $data['field_class'] );
 
 			// Field container styles
 			$data['field_attributes'] = '';
-			if ( ! empty( $data['field']['field_attributes'] ) ) { // add custom attributes
-				foreach ( $data['field']['field_attributes'] as $attr_name => $attr_value ) {
+			if (! empty( $data['field']['field_attributes'] )) { // add custom attributes
+				foreach ($data['field']['field_attributes'] as $attr_name => $attr_value) {
 					$data['field_attributes'] .= ' ' . $attr_name . '="' . esc_attr( $attr_value ) . '"';
 				}
 			}
@@ -193,7 +194,7 @@ class CTFW_Widget extends WP_Widget {
 			 */
 
 			// Use custom function to render custom field content
-			if ( ! empty( $data['field']['custom_field'] ) ) {
+			if (! empty( $data['field']['custom_field'] )) {
 				$input = call_user_func( $data['field']['custom_field'], $data );
 			}
 
@@ -202,7 +203,7 @@ class CTFW_Widget extends WP_Widget {
 
 				// Switch thru types to render differently
 				$input = '';
-				switch ( $data['field']['type'] ) {
+				switch ($data['field']['type']) {
 
 					// Text
 					case 'text':
@@ -219,7 +220,7 @@ class CTFW_Widget extends WP_Widget {
 						$input = '<input type="text" ' . $data['common_atts'] . ' id="' . $data['esc_element_id'] . '" value="' . $data['esc_value'] . '" />';
 
 						// Append button if upload_* used
-						if ( ! empty( $data['field']['upload_button'] ) ) {
+						if (! empty( $data['field']['upload_button'] )) {
 
 							// Button and defult title and file type
 							$upload_button = $data['field']['upload_button'];
@@ -248,7 +249,7 @@ class CTFW_Widget extends WP_Widget {
 						$input  = '<input type="hidden" ' . $data['common_atts'] . ' value="" />'; // causes unchecked box to post empty value (helps with default handling)
 						$input .= '<label for="' . $data['esc_element_id'] . '">';
 						$input .= '	<input type="checkbox" ' . $data['common_atts'] . ' id="' . $data['esc_element_id'] . '" value="1"' . checked( '1', $data['value'], false ) . '/>';
-						if ( ! empty( $data['field']['checkbox_label'] ) ) {
+						if (! empty( $data['field']['checkbox_label'] )) {
 							$input .= ' ' . $data['field']['checkbox_label'];
 						}
 						$input .= '</label>';
@@ -258,9 +259,9 @@ class CTFW_Widget extends WP_Widget {
 					// Radio
 					case 'radio':
 
-						if ( ! empty( $data['field']['options'] ) ) {
+						if (! empty( $data['field']['options'] )) {
 
-							foreach ( $data['field']['options'] as $option_value => $option_text ) {
+							foreach ($data['field']['options'] as $option_value => $option_text) {
 
 								$esc_radio_id = $data['esc_element_id'] . '-' . $option_value;
 
@@ -279,10 +280,10 @@ class CTFW_Widget extends WP_Widget {
 					// Select
 					case 'select':
 
-						if ( ! empty( $data['field']['options'] ) ) {
+						if (! empty( $data['field']['options'] )) {
 
 							$input .= '<select ' . $data['common_atts'] . ' id="' . $data['esc_element_id'] . '">';
-							foreach ( $data['field']['options'] as $option_value => $option_text ) {
+							foreach ($data['field']['options'] as $option_value => $option_text) {
 								$input .= '<option value="' . esc_attr( $option_value ) . '" ' . selected( $option_value, $data['value'], false ) . '> ' . esc_html( $option_text ) . '</option>';
 							}
 							$input .= '</select>';
@@ -307,7 +308,7 @@ class CTFW_Widget extends WP_Widget {
 
 						// Is image set and still exists?
 						$value_container_classes = 'ctfw-widget-image-unset';
-						if ( ! empty( $data['value'] ) && wp_get_attachment_image_src( $data['value'] ) ) {
+						if (! empty( $data['value'] ) && wp_get_attachment_image_src( $data['value'] )) {
 							$value_container_classes = 'ctfw-widget-image-set';
 						}
 
@@ -342,18 +343,18 @@ class CTFW_Widget extends WP_Widget {
 			 */
 
 			// Output field
-			if ( ! empty( $input ) ) { // don't render if type invalid
+			if (! empty( $input )) { // don't render if type invalid
 
 				?>
 				<div class="<?php echo esc_attr( $data['field_class'] ); ?>"<?php echo $data['field_attributes']; ?>>
 
 					<div class="ctfw-widget-name">
 
-						<?php if ( ! empty( $data['field']['name'] ) ) : ?>
+						<?php if (! empty( $data['field']['name'] )) : ?>
 
 							<?php echo esc_html( $data['field']['name'] ); ?>
 
-							<?php if ( ! empty( $data['field']['after_name'] ) ) : ?>
+							<?php if (! empty( $data['field']['after_name'] )) : ?>
 								<span><?php echo esc_html( $data['field']['after_name'] ); ?></span>
 							<?php endif; ?>
 
@@ -365,7 +366,7 @@ class CTFW_Widget extends WP_Widget {
 
 						<?php echo $input; ?>
 
-						<?php if ( ! empty( $data['field']['desc'] ) ) : ?>
+						<?php if (! empty( $data['field']['desc'] )) : ?>
 						<p class="description">
 							<?php echo $data['field']['desc']; ?>
 						</p>
@@ -394,7 +395,8 @@ class CTFW_Widget extends WP_Widget {
 	 * @param array $instance Widget instance
 	 * @return array Sanitized instance
 	 */
-	function ctfw_sanitize( $instance ) { // prefix in case WP core adds method with same name
+	function ctfw_sanitize( $instance ) {
+ // prefix in case WP core adds method with same name
 
 		global $allowedposttags;
 
@@ -404,13 +406,13 @@ class CTFW_Widget extends WP_Widget {
 		// Loop valid fields to sanitize
 		$fields = $this->ctfw_prepared_fields();
 
-		foreach ( $fields as $id => $field ) {
+		foreach ($fields as $id => $field) {
 
 			// Get posted value.
 			$input = '';
-			if ( isset( $instance[ $id ] ) ) {
+			if (isset( $instance[ $id ] )) {
 				$input = $instance[ $id ];
-			} elseif ( isset( $field['default'] ) ) { // set default value if instance not set
+			} elseif (isset( $field['default'] )) { // set default value if instance not set
 				$input = $field['default'];
 			}
 
@@ -418,7 +420,7 @@ class CTFW_Widget extends WP_Widget {
 			$output = trim( stripslashes( $input ) );
 
 			// Sanitize based on type
-			switch ( $field['type'] ) {
+			switch ($field['type']) {
 
 				// Text
 				// Textarea
@@ -426,7 +428,7 @@ class CTFW_Widget extends WP_Widget {
 				case 'textarea':
 
 					// Strip tags if config does not allow HTML
-					if ( empty( $field['allow_html'] ) ) {
+					if (empty( $field['allow_html'] )) {
 						$output = trim( strip_tags( $output ) );
 					}
 
@@ -448,7 +450,7 @@ class CTFW_Widget extends WP_Widget {
 				case 'select':
 
 					// If option invalid, blank it so default will be used
-					if ( ! isset( $field['options'][$output] ) ) {
+					if (! isset( $field['options'][$output] )) {
 						$output = '';
 					}
 
@@ -462,13 +464,13 @@ class CTFW_Widget extends WP_Widget {
 
 					// Enforce minimum value
 					$min = isset( $field['number_min'] ) && '' !== $field['number_min'] ? (int) $field['number_min'] : ''; // force number if set
-					if ( '' !== $min && $output < $min ) { // allow 0, don't process if no value given ('')
+					if ('' !== $min && $output < $min) { // allow 0, don't process if no value given ('')
 						$output = $min;
 					}
 
 					// Enforce maximum value
 					$max = isset( $field['number_max'] ) && '' !== $field['number_max'] ? (int) $field['number_max'] : ''; // force number if set
-					if ( '' !== $max && $output > $max ) { // allow 0, don't process if no value given ('')
+					if ('' !== $max && $output > $max) { // allow 0, don't process if no value given ('')
 						$output = $max;
 					}
 
@@ -478,12 +480,12 @@ class CTFW_Widget extends WP_Widget {
 				case 'url':
 
 					// Make relative URL absolute.
-					if ( $output && ! ctfw_is_url( $output ) ) {
+					if ($output && ! ctfw_is_url( $output )) {
 
 						$output = site_url( $output );
 
 						// Add trailing slash if no hash.
-						if ( ! preg_match( '/\#/', $output ) ) {
+						if (! preg_match( '/\#/', $output )) {
 							$output = trailingslashit( $output );
 						}
 
@@ -500,7 +502,7 @@ class CTFW_Widget extends WP_Widget {
 					$output = absint( $output );
 
 					// Set empty if value is 0, attachment does not exist, or is not an image
-					if ( empty( $output ) || ! wp_get_attachment_image_src( $output ) ) {
+					if (empty( $output ) || ! wp_get_attachment_image_src( $output )) {
 						$output = '';
 					}
 
@@ -520,13 +522,13 @@ class CTFW_Widget extends WP_Widget {
 			}
 
 			// Run additional custom sanitization function if field config requires it
-			if ( ! empty( $field['custom_sanitize'] ) ) {
+			if (! empty( $field['custom_sanitize'] )) {
 				$output = call_user_func( $field['custom_sanitize'], $output );
 			}
 
 			// Sanitization left value empty, use default if empty not allowed
 			$output = trim( $output );
-			if ( empty( $output ) && ! empty( $field['default'] ) && ! empty( $field['no_empty'] ) ) {
+			if (empty( $output ) && ! empty( $field['default'] ) && ! empty( $field['no_empty'] )) {
 				$output = $field['default'];
 			}
 
@@ -581,7 +583,7 @@ class CTFW_Widget extends WP_Widget {
 
 		// Load template for current widget area, if template file exists
 		// e.g. widget-sermons.php becomes widget-sermons-footer.php for widget area named 'footer'
-		if ( ! empty( $args['id'] ) ) {
+		if (! empty( $args['id'] )) {
 
 			// Template filename having widget area ID
 			$widget_area_template_file = str_replace( '.php', '-' . $args['id'] . '.php', $default_template_file );
@@ -590,7 +592,7 @@ class CTFW_Widget extends WP_Widget {
 			// Example: widget-sermons-ctcom-home.php becomes widget-sermons-home.php
 			// Usage: add_theme_support( 'ctfw-widget-template-no-prefix', 'ctcom-' );
 			$remove_prefix_support = get_theme_support( 'ctfw-widget-template-no-prefix' );
-			if ( ! empty( $remove_prefix_support[0] ) ) {
+			if (! empty( $remove_prefix_support[0] )) {
 
 				// Prefix to remove
 				$prefix = $remove_prefix_support[0];
@@ -610,10 +612,10 @@ class CTFW_Widget extends WP_Widget {
 		$template_files[] = $default_template_file;
 
 		// Loop templates to load highest priority existing
-		foreach ( $template_files as $template_file ) {
+		foreach ($template_files as $template_file) {
 
 			// Check if template exists
-			if ( $template_path = locate_template( CTFW_THEME_WIDGET_DIR . '/' . $template_file ) ) { // false if does not exist
+			if ($template_path = locate_template( CTFW_THEME_WIDGET_DIR . '/' . $template_file )) { // false if does not exist
 
 				// Sanitize widget instance (field values) before loading template
 				$instance = $this->ctfw_sanitize( $instance );
