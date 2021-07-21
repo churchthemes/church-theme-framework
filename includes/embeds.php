@@ -123,7 +123,7 @@ function ctfw_embed_code( $content ) {
 
 	// Use video media item's featured image in shortcode like video block does.
 	// Only for WP 4.4+ (2015) and on [video] shortcode not already having poster attribute.
-	if (function_exists( 'get_the_post_thumbnail_url' ) && preg_match( '/^\[video /', $embed_code ) && ! preg_match( '/^\poster="/', $embed_code )) {
+	if (function_exists( 'get_the_post_thumbnail_url' ) && preg_match( '/^\[video /', $embed_code ) && ! preg_match( '/^poster="/', $embed_code )) {
 
 		$poster_url = '';
 
