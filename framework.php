@@ -30,12 +30,8 @@ $theme_data = is_child_theme() ? wp_get_theme( $theme_data->template ) : $theme_
 
 /**
  * Framework constants
- *
- * TODO: BEFORE NEXT RELEASE
- * - See HS 24102 to fix Jetpack Forms Block button disappearing
- * - Remove this TODO: note
  */
-if (! defined( 'CTFW_VERSION' ))			define( 'CTFW_VERSION', 			'2.8.1' ); // TODO: Before next release, see above
+if (! defined( 'CTFW_VERSION' ))			define( 'CTFW_VERSION', 			'2.8.1' );
 
 /**
  * Theme constants
