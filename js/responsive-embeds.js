@@ -26,7 +26,7 @@ ctfw_embed_fitvids_selectors = [
 	"iframe[src*='viddler.com']",
 	"iframe[src*='rd.io']",
 	"iframe[src*='rdio.com']",
-	"iframe[src*='spotify.com']",
+	//"iframe[src*='spotify.com']", // has issues, not needed (see https://dev.churchthemes.local/exodus/sermons/tes/)
 	"iframe[src*='soundcloud.com']:not([width$='%'])", // Jetpack soundcloud shortcode is already responsive with %, so exclude
 	"iframe[src*='snd.sc']",
 	"iframe[src*='livestream.com']",
