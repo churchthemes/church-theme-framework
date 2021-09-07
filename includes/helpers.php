@@ -13,7 +13,7 @@
  */
 
 // No direct access
-if ( ! defined( 'ABSPATH' ) ) exit;
+if (! defined( 'ABSPATH' )) exit;
 
 /*************************************************
  * URLs
@@ -49,7 +49,7 @@ function ctfw_is_url( $string ) {
 
 	$url_pattern = '/^(http(s*)):\/\//i';
 
-	if ( preg_match( $url_pattern, $string ) ) { // URL
+	if (preg_match( $url_pattern, $string )) { // URL
 		$bool = true;
 	}
 
@@ -68,7 +68,7 @@ function ctfw_is_local_url( $url ) {
 
 	$bool = false;
 
-	if ( ctfw_is_url( $url ) && preg_match( '/^' . preg_quote( home_url(), '/' ) . '/', $url ) ) {
+	if (ctfw_is_url( $url ) && preg_match( '/^' . preg_quote( home_url(), '/' ) . '/', $url )) {
 		$bool = true;
 	}
 
@@ -90,7 +90,7 @@ function ctfw_site_path() {
 
 	$parsed_url = parse_url( home_url( '/' ) );
 
-	if ( isset( $parsed_url['path'] ) ) {
+	if (isset( $parsed_url['path'] )) {
 		$path = $parsed_url['path'];
 	}
 
@@ -115,21 +115,21 @@ function ctfw_sanitize_url_list( $urls, $allowed_strings = array() ) {
 
 	// Convert to array
 	$urls_array = $urls;
-	if ( ! is_array( $urls ) ) {
+	if (! is_array( $urls )) {
 		$urls_array = explode( "\n", $urls_array );
 	}
 	$urls_array = (array) $urls_array; // in case one as string
 
 	// Loop each URL line to build sanitized array
 	$sanitized_urls = array();
-	foreach ( $urls_array as $key => $url ) {
+	foreach ($urls_array as $key => $url) {
 
 		// Remove whitespace from ends
 		$url = trim( $url );
 
 		// Sanitize URL
 		// Unless string is explicitly allowed, use as is (such as a shortcode)
-		if ( ! in_array( $url, $allowed_strings ) ) {
+		if (! in_array( $url, $allowed_strings )) {
 
 			$url = esc_url_raw( $url, array(
 				'http',
@@ -144,7 +144,7 @@ function ctfw_sanitize_url_list( $urls, $allowed_strings = array() ) {
 
 		// Add to new list
 		// May have been empty to begin with, after trim or after URL escaping
-		if ( ! empty( $url ) ) {
+		if (! empty( $url )) {
 			$sanitized_urls[] = $url;
 		}
 
@@ -159,7 +159,7 @@ function ctfw_sanitize_url_list( $urls, $allowed_strings = array() ) {
 }
 
 /*************************************************
- * EMAIL
+ * EMAIL & PHONE
  *************************************************/
 
 /**
@@ -178,6 +178,26 @@ function ctfw_email( $email ) {
 	$output .= '</a>';
 
 	return apply_filters( 'ctfw_email', $output, $email );
+
+}
+
+/**
+ * Detect if is phone number
+ *
+ * @since  2.9
+ * @param  string $phone Phone number
+ * @return string Linked email address
+ */
+function ctfw_is_phone_number( $phone ) {
+
+	$is = false;
+
+	// Only numbers, space, dot, parenthesis, dash
+	if (preg_match('/^[0-9 \.-\)\+\]]+$/', $phone)) {
+		$is = true;
+	}
+
+	return apply_filters( 'ctfw_is_phone_number', $is, $phone );
 
 }
 
@@ -202,13 +222,13 @@ function ctfw_array_merge_after_key( $original_array, $insert_array, $after_key 
 	$modified_array = array();
 
 	// loop original array items
-	foreach ( $original_array as $item_key => $item_value ) {
+	foreach ($original_array as $item_key => $item_value) {
 
 		// rebuild the array one item at a time
 		$modified_array[$item_key] = $item_value;
 
 		// insert array after specific key
-		if ( $item_key == $after_key ) {
+		if ($item_key == $after_key) {
 			$modified_array = array_merge( $modified_array, $insert_array );
 		}
 
@@ -231,7 +251,7 @@ function ctfw_print_array( $array, $return = false ) {
 
 	$result = '<pre>' . print_r( $array, true ) . '</pre>';
 
-	if ( empty($return) ) {
+	if (empty($return)) {
 		echo $result;
 	} else {
 		return $result;
@@ -260,10 +280,10 @@ function ctfw_shorten( $string, $max_chars ) {
 
 	// Use multibyte functions if available (helpful for non-English characters)
 	// Some hosts disable multibyte functions
-	if ( function_exists( 'mb_strlen' ) && function_exists( 'mb_substr' ) && function_exists( 'mb_strrpos' ) ) {
+	if (function_exists( 'mb_strlen' ) && function_exists( 'mb_substr' ) && function_exists( 'mb_strrpos' )) {
 
 		// Shorten to within X characters without cutting words in half
-		if ( $max_chars && mb_strlen( $string ) > $max_chars ) {
+		if ($max_chars && mb_strlen( $string ) > $max_chars) {
 
 			// Shorten
 			$haystack = mb_substr( $string, 0, $max_chars );
@@ -271,7 +291,7 @@ function ctfw_shorten( $string, $max_chars ) {
 			$processed_string = mb_substr( $string, 0, $length );
 
 			// Append ... if string was shortened
-			if ( mb_strlen( $processed_string ) < mb_strlen( $string ) ) {
+			if (mb_strlen( $processed_string ) < mb_strlen( $string )) {
 				/* translators: ... after shortened string */
 				$processed_string .= _x( '&hellip;', 'shortened text', 'church-theme-framework' );
 			}
@@ -284,7 +304,7 @@ function ctfw_shorten( $string, $max_chars ) {
 	else {
 
 		// Shorten to within X characters without cutting words in half
-		if ( $max_chars && strlen( $string ) > $max_chars ) {
+		if ($max_chars && strlen( $string ) > $max_chars) {
 
 			// Shorten
 			$haystack = substr( $string, 0, $max_chars );
@@ -292,7 +312,7 @@ function ctfw_shorten( $string, $max_chars ) {
 			$processed_string = substr( $string, 0, $length );
 
 			// Append ... if string was shortened
-			if ( strlen( $processed_string ) < strlen( $string ) ) {
+			if (strlen( $processed_string ) < strlen( $string )) {
 				/* translators: ... after shortened string */
 				$processed_string .= _x( '&hellip;', 'shortened text', 'church-theme-framework' );
 			}
@@ -302,7 +322,7 @@ function ctfw_shorten( $string, $max_chars ) {
 	}
 
 	// Use original string if none shortened
-	if ( empty( $processed_string ) ) {
+	if (empty( $processed_string )) {
 		$processed_string = $string;
 	}
 
@@ -324,7 +344,7 @@ function ctfw_one_line( $string ) {
 
 	$one_line = $string;
 
-	if ( $string ) {
+	if ($string) {
 		$one_line = strip_tags( $string ); // remove HTML
 		$one_line = preg_replace( '/\r\n|\n|\r/', ', ', $one_line ); // replace line breaks with commas
 		$one_line = trim( $one_line ); // remove whitespace
@@ -398,23 +418,23 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 	$abbreviated_date_format = $date_format;
 
 	// Abbreviate given format based on arguments
-	switch( $date_format ) {
+	switch($date_format) {
 
  		// January 1, 2017
 		case 'F j, Y':
 
 			// Jan 1
-			if ( $abbreviate_month && $remove_year ) {
+			if ($abbreviate_month && $remove_year) {
 				$abbreviated_date_format = 'M j';
 			}
 
 			// Jan 1, 2017
-			elseif ( $abbreviate_month ) {
+			elseif ($abbreviate_month) {
 				$abbreviated_date_format = 'M j, Y';
 			}
 
 			// January 1
-			elseif ( $remove_year ) {
+			elseif ($remove_year) {
 				$abbreviated_date_format = 'F j, Y';
 			}
 
@@ -424,7 +444,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		case 'M j, Y':
 
 			// Jan 1
-			if ( $remove_year ) {
+			if ($remove_year) {
 				$abbreviated_date_format = 'M j';
 			}
 
@@ -434,17 +454,17 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		case 'F jS, Y':
 
 			// Jan 1st
-			if ( $abbreviate_month && $remove_year ) {
+			if ($abbreviate_month && $remove_year) {
 				$abbreviated_date_format = 'M jS';
 			}
 
 			// Jan 1st, 2017
-			elseif ( $abbreviate_month ) {
+			elseif ($abbreviate_month) {
 				$abbreviated_date_format = 'M jS, Y';
 			}
 
 			// January 1st
-			elseif ( $remove_year ) {
+			elseif ($remove_year) {
 				$abbreviated_date_format = 'F jS';
 			}
 
@@ -454,7 +474,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		case 'M jS, Y':
 
 			// Jan 1st
-			if ( $remove_year ) {
+			if ($remove_year) {
 				$abbreviated_date_format = 'M jS';
 			}
 
@@ -464,17 +484,17 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		case 'j F, Y':
 
 			// 1 Jan
-			if ( $abbreviate_month && $remove_year ) {
+			if ($abbreviate_month && $remove_year) {
 				$abbreviated_date_format = 'j M';
 			}
 
 			// 1 Jan, 2017
-			elseif ( $abbreviate_month ) {
+			elseif ($abbreviate_month) {
 				$abbreviated_date_format = 'j M, Y';
 			}
 
 			// 1 January
-			elseif ( $remove_year ) {
+			elseif ($remove_year) {
 				$abbreviated_date_format = 'j F';
 			}
 
@@ -484,7 +504,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		case 'j M, Y':
 
 			// 1 Jan
-			if ( $remove_year ) {
+			if ($remove_year) {
 				$abbreviated_date_format = 'j M';
 			}
 
@@ -494,17 +514,17 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		case 'jS F, Y':
 
 			// 1st Jan
-			if ( $abbreviate_month && $remove_year ) {
+			if ($abbreviate_month && $remove_year) {
 				$abbreviated_date_format = 'jS M';
 			}
 
 			// 1st Jan, 2017
-			elseif ( $abbreviate_month ) {
+			elseif ($abbreviate_month) {
 				$abbreviated_date_format = 'jS M, Y';
 			}
 
 			// 1st January
-			elseif ( $remove_year ) {
+			elseif ($remove_year) {
 				$abbreviated_date_format = 'jS F';
 			}
 
@@ -513,7 +533,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
  		// 1st Jan, 2017
 		case 'jS M, Y':
 
-			if ( $remove_year ) {
+			if ($remove_year) {
 				$abbreviated_date_format = 'jS M';
 			}
 
@@ -523,17 +543,17 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		case 'F j Y':
 
 			// Jan 1
-			if ( $abbreviate_month && $remove_year ) {
+			if ($abbreviate_month && $remove_year) {
 				$abbreviated_date_format = 'M j';
 			}
 
 			// Jan 1 2017
-			elseif ( $abbreviate_month ) {
+			elseif ($abbreviate_month) {
 				$abbreviated_date_format = 'M j Y';
 			}
 
 			// January 1
-			elseif ( $remove_year ) {
+			elseif ($remove_year) {
 				$abbreviated_date_format = 'F j Y';
 			}
 
@@ -543,7 +563,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		case 'M j Y':
 
 			// Jan 1
-			if ( $remove_year ) {
+			if ($remove_year) {
 				$abbreviated_date_format = 'M j';
 			}
 
@@ -553,17 +573,17 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		case 'F jS Y':
 
 			// Jan 1st
-			if ( $abbreviate_month && $remove_year ) {
+			if ($abbreviate_month && $remove_year) {
 				$abbreviated_date_format = 'M jS';
 			}
 
 			// Jan 1st 2017
-			elseif ( $abbreviate_month ) {
+			elseif ($abbreviate_month) {
 				$abbreviated_date_format = 'M jS Y';
 			}
 
 			// January 1st
-			elseif ( $remove_year ) {
+			elseif ($remove_year) {
 				$abbreviated_date_format = 'F jS';
 			}
 
@@ -573,7 +593,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		case 'M jS Y':
 
 			// Jan 1st
-			if ( $remove_year ) {
+			if ($remove_year) {
 				$abbreviated_date_format = 'M jS';
 			}
 
@@ -583,17 +603,17 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		case 'j F Y':
 
 			// 1 Jan
-			if ( $abbreviate_month && $remove_year ) {
+			if ($abbreviate_month && $remove_year) {
 				$abbreviated_date_format = 'j M';
 			}
 
 			// 1 Jan 2017
-			elseif ( $abbreviate_month ) {
+			elseif ($abbreviate_month) {
 				$abbreviated_date_format = 'j M Y';
 			}
 
 			// 1 January
-			elseif ( $remove_year ) {
+			elseif ($remove_year) {
 				$abbreviated_date_format = 'j F';
 			}
 
@@ -603,7 +623,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		case 'j M Y':
 
 			// 1 Jan
-			if ( $remove_year ) {
+			if ($remove_year) {
 				$abbreviated_date_format = 'j M';
 			}
 
@@ -613,17 +633,17 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		case 'jS F Y':
 
 			// 1st Jan
-			if ( $abbreviate_month && $remove_year ) {
+			if ($abbreviate_month && $remove_year) {
 				$abbreviated_date_format = 'jS M';
 			}
 
 			// 1st Jan 2017
-			elseif ( $abbreviate_month ) {
+			elseif ($abbreviate_month) {
 				$abbreviated_date_format = 'jS M Y';
 			}
 
 			// 1st January
-			elseif ( $remove_year ) {
+			elseif ($remove_year) {
 				$abbreviated_date_format = 'jS F';
 			}
 
@@ -632,7 +652,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
  		// 1st Jan 2017
 		case 'jS M Y':
 
-			if ( $remove_year ) {
+			if ($remove_year) {
 				$abbreviated_date_format = 'jS M';
 			}
 
@@ -641,7 +661,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		// 2017/06/01
 		case 'Y/m/d':
 
-			if ( $remove_year ) {
+			if ($remove_year) {
 				$abbreviated_date_format = 'm/d';
 			}
 
@@ -650,7 +670,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		// 2017-06-01 = 06-01
 		case 'Y-m-d':
 
-			if ( $remove_year ) {
+			if ($remove_year) {
 				$abbreviated_date_format = 'm-d';
 			}
 
@@ -659,7 +679,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		// 06/01/2017 = 06/01
 		case 'm/d/Y':
 
-			if ( $remove_year ) {
+			if ($remove_year) {
 				$abbreviated_date_format = 'm/d';
 			}
 
@@ -668,7 +688,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		// 06-01-2017 = 06-01
 		case 'm-d-Y':
 
-			if ( $remove_year ) {
+			if ($remove_year) {
 				$abbreviated_date_format = 'm-d';
 			}
 
@@ -677,7 +697,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		// 01/06/2017 = 01/06
 		case 'd/m/Y':
 
-			if ( $remove_year ) {
+			if ($remove_year) {
 				$abbreviated_date_format = 'd/m';
 			}
 
@@ -686,7 +706,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		// 01-06-2017 = 01-06
 		case 'd-m-Y':
 
-			if ( $remove_year ) {
+			if ($remove_year) {
 				$abbreviated_date_format = 'd-m';
 			}
 
@@ -695,7 +715,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		// 1/6/2017 = 1/6
 		case 'j/n/Y':
 
-			if ( $remove_year ) {
+			if ($remove_year) {
 				$abbreviated_date_format = 'j/n';
 			}
 
@@ -704,7 +724,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		// 1-6-2017 = 1-6
 		case 'j-n-Y':
 
-			if ( $remove_year ) {
+			if ($remove_year) {
 				$abbreviated_date_format = 'j-n';
 			}
 
@@ -713,7 +733,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
  		// 2017/6/31 = 6/31
 		case 'Y/n/j':
 
-			if ( $remove_year ) {
+			if ($remove_year) {
 				$abbreviated_date_format = 'n/j';
 			}
 
@@ -722,7 +742,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
  		// 2017-6-31 = 6-31
 		case 'Y-n-j':
 
-			if ( $remove_year ) {
+			if ($remove_year) {
 				$abbreviated_date_format = 'n-j';
 			}
 
@@ -731,7 +751,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		// 6/31/2017 = 6/31
 		case 'n/j/Y':
 
-			if ( $remove_year ) {
+			if ($remove_year) {
 				$abbreviated_date_format = 'n/j';
 			}
 
@@ -740,7 +760,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		// 6-31-2017 = 6-31
 		case 'n-j-Y':
 
-			if ( $remove_year ) {
+			if ($remove_year) {
 				$abbreviated_date_format = 'n-j';
 			}
 
@@ -750,7 +770,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		// 31/6/2017 = 31/6
 		case 'j/n/Y':
 
-			if ( $remove_year ) {
+			if ($remove_year) {
 				$abbreviated_date_format = 'j/n';
 			}
 
@@ -759,7 +779,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 		// 31-6-2017 = 31-6
 		case 'j-n-Y':
 
-			if ( $remove_year ) {
+			if ($remove_year) {
 				$abbreviated_date_format = 'j-n';
 			}
 
@@ -787,25 +807,25 @@ function ctfw_abbreviate_date_format( $args = array() ) {
  */
 function ctfw_hex_to_rgb( $hex_color ) {
 
-	if ( substr( trim( $hex_color ), 0, 1) === '#' ) {
+	if (substr( trim( $hex_color ), 0, 1) === '#') {
 		$hex_color  = substr( $hex_color , 1 );
 	}
 
-	if ( ( strlen( $hex_color ) < 2 ) || ( strlen( $hex_color ) > 6 ) ) {
+	if (( strlen( $hex_color ) < 2 ) || ( strlen( $hex_color ) > 6 )) {
 		return false;
 	}
 
 	$values = str_split( $hex_color );
 
-	if ( strlen( $hex_color ) === 2 ) {
+	if (strlen( $hex_color ) === 2) {
 		$r = intval($values[0] . $values[1], 16 );
 		$g = $r;
 		$b = $r;
-	} else if ( strlen( $hex_color ) === 3 ) {
+	} else if (strlen( $hex_color ) === 3) {
 		$r = intval( $values[0], 16 );
 		$g = intval( $values[1], 16 );
 		$b = intval( $values[2], 16 );
-	} else if ( strlen( $hex_color ) === 6 ) {
+	} else if (strlen( $hex_color ) === 6) {
 		$r = intval( $values[0] . $values[1], 16 );
 		$g = intval( $values[2] . $values[3], 16 );
 		$b = intval( $values[4] . $values[5], 16 );
