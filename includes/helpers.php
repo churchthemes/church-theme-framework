@@ -192,12 +192,49 @@ function ctfw_is_phone_number( $phone ) {
 
 	$is = false;
 
-	// Only numbers, space, dot, parenthesis, dash
-	if (preg_match('/^[0-9 \.-\)\+\]]+$/', $phone)) {
+	// Get as numbers only so can check length
+	$numbers = preg_replace('/[^0-9]/', '', $phone);
+
+	// If it starts with 1, remove it
+	if (11 === strlen($numbers)) {
+		$numbers = preg_replace('/^1/', '', $numbers);
+	}
+
+	// 10 digits should remain
+	if (10 === strlen($numbers)) {
 		$is = true;
 	}
 
 	return apply_filters( 'ctfw_is_phone_number', $is, $phone );
+
+}
+
+
+/**
+ * Link phone number if is phone number
+ *
+ * @since  2.9
+ * @param  string $phone Phone number
+ * @return string Linked phone number
+ */
+function ctfw_format_phone( $phone ) {
+
+	$phone_output = nl2br( esc_html( wptexturize( $phone ) ) );
+
+	// Must be detected as phone number to link
+	if (ctfw_is_phone_number( $phone_output )) {
+
+		// Numbers and + for country code only
+		$phone_plain = preg_replace( '/[^0-9+]+/', '', $phone_output );
+
+		// Link it
+		$phone_output = '<a href="tel:' . esc_attr($phone_plain) . '">' . wptexturize( $phone_output ) . '</a>';
+
+	} else {
+		$phone_output = nl2br( esc_html( wptexturize( $phone_output ) ) );
+	}
+
+	return apply_filters( 'ctfw_format_phone', $phone_output, $phone );
 
 }
 
