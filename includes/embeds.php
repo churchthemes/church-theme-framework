@@ -188,10 +188,12 @@ function ctfw_responsive_embeds_enqueue_scripts() {
 		wp_enqueue_script( 'fitvids', get_theme_file_uri( CTFW_JS_DIR . '/jquery.fitvids.js' ), array( 'jquery' ), CTFW_THEME_VERSION ); // bust cache on theme update
 
 		// Responsive embeds script
-		wp_enqueue_script( 'ctfw-responsive-embeds', get_theme_file_uri( CTFW_JS_DIR . '/responsive-embeds.js' ), array( 'fitvids' ), CTFW_THEME_VERSION ); // bust cache on theme update
-		wp_localize_script( 'ctfw-responsive-embeds', 'ctfw_responsive_embeds', array(
-			'wp_responsive_embeds' => current_theme_supports( 'responsive-embeds' ),
-		) );
+		if (! preg_match('/^sfwd/', get_post_type())) { // Not on LearnDash post types (HS 24879)
+			wp_enqueue_script( 'ctfw-responsive-embeds', get_theme_file_uri( CTFW_JS_DIR . '/responsive-embeds.js' ), array( 'fitvids' ), CTFW_THEME_VERSION ); // bust cache on theme update
+			wp_localize_script( 'ctfw-responsive-embeds', 'ctfw_responsive_embeds', array(
+				'wp_responsive_embeds' => current_theme_supports( 'responsive-embeds' ),
+			) );
+		}
 
 	}
 
