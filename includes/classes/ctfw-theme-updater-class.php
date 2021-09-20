@@ -119,7 +119,7 @@ class CTFW_EDD_Theme_Updater {
 	function theme_update_transient( $value ) {
 		$update_data = $this->check_for_update();
 		if ($update_data) {
-			if (! isset($value)) {
+			if (empty($value)) {
 				$value = new stdClass();
 			}
 			$value->response[ $this->theme_slug ] = $update_data;
