@@ -68,7 +68,14 @@ function ctfw_is_local_url( $url ) {
 
 	$bool = false;
 
-	if (ctfw_is_url( $url ) && preg_match( '/^' . preg_quote( home_url(), '/' ) . '/', $url )) {
+	// Remove protocols (site is same regargless of http/https)
+	$search = ['http://', 'https://'];
+	$replace = ['', ''];
+	$url_no_protocol = str_replace($search, $replace, $url);
+	$home_url_no_protocol = str_replace($search, $replace, home_url());
+
+	// Check if URL has the home URL in it
+	if (ctfw_is_url( $url ) && preg_match( '/^' . preg_quote( $home_url_no_protocol, '/' ) . '/', $url_no_protocol )) {
 		$bool = true;
 	}
 
