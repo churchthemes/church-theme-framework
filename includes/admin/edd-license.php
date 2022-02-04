@@ -149,6 +149,29 @@ function ctfw_edd_license_updater() {
 
 add_action( 'after_setup_theme', 'ctfw_edd_license_updater', 99 ); // after any use of add_theme_support() at 10
 
+/**
+ * Style update nag
+ *
+ * This adds bottom margin to update nag so it is not flush with theme thumbnails in Appearance > Themes.
+ *
+ * @since 2.9.3
+ * @return null
+ */
+function ctfw_style_update_nag() {
+
+	?>
+
+	<style type="text/css">
+	#update-nag {
+		margin-bottom: 25px;
+	}
+	</style>
+
+	<?php
+
+}
+
+add_action('admin_head', 'ctfw_style_update_nag');
 
 /**
  * Prevent updating theme with another having same name on WordPress.org
