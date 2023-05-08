@@ -89,8 +89,8 @@ function ctfw_google_map( $options = false ) {
 
 		// Enqueue map scripts to handle Google Maps init
 		// this way the scripts are loaded only when feature is used, not on every page
-		wp_enqueue_script( 'google-maps', '//maps.googleapis.com/maps/api/js?key=' . ctfw_google_maps_api_key() . '&callback=Function.prototype', false, null ); // no version, generic name to share w/plugins
-		wp_enqueue_script( 'ctfw-maps', get_theme_file_uri( CTFW_JS_DIR . '/maps.js' ), array( 'jquery', 'google-maps' ), CTFW_VERSION ); // bust cache on theme update
+		wp_enqueue_script( 'ctfw-maps', get_theme_file_uri( CTFW_JS_DIR . '/maps.js' ), array( 'jquery' ), CTFW_VERSION ); // bust cache on theme update
+		wp_enqueue_script( 'google-maps', '//maps.googleapis.com/maps/api/js?key=' . ctfw_google_maps_api_key() . '&callback=ctfw_load_maps', array( 'ctfw-maps' ), null ); // no version, generic name to share w/plugins
 
 	} elseif ( ! empty( $options['show_error'] ) ) {
 		$html = __( '<p><b>Google Map Error:</b> <i>latitude</i> and <i>longitude</i> attributes are required. See documentation for help.</p>', 'church-theme-framework' );

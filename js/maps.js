@@ -2,26 +2,26 @@
  * Maps JavaScript
  */
 
-jQuery(document).ready(function ($) {
+function ctfw_load_maps() {
 
 	// Loop map elements
-	$('.ctfw-google-map').each(function () {
+	jQuery('.ctfw-google-map').each(function () {
 
 		var id, lat, lng, type, zoom, latlng, map_type, map, marker, marker_image, marker_image_size;
 
 		// Get map data from element attributes
-		id = $(this).attr('id');
-		lat = $(this).data('ctfw-map-lat');
-		lng = $(this).data('ctfw-map-lng');
-		type = $(this).data('ctfw-map-type');
-		zoom = $(this).data('ctfw-map-zoom');
-		marker = $(this).data('ctfw-map-marker');
-		center_resize = $(this).data('ctfw-map-center-resize');
-		callback_loaded = $(this).data('ctfw-map-callback-loaded');
-		callback_resize = $(this).data('ctfw-map-callback-resize');
+		id = jQuery(this).attr('id');
+		lat = jQuery(this).data('ctfw-map-lat');
+		lng = jQuery(this).data('ctfw-map-lng');
+		type = jQuery(this).data('ctfw-map-type');
+		zoom = jQuery(this).data('ctfw-map-zoom');
+		marker = jQuery(this).data('ctfw-map-marker');
+		center_resize = jQuery(this).data('ctfw-map-center-resize');
+		callback_loaded = jQuery(this).data('ctfw-map-callback-loaded');
+		callback_resize = jQuery(this).data('ctfw-map-callback-resize');
 
 		// Map being used? Have coordinates?
-		if ($('#' + id).length && lat && lng) {
+		if (jQuery('#' + id).length && lat && lng) {
 
 			// Location Latitude / Longitude
 			latlng = new google.maps.LatLng(lat, lng);
@@ -99,9 +99,9 @@ jQuery(document).ready(function ($) {
 
 			// Store map object in data attribute so can manipulate the instance later
 			// Useful for adding custom styles, panning, etc.
-			// var map = $( 'element' ).data( 'ctfw-map' );
-			$(this).data('ctfw-map', map);
-			$(this).data('ctfw-map-latlng', latlng);
+			// var map = jQuery( 'element' ).data( 'ctfw-map' );
+			jQuery(this).data('ctfw-map', map);
+			jQuery(this).data('ctfw-map-latlng', latlng);
 
 			// After load callback
 			if (callback_loaded) {
@@ -112,7 +112,7 @@ jQuery(document).ready(function ($) {
 			if (center_resize || callback_resize) {
 
 				//google.maps.event.addDomListener( window, 'resize', function() {
-				$(window).on('resize', function () {
+				jQuery(window).on('resize', function () {
 
 					// Centered latitude/longitude on window resize
 					if (center_resize) {
@@ -137,4 +137,4 @@ jQuery(document).ready(function ($) {
 
 	});
 
-});
+}
