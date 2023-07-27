@@ -100,7 +100,12 @@ function ctfw_load_maps() {
 			// Trigger browser resize event to correct misplaced marker on Chrome
 			setTimeout(function () {
 				window.dispatchEvent(new Event('resize'));
+				console.log('resize')
 			}, 100);
+			setTimeout(function () {
+				window.dispatchEvent(new Event('resize'));
+				console.log('resize 2')
+			}, 1000); // and a second later just in case
 
 			// Store map object in data attribute so can manipulate the instance later
 			// Useful for adding custom styles, panning, etc.
