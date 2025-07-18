@@ -9,7 +9,7 @@
  * Add support for this framework feature like this:
  *
  *		add_theme_support( 'ctfw-edd-license', array(
- *  		'store_url'					=> 'yourstore.com',					// URL of store running EDD with Software Licensing extension
+ *  		'remote_api_url'			=> 'yourstore.com',					// URL of store running EDD with Software Licensing extension
  *			'updates'					=> true,							// default true; enable automatic updates
  *			'options_page'				=> true,							// default true; provide options page for license entry/activaton
  *			'options_page_message'		=> '',								// optional message to show on options page
@@ -66,8 +66,8 @@ function ctfw_edd_license_config($arg = false)
 	}
 
 	// Use defaults or values passed in via theme support.
-	$config = wp_parse_args($config, array(
-		'store_url'						=> '',						// URL of store running EDD with Software Licensing extension
+	$config = wp_parse_args($config, array( // see support-framework.php for values
+		'remote_api_url'				=> '',						// URL of store running EDD with Software Licensing extension (or proxy)
 		'version'						=> CTFW_THEME_VERSION,		// default is to auto-determine from theme
 		'license'						=> ctfw_edd_license_key(),	// default is to use '{theme}_license_key' option
 		'item_name'						=> CTFW_THEME_NAME,			// default is to use theme name; must match download name in EDD
@@ -134,7 +134,7 @@ function ctfw_edd_license_updater()
 		// Activate updates.
 		new CTFW_EDD_Theme_Updater(
 			array(
-				'remote_api_url' => ctfw_edd_license_config('store_url'), // Store URL running EDD with Software Licensing extension.
+				'remote_api_url' => ctfw_edd_license_config('remote_api_url'), // See support-framework.php (proxied to avoid firewall blocks)
 				'version'        => ctfw_edd_license_config('version'), // Current version of theme.
 				'license'        => ctfw_edd_license_key(), // The license key entered by user.
 				'item_name'      => ctfw_edd_license_config('item_name'), // The name of this theme.
@@ -1014,7 +1014,7 @@ function ctfw_edd_license_action($action)
 				);
 
 				// Call the API
-				$response = wp_remote_post(esc_url_raw(add_query_arg($api_params, ctfw_edd_license_config('store_url'))), array('timeout' => 15, 'sslverify' => false));
+				$response = wp_remote_post(esc_url_raw(add_query_arg($api_params, ctfw_edd_license_config('remote_api_url'))), array('timeout' => 15, 'sslverify' => false));
 
 				// Got a valid response?
 				if (! is_wp_error($response)) {
