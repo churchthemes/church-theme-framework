@@ -134,7 +134,7 @@ function ctfw_edd_license_updater()
 		// Activate updates.
 		new CTFW_EDD_Theme_Updater(
 			array(
-				'remote_api_url' => ctfw_edd_license_config('remote_api_url'), // See support-framework.php (proxied to avoid firewall blocks)
+				'remote_api_url' => ctfw_edd_license_config('remote_api_url'), // See support-framework.php (proxied to avoid IP blocks)
 				'version'        => ctfw_edd_license_config('version'), // Current version of theme.
 				'license'        => ctfw_edd_license_key(), // The license key entered by user.
 				'item_name'      => ctfw_edd_license_config('item_name'), // The name of this theme.
