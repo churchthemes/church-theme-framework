@@ -880,29 +880,3 @@ function ctfw_hex_to_rgb($hex_color)
 
 	return $rgb;
 }
-
-/**
- * Random string generator
- *
- * Generate random string of X length
- *
- * @since 2.9.5
- * @param  int $length Length of the random string
- * @return string Random hexadecimal string
- */
-function ctfw_random_string($length = 16)
-{
-
-	// Determine the number of bytes needed for the desired string length
-	// Each byte generates 2 hexadecimal characters
-	$bytes = ceil($length / 2);
-
-	// Generate cryptographically secure random bytes
-	$randomBytes = random_bytes($bytes);
-
-	// Convert the bytes to a hexadecimal string
-	$hexString = bin2hex($randomBytes);
-
-	// Return a substring of the desired length
-	return substr($hexString, 0, $length);
-}

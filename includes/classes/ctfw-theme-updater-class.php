@@ -36,7 +36,7 @@ class CTFW_EDD_Theme_Updater
 	{
 
 		$defaults = array(
-			'remote_api_url' => 'https://license.churchthemes.link', // Reverse proxy (Cloudflare worker) to bypass IP block lists (Immunify360 and Wordfence)
+			'remote_api_url' => '',
 			'request_data'   => array(),
 			'theme_slug'     => get_template(), // use get_stylesheet() for child theme updates
 			'item_name'      => '',

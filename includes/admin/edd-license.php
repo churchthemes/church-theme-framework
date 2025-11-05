@@ -132,10 +132,9 @@ function ctfw_edd_license_updater()
 		$strings['update-available'] = str_replace('%3$s', $changelog_url, $strings['update-available']);
 
 		// Activate updates
-		$remote_api_url = ctfw_edd_license_config('remote_api_url') . '&no_cache=' . ctfw_random_string();
 		new CTFW_EDD_Theme_Updater(
 			[
-				'remote_api_url' => $remote_api_url, // See support-framework.php (proxied to avoid IP blocks)
+				'remote_api_url' => ctfw_edd_license_config('remote_api_url'), // See support-framework.php (proxied to avoid IP blocks)
 				'version'        => ctfw_edd_license_config('version'), // Current version of theme.
 				'license'        => ctfw_edd_license_key(), // The license key entered by user.
 				'item_name'      => ctfw_edd_license_config('item_name'), // The name of this theme.
@@ -1006,17 +1005,19 @@ function ctfw_edd_license_action($action)
 			// Have license
 			if ($license) {
 
-				// Data to send in API request
-				$api_params = array(
-					'edd_action'	=> $action,
-					'license' 		=> $license,
-					'item_name'		=> urlencode(ctfw_edd_license_config('item_name')), // name of download in EDD
-					'url'			=> urlencode(home_url()) // URL of this site activated for license
-				);
-
-				// Call the API
-				$remote_api_url = ctfw_edd_license_config('remote_api_url') . '&no_cache=' . ctfw_random_string();
-				$response = wp_remote_post(esc_url_raw(add_query_arg($api_params, $remote_api_url)), array('timeout' => 15, 'sslverify' => false));
+				$remote_api_url = ctfw_edd_license_config('remote_api_url');
+				$remote_api_url = trailingslashit($remote_api_url);
+				$response = wp_remote_post($remote_api_url, [
+					'body' => [
+						'edd_action' => $action,
+						'license' => $license,
+						'item_name' => ctfw_edd_license_config('item_name'),
+						'url' => home_url(),
+						'no_cache' => md5(microtime(true)),
+					],
+					'timeout' => 15,
+					'sslverify' => false, // allow for self-signed certificates
+				]);
 
 				// Got a valid response?
 				if (! is_wp_error($response)) {
