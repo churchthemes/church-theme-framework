@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Theme updater class.
  *
@@ -12,7 +13,8 @@
  * @version 1.0.3
  */
 
-class CTFW_EDD_Theme_Updater {
+class CTFW_EDD_Theme_Updater
+{
 
 	private $remote_api_url;
 	private $request_data;
@@ -30,10 +32,11 @@ class CTFW_EDD_Theme_Updater {
 	 * @param array $args    Array of arguments from the theme requesting an update check
 	 * @param array $strings Strings for the update process
 	 */
-	function __construct( $args = array(), $strings = array() ) {
+	function __construct($args = array(), $strings = array())
+	{
 
 		$defaults = array(
-			'remote_api_url' => 'http://easydigitaldownloads.com',
+			'remote_api_url' => 'https://license.churchthemes.link', // Reverse proxy (Cloudflare worker) to bypass IP block lists (Immunify360 and Wordfence)
 			'request_data'   => array(),
 			'theme_slug'     => get_template(), // use get_stylesheet() for child theme updates
 			'item_name'      => '',
@@ -43,23 +46,23 @@ class CTFW_EDD_Theme_Updater {
 			'beta'           => false,
 		);
 
-		$args = wp_parse_args( $args, $defaults );
+		$args = wp_parse_args($args, $defaults);
 
 		$this->license        = $args['license'];
 		$this->item_name      = $args['item_name'];
 		$this->version        = $args['version'];
-		$this->theme_slug     = sanitize_key( $args['theme_slug'] );
+		$this->theme_slug     = sanitize_key($args['theme_slug']);
 		$this->author         = $args['author'];
 		$this->beta           = $args['beta'];
 		$this->remote_api_url = $args['remote_api_url'];
 		$this->response_key   = $this->theme_slug . '-' . $this->beta . '-update-response';
 		$this->strings        = $strings;
 
-		add_filter( 'site_transient_update_themes',        array( $this, 'theme_update_transient' ) );
-		add_filter( 'delete_site_transient_update_themes', array( $this, 'delete_theme_update_transient' ) );
-		add_action( 'load-update-core.php',                array( $this, 'delete_theme_update_transient' ) );
-		add_action( 'load-themes.php',                     array( $this, 'delete_theme_update_transient' ) );
-		add_action( 'load-themes.php',                     array( $this, 'load_themes_screen' ) );
+		add_filter('site_transient_update_themes',        array($this, 'theme_update_transient'));
+		add_filter('delete_site_transient_update_themes', array($this, 'delete_theme_update_transient'));
+		add_action('load-update-core.php',                array($this, 'delete_theme_update_transient'));
+		add_action('load-themes.php',                     array($this, 'delete_theme_update_transient'));
+		add_action('load-themes.php',                     array($this, 'load_themes_screen'));
 	}
 
 	/**
@@ -67,9 +70,10 @@ class CTFW_EDD_Theme_Updater {
 	 *
 	 * @return void
 	 */
-	function load_themes_screen() {
+	function load_themes_screen()
+	{
 		add_thickbox();
-		add_action( 'admin_notices', array( $this, 'update_nag' ) );
+		add_action('admin_notices', array($this, 'update_nag'));
 	}
 
 	/**
@@ -77,34 +81,35 @@ class CTFW_EDD_Theme_Updater {
 	 *
 	 * @return void
 	 */
-	function update_nag() {
+	function update_nag()
+	{
 
 		$strings      = $this->strings;
-		$theme        = wp_get_theme( $this->theme_slug );
-		$api_response = get_transient( $this->response_key );
+		$theme        = wp_get_theme($this->theme_slug);
+		$api_response = get_transient($this->response_key);
 
 		if (false === $api_response) {
 			return;
 		}
 
-		$update_url     = wp_nonce_url( 'update.php?action=upgrade-theme&amp;theme=' . urlencode( $this->theme_slug ), 'upgrade-theme_' . $this->theme_slug );
-		$update_onclick = ' onclick="if ( confirm(\'' . esc_js( $strings['update-notice'] ) . '\') ) {return true;}return false;"';
+		$update_url     = wp_nonce_url('update.php?action=upgrade-theme&amp;theme=' . urlencode($this->theme_slug), 'upgrade-theme_' . $this->theme_slug);
+		$update_onclick = ' onclick="if ( confirm(\'' . esc_js($strings['update-notice']) . '\') ) {return true;}return false;"';
 
-		if (version_compare( $this->version, $api_response->new_version, '<' )) {
+		if (version_compare($this->version, $api_response->new_version, '<')) {
 
 			echo '<div id="update-nag" class="notice notice-warning">';
 			printf(
 				$strings['update-available'],
-				$theme->get( 'Name' ),
+				$theme->get('Name'),
 				$api_response->new_version,
 				'#TB_inline?width=640&amp;inlineId=' . $this->theme_slug . '_changelog',
-				$theme->get( 'Name' ),
+				$theme->get('Name'),
 				$update_url,
 				$update_onclick
 			);
 			echo '</div>';
 			echo '<div id="' . $this->theme_slug . '_' . 'changelog" style="display:none;">';
-			echo wpautop( $api_response->sections['changelog'] );
+			echo wpautop($api_response->sections['changelog']);
 			echo '</div>';
 		}
 	}
@@ -116,13 +121,14 @@ class CTFW_EDD_Theme_Updater {
 	 * @return array|boolean  If an update is available, returns the update parameters, if no update is needed returns false, if
 	 *                        the request fails returns false.
 	 */
-	function theme_update_transient( $value ) {
+	function theme_update_transient($value)
+	{
 		$update_data = $this->check_for_update();
 		if ($update_data) {
 			if (empty($value)) {
 				$value = new stdClass();
 			}
-			$value->response[ $this->theme_slug ] = $update_data;
+			$value->response[$this->theme_slug] = $update_data;
 		}
 		return $value;
 	}
@@ -132,8 +138,9 @@ class CTFW_EDD_Theme_Updater {
 	 *
 	 * @return void
 	 */
-	function delete_theme_update_transient() {
-		delete_transient( $this->response_key );
+	function delete_theme_update_transient()
+	{
+		delete_transient($this->response_key);
 	}
 
 	/**
@@ -142,9 +149,10 @@ class CTFW_EDD_Theme_Updater {
 	 * @return array|boolean  If an update is available, returns the update parameters, if no update is needed returns false, if
 	 *                        the request fails returns false.
 	 */
-	function check_for_update() {
+	function check_for_update()
+	{
 
-		$update_data = get_transient( $this->response_key );
+		$update_data = get_transient($this->response_key);
 
 		if (false === $update_data) {
 			$failed = false;
@@ -159,16 +167,16 @@ class CTFW_EDD_Theme_Updater {
 				'beta'       => $this->beta
 			);
 
-			$response = wp_remote_post( $this->remote_api_url, array( 'timeout' => 15, 'body' => $api_params ) );
+			$response = wp_remote_post($this->remote_api_url, array('timeout' => 15, 'body' => $api_params));
 
 			// Make sure the response was successful
-			if (is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response )) {
+			if (is_wp_error($response) || 200 != wp_remote_retrieve_response_code($response)) {
 				$failed = true;
 			}
 
-			$update_data = json_decode( wp_remote_retrieve_body( $response ) );
+			$update_data = json_decode(wp_remote_retrieve_body($response));
 
-			if (! is_object( $update_data )) {
+			if (! is_object($update_data)) {
 				$failed = true;
 			}
 
@@ -176,22 +184,21 @@ class CTFW_EDD_Theme_Updater {
 			if ($failed) {
 				$data = new stdClass();
 				$data->new_version = $this->version;
-				set_transient( $this->response_key, $data, strtotime( '+30 minutes', current_time( 'timestamp' ) ) );
+				set_transient($this->response_key, $data, strtotime('+30 minutes', current_time('timestamp')));
 				return false;
 			}
 
 			// If the status is 'ok', return the update arguments
 			if (! $failed) {
-				$update_data->sections = maybe_unserialize( $update_data->sections );
-				set_transient( $this->response_key, $update_data, strtotime( '+12 hours', current_time( 'timestamp' ) ) );
+				$update_data->sections = maybe_unserialize($update_data->sections);
+				set_transient($this->response_key, $update_data, strtotime('+12 hours', current_time('timestamp')));
 			}
 		}
 
-		if (version_compare( $this->version, $update_data->new_version, '>=' )) {
+		if (version_compare($this->version, $update_data->new_version, '>=')) {
 			return false;
 		}
 
 		return (array) $update_data;
 	}
-
 }

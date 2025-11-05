@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Helper Functions
  *
@@ -13,7 +14,7 @@
  */
 
 // No direct access
-if (! defined( 'ABSPATH' )) exit;
+if (! defined('ABSPATH')) exit;
 
 /*************************************************
  * URLs
@@ -28,12 +29,12 @@ if (! defined( 'ABSPATH' )) exit;
  * @since 0.9
  * @return string http or https protocol
  */
-function ctfw_current_protocol() {
+function ctfw_current_protocol()
+{
 
 	$protocol = is_ssl() ? 'https' : 'http';
 
-	return apply_filters( 'ctfw_current_protocol', $protocol );
-
+	return apply_filters('ctfw_current_protocol', $protocol);
 }
 
 /**
@@ -43,18 +44,18 @@ function ctfw_current_protocol() {
  * @param string $string String to check for URL format
  * @return bool True if string i=s URL
  */
-function ctfw_is_url( $string ) {
+function ctfw_is_url($string)
+{
 
 	$bool = false;
 
 	$url_pattern = '/^(http(s*)):\/\//i';
 
-	if (preg_match( $url_pattern, $string )) { // URL
+	if (preg_match($url_pattern, $string)) { // URL
 		$bool = true;
 	}
 
-	return apply_filters( 'ctfw_is_url', $bool, $string );
-
+	return apply_filters('ctfw_is_url', $bool, $string);
 }
 
 /**
@@ -64,7 +65,8 @@ function ctfw_is_url( $string ) {
  * @param string $url URL to test
  * @return bool True if URL is local
  */
-function ctfw_is_local_url( $url ) {
+function ctfw_is_local_url($url)
+{
 
 	$bool = false;
 
@@ -75,12 +77,11 @@ function ctfw_is_local_url( $url ) {
 	$home_url_no_protocol = str_replace($search, $replace, home_url());
 
 	// Check if URL has the home URL in it
-	if (ctfw_is_url( $url ) && preg_match( '/^' . preg_quote( $home_url_no_protocol, '/' ) . '/', $url_no_protocol )) {
+	if (ctfw_is_url($url) && preg_match('/^' . preg_quote($home_url_no_protocol, '/') . '/', $url_no_protocol)) {
 		$bool = true;
 	}
 
-	return apply_filters( 'ctfw_is_local_url', $bool, $url );
-
+	return apply_filters('ctfw_is_local_url', $bool, $url);
 }
 
 /**
@@ -91,18 +92,18 @@ function ctfw_is_local_url( $url ) {
  * @since 0.9
  * @return string Site path
  */
-function ctfw_site_path() {
+function ctfw_site_path()
+{
 
 	$path = '';
 
-	$parsed_url = parse_url( home_url( '/' ) );
+	$parsed_url = parse_url(home_url('/'));
 
-	if (isset( $parsed_url['path'] )) {
+	if (isset($parsed_url['path'])) {
 		$path = $parsed_url['path'];
 	}
 
-	return apply_filters( 'ctfw_site_path', $path );
-
+	return apply_filters('ctfw_site_path', $path);
 }
 
 /**
@@ -118,12 +119,13 @@ function ctfw_site_path() {
  * @param array Strings to always allow, such as shortcodes
  * @return string Sanitized list of URLs
  */
-function ctfw_sanitize_url_list( $urls, $allowed_strings = array() ) {
+function ctfw_sanitize_url_list($urls, $allowed_strings = array())
+{
 
 	// Convert to array
 	$urls_array = $urls;
-	if (! is_array( $urls )) {
-		$urls_array = explode( "\n", $urls_array );
+	if (! is_array($urls)) {
+		$urls_array = explode("\n", $urls_array);
 	}
 	$urls_array = (array) $urls_array; // in case one as string
 
@@ -132,37 +134,34 @@ function ctfw_sanitize_url_list( $urls, $allowed_strings = array() ) {
 	foreach ($urls_array as $key => $url) {
 
 		// Remove whitespace from ends
-		$url = trim( $url );
+		$url = trim($url);
 
 		// Sanitize URL
 		// Unless string is explicitly allowed, use as is (such as a shortcode)
-		if (! in_array( $url, $allowed_strings )) {
+		if (! in_array($url, $allowed_strings)) {
 
-			$url = esc_url_raw( $url, array(
+			$url = esc_url_raw($url, array(
 				'http',
 				'https',
 				'feed',
 				'itms', // iTunes Music Store
 				'skype',
 				'mailto',
-			) );
-
+			));
 		}
 
 		// Add to new list
 		// May have been empty to begin with, after trim or after URL escaping
-		if (! empty( $url )) {
+		if (! empty($url)) {
 			$sanitized_urls[] = $url;
 		}
-
 	}
 
 	// Convert sanitized array to list
-	$sanitized_urls = implode( "\n", $sanitized_urls );
+	$sanitized_urls = implode("\n", $sanitized_urls);
 
 	// Return sanitized filterable
-	return apply_filters( 'ctfw_sanitize_url_list', $sanitized_urls, $urls, $allowed_strings );
-
+	return apply_filters('ctfw_sanitize_url_list', $sanitized_urls, $urls, $allowed_strings);
 }
 
 /*************************************************
@@ -178,14 +177,14 @@ function ctfw_sanitize_url_list( $urls, $allowed_strings = array() ) {
  * @param  array $args Optional arguments (see defaults in function)
  * @return string Linked email address
  */
-function ctfw_email( $email ) {
+function ctfw_email($email)
+{
 
-	$output = '<a href="mailto:' . antispambot( $email, true ) . '">' . "\n";
-	$output .= str_replace( '&#64;', '&#8203;&#64;', antispambot( $email ) ) . "\n"; // this on own line or validation can fail
+	$output = '<a href="mailto:' . antispambot($email, true) . '">' . "\n";
+	$output .= str_replace('&#64;', '&#8203;&#64;', antispambot($email)) . "\n"; // this on own line or validation can fail
 	$output .= '</a>';
 
-	return apply_filters( 'ctfw_email', $output, $email );
-
+	return apply_filters('ctfw_email', $output, $email);
 }
 
 /**
@@ -195,7 +194,8 @@ function ctfw_email( $email ) {
  * @param  string $phone Phone number
  * @return string Linked email address
  */
-function ctfw_is_phone_number( $phone ) {
+function ctfw_is_phone_number($phone)
+{
 
 	$is = false;
 
@@ -212,8 +212,7 @@ function ctfw_is_phone_number( $phone ) {
 		$is = true;
 	}
 
-	return apply_filters( 'ctfw_is_phone_number', $is, $phone );
-
+	return apply_filters('ctfw_is_phone_number', $is, $phone);
 }
 
 
@@ -224,25 +223,24 @@ function ctfw_is_phone_number( $phone ) {
  * @param  string $phone Phone number
  * @return string Linked phone number
  */
-function ctfw_format_phone( $phone ) {
+function ctfw_format_phone($phone)
+{
 
-	$phone_output = nl2br( esc_html( wptexturize( $phone ) ) );
+	$phone_output = nl2br(esc_html(wptexturize($phone)));
 
 	// Must be detected as phone number to link
-	if (ctfw_is_phone_number( $phone_output )) {
+	if (ctfw_is_phone_number($phone_output)) {
 
 		// Numbers and + for country code only
-		$phone_plain = preg_replace( '/[^0-9+]+/', '', $phone_output );
+		$phone_plain = preg_replace('/[^0-9+]+/', '', $phone_output);
 
 		// Link it
-		$phone_output = '<a href="tel:' . esc_attr($phone_plain) . '">' . wptexturize( $phone_output ) . '</a>';
-
+		$phone_output = '<a href="tel:' . esc_attr($phone_plain) . '">' . wptexturize($phone_output) . '</a>';
 	} else {
-		$phone_output = nl2br( esc_html( wptexturize( $phone_output ) ) );
+		$phone_output = nl2br(esc_html(wptexturize($phone_output)));
 	}
 
-	return apply_filters( 'ctfw_format_phone', $phone_output, $phone );
-
+	return apply_filters('ctfw_format_phone', $phone_output, $phone);
 }
 
 /*************************************************
@@ -261,7 +259,8 @@ function ctfw_format_phone( $phone ) {
  * @param mixed $after_key Key in original array to merge second array after
  * @return array Modified array
  */
-function ctfw_array_merge_after_key( $original_array, $insert_array, $after_key ) {
+function ctfw_array_merge_after_key($original_array, $insert_array, $after_key)
+{
 
 	$modified_array = array();
 
@@ -273,13 +272,11 @@ function ctfw_array_merge_after_key( $original_array, $insert_array, $after_key 
 
 		// insert array after specific key
 		if ($item_key == $after_key) {
-			$modified_array = array_merge( $modified_array, $insert_array );
+			$modified_array = array_merge($modified_array, $insert_array);
 		}
-
 	}
 
-	return apply_filters( 'ctfw_array_merge_after_key', $modified_array, $original_array, $insert_array, $after_key );
-
+	return apply_filters('ctfw_array_merge_after_key', $modified_array, $original_array, $insert_array, $after_key);
 }
 
 /**
@@ -291,16 +288,16 @@ function ctfw_array_merge_after_key( $original_array, $insert_array, $after_key 
  * @param array $array Array to format
  * @param bool $return Return or echo output
  */
-function ctfw_print_array( $array, $return = false ) {
+function ctfw_print_array($array, $return = false)
+{
 
-	$result = '<pre>' . print_r( $array, true ) . '</pre>';
+	$result = '<pre>' . print_r($array, true) . '</pre>';
 
 	if (empty($return)) {
 		echo $result;
 	} else {
 		return $result;
 	}
-
 }
 
 /*************************************************
@@ -318,61 +315,57 @@ function ctfw_print_array( $array, $return = false ) {
  * @param int $max_chars Maximum number of characters shortened string should have
  * @return string Modified string if shortening necesary
  */
-function ctfw_shorten( $string, $max_chars ) {
+function ctfw_shorten($string, $max_chars)
+{
 
-	$max_chars = absint( $max_chars );
+	$max_chars = absint($max_chars);
 
 	// Use multibyte functions if available (helpful for non-English characters)
 	// Some hosts disable multibyte functions
-	if (function_exists( 'mb_strlen' ) && function_exists( 'mb_substr' ) && function_exists( 'mb_strrpos' )) {
+	if (function_exists('mb_strlen') && function_exists('mb_substr') && function_exists('mb_strrpos')) {
 
 		// Shorten to within X characters without cutting words in half
-		if ($max_chars && mb_strlen( $string ) > $max_chars) {
+		if ($max_chars && mb_strlen($string) > $max_chars) {
 
 			// Shorten
-			$haystack = mb_substr( $string, 0, $max_chars );
-			$length = mb_strrpos( $haystack, ' ' );
-			$processed_string = mb_substr( $string, 0, $length );
+			$haystack = mb_substr($string, 0, $max_chars);
+			$length = mb_strrpos($haystack, ' ');
+			$processed_string = mb_substr($string, 0, $length);
 
 			// Append ... if string was shortened
-			if (mb_strlen( $processed_string ) < mb_strlen( $string )) {
+			if (mb_strlen($processed_string) < mb_strlen($string)) {
 				/* translators: ... after shortened string */
-				$processed_string .= _x( '&hellip;', 'shortened text', 'church-theme-framework' );
+				$processed_string .= _x('&hellip;', 'shortened text', 'church-theme-framework');
 			}
-
 		}
-
 	}
 
 	// Same code as above but using non-multibyte functions
 	else {
 
 		// Shorten to within X characters without cutting words in half
-		if ($max_chars && strlen( $string ) > $max_chars) {
+		if ($max_chars && strlen($string) > $max_chars) {
 
 			// Shorten
-			$haystack = substr( $string, 0, $max_chars );
-			$length = strrpos( $haystack, ' ' );
-			$processed_string = substr( $string, 0, $length );
+			$haystack = substr($string, 0, $max_chars);
+			$length = strrpos($haystack, ' ');
+			$processed_string = substr($string, 0, $length);
 
 			// Append ... if string was shortened
-			if (strlen( $processed_string ) < strlen( $string )) {
+			if (strlen($processed_string) < strlen($string)) {
 				/* translators: ... after shortened string */
-				$processed_string .= _x( '&hellip;', 'shortened text', 'church-theme-framework' );
+				$processed_string .= _x('&hellip;', 'shortened text', 'church-theme-framework');
 			}
-
 		}
-
 	}
 
 	// Use original string if none shortened
-	if (empty( $processed_string )) {
+	if (empty($processed_string)) {
 		$processed_string = $string;
 	}
 
 	// Return filtered
-	return apply_filters( 'ctfw_shorten', $processed_string, $string, $max_chars );
-
+	return apply_filters('ctfw_shorten', $processed_string, $string, $max_chars);
 }
 
 /**
@@ -384,18 +377,18 @@ function ctfw_shorten( $string, $max_chars ) {
  * @param string $address Multi-line address
  * @return string Single line address
  */
-function ctfw_one_line( $string ) {
+function ctfw_one_line($string)
+{
 
 	$one_line = $string;
 
 	if ($string) {
-		$one_line = strip_tags( $string ); // remove HTML
-		$one_line = preg_replace( '/\r\n|\n|\r/', ', ', $one_line ); // replace line breaks with commas
-		$one_line = trim( $one_line ); // remove whitespace
+		$one_line = strip_tags($string); // remove HTML
+		$one_line = preg_replace('/\r\n|\n|\r/', ', ', $one_line); // replace line breaks with commas
+		$one_line = trim($one_line); // remove whitespace
 	}
 
-	return apply_filters( 'ctfw_one_line', $one_line, $string );
-
+	return apply_filters('ctfw_one_line', $one_line, $string);
 }
 
 /**
@@ -407,12 +400,12 @@ function ctfw_one_line( $string ) {
  * @param string $address Multi-line address
  * @return string Single line address
  */
-function ctfw_address_one_line( $address ) {
+function ctfw_address_one_line($address)
+{
 
-	$address_one_line = ctfw_one_line( $address );
+	$address_one_line = ctfw_one_line($address);
 
-	return apply_filters( 'ctfw_address_one_line', $address_one_line, $address );
-
+	return apply_filters('ctfw_address_one_line', $address_one_line, $address);
 }
 
 /**
@@ -425,12 +418,12 @@ function ctfw_address_one_line( $address ) {
  * @param string $string Post type or other prefixed CTC slug to make friendly
  * @return string Friendlier string without prefix
  */
-function ctfw_make_friendly( $string ) {
+function ctfw_make_friendly($string)
+{
 
-	$friendly_string = str_replace( array( 'ctc_', '_'), array( '', '-'), $string );
+	$friendly_string = str_replace(array('ctc_', '_'), array('', '-'), $string);
 
-	return apply_filters( 'ctfw_make_friendly', $friendly_string, $string );
-
+	return apply_filters('ctfw_make_friendly', $friendly_string, $string);
 }
 
 /*************************************************
@@ -448,23 +441,24 @@ function ctfw_make_friendly( $string ) {
  * @param array $args Array of bools: abbreviate_month (e.g. convert January to Jan), remove_year (both default true)
  * @return string Abbreviated date format
  */
-function ctfw_abbreviate_date_format( $args = array() ) {
+function ctfw_abbreviate_date_format($args = array())
+{
 
 	// Default args
-	$args = wp_parse_args( $args, array(
-		'date_format'		=> get_option( 'date_format' ),
+	$args = wp_parse_args($args, array(
+		'date_format'		=> get_option('date_format'),
 		'abbreviate_month'	=> true, // January => Jan (F => M)
 		'remove_year'		=> true,
-	) );
-	extract( $args );
+	));
+	extract($args);
 
 	// Use format from settings if no abbreviation made
 	$abbreviated_date_format = $date_format;
 
 	// Abbreviate given format based on arguments
-	switch($date_format) {
+	switch ($date_format) {
 
- 		// January 1, 2017
+		// January 1, 2017
 		case 'F j, Y':
 
 			// Jan 1
@@ -484,7 +478,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 
 			break;
 
- 		// Jan 1, 2017
+		// Jan 1, 2017
 		case 'M j, Y':
 
 			// Jan 1
@@ -494,7 +488,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 
 			break;
 
- 		// January 1st, 2017
+		// January 1st, 2017
 		case 'F jS, Y':
 
 			// Jan 1st
@@ -514,7 +508,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 
 			break;
 
- 		// Jan 1st, 2017
+		// Jan 1st, 2017
 		case 'M jS, Y':
 
 			// Jan 1st
@@ -524,7 +518,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 
 			break;
 
- 		// 1 January, 2017
+		// 1 January, 2017
 		case 'j F, Y':
 
 			// 1 Jan
@@ -544,7 +538,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 
 			break;
 
- 		// 1 Jan, 2017
+		// 1 Jan, 2017
 		case 'j M, Y':
 
 			// 1 Jan
@@ -554,7 +548,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 
 			break;
 
- 		// 1st January, 2017
+		// 1st January, 2017
 		case 'jS F, Y':
 
 			// 1st Jan
@@ -574,7 +568,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 
 			break;
 
- 		// 1st Jan, 2017
+		// 1st Jan, 2017
 		case 'jS M, Y':
 
 			if ($remove_year) {
@@ -583,7 +577,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 
 			break;
 
- 		// January 1 2017
+		// January 1 2017
 		case 'F j Y':
 
 			// Jan 1
@@ -603,7 +597,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 
 			break;
 
- 		// Jan 1 2017
+		// Jan 1 2017
 		case 'M j Y':
 
 			// Jan 1
@@ -613,7 +607,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 
 			break;
 
- 		// January 1st 2017
+		// January 1st 2017
 		case 'F jS Y':
 
 			// Jan 1st
@@ -633,7 +627,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 
 			break;
 
- 		// Jan 1st 2017
+		// Jan 1st 2017
 		case 'M jS Y':
 
 			// Jan 1st
@@ -643,7 +637,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 
 			break;
 
- 		// 1 January 2017
+		// 1 January 2017
 		case 'j F Y':
 
 			// 1 Jan
@@ -663,7 +657,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 
 			break;
 
- 		// 1 Jan 2017
+		// 1 Jan 2017
 		case 'j M Y':
 
 			// 1 Jan
@@ -673,7 +667,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 
 			break;
 
- 		// 1st January 2017
+		// 1st January 2017
 		case 'jS F Y':
 
 			// 1st Jan
@@ -693,7 +687,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 
 			break;
 
- 		// 1st Jan 2017
+		// 1st Jan 2017
 		case 'jS M Y':
 
 			if ($remove_year) {
@@ -774,7 +768,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 
 			break;
 
- 		// 2017/6/31 = 6/31
+		// 2017/6/31 = 6/31
 		case 'Y/n/j':
 
 			if ($remove_year) {
@@ -783,7 +777,7 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 
 			break;
 
- 		// 2017-6-31 = 6-31
+		// 2017-6-31 = 6-31
 		case 'Y-n-j':
 
 			if ($remove_year) {
@@ -828,11 +822,9 @@ function ctfw_abbreviate_date_format( $args = array() ) {
 			}
 
 			break;
-
 	}
 
-	return apply_filters( 'ctfw_abbreviate_date_format', $abbreviated_date_format, $args );
-
+	return apply_filters('ctfw_abbreviate_date_format', $abbreviated_date_format, $args);
 }
 
 /*************************************************
@@ -849,30 +841,31 @@ function ctfw_abbreviate_date_format( $args = array() ) {
  * @param  str $hex_color Hex color with or without #
  * @return array RGB values
  */
-function ctfw_hex_to_rgb( $hex_color ) {
+function ctfw_hex_to_rgb($hex_color)
+{
 
-	if (substr( trim( $hex_color ), 0, 1) === '#') {
-		$hex_color  = substr( $hex_color , 1 );
+	if (substr(trim($hex_color), 0, 1) === '#') {
+		$hex_color  = substr($hex_color, 1);
 	}
 
-	if (( strlen( $hex_color ) < 2 ) || ( strlen( $hex_color ) > 6 )) {
+	if ((strlen($hex_color) < 2) || (strlen($hex_color) > 6)) {
 		return false;
 	}
 
-	$values = str_split( $hex_color );
+	$values = str_split($hex_color);
 
-	if (strlen( $hex_color ) === 2) {
-		$r = intval($values[0] . $values[1], 16 );
+	if (strlen($hex_color) === 2) {
+		$r = intval($values[0] . $values[1], 16);
 		$g = $r;
 		$b = $r;
-	} else if (strlen( $hex_color ) === 3) {
-		$r = intval( $values[0], 16 );
-		$g = intval( $values[1], 16 );
-		$b = intval( $values[2], 16 );
-	} else if (strlen( $hex_color ) === 6) {
-		$r = intval( $values[0] . $values[1], 16 );
-		$g = intval( $values[2] . $values[3], 16 );
-		$b = intval( $values[4] . $values[5], 16 );
+	} else if (strlen($hex_color) === 3) {
+		$r = intval($values[0], 16);
+		$g = intval($values[1], 16);
+		$b = intval($values[2], 16);
+	} else if (strlen($hex_color) === 6) {
+		$r = intval($values[0] . $values[1], 16);
+		$g = intval($values[2] . $values[3], 16);
+		$b = intval($values[4] . $values[5], 16);
 	} else {
 		return false;
 	}
@@ -883,8 +876,33 @@ function ctfw_hex_to_rgb( $hex_color ) {
 		'b' => $b
 	);
 
-	$rgb = apply_filters( 'ctfw_hex_to_rgb', $rgb, $hex_color );
+	$rgb = apply_filters('ctfw_hex_to_rgb', $rgb, $hex_color);
 
 	return $rgb;
+}
 
+/**
+ * Random string generator
+ *
+ * Generate random string of X length
+ *
+ * @since 2.9.5
+ * @param  int $length Length of the random string
+ * @return string Random hexadecimal string
+ */
+function ctfw_random_string($length = 16)
+{
+
+	// Determine the number of bytes needed for the desired string length
+	// Each byte generates 2 hexadecimal characters
+	$bytes = ceil($length / 2);
+
+	// Generate cryptographically secure random bytes
+	$randomBytes = random_bytes($bytes);
+
+	// Convert the bytes to a hexadecimal string
+	$hexString = bin2hex($randomBytes);
+
+	// Return a substring of the desired length
+	return substr($hexString, 0, $length);
 }
