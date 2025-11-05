@@ -1015,7 +1015,8 @@ function ctfw_edd_license_action($action)
 				);
 
 				// Call the API
-				$response = wp_remote_post(esc_url_raw(add_query_arg($api_params, ctfw_edd_license_config('remote_api_url'))), array('timeout' => 15, 'sslverify' => false));
+				$remote_api_url = ctfw_edd_license_config('remote_api_url') . '&no_cache=' . ctfw_random_string();
+				$response = wp_remote_post(esc_url_raw(add_query_arg($api_params, $remote_api_url)), array('timeout' => 15, 'sslverify' => false));
 
 				// Got a valid response?
 				if (! is_wp_error($response)) {
