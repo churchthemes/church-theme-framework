@@ -32,7 +32,7 @@ $theme_data = is_child_theme() ? wp_get_theme($theme_data->template) : $theme_da
 /**
  * Framework constants
  */
-if (! defined('CTFW_VERSION'))			define('CTFW_VERSION', 			'2.9.4');
+if (! defined('CTFW_VERSION'))			define('CTFW_VERSION', 			'2.9.5');
 
 /**
  * Theme constants
