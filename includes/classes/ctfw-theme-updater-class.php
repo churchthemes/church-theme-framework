@@ -184,7 +184,7 @@ class CTFW_EDD_Theme_Updater
 					'no_cache'   => md5(microtime(true)),
 				],
 				'timeout' => 15,
-				'sslverify' => false, // allow for self-signed certificates
+				'sslverify' => true,
 			]);
 
 			// Make sure the response was successful
