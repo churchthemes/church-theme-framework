@@ -157,19 +157,6 @@ class CTFW_EDD_Theme_Updater
 		if (false === $update_data) {
 			$failed = false;
 
-			/*
-			$api_params = array(
-				'edd_action' => 'get_version',
-				'license'    => $this->license,
-				'name'       => $this->item_name,
-				'slug'       => $this->theme_slug,
-				'version'    => $this->version,
-				'author'     => $this->author,
-				'beta'       => $this->beta
-			);
-			$response = wp_remote_post($this->remote_api_url, array('timeout' => 15, 'body' => $api_params));
-			*/
-
 			$remote_api_url = ctfw_edd_license_config('remote_api_url');
 			$remote_api_url = trailingslashit($remote_api_url);
 			$response = wp_remote_post($remote_api_url, [
