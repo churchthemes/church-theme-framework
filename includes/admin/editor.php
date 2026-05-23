@@ -4,7 +4,7 @@
  *
  * @package    Church_Theme_Framework
  * @subpackage Admin
- * @copyright  Copyright (c) 2015 - 2019, ChurchThemes.com, LLC
+ * @copyright  Copyright (c) 2015 - 2026, ChurchThemes.com, LLC
  * @link       https://github.com/churchthemes/church-theme-framework
  * @license    GPLv2 or later
  * @since      1.7.2
@@ -75,6 +75,9 @@ function ctfw_editor_styles() {
  		'font_subsets'			=> 'font_subsets',							// Customizer setting name for Google Font subsets.
 	) );
 
+	// Enable block editor support for editor styles.
+	add_theme_support( 'editor-styles' );
+
 	// Load Google Fonts.
 	$google_fonts_url = ctfw_editor_get_google_fonts_url();
 	if ( $google_fonts_url ) {
@@ -84,6 +87,7 @@ function ctfw_editor_styles() {
 
 		// Gutenberg editor.
 		add_action( 'enqueue_block_editor_assets', 'ctfw_enqueue_block_editor_fonts' );
+		add_action( 'enqueue_block_assets', 'ctfw_enqueue_block_editor_fonts' );
 
 	}
 
@@ -100,6 +104,7 @@ function ctfw_editor_styles() {
 
 		// Block editor styles.
 		add_action( 'enqueue_block_editor_assets', 'ctfw_enqueue_block_editor_styles' );
+		add_action( 'enqueue_block_assets', 'ctfw_enqueue_block_editor_styles' );
 
 		// Gutenberg color palette styles.
 		add_action( 'admin_head',  'ctfw_output_editor_color_styles' );
@@ -298,12 +303,22 @@ function ctfw_add_block_editor_body_classes( $classes ) {
  */
 function ctfw_enqueue_block_editor_styles() {
 
+	if ( ! is_admin() ) {
+		return;
+	}
+
 	// Get path to stylesheet.
 	$support = get_theme_support( 'ctfw-editor-styles' );
 	$block_stylesheet = isset( $support[0]['block_stylesheet'] ) ? $support[0]['block_stylesheet'] : false;
 
 	if ( $block_stylesheet ) {
 		wp_enqueue_style( 'ctfw-block-editor', get_theme_file_uri( $block_stylesheet ), false, CTFW_THEME_VERSION );
+	}
+
+	// Add dynamic Customizer styles to editor content, including the iframed editor.
+	$inline_styles = ctfw_get_block_editor_inline_styles();
+	if ( $inline_styles ) {
+		wp_add_inline_style( 'ctfw-block-editor', $inline_styles );
 	}
 
 }
@@ -317,6 +332,10 @@ function ctfw_enqueue_block_editor_styles() {
  */
 function ctfw_enqueue_block_editor_fonts() {
 
+	if ( ! is_admin() ) {
+		return;
+	}
+
 	// Get Google Fonts URL.
 	$google_fonts_url = ctfw_editor_get_google_fonts_url();
 
@@ -324,6 +343,35 @@ function ctfw_enqueue_block_editor_fonts() {
 	if ( $google_fonts_url ) {
 		wp_enqueue_style( 'ctfw-block-editor-fonts', $google_fonts_url, false, CTFW_THEME_VERSION );
 	}
+
+}
+
+/**
+ * Get dynamic styles for the block editor.
+ *
+ * @since 2.9.6
+ * @return string Dynamic CSS without style tags.
+ */
+function ctfw_get_block_editor_inline_styles() {
+
+	$styles = '';
+
+	$support = get_theme_support( 'ctfw-editor-styles' );
+	$block_css_function = isset( $support[0]['block_css_function'] ) ? $support[0]['block_css_function'] : false;
+
+	if ( $block_css_function && function_exists( $block_css_function ) ) {
+
+		ob_start();
+		call_user_func( $block_css_function );
+		$styles = ob_get_clean();
+
+		// wp_add_inline_style() expects CSS only.
+		$styles = preg_replace( '#</?style[^>]*>#i', '', $styles );
+		$styles = trim( $styles );
+
+	}
+
+	return $styles;
 
 }
 
